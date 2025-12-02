@@ -1,4 +1,5 @@
 import { MapPin, Trophy, Briefcase, GraduationCap, Heart, DollarSign, Home, Scale, Video, Ruler, Weight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -148,12 +149,14 @@ const AthleteCard = ({ athlete, index }: AthleteCardProps) => {
             Hudl Film
           </Button>
         )}
-        <Button 
-          variant="outline" 
-          className={`${athlete.hudlLink ? 'flex-1' : 'w-full'} group-hover:bg-primary group-hover:text-primary-foreground transition-all`}
-        >
-          View Profile
-        </Button>
+        <Link to={`/athletes/${athlete.id}`} className={athlete.hudlLink ? 'flex-1' : 'w-full'}>
+          <Button 
+            variant="outline" 
+            className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all"
+          >
+            View Profile
+          </Button>
+        </Link>
       </div>
     </div>
   );
