@@ -61,10 +61,20 @@ const Partners = () => {
                 rel="noopener noreferrer"
                 className="group bg-card border border-border rounded-xl p-8 flex flex-col items-center justify-center text-center hover:border-primary/50 hover:shadow-lg transition-all duration-300"
               >
-                <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
-                  <span className="text-2xl font-bold text-foreground">
-                    {partner.name.charAt(0)}
-                  </span>
+                <div className="w-32 h-24 flex items-center justify-center mb-4">
+                  {partner.logo ? (
+                    <img 
+                      src={partner.logo} 
+                      alt={`${partner.name} logo`}
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  ) : (
+                    <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                      <span className="text-2xl font-bold text-foreground">
+                        {partner.name.charAt(0)}
+                      </span>
+                    </div>
+                  )}
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
                   {partner.name}

@@ -15,12 +15,13 @@ export const partners: Partner[] = [
   {
     id: "nike",
     name: "Nike",
+    logo: "/images/partners/nike.png",
     website: "https://www.nike.com",
   },
   {
     id: "west-capital",
     name: "West Capital Wealth Management",
-    website: "https://www.westcapitalwealth.com",
+    website: "https://www.westcapitalwealthmanagement.com",
   },
   {
     id: "publix",
@@ -30,12 +31,13 @@ export const partners: Partner[] = [
   {
     id: "walmart",
     name: "Walmart",
+    logo: "/images/partners/walmart.png",
     website: "https://www.walmart.com",
   },
   {
     id: "q-collar",
     name: "Q Collar",
-    website: "https://www.qcollar.com",
+    website: "https://q30.com",
   },
   {
     id: "battle-sports",
