@@ -151,9 +151,11 @@ const About = () => {
             <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in">
               <div className="h-40 hero-gradient relative">
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-24 h-24 rounded-full bg-accent/20 flex items-center justify-center border-4 border-primary-foreground/20">
-                    <span className="text-4xl font-extrabold text-primary-foreground">DS</span>
-                  </div>
+                  <img 
+                    src="/images/team/durrell-steen.jpg" 
+                    alt="Durrell Steen"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20"
+                  />
                 </div>
               </div>
               <div className="p-6 text-center">
