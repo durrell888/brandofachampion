@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Search, Users, Heart, TrendingUp } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Play, Users, Heart, TrendingUp } from "lucide-react";
 
 const Hero = () => {
   return (
@@ -13,23 +14,25 @@ const Hero = () => {
       <div className="container relative z-10 flex flex-col items-center justify-center min-h-[90vh] py-20">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-foreground/10 border border-primary-foreground/20 mb-8 animate-fade-in">
           <Heart className="w-4 h-4 text-accent" />
-          <span className="text-sm text-primary-foreground/90">Nonprofit · Supporting Athletes Beyond the Game</span>
+          <span className="text-sm text-primary-foreground/90">Nonprofit · Empowering Athletes Beyond the Game</span>
         </div>
 
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground text-center max-w-4xl leading-tight mb-6 animate-fade-in [animation-delay:100ms] opacity-0">
-          Empowering Athletes in{" "}
-          <span className="text-gradient">Every Aspect</span> of Life
+          Building the{" "}
+          <span className="text-gradient">Brand of a Champion</span>
         </h1>
 
         <p className="text-lg md:text-xl text-primary-foreground/80 text-center max-w-2xl mb-10 animate-fade-in [animation-delay:200ms] opacity-0">
-          The world's most comprehensive athlete database, connecting athletes with resources for career development, mental health, education, and financial literacy.
+          Helping professional athletes succeed in every aspect of life through media relations, marketing, career development, and personal growth resources.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 animate-fade-in [animation-delay:300ms] opacity-0">
-          <Button variant="hero" size="xl">
-            <Search className="w-5 h-5" />
-            Explore Athletes
-          </Button>
+          <Link to="/stories">
+            <Button variant="hero" size="xl">
+              <Play className="w-5 h-5" />
+              Watch Our Stories
+            </Button>
+          </Link>
           <Button variant="heroOutline" size="xl">
             Join Our Mission
           </Button>
@@ -40,14 +43,14 @@ const Hero = () => {
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 text-accent mb-1">
               <Users className="w-5 h-5" />
-              <span className="text-3xl md:text-4xl font-bold text-primary-foreground">12,500+</span>
+              <span className="text-3xl md:text-4xl font-bold text-primary-foreground">500+</span>
             </div>
             <p className="text-sm text-primary-foreground/60">Athletes Supported</p>
           </div>
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 text-accent mb-1">
               <Heart className="w-5 h-5" />
-              <span className="text-3xl md:text-4xl font-bold text-primary-foreground">850+</span>
+              <span className="text-3xl md:text-4xl font-bold text-primary-foreground">100+</span>
             </div>
             <p className="text-sm text-primary-foreground/60">Partner Organizations</p>
           </div>
