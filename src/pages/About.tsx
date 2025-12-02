@@ -192,7 +192,7 @@ const About = () => {
               </div>
               <div className="p-6 text-center">
                 <h3 className="text-xl font-extrabold text-foreground mb-1">Aaron Ross</h3>
-                <p className="text-accent font-bold mb-3">Athlete Mentor</p>
+                <p className="text-accent font-bold mb-3">Athlete Advisor</p>
                 <p className="text-muted-foreground text-sm mb-4">
                   Former NFL player bringing firsthand professional experience to guide and mentor athletes through their journey on and off the field.
                 </p>
