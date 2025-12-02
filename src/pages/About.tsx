@@ -185,9 +185,11 @@ const About = () => {
             <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in [animation-delay:100ms] opacity-0">
               <div className="h-40 hero-gradient relative">
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-24 h-24 rounded-full bg-accent/20 flex items-center justify-center border-4 border-primary-foreground/20">
-                    <span className="text-4xl font-extrabold text-primary-foreground">AR</span>
-                  </div>
+                  <img 
+                    src="/images/team/aaron-ross.avif" 
+                    alt="Aaron Ross"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20"
+                  />
                 </div>
               </div>
               <div className="p-6 text-center">
