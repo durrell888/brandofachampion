@@ -24,6 +24,7 @@ const categories = [
     title: "Financial Literacy",
     description: "Budgeting workshops, investment guidance, tax assistance, and retirement planning.",
     accent: "group-hover:bg-accent",
+    link: "https://www.westcapitalwealthmanagement.com",
   },
   {
     icon: Home,
@@ -68,26 +69,45 @@ const SupportCategories = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {categories.map((category, index) => (
-            <div
-              key={category.title}
-              className="group bg-card rounded-xl p-6 border border-border hover:border-accent/30 card-shadow hover:card-shadow-hover transition-all duration-300 cursor-pointer animate-fade-in opacity-0"
-              style={{ animationDelay: `${index * 50}ms` }}
-            >
-              <div className={`w-14 h-14 rounded-xl bg-secondary flex items-center justify-center mb-5 transition-all duration-300 ${category.accent} group-hover:text-primary-foreground group-hover:scale-110`}>
-                <category.icon className="w-7 h-7" />
+          {categories.map((category, index) => {
+            const CardContent = (
+              <>
+                <div className={`w-14 h-14 rounded-xl bg-secondary flex items-center justify-center mb-5 transition-all duration-300 ${category.accent} group-hover:text-primary-foreground group-hover:scale-110`}>
+                  <category.icon className="w-7 h-7" />
+                </div>
+                <h3 className="font-bold text-lg text-foreground mb-2 group-hover:text-accent transition-colors">
+                  {category.title}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                  {category.description}
+                </p>
+                <div className="flex items-center gap-1 text-sm font-semibold text-accent opacity-0 group-hover:opacity-100 transition-opacity">
+                  Learn more <ArrowRight className="w-4 h-4" />
+                </div>
+              </>
+            );
+
+            return category.link ? (
+              <a
+                key={category.title}
+                href={category.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group bg-card rounded-xl p-6 border border-border hover:border-accent/30 card-shadow hover:card-shadow-hover transition-all duration-300 cursor-pointer animate-fade-in opacity-0"
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                {CardContent}
+              </a>
+            ) : (
+              <div
+                key={category.title}
+                className="group bg-card rounded-xl p-6 border border-border hover:border-accent/30 card-shadow hover:card-shadow-hover transition-all duration-300 cursor-pointer animate-fade-in opacity-0"
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                {CardContent}
               </div>
-              <h3 className="font-bold text-lg text-foreground mb-2 group-hover:text-accent transition-colors">
-                {category.title}
-              </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                {category.description}
-              </p>
-              <div className="flex items-center gap-1 text-sm font-semibold text-accent opacity-0 group-hover:opacity-100 transition-opacity">
-                Learn more <ArrowRight className="w-4 h-4" />
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
