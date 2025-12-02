@@ -7,7 +7,7 @@ export const mockAthletes: Athlete[] = [
     sport: "Football",
     position: "Offensive Line",
     location: "Atlanta, GA",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face",
+    avatar: "/images/joshua-same-epelle.jpg",
     achievements: ["All-Region Selection", "Team Captain"],
     supportNeeded: ["Career", "Education"],
     yearsActive: "2023-2027",
