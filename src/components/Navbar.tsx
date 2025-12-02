@@ -1,42 +1,75 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Trophy } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-sm border-b border-primary-foreground/10">
-      <div className="container flex items-center justify-between h-16">
-        <Link to="/" className="flex items-center gap-2 text-primary-foreground font-bold text-xl">
-          <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center">
-            <Trophy className="w-5 h-5 text-accent-foreground" />
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      scrolled ? "bg-background/95 backdrop-blur-xl border-b border-border shadow-lg" : "bg-transparent"
+    }`}>
+      <div className="container flex items-center justify-between h-20">
+        <Link to="/" className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg red-gradient flex items-center justify-center shadow-lg">
+            <span className="font-display text-2xl text-accent-foreground leading-none">B</span>
           </div>
-          Brand of a Champion
+          <div className="hidden sm:block">
+            <span className={`font-extrabold text-lg tracking-tight ${scrolled ? "text-foreground" : "text-primary-foreground"}`}>
+              BRAND OF A
+            </span>
+            <span className={`font-extrabold text-lg tracking-tight ${scrolled ? "text-accent" : "text-accent"}`}> CHAMPION</span>
+          </div>
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-8">
-          <a href="#athletes" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm font-medium">
-            Athletes
-          </a>
-          <a href="#services" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm font-medium">
-            Services
-          </a>
-          <Link to="/stories" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm font-medium">
-            Stories
-          </Link>
-          <a href="#about" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm font-medium">
-            About Us
-          </a>
-          <Link to="/partners" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm font-medium">
-            Partners
-          </Link>
+        <div className="hidden md:flex items-center gap-1">
+          {[
+            { href: "#athletes", label: "Athletes" },
+            { href: "#services", label: "Services" },
+            { href: "/stories", label: "Stories", isRoute: true },
+            { href: "#about", label: "About" },
+            { href: "/partners", label: "Partners", isRoute: true },
+          ].map((item) => (
+            item.isRoute ? (
+              <Link
+                key={item.href}
+                to={item.href}
+                className={`nav-link px-4 py-2 text-sm font-semibold transition-colors ${
+                  scrolled ? "text-foreground hover:text-accent" : "text-primary-foreground/90 hover:text-primary-foreground"
+                } ${isActive(item.href) ? "text-accent" : ""}`}
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <a
+                key={item.href}
+                href={item.href}
+                className={`nav-link px-4 py-2 text-sm font-semibold transition-colors ${
+                  scrolled ? "text-foreground hover:text-accent" : "text-primary-foreground/90 hover:text-primary-foreground"
+                }`}
+              >
+                {item.label}
+              </a>
+            )
+          ))}
         </div>
 
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="heroOutline" size="sm">
+          <Button variant={scrolled ? "ghost" : "heroOutline"} size="sm">
             Sign In
           </Button>
           <Button variant="hero" size="sm">
@@ -46,7 +79,9 @@ const Navbar = () => {
 
         {/* Mobile menu button */}
         <button
-          className="md:hidden text-primary-foreground p-2"
+          className={`md:hidden p-2 rounded-lg transition-colors ${
+            scrolled ? "text-foreground hover:bg-secondary" : "text-primary-foreground hover:bg-primary-foreground/10"
+          }`}
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -55,25 +90,25 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="md:hidden bg-primary border-t border-primary-foreground/10">
-          <div className="container py-4 space-y-4">
-            <a href="#athletes" className="block text-primary-foreground/80 hover:text-primary-foreground transition-colors font-medium">
+        <div className="md:hidden bg-background border-t border-border animate-fade-in">
+          <div className="container py-6 space-y-4">
+            <a href="#athletes" className="block text-foreground hover:text-accent transition-colors font-semibold py-2">
               Athletes
             </a>
-            <a href="#services" className="block text-primary-foreground/80 hover:text-primary-foreground transition-colors font-medium">
+            <a href="#services" className="block text-foreground hover:text-accent transition-colors font-semibold py-2">
               Services
             </a>
-            <Link to="/stories" className="block text-primary-foreground/80 hover:text-primary-foreground transition-colors font-medium" onClick={() => setIsOpen(false)}>
+            <Link to="/stories" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
               Stories
             </Link>
-            <a href="#about" className="block text-primary-foreground/80 hover:text-primary-foreground transition-colors font-medium">
-              About Us
+            <a href="#about" className="block text-foreground hover:text-accent transition-colors font-semibold py-2">
+              About
             </a>
-            <Link to="/partners" className="block text-primary-foreground/80 hover:text-primary-foreground transition-colors font-medium" onClick={() => setIsOpen(false)}>
+            <Link to="/partners" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
               Partners
             </Link>
-            <div className="flex gap-3 pt-2">
-              <Button variant="heroOutline" size="sm" className="flex-1">
+            <div className="flex gap-3 pt-4 border-t border-border">
+              <Button variant="outline" size="sm" className="flex-1">
                 Sign In
               </Button>
               <Button variant="hero" size="sm" className="flex-1">

@@ -5,7 +5,10 @@ import SearchBar from "@/components/SearchBar";
 import AthleteCard from "@/components/AthleteCard";
 import SupportCategories from "@/components/SupportCategories";
 import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
 import { mockAthletes } from "@/data/athletes";
+import { Link } from "react-router-dom";
+import { ArrowRight, Handshake, Heart } from "lucide-react";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,18 +19,15 @@ const Index = () => {
 
   const filteredAthletes = useMemo(() => {
     return mockAthletes.filter((athlete) => {
-      // Search query filter
       const matchesQuery =
         searchQuery === "" ||
         athlete.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         athlete.sport.toLowerCase().includes(searchQuery.toLowerCase()) ||
         athlete.location.toLowerCase().includes(searchQuery.toLowerCase());
 
-      // Sport filter
       const matchesSport =
         filters.sports.length === 0 || filters.sports.includes(athlete.sport);
 
-      // Support filter
       const matchesSupport =
         filters.support.length === 0 ||
         athlete.supportNeeded.some((s) => filters.support.includes(s));
@@ -47,10 +47,13 @@ const Index = () => {
       <Hero />
 
       {/* Athletes Section */}
-      <section id="athletes" className="py-20">
+      <section id="athletes" className="py-24">
         <div className="container">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-accent/10 text-accent text-sm font-bold uppercase tracking-wider mb-4">
+              Featured Athletes
+            </span>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4 tracking-tight">
               Discover Athletes
             </h2>
             <p className="text-lg text-muted-foreground">
@@ -63,9 +66,11 @@ const Index = () => {
           <div className="mt-12">
             {filteredAthletes.length > 0 ? (
               <>
-                <p className="text-sm text-muted-foreground mb-6">
-                  Showing {filteredAthletes.length} athlete{filteredAthletes.length !== 1 ? "s" : ""}
-                </p>
+                <div className="flex items-center justify-between mb-6">
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Showing <span className="text-foreground font-bold">{filteredAthletes.length}</span> athlete{filteredAthletes.length !== 1 ? "s" : ""}
+                  </p>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {filteredAthletes.map((athlete, index) => (
                     <AthleteCard key={athlete.id} athlete={athlete} index={index} />
@@ -73,8 +78,8 @@ const Index = () => {
                 </div>
               </>
             ) : (
-              <div className="text-center py-16 bg-card rounded-2xl border-2 border-dashed border-border">
-                <p className="text-muted-foreground">No athletes found matching your criteria.</p>
+              <div className="text-center py-20 bg-card rounded-xl border border-dashed border-border">
+                <p className="text-foreground font-semibold text-lg">No athletes found</p>
                 <p className="text-sm text-muted-foreground mt-1">Try adjusting your search or filters.</p>
               </div>
             )}
@@ -88,33 +93,39 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-background">
+      <section className="py-24 bg-background">
         <div className="container">
-          <div className="relative overflow-hidden rounded-3xl hero-gradient p-12 md:p-16 text-center">
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute top-10 left-20 w-48 h-48 rounded-full bg-accent blur-3xl" />
-              <div className="absolute bottom-10 right-20 w-64 h-64 rounded-full bg-primary-foreground blur-3xl" />
+          <div className="relative overflow-hidden rounded-2xl hero-gradient">
+            {/* Background effects */}
+            <div className="absolute inset-0">
+              <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-accent/10 blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-primary-foreground/5 blur-3xl" />
             </div>
-            <div className="relative z-10 max-w-2xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
-                Ready to Make a Difference?
-              </h2>
-              <p className="text-lg text-primary-foreground/80 mb-8">
-                Join our network of supporters and help athletes transition successfully into their next chapter.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="#"
-                  className="inline-flex items-center justify-center h-12 px-8 rounded-lg bg-accent text-accent-foreground font-semibold hover:bg-accent/90 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-                >
-                  Become a Partner
-                </a>
-                <a
-                  href="#"
-                  className="inline-flex items-center justify-center h-12 px-8 rounded-lg border-2 border-primary-foreground/30 text-primary-foreground font-semibold hover:bg-primary-foreground/10 hover:border-primary-foreground/50 transition-all"
-                >
-                  Donate Now
-                </a>
+
+            <div className="relative z-10 p-12 md:p-20">
+              <div className="max-w-3xl mx-auto text-center">
+                <span className="inline-block px-4 py-1.5 rounded-full bg-accent/20 text-accent text-sm font-bold uppercase tracking-wider mb-6">
+                  Join The Movement
+                </span>
+                <h2 className="text-3xl md:text-5xl font-extrabold text-primary-foreground mb-6 tracking-tight">
+                  Ready to Make a Difference?
+                </h2>
+                <p className="text-xl text-primary-foreground/70 mb-10 max-w-xl mx-auto">
+                  Join our network of supporters and help athletes transition successfully into their next chapter.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link to="/partners">
+                    <Button variant="hero" size="xl" className="group w-full sm:w-auto">
+                      <Handshake className="w-5 h-5" />
+                      Become a Partner
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                  <Button variant="heroOutline" size="xl" className="group">
+                    <Heart className="w-5 h-5" />
+                    Donate Now
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

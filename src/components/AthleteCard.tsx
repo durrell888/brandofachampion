@@ -1,4 +1,4 @@
-import { MapPin, Trophy, Briefcase, GraduationCap, Heart, DollarSign, Home, Scale, Video, Ruler, Weight } from "lucide-react";
+import { MapPin, Trophy, Briefcase, GraduationCap, Heart, DollarSign, Home, Scale, Video, Ruler, Weight, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,6 @@ export interface Athlete {
   supportNeeded: string[];
   yearsActive: string;
   status: "active" | "retired" | "transitioning";
-  // New fields for student athletes
   classYear?: string;
   school?: string;
   gpa?: number;
@@ -32,10 +31,10 @@ const supportIcons: Record<string, React.ReactNode> = {
   Legal: <Scale className="w-3 h-3" />,
 };
 
-const statusColors: Record<string, string> = {
-  active: "bg-success text-success-foreground",
-  retired: "bg-muted text-muted-foreground",
-  transitioning: "bg-accent text-accent-foreground",
+const statusConfig: Record<string, { bg: string; text: string; label: string }> = {
+  active: { bg: "bg-success", text: "text-success-foreground", label: "Active" },
+  retired: { bg: "bg-muted", text: "text-muted-foreground", label: "Retired" },
+  transitioning: { bg: "bg-accent", text: "text-accent-foreground", label: "Transitioning" },
 };
 
 interface AthleteCardProps {
@@ -44,119 +43,120 @@ interface AthleteCardProps {
 }
 
 const AthleteCard = ({ athlete, index }: AthleteCardProps) => {
+  const status = statusConfig[athlete.status];
+
   return (
     <div
-      className="group bg-card rounded-2xl border-2 border-border p-6 card-shadow hover:card-shadow-hover hover:border-primary/20 transition-all duration-300 animate-fade-in opacity-0"
-      style={{ animationDelay: `${index * 100}ms` }}
+      className="group bg-card rounded-xl border border-border overflow-hidden card-shadow hover:card-shadow-hover hover:border-accent/30 transition-all duration-300 animate-fade-in opacity-0"
+      style={{ animationDelay: `${index * 50}ms` }}
     >
-      <div className="flex items-start gap-4">
-        <div className="relative">
-          <img
-            src={athlete.avatar}
-            alt={athlete.name}
-            className="w-16 h-16 rounded-xl object-cover ring-2 ring-border group-hover:ring-primary/30 transition-all"
-          />
-          <span
-            className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-card ${statusColors[athlete.status]}`}
-          />
-        </div>
-
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-2">
-            <div>
-              <h3 className="font-semibold text-foreground truncate group-hover:text-primary transition-colors">
-                {athlete.name}
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                {athlete.sport} {athlete.position && `· ${athlete.position}`}
-              </p>
-              {athlete.classYear && (
-                <p className="text-sm font-medium text-primary">
-                  Class of {athlete.classYear}
-                </p>
-              )}
-            </div>
-            <Badge variant="secondary" className="shrink-0 capitalize">
-              {athlete.status}
-            </Badge>
-          </div>
-
-          {athlete.school && (
-            <div className="flex items-center gap-1 mt-1 text-sm text-muted-foreground">
-              <GraduationCap className="w-3.5 h-3.5" />
-              <span>{athlete.school}</span>
-            </div>
-          )}
-
-          <div className="flex items-center gap-1 mt-1 text-sm text-muted-foreground">
-            <MapPin className="w-3.5 h-3.5" />
-            <span>{athlete.location}</span>
-          </div>
+      {/* Header with image */}
+      <div className="relative h-32 bg-gradient-to-br from-primary/10 to-accent/10">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMwLTkuOTQtOC4wNi0xOC0xOC0xOHY2YzYuNjMgMCAxMiA1LjM3IDEyIDEyaC02eiIgZmlsbD0icmdiYSgwLDAsMCwwLjAzKSIvPjwvZz48L3N2Zz4=')] opacity-50" />
+        <img
+          src={athlete.avatar}
+          alt={athlete.name}
+          className="absolute bottom-0 left-6 transform translate-y-1/2 w-20 h-20 rounded-xl object-cover ring-4 ring-card shadow-lg group-hover:ring-accent/30 transition-all"
+        />
+        <div className="absolute top-4 right-4">
+          <span className={`px-3 py-1 rounded-full text-xs font-bold ${status.bg} ${status.text}`}>
+            {status.label}
+          </span>
         </div>
       </div>
 
-      {/* Physical stats and GPA */}
-      {(athlete.height || athlete.weight || athlete.gpa) && (
-        <div className="mt-3 flex flex-wrap gap-3 text-sm">
-          {athlete.height && (
-            <div className="flex items-center gap-1 text-muted-foreground">
-              <Ruler className="w-3.5 h-3.5" />
-              <span>{athlete.height}</span>
-            </div>
-          )}
-          {athlete.weight && (
-            <div className="flex items-center gap-1 text-muted-foreground">
-              <Weight className="w-3.5 h-3.5" />
-              <span>{athlete.weight}</span>
-            </div>
-          )}
-          {athlete.gpa && (
-            <div className="flex items-center gap-1 text-muted-foreground">
-              <GraduationCap className="w-3.5 h-3.5" />
-              <span>GPA: {athlete.gpa.toFixed(1)}</span>
-            </div>
+      {/* Content */}
+      <div className="pt-14 px-6 pb-6">
+        <div className="mb-4">
+          <h3 className="font-bold text-lg text-foreground group-hover:text-accent transition-colors">
+            {athlete.name}
+          </h3>
+          <p className="text-sm font-medium text-muted-foreground">
+            {athlete.sport} {athlete.position && `· ${athlete.position}`}
+          </p>
+          {athlete.classYear && (
+            <p className="text-sm font-bold text-accent">
+              Class of {athlete.classYear}
+            </p>
           )}
         </div>
-      )}
 
-      {athlete.achievements.length > 0 && (
-        <div className="mt-4 flex items-center gap-2">
-          <Trophy className="w-4 h-4 text-accent shrink-0" />
-          <p className="text-sm text-muted-foreground truncate">{athlete.achievements[0]}</p>
-        </div>
-      )}
-
-      <div className="mt-4 pt-4 border-t border-border">
-        <p className="text-xs font-medium text-muted-foreground mb-2">Support Needed</p>
-        <div className="flex flex-wrap gap-1.5">
-          {athlete.supportNeeded.map((support) => (
-            <Badge key={support} variant="outline" className="text-xs gap-1 font-normal">
-              {supportIcons[support]}
-              {support}
-            </Badge>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex gap-2 mt-4">
-        {athlete.hudlLink && (
-          <Button 
-            variant="outline" 
-            className="flex-1 gap-2"
-            onClick={() => window.open(athlete.hudlLink, '_blank')}
-          >
-            <Video className="w-4 h-4" />
-            Hudl Film
-          </Button>
+        {athlete.school && (
+          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+            <GraduationCap className="w-4 h-4 text-accent" />
+            <span className="font-medium">{athlete.school}</span>
+          </div>
         )}
-        <Link to={`/athletes/${athlete.id}`} className={athlete.hudlLink ? 'flex-1' : 'w-full'}>
-          <Button 
-            variant="outline" 
-            className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all"
-          >
-            View Profile
-          </Button>
-        </Link>
+
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <MapPin className="w-4 h-4" />
+          <span>{athlete.location}</span>
+        </div>
+
+        {/* Stats row */}
+        {(athlete.height || athlete.weight || athlete.gpa) && (
+          <div className="mt-4 flex flex-wrap gap-3">
+            {athlete.height && (
+              <div className="flex items-center gap-1.5 text-xs font-medium text-foreground bg-secondary px-2.5 py-1.5 rounded-md">
+                <Ruler className="w-3.5 h-3.5 text-accent" />
+                {athlete.height}
+              </div>
+            )}
+            {athlete.weight && (
+              <div className="flex items-center gap-1.5 text-xs font-medium text-foreground bg-secondary px-2.5 py-1.5 rounded-md">
+                <Weight className="w-3.5 h-3.5 text-accent" />
+                {athlete.weight}
+              </div>
+            )}
+            {athlete.gpa && (
+              <div className="flex items-center gap-1.5 text-xs font-medium text-foreground bg-secondary px-2.5 py-1.5 rounded-md">
+                <GraduationCap className="w-3.5 h-3.5 text-accent" />
+                GPA: {athlete.gpa.toFixed(1)}
+              </div>
+            )}
+          </div>
+        )}
+
+        {athlete.achievements.length > 0 && (
+          <div className="mt-4 flex items-start gap-2 p-3 rounded-lg bg-accent/5 border border-accent/10">
+            <Trophy className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+            <p className="text-sm text-foreground font-medium">{athlete.achievements[0]}</p>
+          </div>
+        )}
+
+        <div className="mt-4 pt-4 border-t border-border">
+          <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Support Needed</p>
+          <div className="flex flex-wrap gap-1.5">
+            {athlete.supportNeeded.map((support) => (
+              <Badge key={support} variant="outline" className="text-xs gap-1.5 font-medium hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors">
+                {supportIcons[support]}
+                {support}
+              </Badge>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex gap-2 mt-5">
+          {athlete.hudlLink && (
+            <Button 
+              variant="outline" 
+              className="flex-1 gap-2"
+              onClick={() => window.open(athlete.hudlLink, '_blank')}
+            >
+              <Video className="w-4 h-4" />
+              Film
+            </Button>
+          )}
+          <Link to={`/athletes/${athlete.id}`} className={athlete.hudlLink ? 'flex-1' : 'w-full'}>
+            <Button 
+              variant="default" 
+              className="w-full group/btn"
+            >
+              View Profile
+              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-0.5 transition-transform" />
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

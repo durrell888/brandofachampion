@@ -29,41 +29,39 @@ const Videos = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-24 pb-16 hero-gradient overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-accent blur-3xl" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-primary-foreground blur-3xl" />
+      <section className="relative pt-32 pb-20 hero-gradient overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-accent/5 blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-primary-foreground/5 blur-3xl" />
         </div>
 
         <div className="container relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-foreground/10 border border-primary-foreground/20 mb-6 animate-fade-in">
-              <Play className="w-4 h-4 text-accent" />
-              <span className="text-sm text-primary-foreground/90">Watch Our Impact</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-8 animate-fade-in">
+              <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+              <span className="text-sm font-bold text-accent uppercase tracking-wider">Watch Our Impact</span>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 animate-fade-in [animation-delay:100ms] opacity-0">
-              Stories of <span className="text-gradient">Champions</span>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-primary-foreground mb-6 animate-fade-in [animation-delay:100ms] opacity-0 tracking-tight">
+              <span className="block">STORIES OF</span>
+              <span className="text-gradient">CHAMPIONS</span>
             </h1>
-            <p className="text-lg md:text-xl text-primary-foreground/80 animate-fade-in [animation-delay:200ms] opacity-0">
-              Discover inspiring stories of athletes who are building their legacy beyond the game with Brand of a Champion.
+            <p className="text-xl text-primary-foreground/70 animate-fade-in [animation-delay:200ms] opacity-0 font-medium">
+              Discover inspiring stories of athletes building their legacy beyond the game.
             </p>
           </div>
         </div>
 
-        {/* Wave divider */}
+        {/* Angled divider */}
         <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
-              className="fill-background"
-            />
+          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="w-full h-16">
+            <path d="M0 80L1440 0V80H0Z" className="fill-background" />
           </svg>
         </div>
       </section>
 
       {/* Featured Video Section */}
       {featuredVideo && (
-        <section className="py-16 md:py-24">
+        <section className="py-20">
           <div className="container">
             <FeaturedVideo video={featuredVideo} onPlay={handlePlayVideo} />
           </div>
@@ -71,17 +69,17 @@ const Videos = () => {
       )}
 
       {/* Video Grid Section */}
-      <section className="py-16 bg-secondary/30">
+      <section className="py-20 bg-secondary/50">
         <div className="container">
           {/* Category Filters */}
           <div className="flex flex-wrap justify-center gap-3 mb-12">
             {categories.map((category) => (
               <Button
                 key={category.id}
-                variant={selectedCategory === category.id ? "default" : "outline"}
+                variant={selectedCategory === category.id ? "hero" : "outline"}
                 size="sm"
                 onClick={() => setSelectedCategory(category.id)}
-                className="rounded-full"
+                className="rounded-full px-6"
               >
                 {category.label}
               </Button>
@@ -96,9 +94,9 @@ const Videos = () => {
               ))}
             </div>
           ) : (
-            <div className="text-center py-16">
-              <Heart className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-foreground mb-2">More Stories Coming Soon</h3>
+            <div className="text-center py-20 bg-card rounded-xl border border-border">
+              <Heart className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-foreground mb-2">More Stories Coming Soon</h3>
               <p className="text-muted-foreground">
                 We're working on bringing you more inspiring stories. Check back soon!
               </p>
