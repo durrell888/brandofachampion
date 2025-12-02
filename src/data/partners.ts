@@ -10,6 +10,7 @@ export const partners: Partner[] = [
   {
     id: "gatorade",
     name: "Gatorade",
+    logo: "/images/partners/gatorade.png",
     website: "https://www.gatorade.com",
   },
   {
@@ -21,11 +22,13 @@ export const partners: Partner[] = [
   {
     id: "west-capital",
     name: "West Capital Wealth Management",
+    logo: "/images/partners/west-capital.png",
     website: "https://www.westcapitalwealthmanagement.com",
   },
   {
     id: "publix",
     name: "Publix",
+    logo: "/images/partners/publix.png",
     website: "https://www.publix.com",
   },
   {
@@ -37,11 +40,13 @@ export const partners: Partner[] = [
   {
     id: "q-collar",
     name: "Q Collar",
+    logo: "/images/partners/qcollar.png",
     website: "https://q30.com",
   },
   {
     id: "battle-sports",
     name: "Battle Sports",
+    logo: "/images/partners/battle-sports.png",
     website: "https://www.battlesports.com",
   },
 ];
