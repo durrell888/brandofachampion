@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Heart } from "lucide-react";
+import { Menu, X, Trophy } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,12 +9,12 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-sm border-b border-primary-foreground/10">
       <div className="container flex items-center justify-between h-16">
-        <a href="/" className="flex items-center gap-2 text-primary-foreground font-bold text-xl">
+        <Link to="/" className="flex items-center gap-2 text-primary-foreground font-bold text-xl">
           <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center">
-            <Heart className="w-5 h-5 text-accent-foreground" />
+            <Trophy className="w-5 h-5 text-accent-foreground" />
           </div>
-          AthleteBase
-        </a>
+          Brand of a Champion
+        </Link>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
@@ -23,6 +24,9 @@ const Navbar = () => {
           <a href="#services" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm font-medium">
             Services
           </a>
+          <Link to="/stories" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm font-medium">
+            Stories
+          </Link>
           <a href="#about" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm font-medium">
             About Us
           </a>
@@ -59,6 +63,9 @@ const Navbar = () => {
             <a href="#services" className="block text-primary-foreground/80 hover:text-primary-foreground transition-colors font-medium">
               Services
             </a>
+            <Link to="/stories" className="block text-primary-foreground/80 hover:text-primary-foreground transition-colors font-medium" onClick={() => setIsOpen(false)}>
+              Stories
+            </Link>
             <a href="#about" className="block text-primary-foreground/80 hover:text-primary-foreground transition-colors font-medium">
               About Us
             </a>
