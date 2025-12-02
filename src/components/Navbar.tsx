@@ -41,6 +41,7 @@ const Navbar = () => {
             { href: "#athletes", label: "Athletes" },
             { href: "#services", label: "Services" },
             { href: "/stories", label: "Stories", isRoute: true },
+            { href: "/apparel", label: "Apparel", isRoute: true },
             { href: "/about", label: "About", isRoute: true },
             { href: "/partners", label: "Partners", isRoute: true },
           ].map((item) => (
@@ -100,6 +101,9 @@ const Navbar = () => {
             </a>
             <Link to="/stories" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
               Stories
+            </Link>
+            <Link to="/apparel" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
+              Apparel
             </Link>
             <Link to="/about" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
               About
