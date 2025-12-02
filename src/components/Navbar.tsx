@@ -30,9 +30,9 @@ const Navbar = () => {
           <a href="#about" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm font-medium">
             About Us
           </a>
-          <a href="#partners" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm font-medium">
+          <Link to="/partners" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm font-medium">
             Partners
-          </a>
+          </Link>
         </div>
 
         <div className="hidden md:flex items-center gap-3">
@@ -69,9 +69,9 @@ const Navbar = () => {
             <a href="#about" className="block text-primary-foreground/80 hover:text-primary-foreground transition-colors font-medium">
               About Us
             </a>
-            <a href="#partners" className="block text-primary-foreground/80 hover:text-primary-foreground transition-colors font-medium">
+            <Link to="/partners" className="block text-primary-foreground/80 hover:text-primary-foreground transition-colors font-medium" onClick={() => setIsOpen(false)}>
               Partners
-            </a>
+            </Link>
             <div className="flex gap-3 pt-2">
               <Button variant="heroOutline" size="sm" className="flex-1">
                 Sign In
