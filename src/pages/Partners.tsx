@@ -1,9 +1,40 @@
+import { useState } from "react";
 import { partners } from "@/data/partners";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { ExternalLink, Send } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const Partners = () => {
+  const { toast } = useToast();
+  const [formData, setFormData] = useState({
+    name: "",
+    company: "",
+    email: "",
+    message: "",
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const subject = encodeURIComponent(`Partnership Inquiry from ${formData.company}`);
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\nCompany: ${formData.company}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+    );
+    
+    window.location.href = `mailto:Durrell@brandofachampion.com?subject=${subject}&body=${body}`;
+    
+    toast({
+      title: "Opening email client",
+      description: "Your partnership inquiry is ready to send!",
+    });
+    
+    setFormData({ name: "", company: "", email: "", message: "" });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -46,20 +77,82 @@ const Partners = () => {
             ))}
           </div>
 
-          {/* CTA Section */}
-          <div className="mt-20 text-center bg-primary/5 rounded-2xl p-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-              Become a Partner
-            </h2>
-            <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-              Join us in supporting the next generation of champions. Partner with Brand of a Champion to make a lasting impact.
-            </p>
-            <a
-              href="mailto:Durrell@brandofachampion.com"
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
-            >
-              Contact Us
-            </a>
+          {/* Partnership Form Section */}
+          <div className="mt-20 bg-primary/5 rounded-2xl p-8 md:p-12">
+            <div className="max-w-2xl mx-auto">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+                  Become a Partner
+                </h2>
+                <p className="text-muted-foreground">
+                  Join us in supporting the next generation of champions. Fill out the form below to start the conversation.
+                </p>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                      Your Name
+                    </label>
+                    <Input
+                      id="name"
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="John Smith"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="company" className="block text-sm font-medium text-foreground mb-2">
+                      Company / Organization
+                    </label>
+                    <Input
+                      id="company"
+                      type="text"
+                      required
+                      value={formData.company}
+                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                      placeholder="Your Company"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                    Email Address
+                  </label>
+                  <Input
+                    id="email"
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="john@company.com"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
+                    How would you like to partner with us?
+                  </label>
+                  <Textarea
+                    id="message"
+                    required
+                    rows={4}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    placeholder="Tell us about your organization and partnership ideas..."
+                  />
+                </div>
+
+                <Button type="submit" size="lg" className="w-full md:w-auto">
+                  <Send className="w-4 h-4 mr-2" />
+                  Send Partnership Inquiry
+                </Button>
+              </form>
+            </div>
           </div>
         </div>
       </main>
