@@ -13,7 +13,7 @@ export const mockAthletes: Athlete[] = [
     yearsActive: "2023-2027",
     status: "active",
     classYear: "2027",
-    school: "Tigers High School",
+    school: "Douglas County High School",
     gpa: 3.0,
     height: "6'9\"",
     weight: "325 lbs",
