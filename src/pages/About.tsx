@@ -146,22 +146,23 @@ const About = () => {
             </h2>
           </div>
 
-          <div className="max-w-md mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Durrell Steen */}
             <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in">
-              <div className="h-48 hero-gradient relative">
+              <div className="h-40 hero-gradient relative">
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-32 h-32 rounded-full bg-accent/20 flex items-center justify-center border-4 border-primary-foreground/20">
-                    <span className="text-5xl font-extrabold text-primary-foreground">DS</span>
+                  <div className="w-24 h-24 rounded-full bg-accent/20 flex items-center justify-center border-4 border-primary-foreground/20">
+                    <span className="text-4xl font-extrabold text-primary-foreground">DS</span>
                   </div>
                 </div>
               </div>
-              <div className="p-8 text-center">
-                <h3 className="text-2xl font-extrabold text-foreground mb-1">Durrell Steen</h3>
-                <p className="text-accent font-bold mb-4">Executive Director</p>
-                <p className="text-muted-foreground mb-6">
+              <div className="p-6 text-center">
+                <h3 className="text-xl font-extrabold text-foreground mb-1">Durrell Steen</h3>
+                <p className="text-accent font-bold mb-3">Executive Director</p>
+                <p className="text-muted-foreground text-sm mb-4">
                   Leading Brand of a Champion's mission to empower athletes and build lasting impact in communities across the nation.
                 </p>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
                   <a 
                     href="mailto:Durrell@brandofachampion.com" 
                     className="flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground hover:text-accent transition-colors"
@@ -176,6 +177,28 @@ const About = () => {
                     <Phone className="w-4 h-4" />
                     (470) 231-6591
                   </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Aaron Ross */}
+            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in [animation-delay:100ms] opacity-0">
+              <div className="h-40 hero-gradient relative">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-24 h-24 rounded-full bg-accent/20 flex items-center justify-center border-4 border-primary-foreground/20">
+                    <span className="text-4xl font-extrabold text-primary-foreground">AR</span>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6 text-center">
+                <h3 className="text-xl font-extrabold text-foreground mb-1">Aaron Ross</h3>
+                <p className="text-accent font-bold mb-3">Athlete Mentor</p>
+                <p className="text-muted-foreground text-sm mb-4">
+                  Former NFL player bringing firsthand professional experience to guide and mentor athletes through their journey on and off the field.
+                </p>
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm font-medium text-foreground">
+                  <Trophy className="w-4 h-4 text-accent" />
+                  NFL Experience
                 </div>
               </div>
             </div>
