@@ -17,7 +17,7 @@ export const mockAthletes: Athlete[] = [
     gpa: 3.0,
     height: "6'9\"",
     weight: "325 lbs",
-    hudlLink: "https://www.hudl.com/",
+    hudlLink: "http://www.hudl.com/v/2SfxZH",
   },
   {
     id: "2",
