@@ -37,11 +37,11 @@ const Navbar = () => {
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-1">
-          {[
+        {[
             { href: "#athletes", label: "Athletes" },
             { href: "#services", label: "Services" },
             { href: "/stories", label: "Stories", isRoute: true },
-            { href: "#about", label: "About" },
+            { href: "/about", label: "About", isRoute: true },
             { href: "/partners", label: "Partners", isRoute: true },
           ].map((item) => (
             item.isRoute ? (
@@ -101,9 +101,9 @@ const Navbar = () => {
             <Link to="/stories" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
               Stories
             </Link>
-            <a href="#about" className="block text-foreground hover:text-accent transition-colors font-semibold py-2">
+            <Link to="/about" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
               About
-            </a>
+            </Link>
             <Link to="/partners" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
               Partners
             </Link>
