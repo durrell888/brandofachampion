@@ -146,7 +146,7 @@ const About = () => {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {/* Durrell Steen */}
             <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in">
               <div className="h-40 hero-gradient relative">
@@ -160,7 +160,7 @@ const About = () => {
                 <h3 className="text-xl font-extrabold text-foreground mb-1">Durrell Steen</h3>
                 <p className="text-accent font-bold mb-3">Executive Director</p>
                 <p className="text-muted-foreground text-sm mb-4">
-                  Leading Brand of a Champion's mission to empower athletes and build lasting impact in communities across the nation.
+                  Leading Brand of a Champion's mission to empower athletes and build lasting impact in communities.
                 </p>
                 <div className="flex flex-col gap-2">
                   <a 
@@ -196,11 +196,37 @@ const About = () => {
                 <h3 className="text-xl font-extrabold text-foreground mb-1">Aaron Ross</h3>
                 <p className="text-accent font-bold mb-3">Athlete Advisor</p>
                 <p className="text-muted-foreground text-sm mb-4">
-                  Former NFL player bringing firsthand professional experience to guide and mentor athletes through their journey on and off the field.
+                  Former NFL player bringing firsthand professional experience to guide athletes on and off the field.
                 </p>
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm font-medium text-foreground">
                   <Trophy className="w-4 h-4 text-accent" />
                   NFL Experience
+                </div>
+              </div>
+            </div>
+
+            {/* Sanya Richards-Ross */}
+            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in [animation-delay:200ms] opacity-0">
+              <div className="h-40 hero-gradient relative">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <img 
+                    src="/images/team/sanya-richards-ross.jpg" 
+                    alt="Sanya Richards-Ross"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20"
+                  />
+                </div>
+              </div>
+              <div className="p-6 text-center">
+                <h3 className="text-xl font-extrabold text-foreground mb-1">Sanya Richards-Ross</h3>
+                <p className="text-accent font-bold mb-3">Athlete Marketing</p>
+                <p className="text-muted-foreground text-sm mb-4">
+                  6x Olympic Gold Medalist, Nike Ambassador, NBC Sports Host, and Philanthropist.
+                </p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary text-xs font-medium text-foreground">
+                    <Trophy className="w-3 h-3 text-accent" />
+                    6x Gold Medalist
+                  </div>
                 </div>
               </div>
             </div>
