@@ -8,7 +8,7 @@ import { Loader2, ShoppingBag, Play, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import hoodieModelCover from "@/assets/hoodie-model-cover.jpg";
 import hoodieShowcaseFront from "@/assets/hoodie-showcase-front.jpg";
-import hoodieShowcaseBack from "@/assets/hoodie-showcase-back.jpg";
+import tshirtModelShowcase from "@/assets/tshirt-model-showcase.jpg";
 
 const Apparel = () => {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
@@ -109,17 +109,17 @@ const Apparel = () => {
               </div>
             </div>
 
-            {/* Model Card 2 - Back */}
+            {/* Model Card 2 - T-Shirt */}
             <div className="group relative aspect-[3/4] overflow-hidden cursor-pointer">
               <img
-                src={hoodieShowcaseBack}
-                alt="BOAC Faith Over Fear Hoodie - Back"
+                src={tshirtModelShowcase}
+                alt="BOAC Faith Over Fear T-Shirt"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <h3 className="text-xl font-bold text-white mb-1">Bold Statement Back</h3>
-                <p className="text-white/70 text-sm">Make your presence known</p>
+                <h3 className="text-xl font-bold text-white mb-1">Faith Over Fear Tee</h3>
+                <p className="text-white/70 text-sm">Wear your conviction</p>
               </div>
             </div>
           </div>
