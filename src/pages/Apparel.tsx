@@ -8,7 +8,7 @@ import { Loader2, ShoppingBag, Play, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import hoodieModelFront from "@/assets/hoodie-model-front.jpg";
 import hoodieModelBack from "@/assets/hoodie-model-back.jpg";
-import hoodieCover from "@/assets/hoodie-cover.jpg";
+import hoodieModelCover from "@/assets/hoodie-model-cover.jpg";
 
 const Apparel = () => {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
@@ -44,7 +44,7 @@ const Apparel = () => {
             muted={isMuted}
             playsInline
             className="w-full h-full object-cover"
-            poster={hoodieCover}
+            poster={hoodieModelCover}
           >
             {/* Placeholder - replace with actual brand video */}
             <source src="https://cdn.shopify.com/videos/c/o/v/5a5c5f5e5f5e5f5e5f5e5f5e5f5e5f5e.mp4" type="video/mp4" />
