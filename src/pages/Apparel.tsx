@@ -8,6 +8,7 @@ import { Loader2, ShoppingBag, Play, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import hoodieModelCover from "@/assets/hoodie-model-cover.jpg";
 import hoodieShowcaseFront from "@/assets/hoodie-showcase-front.jpg";
+import hoodieModelBackFemale from "@/assets/hoodie-model-back-female.jpg";
 import tshirtModelShowcase from "@/assets/tshirt-model-showcase.jpg";
 
 const Apparel = () => {
@@ -94,7 +95,7 @@ const Apparel = () => {
       {/* Model Showcase Section */}
       <section className="py-8 md:py-16 bg-secondary/30">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             {/* Model Card 1 - Front */}
             <div className="group relative aspect-[3/4] overflow-hidden cursor-pointer">
               <img
@@ -109,7 +110,21 @@ const Apparel = () => {
               </div>
             </div>
 
-            {/* Model Card 2 - T-Shirt */}
+            {/* Model Card 2 - Back */}
+            <div className="group relative aspect-[3/4] overflow-hidden cursor-pointer">
+              <img
+                src={hoodieModelBackFemale}
+                alt="BOAC Faith Over Fear Hoodie - Back"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <h3 className="text-xl font-bold text-white mb-1">Faith Over Fear Hoodie</h3>
+                <p className="text-white/70 text-sm">Statement back design</p>
+              </div>
+            </div>
+
+            {/* Model Card 3 - T-Shirt */}
             <div className="group relative aspect-[3/4] overflow-hidden cursor-pointer">
               <img
                 src={tshirtModelShowcase}
