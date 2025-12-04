@@ -2,6 +2,24 @@ import { Athlete } from "@/components/AthleteCard";
 
 export const mockAthletes: Athlete[] = [
   {
+    id: "11",
+    name: "Adryan Cole",
+    sport: "Football",
+    position: "Wide Receiver",
+    location: "Georgia",
+    avatar: "/images/athletes/adryan-cole.jpg",
+    achievements: ["3X All-Region", "35+ College Offers"],
+    supportNeeded: ["Career", "Education"],
+    yearsActive: "2023-2027",
+    status: "active",
+    classYear: "2027",
+    school: "Douglas County High School",
+    gpa: 3.8,
+    height: "6'2\"",
+    weight: "205 lbs",
+    hudlLink: "http://www.hudl.com/v/2QAHMR",
+  },
+  {
     id: "10",
     name: "Trey Byrd",
     sport: "Football",
