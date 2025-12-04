@@ -11,8 +11,10 @@ import { Button } from "@/components/ui/button";
 import { mockAthletes } from "@/data/athletes";
 import { Link } from "react-router-dom";
 import { ArrowRight, Handshake, Heart } from "lucide-react";
+import { DonationModal } from "@/components/DonationModal";
 
 const Index = () => {
+  const [donationModalOpen, setDonationModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<{ sports: string[]; support: string[] }>({
     sports: [],
@@ -124,11 +126,17 @@ const Index = () => {
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </Link>
-                  <Button variant="heroOutline" size="xl" className="group">
+                  <Button 
+                    variant="heroOutline" 
+                    size="xl" 
+                    className="group"
+                    onClick={() => setDonationModalOpen(true)}
+                  >
                     <Heart className="w-5 h-5" />
                     Donate Now
                   </Button>
                 </div>
+                <DonationModal open={donationModalOpen} onOpenChange={setDonationModalOpen} />
               </div>
             </div>
           </div>
