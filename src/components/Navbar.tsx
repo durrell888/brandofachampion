@@ -36,10 +36,10 @@ const Navbar = () => {
               <span className="font-display text-2xl text-accent-foreground leading-none">B</span>
             </div>
             <div className="hidden sm:block">
-              <span className={`font-extrabold text-lg tracking-tight ${scrolled ? "text-foreground" : "text-primary-foreground"}`}>
+              <span className="font-extrabold text-lg tracking-tight text-foreground">
                 BRAND OF A
               </span>
-              <span className={`font-extrabold text-lg tracking-tight ${scrolled ? "text-accent" : "text-accent"}`}> CHAMPION</span>
+              <span className="font-extrabold text-lg tracking-tight text-accent"> CHAMPION</span>
             </div>
           </Link>
 
@@ -58,9 +58,7 @@ const Navbar = () => {
                 <Link
                   key={item.href}
                   to={item.href}
-                  className={`nav-link px-4 py-2 text-sm font-semibold transition-colors ${
-                    scrolled ? "text-foreground hover:text-accent" : "text-primary-foreground/90 hover:text-primary-foreground"
-                  } ${isActive(item.href) ? "text-accent" : ""}`}
+                  className={`nav-link px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive(item.href) ? "text-accent" : ""}`}
                 >
                   {item.label}
                 </Link>
@@ -68,9 +66,7 @@ const Navbar = () => {
                 <a
                   key={item.href}
                   href={item.href}
-                  className={`nav-link px-4 py-2 text-sm font-semibold transition-colors ${
-                    scrolled ? "text-foreground hover:text-accent" : "text-primary-foreground/90 hover:text-primary-foreground"
-                  }`}
+                  className="nav-link px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent"
                 >
                   {item.label}
                 </a>
@@ -89,9 +85,7 @@ const Navbar = () => {
 
           {/* Mobile menu button */}
           <button
-            className={`md:hidden p-2 rounded-lg transition-colors ${
-              scrolled ? "text-foreground hover:bg-secondary" : "text-primary-foreground hover:bg-primary-foreground/10"
-            }`}
+            className="md:hidden p-2 rounded-lg transition-colors text-foreground hover:bg-secondary"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
