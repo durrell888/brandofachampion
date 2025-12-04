@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, MapPin, Trophy, GraduationCap, Ruler, Weight, Video, Briefcase, Heart, DollarSign, Home, Scale } from "lucide-react";
+import { ArrowLeft, MapPin, Trophy, GraduationCap, Ruler, Weight, Video, Briefcase, Heart, DollarSign, Home, Scale, Instagram } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
@@ -157,17 +157,30 @@ const AthleteProfile = () => {
               </div>
             </div>
 
-            {/* Hudl Button */}
-            {athlete.hudlLink && (
-              <Button 
-                size="lg"
-                className="w-full gap-2"
-                onClick={() => window.open(athlete.hudlLink, '_blank')}
-              >
-                <Video className="w-5 h-5" />
-                Watch Hudl Film
-              </Button>
-            )}
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              {athlete.hudlLink && (
+                <Button 
+                  size="lg"
+                  className="flex-1 gap-2"
+                  onClick={() => window.open(athlete.hudlLink, '_blank')}
+                >
+                  <Video className="w-5 h-5" />
+                  Watch Hudl Film
+                </Button>
+              )}
+              {athlete.instagramLink && (
+                <Button 
+                  size="lg"
+                  variant="outline"
+                  className="flex-1 gap-2"
+                  onClick={() => window.open(athlete.instagramLink, '_blank')}
+                >
+                  <Instagram className="w-5 h-5" />
+                  Instagram
+                </Button>
+              )}
+            </div>
           </div>
         </div>
 

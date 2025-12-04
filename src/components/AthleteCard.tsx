@@ -20,6 +20,7 @@ export interface Athlete {
   height?: string;
   weight?: string;
   hudlLink?: string;
+  instagramLink?: string;
 }
 
 const supportIcons: Record<string, React.ReactNode> = {
