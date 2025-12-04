@@ -1,6 +1,8 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { User, Session } from "@supabase/supabase-js";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { USMap } from "@/components/USMap";
@@ -10,7 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, MapPin, Phone, Mail, Twitter, GraduationCap, Building, Search, Users, X } from "lucide-react";
+import { ArrowLeft, MapPin, Phone, Mail, Twitter, GraduationCap, Building, Search, Users, X, Lock, CreditCard, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface School {
   id: string;
@@ -49,11 +52,129 @@ const conferences = [
 ];
 
 export default function Recruiting() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [coachSearchQuery, setCoachSearchQuery] = useState("");
   const [selectedConference, setSelectedConference] = useState("All");
   const [showCoachSearch, setShowCoachSearch] = useState(false);
+  
+  // Auth & subscription state
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [subscriptionLoading, setSubscriptionLoading] = useState(true);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+
+  // Check auth state and subscription
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      
+      if (session?.user) {
+        setTimeout(() => {
+          checkSubscription(session.access_token);
+        }, 0);
+      } else {
+        setIsSubscribed(false);
+        setSubscriptionLoading(false);
+      }
+    });
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      
+      if (session?.user) {
+        checkSubscription(session.access_token);
+      } else {
+        setSubscriptionLoading(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Handle success/cancel URL params
+  useEffect(() => {
+    if (searchParams.get("success") === "true") {
+      toast.success("Subscription successful! You now have full access.");
+      if (session?.access_token) {
+        checkSubscription(session.access_token);
+      }
+    }
+    if (searchParams.get("canceled") === "true") {
+      toast.info("Subscription canceled.");
+    }
+  }, [searchParams, session]);
+
+  const checkSubscription = async (accessToken: string) => {
+    try {
+      const { data, error } = await supabase.functions.invoke("check-subscription", {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      });
+      
+      if (error) throw error;
+      setIsSubscribed(data?.subscribed || false);
+    } catch (error) {
+      console.error("Error checking subscription:", error);
+      setIsSubscribed(false);
+    } finally {
+      setSubscriptionLoading(false);
+    }
+  };
+
+  const handleSubscribe = async () => {
+    if (!session) {
+      navigate("/auth");
+      return;
+    }
+
+    setCheckoutLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        headers: { Authorization: `Bearer ${session.access_token}` }
+      });
+      
+      if (error) throw error;
+      if (data?.url) {
+        window.open(data.url, "_blank");
+      }
+    } catch (error) {
+      console.error("Error creating checkout:", error);
+      toast.error("Failed to start checkout. Please try again.");
+    } finally {
+      setCheckoutLoading(false);
+    }
+  };
+
+  const handleManageSubscription = async () => {
+    if (!session) return;
+    
+    try {
+      const { data, error } = await supabase.functions.invoke("customer-portal", {
+        headers: { Authorization: `Bearer ${session.access_token}` }
+      });
+      
+      if (error) throw error;
+      if (data?.url) {
+        window.open(data.url, "_blank");
+      }
+    } catch (error) {
+      console.error("Error opening portal:", error);
+      toast.error("Failed to open subscription portal.");
+    }
+  };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setSession(null);
+    setIsSubscribed(false);
+    toast.success("Signed out successfully");
+  };
 
   const { data: schools, isLoading: schoolsLoading } = useQuery({
     queryKey: ["ncaa-schools"],
@@ -88,17 +209,14 @@ export default function Recruiting() {
     
     let filtered = schools;
     
-    // Filter by state if selected
     if (selectedState) {
       filtered = filtered.filter((s) => s.state === selectedState);
     }
     
-    // Filter by conference
     if (selectedConference !== "All") {
       filtered = filtered.filter((s) => s.conference === selectedConference);
     }
     
-    // Filter by search query
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
@@ -132,7 +250,6 @@ export default function Recruiting() {
   const getCoachesForSchool = (schoolId: string) => {
     if (!coaches) return [];
     const schoolCoaches = coaches.filter((c) => c.school_id === schoolId);
-    // Sort by role priority
     const roleOrder: Record<string, number> = {
       "Head Coach": 1,
       "Offensive Coordinator": 2,
@@ -164,6 +281,95 @@ export default function Recruiting() {
 
   const hasActiveFilters = searchQuery || selectedConference !== "All" || selectedState;
 
+  // Mask coach contact info for non-subscribers (teaser)
+  const maskContactInfo = (value: string | null) => {
+    if (!value) return null;
+    if (value.length <= 4) return "••••";
+    return value.substring(0, 3) + "••••••";
+  };
+
+  // Subscription paywall component
+  const PaywallBanner = () => (
+    <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20 rounded-2xl p-8 text-center mb-8">
+      <Lock className="w-12 h-12 text-primary mx-auto mb-4" />
+      <h2 className="text-2xl font-bold mb-2">Unlock Full Access</h2>
+      <p className="text-muted-foreground mb-6 max-w-lg mx-auto">
+        Get complete access to coaching staff contact information including phone numbers, emails, and social media for all {schools?.length || 0} FBS schools.
+      </p>
+      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <Button 
+          size="lg" 
+          onClick={handleSubscribe}
+          disabled={checkoutLoading}
+          className="gap-2"
+        >
+          {checkoutLoading ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <CreditCard className="w-4 h-4" />
+          )}
+          Subscribe for $9.99/month
+        </Button>
+        {!user && (
+          <Button variant="outline" size="lg" onClick={() => navigate("/auth")}>
+            Sign In
+          </Button>
+        )}
+      </div>
+      {user && (
+        <p className="text-sm text-muted-foreground mt-4">
+          Signed in as {user.email} • <button onClick={handleSignOut} className="underline hover:text-primary">Sign out</button>
+        </p>
+      )}
+    </div>
+  );
+
+  // Teaser coach card with masked info
+  const TeaserCoachCard = ({ coach, school }: { coach: Coach; school?: School }) => (
+    <Card className="overflow-hidden hover:shadow-lg transition-shadow relative">
+      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent z-10 pointer-events-none" />
+      <CardContent className="p-4">
+        <div className="flex items-start gap-3 mb-3">
+          {school?.logo_url ? (
+            <img
+              src={school.logo_url}
+              alt={school.name}
+              className="w-10 h-10 object-contain rounded"
+              referrerPolicy="no-referrer"
+            />
+          ) : (
+            <div className="w-10 h-10 bg-primary/10 rounded flex items-center justify-center">
+              <GraduationCap className="w-5 h-5 text-primary" />
+            </div>
+          )}
+          <div className="flex-1 min-w-0">
+            <p className="font-semibold truncate">{coach.name || "To be updated"}</p>
+            <p className="text-sm text-muted-foreground">{coach.role}</p>
+            {school && (
+              <p className="text-xs text-primary mt-1">{school.name}</p>
+            )}
+          </div>
+        </div>
+        <div className="space-y-1 text-sm blur-sm select-none">
+          <span className="flex items-center gap-2 text-muted-foreground">
+            <Phone className="w-3 h-3" />
+            {maskContactInfo(coach.phone) || "No phone listed"}
+          </span>
+          <span className="flex items-center gap-2 text-muted-foreground">
+            <Mail className="w-3 h-3" />
+            {maskContactInfo(coach.email) || "No email listed"}
+          </span>
+          {coach.twitter && (
+            <span className="flex items-center gap-2 text-muted-foreground">
+              <Twitter className="w-3 h-3" />
+              @{maskContactInfo(coach.twitter)}
+            </span>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -178,11 +384,23 @@ export default function Recruiting() {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Explore NCAA Division I FBS football programs across the nation. Search schools, filter by conference, or click on a state to view coaching staff.
             </p>
+            {isSubscribed && (
+              <div className="mt-4 flex justify-center gap-2">
+                <Badge variant="secondary" className="bg-green-500/20 text-green-700 dark:text-green-400">
+                  Premium Subscriber
+                </Badge>
+                <Button variant="ghost" size="sm" onClick={handleManageSubscription}>
+                  Manage Subscription
+                </Button>
+              </div>
+            )}
           </div>
+
+          {/* Paywall Banner for non-subscribers */}
+          {!subscriptionLoading && !isSubscribed && <PaywallBanner />}
 
           {/* Search & Filter Controls */}
           <div className="space-y-4 mb-8">
-            {/* Search Toggle */}
             <div className="flex flex-wrap gap-2 justify-center">
               <Button
                 variant={!showCoachSearch ? "default" : "outline"}
@@ -202,7 +420,6 @@ export default function Recruiting() {
               </Button>
             </div>
 
-            {/* Search Bar */}
             <div className="max-w-xl mx-auto relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               {showCoachSearch ? (
@@ -232,7 +449,6 @@ export default function Recruiting() {
               )}
             </div>
 
-            {/* Conference Tabs - Only show when not in coach search */}
             {!showCoachSearch && (
               <div className="overflow-x-auto pb-2">
                 <Tabs value={selectedConference} onValueChange={setSelectedConference} className="w-full">
@@ -251,7 +467,6 @@ export default function Recruiting() {
               </div>
             )}
 
-            {/* Clear Filters */}
             {hasActiveFilters && !showCoachSearch && (
               <div className="flex justify-center">
                 <Button variant="ghost" size="sm" onClick={clearFilters} className="gap-2">
@@ -309,8 +524,13 @@ export default function Recruiting() {
                   </p>
                 ) : (
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {filteredCoaches.slice(0, 30).map((coach) => {
+                    {filteredCoaches.slice(0, isSubscribed ? 30 : 6).map((coach) => {
                       const school = getSchoolById(coach.school_id);
+                      
+                      if (!isSubscribed) {
+                        return <TeaserCoachCard key={coach.id} coach={coach} school={school} />;
+                      }
+                      
                       return (
                         <Card key={coach.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                           <CardContent className="p-4">
@@ -372,7 +592,18 @@ export default function Recruiting() {
                     })}
                   </div>
                 )}
-                {filteredCoaches.length > 30 && (
+                {!isSubscribed && filteredCoaches.length > 6 && (
+                  <div className="text-center mt-6">
+                    <p className="text-muted-foreground mb-4">
+                      Subscribe to see all {filteredCoaches.length} results with full contact information.
+                    </p>
+                    <Button onClick={handleSubscribe} disabled={checkoutLoading}>
+                      {checkoutLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+                      Unlock Full Access - $9.99/month
+                    </Button>
+                  </div>
+                )}
+                {isSubscribed && filteredCoaches.length > 30 && (
                   <p className="text-center text-muted-foreground mt-4">
                     Showing first 30 results. Refine your search for more specific results.
                   </p>
@@ -381,10 +612,9 @@ export default function Recruiting() {
             </div>
           )}
 
-          {/* Map or School Results - Only show when not in coach search or no coach query */}
+          {/* Map or School Results */}
           {(!showCoachSearch || !coachSearchQuery) && !showCoachSearch && (
             <>
-              {/* Show filtered results if searching or filtering */}
               {(searchQuery || selectedConference !== "All") && !selectedState ? (
                 <div className="space-y-6">
                   <div className="bg-card rounded-2xl p-6 border border-border">
@@ -457,7 +687,6 @@ export default function Recruiting() {
                     )}
                   </div>
 
-                  {/* Legend */}
                   <div className="flex flex-wrap justify-center gap-4">
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 rounded bg-primary/30" />
@@ -471,7 +700,6 @@ export default function Recruiting() {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {/* Back Button */}
                   <Button
                     variant="outline"
                     onClick={() => setSelectedState(null)}
@@ -481,7 +709,6 @@ export default function Recruiting() {
                     Back to Map
                   </Button>
 
-                  {/* State Header */}
                   <div className="bg-card rounded-2xl p-6 border border-border">
                     <div className="flex items-center gap-4 mb-4">
                       <MapPin className="w-8 h-8 text-primary" />
@@ -494,7 +721,6 @@ export default function Recruiting() {
                     </div>
                   </div>
 
-                  {/* Schools Grid */}
                   {coachesLoading ? (
                     <div className="grid md:grid-cols-2 gap-6">
                       {[1, 2, 3, 4].map((i) => (
@@ -544,49 +770,81 @@ export default function Recruiting() {
                                   <p className="font-medium mb-2">
                                     {coach.name || "To be updated"}
                                   </p>
-                                  <div className="space-y-1 text-sm">
-                                    {coach.phone ? (
-                                      <a
-                                        href={`tel:${coach.phone}`}
-                                        className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
-                                      >
-                                        <Phone className="w-3 h-3" />
-                                        {coach.phone}
-                                      </a>
+                                  <div className={`space-y-1 text-sm ${!isSubscribed ? "blur-sm select-none" : ""}`}>
+                                    {isSubscribed ? (
+                                      <>
+                                        {coach.phone ? (
+                                          <a
+                                            href={`tel:${coach.phone}`}
+                                            className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+                                          >
+                                            <Phone className="w-3 h-3" />
+                                            {coach.phone}
+                                          </a>
+                                        ) : (
+                                          <span className="flex items-center gap-2 text-muted-foreground">
+                                            <Phone className="w-3 h-3" />
+                                            No phone listed
+                                          </span>
+                                        )}
+                                        {coach.email ? (
+                                          <a
+                                            href={`mailto:${coach.email}`}
+                                            className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+                                          >
+                                            <Mail className="w-3 h-3" />
+                                            {coach.email}
+                                          </a>
+                                        ) : (
+                                          <span className="flex items-center gap-2 text-muted-foreground">
+                                            <Mail className="w-3 h-3" />
+                                            No email listed
+                                          </span>
+                                        )}
+                                        {coach.twitter && (
+                                          <a
+                                            href={`https://twitter.com/${coach.twitter}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+                                          >
+                                            <Twitter className="w-3 h-3" />
+                                            @{coach.twitter}
+                                          </a>
+                                        )}
+                                      </>
                                     ) : (
-                                      <span className="flex items-center gap-2 text-muted-foreground">
-                                        <Phone className="w-3 h-3" />
-                                        No phone listed
-                                      </span>
-                                    )}
-                                    {coach.email ? (
-                                      <a
-                                        href={`mailto:${coach.email}`}
-                                        className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
-                                      >
-                                        <Mail className="w-3 h-3" />
-                                        {coach.email}
-                                      </a>
-                                    ) : (
-                                      <span className="flex items-center gap-2 text-muted-foreground">
-                                        <Mail className="w-3 h-3" />
-                                        No email listed
-                                      </span>
-                                    )}
-                                    {coach.twitter && (
-                                      <a
-                                        href={`https://twitter.com/${coach.twitter}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
-                                      >
-                                        <Twitter className="w-3 h-3" />
-                                        @{coach.twitter}
-                                      </a>
+                                      <>
+                                        <span className="flex items-center gap-2 text-muted-foreground">
+                                          <Phone className="w-3 h-3" />
+                                          {maskContactInfo(coach.phone) || "No phone listed"}
+                                        </span>
+                                        <span className="flex items-center gap-2 text-muted-foreground">
+                                          <Mail className="w-3 h-3" />
+                                          {maskContactInfo(coach.email) || "No email listed"}
+                                        </span>
+                                        {coach.twitter && (
+                                          <span className="flex items-center gap-2 text-muted-foreground">
+                                            <Twitter className="w-3 h-3" />
+                                            @{maskContactInfo(coach.twitter)}
+                                          </span>
+                                        )}
+                                      </>
                                     )}
                                   </div>
                                 </div>
                               ))}
+                              {!isSubscribed && (
+                                <Button 
+                                  variant="outline" 
+                                  className="w-full gap-2"
+                                  onClick={handleSubscribe}
+                                  disabled={checkoutLoading}
+                                >
+                                  <Lock className="w-4 h-4" />
+                                  Unlock Contact Info
+                                </Button>
+                              )}
                             </CardContent>
                           </Card>
                         );
