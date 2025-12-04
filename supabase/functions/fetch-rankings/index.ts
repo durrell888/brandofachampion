@@ -76,20 +76,49 @@ serve(async (req) => {
 });
 
 function generateSampleESPN300(classYear: string): RankedPlayer[] {
-  const samplePlayers = [
-    { name: "Keelon Russell", position: "QB", state: "TX", highSchool: "Duncanville", stars: 5, committedTo: "Alabama" },
-    { name: "Dakorien Moore", position: "WR", state: "TX", highSchool: "Duncanville", stars: 5, committedTo: "Texas" },
-    { name: "Na'eem Offord", position: "CB", state: "OH", highSchool: "Birmingham", stars: 5, committedTo: "Ohio State" },
-    { name: "Michael Terry III", position: "WR", state: "TX", highSchool: "San Antonio", stars: 5, committedTo: "Texas" },
-    { name: "Elijah Griffin", position: "DL", state: "GA", highSchool: "Savannah", stars: 5, committedTo: "Georgia" },
-    { name: "Tavaris Thornton", position: "CB", state: "AL", highSchool: "Alabaster", stars: 5, committedTo: "Alabama" },
-    { name: "Byron Louis", position: "RB", state: "LA", highSchool: "Baton Rouge", stars: 5, committedTo: "LSU" },
-    { name: "Justin Hill", position: "WR", state: "FL", highSchool: "Miami", stars: 5, committedTo: "Florida" },
-    { name: "David Sanders Jr", position: "OT", state: "NC", highSchool: "Charlotte", stars: 5, committedTo: "Tennessee" },
-    { name: "Jonah Williams", position: "QB", state: "CA", highSchool: "Santa Ana", stars: 5, committedTo: "USC" },
-  ];
+  // Class-specific prospect data
+  const playersByClass: Record<string, Array<{ name: string; position: string; state: string; highSchool: string; stars: number; committedTo?: string }>> = {
+    '2025': [
+      { name: "Keelon Russell", position: "QB", state: "TX", highSchool: "Duncanville", stars: 5, committedTo: "Alabama" },
+      { name: "Dakorien Moore", position: "WR", state: "TX", highSchool: "Duncanville", stars: 5, committedTo: "Texas" },
+      { name: "Na'eem Offord", position: "CB", state: "OH", highSchool: "Birmingham", stars: 5, committedTo: "Ohio State" },
+      { name: "Michael Terry III", position: "WR", state: "TX", highSchool: "San Antonio", stars: 5, committedTo: "Texas" },
+      { name: "Elijah Griffin", position: "DL", state: "GA", highSchool: "Savannah", stars: 5, committedTo: "Georgia" },
+      { name: "Tavaris Thornton", position: "CB", state: "AL", highSchool: "Alabaster", stars: 5, committedTo: "Alabama" },
+      { name: "Byron Louis", position: "RB", state: "LA", highSchool: "Baton Rouge", stars: 5, committedTo: "LSU" },
+      { name: "Justin Hill", position: "WR", state: "FL", highSchool: "Miami", stars: 5, committedTo: "Florida" },
+      { name: "David Sanders Jr", position: "OT", state: "NC", highSchool: "Charlotte", stars: 5, committedTo: "Tennessee" },
+      { name: "Jonah Williams", position: "QB", state: "CA", highSchool: "Santa Ana", stars: 5, committedTo: "USC" },
+    ],
+    '2026': [
+      { name: "Bryce Underwood", position: "QB", state: "MI", highSchool: "Belleville", stars: 5, committedTo: "Michigan" },
+      { name: "Julian Lewis", position: "QB", state: "GA", highSchool: "Carrollton", stars: 5, committedTo: "Colorado" },
+      { name: "Jahkeem Stewart", position: "DL", state: "LA", highSchool: "New Orleans", stars: 5 },
+      { name: "Devin Carter", position: "WR", state: "FL", highSchool: "Miami", stars: 5 },
+      { name: "Javion Hilson", position: "CB", state: "FL", highSchool: "Orlando", stars: 5 },
+      { name: "Eugene Brooks", position: "DL", state: "NC", highSchool: "Raleigh", stars: 5 },
+      { name: "Dorian Brew", position: "CB", state: "CA", highSchool: "Los Angeles", stars: 5 },
+      { name: "Jaiden Davis", position: "RB", state: "TX", highSchool: "Dallas", stars: 5 },
+      { name: "Marcus Harris", position: "OT", state: "GA", highSchool: "Atlanta", stars: 5 },
+      { name: "Ty Haywood", position: "OT", state: "TX", highSchool: "Houston", stars: 5 },
+    ],
+    '2027': [
+      { name: "Keenan Johnson", position: "QB", state: "FL", highSchool: "Jacksonville", stars: 5 },
+      { name: "Marcus Brown", position: "RB", state: "TX", highSchool: "Austin", stars: 5 },
+      { name: "Tyler Smith", position: "WR", state: "GA", highSchool: "Marietta", stars: 5 },
+      { name: "Devon Williams", position: "CB", state: "CA", highSchool: "San Diego", stars: 5 },
+      { name: "James Anderson", position: "DL", state: "OH", highSchool: "Columbus", stars: 5 },
+      { name: "Chris Thompson", position: "LB", state: "AL", highSchool: "Birmingham", stars: 4 },
+      { name: "Ryan Davis", position: "S", state: "FL", highSchool: "Tampa", stars: 4 },
+      { name: "Justin Moore", position: "OT", state: "TX", highSchool: "San Antonio", stars: 4 },
+      { name: "Brandon Taylor", position: "TE", state: "GA", highSchool: "Savannah", stars: 4 },
+      { name: "Michael Jackson", position: "WR", state: "LA", highSchool: "New Orleans", stars: 4 },
+    ],
+  };
 
-  return samplePlayers.map((p, i) => ({
+  const players = playersByClass[classYear] || playersByClass['2025'];
+  
+  return players.map((p, i) => ({
     rank: i + 1,
     ...p,
     classYear,
@@ -98,14 +127,30 @@ function generateSampleESPN300(classYear: string): RankedPlayer[] {
 }
 
 function generateSamplePositionRankings(position: string, classYear: string): RankedPlayer[] {
-  const names: Record<string, string[]> = {
-    QB: ["Keelon Russell", "Jonah Williams", "Bryce Underwood", "Julian Lewis", "Faizon Brandon"],
-    RB: ["Byron Louis", "Anthony Carrie", "Kevin Spraggins", "Ousman Touray", "Jerrick Gibson"],
-    WR: ["Dakorien Moore", "Michael Terry III", "Justin Hill", "Daylan McCutcheon", "Jaime Ffrench"],
-    CB: ["Na'eem Offord", "Tavaris Thornton", "Devin Sanchez", "Jordon Johnson-Rubell", "Charles Lester"],
+  const namesByClassAndPosition: Record<string, Record<string, string[]>> = {
+    '2025': {
+      QB: ["Keelon Russell", "Jonah Williams", "Faizon Brandon", "Demond Williams", "Jaden O'Neal"],
+      RB: ["Byron Louis", "Anthony Carrie", "Kevin Spraggins", "Ousman Touray", "Jerrick Gibson"],
+      WR: ["Dakorien Moore", "Michael Terry III", "Justin Hill", "Daylan McCutcheon", "Jaime Ffrench"],
+      CB: ["Na'eem Offord", "Tavaris Thornton", "Devin Sanchez", "Jordon Johnson-Rubell", "Charles Lester"],
+    },
+    '2026': {
+      QB: ["Bryce Underwood", "Julian Lewis", "Dia Bell", "Madden Iamaleava", "Jared Curtis"],
+      RB: ["Jaiden Davis", "Cameron Hooks", "Deondrae Riden", "Jaylen Terry", "Quincy Porter"],
+      WR: ["Devin Carter", "Jailen Huff", "Kam Alexander", "Derek Meadows", "Winston Watkins"],
+      CB: ["Javion Hilson", "Dorian Brew", "Jalen Blades", "Cortez Smith", "Marcus Robinson"],
+    },
+    '2027': {
+      QB: ["Keenan Johnson", "Ethan Maxwell", "Derek Ross", "Jaden Carter", "Miles Thompson"],
+      RB: ["Marcus Brown", "Tyler Green", "Jaylen Harris", "Devon Smith", "Chris Williams"],
+      WR: ["Tyler Smith", "Michael Jackson", "Brandon Lee", "James Wilson", "Ryan Thomas"],
+      CB: ["Devon Williams", "Marcus Taylor", "Justin Brown", "Chris Davis", "Ryan Johnson"],
+    },
   };
 
-  const posNames = names[position] || names.WR;
+  const classData = namesByClassAndPosition[classYear] || namesByClassAndPosition['2025'];
+  const posNames = classData[position] || classData.WR;
+  
   return posNames.map((name, i) => ({
     rank: i + 1,
     name,
