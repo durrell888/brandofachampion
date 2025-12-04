@@ -4,6 +4,7 @@ import Hero from "@/components/Hero";
 import SearchBar from "@/components/SearchBar";
 import AthleteCard from "@/components/AthleteCard";
 import SupportCategories from "@/components/SupportCategories";
+import NewsletterSignup from "@/components/NewsletterSignup";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { mockAthletes } from "@/data/athletes";
@@ -131,6 +132,8 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      <NewsletterSignup />
 
       <Footer />
     </main>
