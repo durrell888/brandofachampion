@@ -38,6 +38,7 @@ export const mockAthletes: Athlete[] = [
     weight: "325 lbs",
     hudlLink: "http://www.hudl.com/v/2SfxZH",
     instagramLink: "https://www.instagram.com/4wjosh?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+    twitterLink: "https://x.com/JoshuaSamEpelle",
   },
   {
     id: "3",
