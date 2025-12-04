@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Mail, Loader2, X } from "lucide-react";
+import { Mail, Loader2 } from "lucide-react";
 import { z } from "zod";
 
 const emailSchema = z.string().email("Please enter a valid email address");
@@ -69,23 +69,15 @@ const EmailCapturePopup = () => {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-md">
-        <button
-          onClick={handleClose}
-          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none"
-        >
-          <X className="h-4 w-4" />
-          <span className="sr-only">Close</span>
-        </button>
-        
+    <Dialog open={isOpen} onOpenChange={() => {}}>
+      <DialogContent className="sm:max-w-md [&>button]:hidden" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
         <DialogHeader className="text-center">
           <div className="mx-auto mb-4 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
             <Mail className="w-6 h-6 text-primary" />
           </div>
-          <DialogTitle className="text-2xl font-bold">Stay in the Loop</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">Welcome!</DialogTitle>
           <DialogDescription className="text-base">
-            Subscribe to get exclusive updates on our athletes, events, and how you can make a difference.
+            Enter your email to get exclusive updates on our athletes, events, and how you can make a difference.
           </DialogDescription>
         </DialogHeader>
         
@@ -98,29 +90,20 @@ const EmailCapturePopup = () => {
             className="w-full"
             required
           />
-          <div className="flex gap-2">
-            <Button 
-              type="submit" 
-              className="flex-1"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Subscribing...
-                </>
-              ) : (
-                "Subscribe"
-              )}
-            </Button>
-            <Button 
-              type="button" 
-              variant="outline"
-              onClick={handleClose}
-            >
-              Maybe Later
-            </Button>
-          </div>
+          <Button 
+            type="submit" 
+            className="w-full"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Subscribing...
+              </>
+            ) : (
+              "Continue"
+            )}
+          </Button>
         </form>
         
         <p className="text-xs text-muted-foreground text-center mt-2">
