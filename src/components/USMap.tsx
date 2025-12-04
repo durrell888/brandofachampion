@@ -72,6 +72,61 @@ const statesWithFBSSchools = [
   "Utah", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
 ];
 
+// Authentic state colors (based on flagship university/state colors)
+const stateColors: Record<string, string> = {
+  "Alabama": "#9E1B32", // Crimson (Alabama)
+  "Alaska": "#003087",
+  "Arizona": "#CC0033", // Cardinal Red (Arizona State)
+  "Arkansas": "#9D2235", // Cardinal (Arkansas)
+  "California": "#003262", // Berkeley Blue (Cal)
+  "Colorado": "#CFB87C", // Gold (Colorado)
+  "Connecticut": "#000E2F", // Navy (UConn)
+  "Delaware": "#00539F",
+  "Florida": "#0021A5", // Gator Blue (Florida)
+  "Georgia": "#BA0C2F", // Georgia Red
+  "Hawaii": "#024731", // Green (Hawaii)
+  "Idaho": "#F1B300", // Gold (Idaho)
+  "Illinois": "#E84A27", // Orange (Illinois)
+  "Indiana": "#990000", // Crimson (Indiana)
+  "Iowa": "#FFCD00", // Gold (Iowa)
+  "Kansas": "#0051BA", // Jayhawk Blue (Kansas)
+  "Kentucky": "#0033A0", // Blue (Kentucky)
+  "Louisiana": "#461D7C", // Purple (LSU)
+  "Maine": "#003263",
+  "Maryland": "#E03A3E", // Red (Maryland)
+  "Massachusetts": "#881C1C", // Maroon (UMass)
+  "Michigan": "#00274C", // Maize Blue (Michigan)
+  "Minnesota": "#7A0019", // Maroon (Minnesota)
+  "Mississippi": "#14213D", // Navy (Ole Miss)
+  "Missouri": "#F1B82D", // Gold (Mizzou)
+  "Montana": "#6C2D40",
+  "Nebraska": "#E41C38", // Scarlet (Nebraska)
+  "Nevada": "#003366", // Blue (Nevada)
+  "New Hampshire": "#004990",
+  "New Jersey": "#CC0033", // Scarlet (Rutgers)
+  "New Mexico": "#BA0C2F", // Cherry (New Mexico)
+  "New York": "#F76900", // Orange (Syracuse)
+  "North Carolina": "#7BAFD4", // Carolina Blue (UNC)
+  "North Dakota": "#009A44",
+  "Ohio": "#BB0000", // Scarlet (Ohio State)
+  "Oklahoma": "#841617", // Crimson (Oklahoma)
+  "Oregon": "#154733", // Green (Oregon)
+  "Pennsylvania": "#011F5B", // Penn Blue (Penn State)
+  "Rhode Island": "#002147",
+  "South Carolina": "#73000A", // Garnet (South Carolina)
+  "South Dakota": "#C8102E",
+  "Tennessee": "#FF8200", // Orange (Tennessee)
+  "Texas": "#BF5700", // Burnt Orange (Texas)
+  "Utah": "#CC0000", // Red (Utah)
+  "Vermont": "#007155",
+  "Virginia": "#232D4B", // Navy (UVA)
+  "Washington": "#4B2E83", // Purple (Washington)
+  "West Virginia": "#002855", // Blue (WVU)
+  "Wisconsin": "#C5050C", // Cardinal (Wisconsin)
+  "Wyoming": "#492F24", // Brown (Wyoming)
+  "District of Columbia": "#041E42",
+};
+
 export function USMap({ selectedState, onStateClick, statesWithSchools }: USMapProps) {
   const [hoveredState, setHoveredState] = useState<string | null>(null);
 
@@ -86,6 +141,7 @@ export function USMap({ selectedState, onStateClick, statesWithSchools }: USMapP
           const hasSchools = statesWithSchools.includes(name);
           const isSelected = selectedState === name;
           const isHovered = hoveredState === name;
+          const stateColor = stateColors[name] || "#666";
 
           return (
             <g key={abbr}>
@@ -93,14 +149,20 @@ export function USMap({ selectedState, onStateClick, statesWithSchools }: USMapP
                 d={path}
                 className={cn(
                   "transition-all duration-200 cursor-pointer stroke-border/50",
-                  hasSchools
-                    ? isSelected
-                      ? "fill-primary stroke-primary-foreground stroke-2"
-                      : isHovered
-                        ? "fill-primary/70 stroke-primary"
-                        : "fill-primary/30 hover:fill-primary/50"
-                    : "fill-muted/50 cursor-not-allowed"
+                  !hasSchools && "cursor-not-allowed"
                 )}
+                style={{
+                  fill: isSelected
+                    ? stateColor
+                    : isHovered && hasSchools
+                      ? stateColor
+                      : hasSchools
+                        ? "hsl(var(--primary) / 0.3)"
+                        : "hsl(var(--muted) / 0.5)",
+                  stroke: isSelected || isHovered ? stateColor : undefined,
+                  strokeWidth: isSelected ? 2 : isHovered ? 1.5 : undefined,
+                  opacity: isHovered && hasSchools ? 0.85 : 1,
+                }}
                 onClick={() => hasSchools && onStateClick(name)}
                 onMouseEnter={() => hasSchools && setHoveredState(name)}
                 onMouseLeave={() => setHoveredState(null)}
