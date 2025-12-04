@@ -131,7 +131,15 @@ export default function Recruiting() {
 
   const getCoachesForSchool = (schoolId: string) => {
     if (!coaches) return [];
-    return coaches.filter((c) => c.school_id === schoolId);
+    const schoolCoaches = coaches.filter((c) => c.school_id === schoolId);
+    // Sort by role priority
+    const roleOrder: Record<string, number> = {
+      "Head Coach": 1,
+      "Offensive Coordinator": 2,
+      "Defensive Coordinator": 3,
+      "Recruiting Coordinator": 4,
+    };
+    return schoolCoaches.sort((a, b) => (roleOrder[a.role] || 99) - (roleOrder[b.role] || 99));
   };
 
   const conferenceColors: Record<string, string> = {
