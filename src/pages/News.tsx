@@ -219,7 +219,7 @@ export default function News() {
             <button
               onClick={() => setActiveTab("news")}
               className={`text-sm font-medium whitespace-nowrap transition-colors ${
-                activeTab === "news" ? "text-white border-b-2 border-accent pb-2 -mb-[13px]" : "text-gray-400 hover:text-white"
+                activeTab === "news" ? "text-foreground border-b-2 border-accent pb-2 -mb-[13px]" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               News
@@ -227,7 +227,7 @@ export default function News() {
             <button
               onClick={() => setActiveTab("rankings")}
               className={`text-sm font-medium whitespace-nowrap transition-colors ${
-                activeTab === "rankings" ? "text-white border-b-2 border-accent pb-2 -mb-[13px]" : "text-gray-400 hover:text-white"
+                activeTab === "rankings" ? "text-foreground border-b-2 border-accent pb-2 -mb-[13px]" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               Rankings
@@ -242,7 +242,7 @@ export default function News() {
                     key={cat}
                     onClick={() => setActiveCategory(cat.toLowerCase())}
                     className={`text-sm whitespace-nowrap transition-colors ${
-                      activeCategory === cat.toLowerCase() ? "text-accent" : "text-gray-500 hover:text-gray-300"
+                      activeCategory === cat.toLowerCase() ? "text-accent" : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
                     {cat}
@@ -253,7 +253,7 @@ export default function News() {
             
             {activeTab === "rankings" && (
               <Select value={classYear} onValueChange={setClassYear}>
-                <SelectTrigger className="w-24 h-8 bg-transparent border-gray-600 text-white text-sm">
+                <SelectTrigger className="w-24 h-8 bg-transparent border-border text-foreground text-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
