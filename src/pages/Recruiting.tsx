@@ -16,11 +16,12 @@ import { ArrowLeft, MapPin, Phone, Mail, Twitter, GraduationCap, Building, Searc
 import { toast } from "sonner";
 
 // Watermark component for premium content
+// TODO: Change opacity back to 0.08 after preview (currently 0.25 for demo)
 const ContentWatermark = ({ email }: { email: string }) => (
-  <div className="absolute inset-0 pointer-events-none overflow-hidden z-10 opacity-[0.08]">
-    <div className="absolute inset-0 flex flex-wrap gap-16 -rotate-12 scale-150">
-      {Array.from({ length: 20 }).map((_, i) => (
-        <span key={i} className="text-xs font-mono whitespace-nowrap text-foreground">
+  <div className="absolute inset-0 pointer-events-none overflow-hidden z-10 opacity-[0.25]">
+    <div className="absolute inset-0 flex flex-wrap gap-12 -rotate-12 scale-150">
+      {Array.from({ length: 30 }).map((_, i) => (
+        <span key={i} className="text-sm font-mono whitespace-nowrap text-primary">
           {email}
         </span>
       ))}
@@ -598,7 +599,8 @@ export default function Recruiting() {
                       
                       return (
                         <Card key={coach.id} className="overflow-hidden hover:shadow-lg transition-shadow relative" data-protected="true">
-                          {user?.email && <ContentWatermark email={user.email} />}
+                          {/* TODO: Revert to {user?.email && <ContentWatermark email={user.email} />} after preview */}
+                          <ContentWatermark email={user?.email || "subscriber@example.com"} />
                           <CardContent className="p-4 select-none">
                             <div className="flex items-start gap-3 mb-3">
                               {school?.logo_url ? (
@@ -800,7 +802,8 @@ export default function Recruiting() {
                         const schoolCoaches = getCoachesForSchool(school.id);
                         return (
                           <Card key={school.id} className="overflow-hidden hover:shadow-lg transition-shadow relative" data-protected="true">
-                            {isSubscribed && user?.email && <ContentWatermark email={user.email} />}
+                            {/* TODO: Revert to {isSubscribed && user?.email && <ContentWatermark email={user.email} />} after preview */}
+                            <ContentWatermark email={user?.email || "subscriber@example.com"} />
                             <CardHeader className="pb-3 select-none">
                               <div className="flex items-start justify-between gap-4">
                                 <div className="flex items-center gap-3">
