@@ -11,3 +11,6 @@ verify_jwt = true
 
 [functions.create-donation]
 verify_jwt = false
+
+[functions.create-registration]
+verify_jwt = false

@@ -1,6 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -12,23 +11,19 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  const supabaseClient = createClient(
-    Deno.env.get("SUPABASE_URL") ?? "",
-    Deno.env.get("SUPABASE_ANON_KEY") ?? ""
-  );
-
   try {
-    const authHeader = req.headers.get("Authorization")!;
-    const token = authHeader.replace("Bearer ", "");
-    const { data } = await supabaseClient.auth.getUser(token);
-    const user = data.user;
-    if (!user?.email) throw new Error("User not authenticated or email not available");
-
-    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", { 
-      apiVersion: "2025-08-27.basil" 
-    });
+    const { parentName, parentEmail, athleteName, athleteAge, sport, school } = await req.json();
     
-    const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+    if (!parentEmail) {
+      throw new Error("Email is required");
+    }
+
+    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
+      apiVersion: "2025-08-27.basil",
+    });
+
+    // Check if customer already exists
+    const customers = await stripe.customers.list({ email: parentEmail, limit: 1 });
     let customerId;
     if (customers.data.length > 0) {
       customerId = customers.data[0].id;
@@ -36,16 +31,29 @@ serve(async (req) => {
 
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
-      customer_email: customerId ? undefined : user.email,
+      customer_email: customerId ? undefined : parentEmail,
       line_items: [
         {
-          price: "price_1SaXJFJCEhoZof7ctJOJq6UX", // $19.99/month Recruiting Database Access Premium
+          price: "price_1SaXIxJCEhoZof7cVAHwQfwm", // $4.99/month Athlete Program Membership
           quantity: 1,
         },
       ],
       mode: "subscription",
-      success_url: `${req.headers.get("origin")}/recruiting?success=true`,
-      cancel_url: `${req.headers.get("origin")}/recruiting?canceled=true`,
+      success_url: `${req.headers.get("origin")}/?registration=success`,
+      cancel_url: `${req.headers.get("origin")}/?registration=canceled`,
+      metadata: {
+        parentName,
+        athleteName,
+        athleteAge,
+        sport,
+        school,
+      },
+    });
+
+    console.log("[CREATE-REGISTRATION] Checkout session created", { 
+      sessionId: session.id, 
+      athleteName,
+      parentEmail 
     });
 
     return new Response(JSON.stringify({ url: session.url }), {
@@ -54,6 +62,7 @@ serve(async (req) => {
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error("[CREATE-REGISTRATION] Error:", errorMessage);
     return new Response(JSON.stringify({ error: errorMessage }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
