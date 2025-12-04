@@ -18,6 +18,8 @@ export const mockAthletes: Athlete[] = [
     height: "6'2\"",
     weight: "205 lbs",
     hudlLink: "http://www.hudl.com/v/2QAHMR",
+    instagramLink: "https://www.instagram.com/liilaye5_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+    twitterLink: "https://x.com/adryan_cole",
   },
   {
     id: "10",
