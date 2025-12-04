@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SupportCategories from "@/components/SupportCategories";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Heart, Users, Trophy, Target, ArrowRight, Mail, Phone } from "lucide-react";
@@ -287,6 +288,9 @@ const About = () => {
           </div>
         </div>
       </section>
+
+      {/* Services Section */}
+      <SupportCategories />
 
       {/* CTA Section */}
       <section className="py-24 bg-background">

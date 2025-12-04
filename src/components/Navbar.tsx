@@ -45,16 +45,15 @@ const Navbar = () => {
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-1">
-          {[
-              { href: "#athletes", label: "Athletes" },
-              { href: "#services", label: "Services" },
-              { href: "/recruiting", label: "Recruiting", isRoute: true },
-              { href: "/stories", label: "Stories", isRoute: true },
-              { href: "/apparel", label: "Apparel", isRoute: true },
-              { href: "/about", label: "About", isRoute: true },
-              { href: "/partners", label: "Partners", isRoute: true },
-            ].map((item) => (
-              item.isRoute ? (
+        {[
+            { href: "#athletes", label: "Athletes" },
+            { href: "/recruiting", label: "Recruiting", isRoute: true },
+            { href: "/stories", label: "Stories", isRoute: true },
+            { href: "/apparel", label: "Apparel", isRoute: true },
+            { href: "/about", label: "About", isRoute: true },
+            { href: "/partners", label: "Partners", isRoute: true },
+          ].map((item) => (
+            item.isRoute ? (
                 <Link
                   key={item.href}
                   to={item.href}
@@ -102,15 +101,12 @@ const Navbar = () => {
         {isOpen && (
           <div className="md:hidden bg-background border-t border-border animate-fade-in">
             <div className="container py-6 space-y-4">
-              <a href="#athletes" className="block text-foreground hover:text-accent transition-colors font-semibold py-2">
-                Athletes
-              </a>
-              <a href="#services" className="block text-foreground hover:text-accent transition-colors font-semibold py-2">
-                Services
-              </a>
-              <Link to="/recruiting" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
-                Recruiting
-              </Link>
+            <a href="#athletes" className="block text-foreground hover:text-accent transition-colors font-semibold py-2">
+              Athletes
+            </a>
+            <Link to="/recruiting" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
+              Recruiting
+            </Link>
               <Link to="/stories" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 Stories
               </Link>
