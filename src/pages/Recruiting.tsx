@@ -373,7 +373,7 @@ export default function Recruiting() {
           ) : (
             <CreditCard className="w-4 h-4" />
           )}
-          Subscribe for $9.99/month
+          Subscribe for $19.99/month
         </Button>
         {!user && (
           <Button variant="outline" size="lg" onClick={() => navigate("/auth")}>

@@ -17,9 +17,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Users, Loader2, CheckCircle } from "lucide-react";
+import { Users, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ParentRegistrationModalProps {
   open: boolean;
@@ -62,7 +63,6 @@ const AGE_RANGES = [
 
 export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrationModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [formData, setFormData] = useState({
     parentName: "",
     parentEmail: "",
@@ -99,62 +99,43 @@ export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrati
 
     setIsLoading(true);
     
-    // Create mailto link with form data
-    const subject = encodeURIComponent(`New Athlete Registration: ${formData.athleteName}`);
-    const body = encodeURIComponent(
-      `Parent/Guardian Information:\n` +
-      `Name: ${formData.parentName}\n` +
-      `Email: ${formData.parentEmail}\n` +
-      `Phone: ${formData.parentPhone}\n\n` +
-      `Athlete Information:\n` +
-      `Name: ${formData.athleteName}\n` +
-      `Age: ${formData.athleteAge}\n` +
-      `Sport: ${formData.sport}\n` +
-      `School: ${formData.school}\n\n` +
-      `Goals:\n${formData.goals || "Not specified"}`
-    );
-    
-    // Simulate brief delay for UX
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    
-    window.location.href = `mailto:Durrell@brandofachampion.com?subject=${subject}&body=${body}`;
-    
-    setIsLoading(false);
-    setIsSuccess(true);
-    toast.success("Opening your email client...");
-    
-    // Reset after success
-    setTimeout(() => {
-      setIsSuccess(false);
-      setFormData({
-        parentName: "",
-        parentEmail: "",
-        parentPhone: "",
-        athleteName: "",
-        athleteAge: "",
-        sport: "",
-        school: "",
-        goals: "",
+    try {
+      const { data, error } = await supabase.functions.invoke("create-registration", {
+        body: {
+          parentName: formData.parentName,
+          parentEmail: formData.parentEmail,
+          athleteName: formData.athleteName,
+          athleteAge: formData.athleteAge,
+          sport: formData.sport,
+          school: formData.school,
+        },
       });
-      onOpenChange(false);
-    }, 2000);
-  };
 
-  if (isSuccess) {
-    return (
-      <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-md">
-          <div className="flex flex-col items-center justify-center py-8">
-            <CheckCircle className="w-16 h-16 text-green-500 mb-4" />
-            <h3 className="text-xl font-bold mb-2">Thank You!</h3>
-            <p className="text-muted-foreground text-center">
-              Your registration is being prepared. Please send the email to complete your submission.
-            </p>
-          </div>
-        </DialogContent>
-      </Dialog>
-    );
-  }
+      if (error) throw error;
+      
+      if (data?.url) {
+        window.open(data.url, "_blank");
+        toast.success("Redirecting to checkout...");
+        onOpenChange(false);
+        // Reset form
+        setFormData({
+          parentName: "",
+          parentEmail: "",
+          parentPhone: "",
+          athleteName: "",
+          athleteAge: "",
+          sport: "",
+          school: "",
+          goals: "",
+        });
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      toast.error("Failed to process registration. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -165,7 +146,7 @@ export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrati
             Register Your Athlete
           </DialogTitle>
           <DialogDescription>
-            Join the Brand of a Champion program. Fill out the form below to get started.
+            Join the Brand of a Champion program for <span className="font-semibold text-accent">$4.99/month</span>. Fill out the form below to get started.
           </DialogDescription>
         </DialogHeader>
 
@@ -315,6 +296,20 @@ export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrati
             </div>
           </div>
 
+          {/* Pricing info */}
+          <div className="bg-accent/10 rounded-lg p-4 border border-accent/20">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-semibold">Athlete Program Membership</p>
+                <p className="text-sm text-muted-foreground">Monthly subscription</p>
+              </div>
+              <div className="text-right">
+                <p className="text-2xl font-bold text-accent">$4.99</p>
+                <p className="text-sm text-muted-foreground">/month</p>
+              </div>
+            </div>
+          </div>
+
           <Button
             onClick={handleSubmit}
             disabled={isLoading}
@@ -327,12 +322,12 @@ export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrati
                 Processing...
               </>
             ) : (
-              "Submit Registration"
+              "Continue to Payment"
             )}
           </Button>
 
           <p className="text-xs text-muted-foreground text-center">
-            By submitting this form, you agree to be contacted about the Brand of a Champion program.
+            By continuing, you agree to our terms and will be redirected to secure checkout.
           </p>
         </div>
       </DialogContent>
