@@ -2,6 +2,22 @@ import { Athlete } from "@/components/AthleteCard";
 
 export const mockAthletes: Athlete[] = [
   {
+    id: "12",
+    name: "Jamar Owens",
+    sport: "Football",
+    position: "Defensive Back",
+    location: "Georgia",
+    avatar: "/images/athletes/jamar-owens.jpg",
+    achievements: ["3X All-Region", "Committed to Indiana University"],
+    supportNeeded: ["Career", "Education"],
+    yearsActive: "2023-2025",
+    status: "active",
+    classYear: "2025",
+    school: "Indiana University",
+    height: "6'1\"",
+    weight: "180 lbs",
+  },
+  {
     id: "11",
     name: "Adryan Cole",
     sport: "Football",
