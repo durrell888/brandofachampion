@@ -14,6 +14,92 @@ export type Database = {
   }
   public: {
     Tables: {
+      ncaa_football_schools: {
+        Row: {
+          city: string | null
+          conference: string
+          created_at: string
+          id: string
+          logo_url: string | null
+          mascot: string | null
+          name: string
+          stadium: string | null
+          state: string
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          city?: string | null
+          conference: string
+          created_at?: string
+          id?: string
+          logo_url?: string | null
+          mascot?: string | null
+          name: string
+          stadium?: string | null
+          state: string
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          city?: string | null
+          conference?: string
+          created_at?: string
+          id?: string
+          logo_url?: string | null
+          mascot?: string | null
+          name?: string
+          stadium?: string | null
+          state?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      school_coaches: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          name: string | null
+          phone: string | null
+          role: string
+          school_id: string
+          twitter: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string | null
+          phone?: string | null
+          role: string
+          school_id: string
+          twitter?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string | null
+          phone?: string | null
+          role?: string
+          school_id?: string
+          twitter?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "school_coaches_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "ncaa_football_schools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subscribers: {
         Row: {
           created_at: string
