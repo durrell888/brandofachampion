@@ -11,20 +11,20 @@ export interface Video {
 export const videos: Video[] = [
   {
     id: "1",
-    youtubeId: "FF1og_pLkmA",
-    title: "Brand of a Champion - Our Mission",
-    description: "Discover how Brand of a Champion is helping professional athletes build their legacy beyond the game. Watch inspiring stories of transformation and success.",
-    category: "athlete-stories",
-    duration: "5:32",
-    featured: true,
-  },
-  {
-    id: "2",
     youtubeId: "ApVCy1HLN_Q",
     title: "Douglas County Athlete Story",
     description: "Follow the journey of a Douglas County athlete as they build their future beyond the game with Brand of a Champion.",
     category: "athlete-stories",
     duration: "3:00",
+    featured: true,
+  },
+  {
+    id: "2",
+    youtubeId: "FF1og_pLkmA",
+    title: "Brand of a Champion - Our Mission",
+    description: "Discover how Brand of a Champion is helping professional athletes build their legacy beyond the game. Watch inspiring stories of transformation and success.",
+    category: "athlete-stories",
+    duration: "5:32",
   },
   {
     id: "3",
