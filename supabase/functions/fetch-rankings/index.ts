@@ -80,19 +80,17 @@ function generateSampleESPN300(classYear: string): RankedPlayer[] {
   const playersByClass: Record<string, Array<{ name: string; position: string; state: string; highSchool: string; stars: number; committedTo?: string }>> = {
     '2025': [
       { name: "Keelon Russell", position: "QB", state: "TX", highSchool: "Duncanville", stars: 5, committedTo: "Alabama" },
+      { name: "Bryce Underwood", position: "QB", state: "MI", highSchool: "Belleville", stars: 5, committedTo: "Michigan" },
+      { name: "Julian Lewis", position: "QB", state: "GA", highSchool: "Carrollton", stars: 5, committedTo: "Colorado" },
       { name: "Dakorien Moore", position: "WR", state: "TX", highSchool: "Duncanville", stars: 5, committedTo: "Texas" },
       { name: "Na'eem Offord", position: "CB", state: "OH", highSchool: "Birmingham", stars: 5, committedTo: "Ohio State" },
       { name: "Michael Terry III", position: "WR", state: "TX", highSchool: "San Antonio", stars: 5, committedTo: "Texas" },
       { name: "Elijah Griffin", position: "DL", state: "GA", highSchool: "Savannah", stars: 5, committedTo: "Georgia" },
       { name: "Tavaris Thornton", position: "CB", state: "AL", highSchool: "Alabaster", stars: 5, committedTo: "Alabama" },
       { name: "Byron Louis", position: "RB", state: "LA", highSchool: "Baton Rouge", stars: 5, committedTo: "LSU" },
-      { name: "Justin Hill", position: "WR", state: "FL", highSchool: "Miami", stars: 5, committedTo: "Florida" },
       { name: "David Sanders Jr", position: "OT", state: "NC", highSchool: "Charlotte", stars: 5, committedTo: "Tennessee" },
-      { name: "Jonah Williams", position: "QB", state: "CA", highSchool: "Santa Ana", stars: 5, committedTo: "USC" },
     ],
     '2026': [
-      { name: "Bryce Underwood", position: "QB", state: "MI", highSchool: "Belleville", stars: 5, committedTo: "Michigan" },
-      { name: "Julian Lewis", position: "QB", state: "GA", highSchool: "Carrollton", stars: 5, committedTo: "Colorado" },
       { name: "Jahkeem Stewart", position: "DL", state: "LA", highSchool: "New Orleans", stars: 5 },
       { name: "Devin Carter", position: "WR", state: "FL", highSchool: "Miami", stars: 5 },
       { name: "Javion Hilson", position: "CB", state: "FL", highSchool: "Orlando", stars: 5 },
@@ -101,6 +99,8 @@ function generateSampleESPN300(classYear: string): RankedPlayer[] {
       { name: "Jaiden Davis", position: "RB", state: "TX", highSchool: "Dallas", stars: 5 },
       { name: "Marcus Harris", position: "OT", state: "GA", highSchool: "Atlanta", stars: 5 },
       { name: "Ty Haywood", position: "OT", state: "TX", highSchool: "Houston", stars: 5 },
+      { name: "Dia Bell", position: "QB", state: "FL", highSchool: "Orlando", stars: 5 },
+      { name: "Cam Coleman", position: "WR", state: "AL", highSchool: "Phenix City", stars: 5 },
     ],
     '2027': [
       { name: "Keenan Johnson", position: "QB", state: "FL", highSchool: "Jacksonville", stars: 5 },
