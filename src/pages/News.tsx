@@ -205,15 +205,15 @@ export default function News() {
   const topHeadlines = articles.slice(0, 10);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-background">
       <Navbar />
 
       {/* ESPN-style dark header bar */}
-      <div className="pt-20 bg-[#1a1a1a] border-b border-[#333]">
+      <div className="pt-20 bg-card border-b border-border">
         <div className="container">
           <div className="flex items-center gap-6 py-3 overflow-x-auto scrollbar-hide">
             <span className="text-accent font-bold text-lg whitespace-nowrap">HS Football</span>
-            <div className="h-6 w-px bg-[#444]" />
+            <div className="h-6 w-px bg-border" />
             
             {/* Main Tabs */}
             <button
@@ -233,7 +233,7 @@ export default function News() {
               Rankings
             </button>
             
-            <div className="h-6 w-px bg-[#444]" />
+            <div className="h-6 w-px bg-border" />
             
             {activeTab === "news" && (
               <>
@@ -299,7 +299,7 @@ export default function News() {
                       <button
                         key={link.label}
                         onClick={() => { setActiveTab("rankings"); }}
-                        className="flex items-center gap-2 px-2 py-2 text-sm text-gray-300 hover:text-white hover:bg-[#222] rounded transition-colors w-full text-left"
+                        className="flex items-center gap-2 px-2 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors w-full text-left"
                       >
                         <link.icon className="w-4 h-4 text-gray-500" />
                         {link.label}
@@ -314,14 +314,14 @@ export default function News() {
             <main className="lg:col-span-7">
               {isLoading ? (
                 <div className="space-y-6">
-                  <Skeleton className="w-full h-[400px] bg-[#222]" />
+                  <Skeleton className="w-full h-[400px] bg-secondary" />
                   <div className="grid grid-cols-2 gap-4">
-                    <Skeleton className="h-48 bg-[#222]" />
-                    <Skeleton className="h-48 bg-[#222]" />
+                    <Skeleton className="h-48 bg-secondary" />
+                    <Skeleton className="h-48 bg-secondary" />
                   </div>
                 </div>
               ) : error ? (
-                <div className="bg-[#1a1a1a] rounded-lg p-8 text-center">
+                <div className="bg-card rounded-lg p-8 text-center">
                   <Newspaper className="w-12 h-12 text-gray-600 mx-auto mb-4" />
                   <h3 className="font-bold text-white mb-2">Unable to Load News</h3>
                   <p className="text-gray-400 text-sm mb-4">{error}</p>
@@ -331,7 +331,7 @@ export default function News() {
                 <div className="space-y-6">
                   {featuredArticle && (
                     <a href={featuredArticle.url} target="_blank" rel="noopener noreferrer" className="block group">
-                      <article className="relative rounded-lg overflow-hidden bg-[#1a1a1a]">
+                      <article className="relative rounded-lg overflow-hidden bg-card">
                         {featuredArticle.imageUrl ? (
                           <div className="relative aspect-[16/9]">
                             <img src={featuredArticle.imageUrl} alt={featuredArticle.title} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=800'; }} />
@@ -362,7 +362,7 @@ export default function News() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {secondaryArticles.map((article) => (
                         <a key={article.id} href={article.url} target="_blank" rel="noopener noreferrer" className="group">
-                          <article className="bg-[#1a1a1a] rounded-lg overflow-hidden h-full">
+                          <article className="bg-card rounded-lg overflow-hidden h-full">
                             {article.imageUrl && (
                               <div className="aspect-video overflow-hidden">
                                 <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
@@ -390,7 +390,7 @@ export default function News() {
                       <div className="space-y-3">
                         {remainingArticles.map((article) => (
                           <a key={article.id} href={article.url} target="_blank" rel="noopener noreferrer" className="group">
-                            <article className="flex gap-4 bg-[#1a1a1a] rounded-lg p-3 hover:bg-[#222] transition-colors">
+                            <article className="flex gap-4 bg-card rounded-lg p-3 hover:bg-secondary transition-colors">
                               {article.imageUrl && (
                                 <div className="w-24 h-16 flex-shrink-0 rounded overflow-hidden">
                                   <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
@@ -418,16 +418,16 @@ export default function News() {
             {/* Right Sidebar */}
             <aside className="lg:col-span-3">
               <div className="sticky top-24 space-y-6">
-                <div className="bg-[#1a1a1a] rounded-lg overflow-hidden">
-                  <div className="bg-[#222] px-4 py-3 border-b border-[#333]">
-                    <h3 className="font-bold text-white flex items-center gap-2"><TrendingUp className="w-4 h-4" />Top Headlines</h3>
+                <div className="bg-card rounded-lg overflow-hidden">
+                  <div className="bg-secondary px-4 py-3 border-b border-border">
+                    <h3 className="font-bold text-foreground flex items-center gap-2"><TrendingUp className="w-4 h-4" />Top Headlines</h3>
                   </div>
-                  <div className="divide-y divide-[#2a2a2a]">
+                  <div className="divide-y divide-border">
                     {isLoading ? (
-                      Array(8).fill(0).map((_, i) => <div key={i} className="p-3"><Skeleton className="h-4 w-full bg-[#333]" /></div>)
+                      Array(8).fill(0).map((_, i) => <div key={i} className="p-3"><Skeleton className="h-4 w-full bg-muted" /></div>)
                     ) : (
                       topHeadlines.map((article) => (
-                        <a key={article.id} href={article.url} target="_blank" rel="noopener noreferrer" className="block px-4 py-3 hover:bg-[#222] transition-colors group">
+                        <a key={article.id} href={article.url} target="_blank" rel="noopener noreferrer" className="block px-4 py-3 hover:bg-secondary transition-colors group">
                           <div className="flex items-start gap-3">
                             <span className={`text-xs font-bold mt-0.5 ${sourceColors[article.source]}`}>{article.source.charAt(0)}</span>
                             <p className="text-sm text-gray-300 group-hover:text-white transition-colors line-clamp-2 flex-1">{article.title}</p>
@@ -444,7 +444,7 @@ export default function News() {
           // RANKINGS TAB
           <div className="space-y-8">
             <Tabs defaultValue="espn300" className="w-full">
-              <TabsList className="bg-[#1a1a1a] border border-[#333] mb-6">
+              <TabsList className="bg-card border border-border mb-6">
                 <TabsTrigger value="espn300" className="data-[state=active]:bg-accent">ESPN 300</TabsTrigger>
                 <TabsTrigger value="position" className="data-[state=active]:bg-accent">By Position</TabsTrigger>
                 <TabsTrigger value="state" className="data-[state=active]:bg-accent">By State</TabsTrigger>
@@ -453,8 +453,8 @@ export default function News() {
 
               {/* ESPN 300 */}
               <TabsContent value="espn300">
-                <div className="bg-[#1a1a1a] rounded-lg overflow-hidden">
-                  <div className="bg-[#222] px-6 py-4 border-b border-[#333] flex items-center justify-between">
+                <div className="bg-card rounded-lg overflow-hidden">
+                  <div className="bg-secondary px-6 py-4 border-b border-border flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <Crown className="w-6 h-6 text-amber-400" />
                       <div>
@@ -467,13 +467,13 @@ export default function News() {
                   
                   {rankingsLoading ? (
                     <div className="p-6 space-y-4">
-                      {Array(10).fill(0).map((_, i) => <Skeleton key={i} className="h-16 bg-[#222]" />)}
+                      {Array(10).fill(0).map((_, i) => <Skeleton key={i} className="h-16 bg-secondary" />)}
                     </div>
                   ) : (
-                    <div className="divide-y divide-[#2a2a2a]">
+                    <div className="divide-y divide-border">
                       {rankings?.espn300.map((player) => (
-                        <div key={player.rank} className="flex items-center gap-4 px-6 py-4 hover:bg-[#222] transition-colors">
-                          <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg ${player.rank <= 3 ? 'bg-amber-500/20 text-amber-400' : player.rank <= 10 ? 'bg-gray-500/20 text-gray-300' : 'bg-[#333] text-gray-500'}`}>
+                        <div key={player.rank} className="flex items-center gap-4 px-6 py-4 hover:bg-secondary transition-colors">
+                          <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg ${player.rank <= 3 ? 'bg-amber-500/20 text-amber-400' : player.rank <= 10 ? 'bg-gray-500/20 text-gray-300' : 'bg-muted text-muted-foreground'}`}>
                             {player.rank}
                           </div>
                           <div className="flex-1 min-w-0">
@@ -503,17 +503,17 @@ export default function News() {
               <TabsContent value="position">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {rankingsLoading ? (
-                    Array(4).fill(0).map((_, i) => <Skeleton key={i} className="h-64 bg-[#222]" />)
+                    Array(4).fill(0).map((_, i) => <Skeleton key={i} className="h-64 bg-secondary" />)
                   ) : (
                     Object.entries(rankings?.positionRankings || {}).map(([position, players]) => (
-                      <div key={position} className="bg-[#1a1a1a] rounded-lg overflow-hidden">
-                        <div className="bg-[#222] px-4 py-3 border-b border-[#333] flex items-center gap-2">
+                      <div key={position} className="bg-card rounded-lg overflow-hidden">
+                        <div className="bg-secondary px-4 py-3 border-b border-border flex items-center gap-2">
                           <Badge className={positionColors[position] || positionColors.ATH}>{position}</Badge>
-                          <span className="font-bold text-white">Rankings</span>
+                          <span className="font-bold text-foreground">Rankings</span>
                         </div>
-                        <div className="divide-y divide-[#2a2a2a]">
+                        <div className="divide-y divide-border">
                           {players.slice(0, 5).map((player) => (
-                            <div key={player.rank} className="flex items-center gap-3 px-4 py-3 hover:bg-[#222] transition-colors">
+                            <div key={player.rank} className="flex items-center gap-3 px-4 py-3 hover:bg-secondary transition-colors">
                               <span className="w-6 text-center font-bold text-gray-500">{player.rank}</span>
                               <div className="flex-1">
                                 <span className="font-semibold text-white text-sm">{player.name}</span>
@@ -533,17 +533,17 @@ export default function News() {
               <TabsContent value="state">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {rankingsLoading ? (
-                    Array(4).fill(0).map((_, i) => <Skeleton key={i} className="h-64 bg-[#222]" />)
+                    Array(4).fill(0).map((_, i) => <Skeleton key={i} className="h-64 bg-secondary" />)
                   ) : (
                     Object.entries(rankings?.stateRankings || {}).map(([state, players]) => (
-                      <div key={state} className="bg-[#1a1a1a] rounded-lg overflow-hidden">
-                        <div className="bg-[#222] px-4 py-3 border-b border-[#333] flex items-center gap-2">
+                      <div key={state} className="bg-card rounded-lg overflow-hidden">
+                        <div className="bg-secondary px-4 py-3 border-b border-border flex items-center gap-2">
                           <MapPin className="w-4 h-4 text-accent" />
-                          <span className="font-bold text-white">{state}</span>
+                          <span className="font-bold text-foreground">{state}</span>
                         </div>
-                        <div className="divide-y divide-[#2a2a2a]">
+                        <div className="divide-y divide-border">
                           {players.slice(0, 5).map((player) => (
-                            <div key={player.rank} className="flex items-center gap-3 px-4 py-3 hover:bg-[#222] transition-colors">
+                            <div key={player.rank} className="flex items-center gap-3 px-4 py-3 hover:bg-secondary transition-colors">
                               <span className="w-6 text-center font-bold text-gray-500">{player.rank}</span>
                               <div className="flex-1">
                                 <span className="font-semibold text-white text-sm">{player.name}</span>
@@ -561,8 +561,8 @@ export default function News() {
 
               {/* Team Rankings */}
               <TabsContent value="team">
-                <div className="bg-[#1a1a1a] rounded-lg overflow-hidden">
-                  <div className="bg-[#222] px-6 py-4 border-b border-[#333]">
+                <div className="bg-card rounded-lg overflow-hidden">
+                  <div className="bg-secondary px-6 py-4 border-b border-border">
                     <div className="flex items-center gap-3">
                       <School className="w-6 h-6 text-accent" />
                       <div>
@@ -574,13 +574,13 @@ export default function News() {
                   
                   {rankingsLoading ? (
                     <div className="p-6 space-y-4">
-                      {Array(10).fill(0).map((_, i) => <Skeleton key={i} className="h-12 bg-[#222]" />)}
+                      {Array(10).fill(0).map((_, i) => <Skeleton key={i} className="h-12 bg-secondary" />)}
                     </div>
                   ) : (
                     <div className="overflow-x-auto">
                       <table className="w-full">
-                        <thead className="bg-[#222]">
-                          <tr className="text-left text-xs text-gray-400 uppercase">
+                        <thead className="bg-secondary">
+                          <tr className="text-left text-xs text-muted-foreground uppercase">
                             <th className="px-6 py-3">Rank</th>
                             <th className="px-6 py-3">School</th>
                             <th className="px-6 py-3 text-center">Commits</th>
@@ -588,9 +588,9 @@ export default function News() {
                             <th className="px-6 py-3 text-right">Points</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-[#2a2a2a]">
+                        <tbody className="divide-y divide-border">
                           {rankings?.teamRankings.map((team) => (
-                            <tr key={team.rank} className="hover:bg-[#222] transition-colors">
+                            <tr key={team.rank} className="hover:bg-secondary transition-colors">
                               <td className="px-6 py-4">
                                 <span className={`font-bold ${team.rank <= 3 ? 'text-amber-400' : 'text-gray-400'}`}>{team.rank}</span>
                               </td>
