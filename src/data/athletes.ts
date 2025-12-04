@@ -17,7 +17,7 @@ export const mockAthletes: Athlete[] = [
     gpa: 3.0,
     height: "6'4\"",
     weight: "205 lbs",
-    instagramLink: "https://www.instagram.com/treybyrd_2028",
+    instagramLink: "https://www.instagram.com/treybyrd_2028?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
     twitterLink: "https://x.com/TreyByrd2029",
   },
   {
