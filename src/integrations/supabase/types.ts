@@ -19,6 +19,7 @@ export type Database = {
           city: string | null
           conference: string
           created_at: string
+          division_level: string | null
           id: string
           logo_url: string | null
           mascot: string | null
@@ -32,6 +33,7 @@ export type Database = {
           city?: string | null
           conference: string
           created_at?: string
+          division_level?: string | null
           id?: string
           logo_url?: string | null
           mascot?: string | null
@@ -45,6 +47,7 @@ export type Database = {
           city?: string | null
           conference?: string
           created_at?: string
+          division_level?: string | null
           id?: string
           logo_url?: string | null
           mascot?: string | null
