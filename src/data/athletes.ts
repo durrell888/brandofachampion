@@ -16,6 +16,8 @@ export const mockAthletes: Athlete[] = [
     school: "Indiana University",
     height: "6'1\"",
     weight: "180 lbs",
+    hudlLink: "http://www.hudl.com/v/2SgWxV",
+    instagramLink: "https://www.instagram.com/jaamar._?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   {
     id: "11",
