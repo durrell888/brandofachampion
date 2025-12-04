@@ -312,6 +312,7 @@ export default function Recruiting() {
                                   src={school.logo_url}
                                   alt={school.name}
                                   className="w-10 h-10 object-contain rounded"
+                                  referrerPolicy="no-referrer"
                                 />
                               ) : (
                                 <div className="w-10 h-10 bg-primary/10 rounded flex items-center justify-center">
@@ -407,6 +408,7 @@ export default function Recruiting() {
                                     src={school.logo_url}
                                     alt={school.name}
                                     className="w-12 h-12 object-contain rounded"
+                                    referrerPolicy="no-referrer"
                                   />
                                 ) : (
                                   <div className="w-12 h-12 bg-primary/10 rounded flex items-center justify-center flex-shrink-0">
@@ -505,6 +507,7 @@ export default function Recruiting() {
                                       src={school.logo_url}
                                       alt={school.name}
                                       className="w-12 h-12 object-contain rounded"
+                                      referrerPolicy="no-referrer"
                                     />
                                   ) : (
                                     <div className="p-2 rounded-lg bg-primary/10">
