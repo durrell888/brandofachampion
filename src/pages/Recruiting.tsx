@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,6 +14,19 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, MapPin, Phone, Mail, Twitter, GraduationCap, Building, Search, Users, X, Lock, CreditCard, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+
+// Watermark component for premium content
+const ContentWatermark = ({ email }: { email: string }) => (
+  <div className="absolute inset-0 pointer-events-none overflow-hidden z-10 opacity-[0.08]">
+    <div className="absolute inset-0 flex flex-wrap gap-16 -rotate-12 scale-150">
+      {Array.from({ length: 20 }).map((_, i) => (
+        <span key={i} className="text-xs font-mono whitespace-nowrap text-foreground">
+          {email}
+        </span>
+      ))}
+    </div>
+  </div>
+);
 
 interface School {
   id: string;
@@ -95,6 +108,58 @@ export default function Recruiting() {
     });
 
     return () => subscription.unsubscribe();
+  }, []);
+
+  // Content protection - block right-click, copy, print screen on premium content
+  useEffect(() => {
+    const handleContextMenu = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest('[data-protected="true"]')) {
+        e.preventDefault();
+        toast.error("Right-click is disabled on premium content");
+      }
+    };
+
+    const handleCopy = (e: ClipboardEvent) => {
+      const selection = window.getSelection();
+      const target = e.target as HTMLElement;
+      if (target.closest('[data-protected="true"]') || selection?.anchorNode?.parentElement?.closest('[data-protected="true"]')) {
+        e.preventDefault();
+        toast.error("Copying is disabled on premium content");
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Block Print Screen, Ctrl+P, Ctrl+Shift+S
+      if (
+        e.key === "PrintScreen" ||
+        (e.ctrlKey && e.key === "p") ||
+        (e.ctrlKey && e.shiftKey && e.key === "s") ||
+        (e.ctrlKey && e.key === "c" && document.activeElement?.closest('[data-protected="true"]'))
+      ) {
+        e.preventDefault();
+        toast.error("This action is disabled on premium content");
+      }
+    };
+
+    const handleDragStart = (e: DragEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest('[data-protected="true"]')) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener("contextmenu", handleContextMenu);
+    document.addEventListener("copy", handleCopy);
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("dragstart", handleDragStart);
+
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+      document.removeEventListener("copy", handleCopy);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("dragstart", handleDragStart);
+    };
   }, []);
 
   // Handle success/cancel URL params
@@ -532,15 +597,17 @@ export default function Recruiting() {
                       }
                       
                       return (
-                        <Card key={coach.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                          <CardContent className="p-4">
+                        <Card key={coach.id} className="overflow-hidden hover:shadow-lg transition-shadow relative" data-protected="true">
+                          {user?.email && <ContentWatermark email={user.email} />}
+                          <CardContent className="p-4 select-none">
                             <div className="flex items-start gap-3 mb-3">
                               {school?.logo_url ? (
                                 <img
                                   src={school.logo_url}
                                   alt={school.name}
-                                  className="w-10 h-10 object-contain rounded"
+                                  className="w-10 h-10 object-contain rounded pointer-events-none"
                                   referrerPolicy="no-referrer"
+                                  draggable={false}
                                 />
                               ) : (
                                 <div className="w-10 h-10 bg-primary/10 rounded flex items-center justify-center">
@@ -732,16 +799,18 @@ export default function Recruiting() {
                       {filteredSchools.map((school) => {
                         const schoolCoaches = getCoachesForSchool(school.id);
                         return (
-                          <Card key={school.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                            <CardHeader className="pb-3">
+                          <Card key={school.id} className="overflow-hidden hover:shadow-lg transition-shadow relative" data-protected="true">
+                            {isSubscribed && user?.email && <ContentWatermark email={user.email} />}
+                            <CardHeader className="pb-3 select-none">
                               <div className="flex items-start justify-between gap-4">
                                 <div className="flex items-center gap-3">
                                   {school.logo_url ? (
                                     <img
                                       src={school.logo_url}
                                       alt={school.name}
-                                      className="w-12 h-12 object-contain rounded"
+                                      className="w-12 h-12 object-contain rounded pointer-events-none"
                                       referrerPolicy="no-referrer"
+                                      draggable={false}
                                     />
                                   ) : (
                                     <div className="p-2 rounded-lg bg-primary/10">
@@ -760,7 +829,7 @@ export default function Recruiting() {
                                 </Badge>
                               </div>
                             </CardHeader>
-                            <CardContent className="space-y-4">
+                            <CardContent className="space-y-4 select-none">
                               {schoolCoaches.map((coach) => (
                                 <div key={coach.id} className="p-3 rounded-lg bg-muted/50">
                                   <div className="flex items-center gap-2 mb-2">
