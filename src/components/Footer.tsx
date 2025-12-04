@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Mail, Phone, Facebook, Instagram, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ParentRegistrationModal } from "@/components/ParentRegistrationModal";
 
 const Footer = () => {
+  const [registrationModalOpen, setRegistrationModalOpen] = useState(false);
+
   return (
     <footer className="bg-primary text-primary-foreground">
       {/* CTA Section */}
@@ -13,7 +17,12 @@ const Footer = () => {
               <h2 className="text-3xl md:text-4xl font-extrabold mb-2">Ready to Build Your Brand?</h2>
               <p className="text-primary-foreground/70 text-lg">Join the champion community today.</p>
             </div>
-            <Button variant="hero" size="xl" className="group">
+            <Button 
+              variant="hero" 
+              size="xl" 
+              className="group"
+              onClick={() => setRegistrationModalOpen(true)}
+            >
               Get Started
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
@@ -135,6 +144,8 @@ const Footer = () => {
           </div>
         </div>
       </div>
+
+      <ParentRegistrationModal open={registrationModalOpen} onOpenChange={setRegistrationModalOpen} />
     </footer>
   );
 };
