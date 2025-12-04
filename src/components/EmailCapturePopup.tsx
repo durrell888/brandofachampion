@@ -25,12 +25,7 @@ const EmailCapturePopup = () => {
     const hasSeenPopup = localStorage.getItem("emailPopupSeen");
     
     if (!hasSeenPopup) {
-      // Show popup after 3 seconds
-      const timer = setTimeout(() => {
-        setIsOpen(true);
-      }, 3000);
-      
-      return () => clearTimeout(timer);
+      setIsOpen(true);
     }
   }, []);
 
