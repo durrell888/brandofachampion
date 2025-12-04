@@ -124,5 +124,6 @@ export const mockAthletes: Athlete[] = [
     weight: "195 lbs",
     hudlLink: "http://www.hudl.com/v/2SgQ8s",
     instagramLink: "https://www.instagram.com/kj_up1?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+    twitterLink: "https://x.com/KjGreen7k",
   },
 ];
