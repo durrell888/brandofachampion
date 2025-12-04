@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, MapPin, Trophy, GraduationCap, Ruler, Weight, Video, Briefcase, Heart, DollarSign, Home, Scale, Instagram } from "lucide-react";
+import { ArrowLeft, MapPin, Trophy, GraduationCap, Ruler, Weight, Video, Briefcase, Heart, DollarSign, Home, Scale, Instagram, Twitter } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
@@ -178,6 +178,17 @@ const AthleteProfile = () => {
                 >
                   <Instagram className="w-5 h-5" />
                   Instagram
+                </Button>
+              )}
+              {athlete.twitterLink && (
+                <Button 
+                  size="lg"
+                  variant="outline"
+                  className="flex-1 gap-2"
+                  onClick={() => window.open(athlete.twitterLink, '_blank')}
+                >
+                  <Twitter className="w-5 h-5" />
+                  Twitter
                 </Button>
               )}
             </div>
