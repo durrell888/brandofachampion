@@ -18,7 +18,14 @@ export const videos: Video[] = [
     duration: "5:32",
     featured: true,
   },
-  // Add more videos here as needed
+  {
+    id: "2",
+    youtubeId: "ApVCy1HLN_Q",
+    title: "Douglas County Athlete Story",
+    description: "Follow the journey of a Douglas County athlete as they build their future beyond the game with Brand of a Champion.",
+    category: "athlete-stories",
+    duration: "3:00",
+  },
 ];
 
 export const categories = [
