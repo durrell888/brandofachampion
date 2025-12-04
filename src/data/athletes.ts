@@ -13,7 +13,7 @@ export const mockAthletes: Athlete[] = [
     yearsActive: "2023-2026",
     status: "active",
     classYear: "2026",
-    school: "Indiana University",
+    school: "Douglas County High School",
     height: "6'1\"",
     weight: "180 lbs",
     hudlLink: "http://www.hudl.com/v/2SgWxV",
