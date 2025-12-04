@@ -8,7 +8,7 @@ export const mockAthletes: Athlete[] = [
     position: "Quarterback",
     location: "Georgia",
     avatar: "/images/athletes/trey-byrd.jpg",
-    achievements: [],
+    achievements: ["Georgia State Scholarship Offer"],
     supportNeeded: ["Career", "Education"],
     yearsActive: "2024-2028",
     status: "active",
