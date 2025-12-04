@@ -2,9 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -16,8 +14,12 @@ import {
   RefreshCw,
   TrendingUp,
   Star,
-  MapPin,
-  AlertCircle
+  ChevronRight,
+  Video,
+  Trophy,
+  Users,
+  Calendar,
+  MapPin
 } from "lucide-react";
 
 interface NewsArticle {
@@ -29,72 +31,24 @@ interface NewsArticle {
   imageUrl?: string;
   publishedAt: string;
   category: string;
+  author?: string;
 }
 
-interface VideoItem {
-  id: string;
-  title: string;
-  thumbnail: string;
-  source: string;
-  duration: string;
-  url: string;
-  publishedAt: string;
-}
-
-const placeholderVideos: VideoItem[] = [
-  {
-    id: "v1",
-    title: "Top 10 Plays of the Week - High School Football",
-    thumbnail: "https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=600",
-    source: "247Sports",
-    duration: "5:32",
-    url: "#",
-    publishedAt: "1 day ago"
-  },
-  {
-    id: "v2",
-    title: "5-Star QB Highlights - Junior Season",
-    thumbnail: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=600",
-    source: "On3",
-    duration: "3:45",
-    url: "#",
-    publishedAt: "2 days ago"
-  },
-  {
-    id: "v3",
-    title: "State Championship Game Recap",
-    thumbnail: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600",
-    source: "Rivals",
-    duration: "8:15",
-    url: "#",
-    publishedAt: "3 days ago"
-  },
-  {
-    id: "v4",
-    title: "Elite Camp Highlights & Interviews",
-    thumbnail: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600",
-    source: "247Sports",
-    duration: "12:20",
-    url: "#",
-    publishedAt: "4 days ago"
-  }
+const quickLinks = [
+  { icon: Trophy, label: "Rankings", href: "#rankings" },
+  { icon: Users, label: "Recruiting", href: "#recruiting" },
+  { icon: Calendar, label: "Schedules", href: "#schedules" },
+  { icon: Video, label: "Highlights", href: "#highlights" },
+  { icon: MapPin, label: "Camps", href: "#camps" },
 ];
 
 const sourceColors: Record<string, string> = {
-  "247Sports": "bg-blue-500/20 text-blue-700 dark:text-blue-400",
-  "On3": "bg-emerald-500/20 text-emerald-700 dark:text-emerald-400",
-  "Rivals": "bg-orange-500/20 text-orange-700 dark:text-orange-400",
-  "MaxPreps": "bg-purple-500/20 text-purple-700 dark:text-purple-400",
-  "ESPN": "bg-red-500/20 text-red-700 dark:text-red-400",
-  "News": "bg-gray-500/20 text-gray-700 dark:text-gray-400",
-};
-
-const categoryIcons: Record<string, React.ReactNode> = {
-  "Rankings": <TrendingUp className="w-3 h-3" />,
-  "Recruiting": <Star className="w-3 h-3" />,
-  "High School": <MapPin className="w-3 h-3" />,
-  "Camps": <Star className="w-3 h-3" />,
-  "News": <Newspaper className="w-3 h-3" />,
+  "247Sports": "text-blue-400",
+  "On3": "text-emerald-400",
+  "Rivals": "text-orange-400",
+  "MaxPreps": "text-purple-400",
+  "ESPN": "text-red-400",
+  "News": "text-gray-400",
 };
 
 function getTimeAgo(dateString: string): string {
@@ -106,8 +60,8 @@ function getTimeAgo(dateString: string): string {
     const diffDays = Math.floor(diffHours / 24);
     
     if (diffHours < 1) return "Just now";
-    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-    if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    if (diffHours < 24) return `${diffHours}h`;
+    if (diffDays < 7) return `${diffDays}d`;
     return date.toLocaleDateString();
   } catch {
     return "Recently";
@@ -124,10 +78,9 @@ function categorizeArticle(title: string, description: string): string {
 
 export default function News() {
   const [articles, setArticles] = useState<NewsArticle[]>([]);
-  const [videos] = useState<VideoItem[]>(placeholderVideos);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState("all");
+  const [activeCategory, setActiveCategory] = useState("all");
   const { toast } = useToast();
 
   const fetchNews = useCallback(async () => {
@@ -137,9 +90,7 @@ export default function News() {
     try {
       const { data, error: fnError } = await supabase.functions.invoke('fetch-news');
       
-      if (fnError) {
-        throw new Error(fnError.message);
-      }
+      if (fnError) throw new Error(fnError.message);
       
       if (data?.success && data?.articles) {
         const formattedArticles: NewsArticle[] = data.articles.map((article: any, index: number) => ({
@@ -154,10 +105,6 @@ export default function News() {
         }));
         
         setArticles(formattedArticles);
-        toast({
-          title: "News Updated",
-          description: `Loaded ${formattedArticles.length} articles`,
-        });
       } else {
         throw new Error(data?.error || 'Failed to fetch news');
       }
@@ -165,261 +112,353 @@ export default function News() {
       const message = err instanceof Error ? err.message : 'Failed to fetch news';
       setError(message);
       console.error('Error fetching news:', err);
-      toast({
-        title: "Error",
-        description: message,
-        variant: "destructive",
-      });
     } finally {
       setIsLoading(false);
     }
-  }, [toast]);
+  }, []);
 
   useEffect(() => {
     fetchNews();
   }, [fetchNews]);
 
-  const filteredArticles = activeTab === "all" 
+  const filteredArticles = activeCategory === "all" 
     ? articles 
-    : articles.filter(a => a.category.toLowerCase() === activeTab);
+    : articles.filter(a => a.category.toLowerCase() === activeCategory.toLowerCase());
+
+  const featuredArticle = filteredArticles[0];
+  const secondaryArticles = filteredArticles.slice(1, 3);
+  const remainingArticles = filteredArticles.slice(3);
+  const topHeadlines = articles.slice(0, 10);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#0a0a0a]">
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-16 hero-gradient overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-accent/5 blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-primary-foreground/5 blur-3xl" />
-        </div>
-
-        <div className="container relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-8 animate-fade-in">
-              <Newspaper className="w-4 h-4 text-accent" />
-              <span className="text-sm font-bold text-accent uppercase tracking-wider">Latest News</span>
-            </div>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-primary-foreground mb-6 animate-fade-in [animation-delay:100ms] opacity-0 tracking-tight">
-              <span className="block">HIGH SCHOOL</span>
-              <span className="text-gradient">FOOTBALL NEWS</span>
-            </h1>
-            <p className="text-xl text-primary-foreground/70 animate-fade-in [animation-delay:200ms] opacity-0 font-medium max-w-xl mx-auto">
-              Stay up to date with the latest recruiting news, rankings, and highlights from across the nation.
-            </p>
-          </div>
-        </div>
-
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="w-full h-16">
-            <path d="M0 80L1440 0V80H0Z" className="fill-background" />
-          </svg>
-        </div>
-      </section>
-
-      {/* News Sources */}
-      <section className="py-8 border-b border-border">
+      {/* ESPN-style dark header bar */}
+      <div className="pt-20 bg-[#1a1a1a] border-b border-[#333]">
         <div className="container">
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <span className="text-sm text-muted-foreground font-medium">Powered by:</span>
-            {["247Sports", "On3", "Rivals", "MaxPreps", "ESPN"].map((source) => (
-              <Badge key={source} variant="secondary" className={sourceColors[source]}>
-                {source}
-              </Badge>
+          <div className="flex items-center gap-6 py-3 overflow-x-auto scrollbar-hide">
+            <span className="text-accent font-bold text-lg whitespace-nowrap">HS Football</span>
+            <div className="h-6 w-px bg-[#444]" />
+            {["All", "Recruiting", "Rankings", "High School", "Camps"].map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat.toLowerCase())}
+                className={`text-sm font-medium whitespace-nowrap transition-colors ${
+                  activeCategory === cat.toLowerCase() 
+                    ? "text-white" 
+                    : "text-gray-400 hover:text-white"
+                }`}
+              >
+                {cat}
+              </button>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content */}
-      <section className="py-16">
-        <div className="container">
-          <Tabs defaultValue="all" className="w-full" onValueChange={setActiveTab}>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
-              <TabsList className="bg-secondary">
-                <TabsTrigger value="all">All News</TabsTrigger>
-                <TabsTrigger value="recruiting">Recruiting</TabsTrigger>
-                <TabsTrigger value="rankings">Rankings</TabsTrigger>
-                <TabsTrigger value="high school">High School</TabsTrigger>
-              </TabsList>
+            <div className="ml-auto">
               <Button 
-                variant="outline" 
+                variant="ghost" 
                 size="sm" 
-                className="gap-2" 
-                disabled={isLoading}
                 onClick={fetchNews}
+                disabled={isLoading}
+                className="text-gray-400 hover:text-white"
               >
                 <RefreshCw className={`w-4 h-4 ${isLoading ? "animate-spin" : ""}`} />
-                Refresh
               </Button>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <div className="grid lg:grid-cols-3 gap-8">
-              {/* Articles Column */}
-              <div className="lg:col-span-2 space-y-6">
-                <h2 className="text-2xl font-bold flex items-center gap-2">
-                  <Newspaper className="w-6 h-6 text-accent" />
-                  Latest Articles
-                </h2>
-
-                <TabsContent value={activeTab} className="mt-0">
-                  {isLoading ? (
-                    <div className="space-y-4">
-                      {[1, 2, 3, 4, 5].map((i) => (
-                        <Card key={i}>
-                          <CardContent className="p-4">
-                            <div className="flex gap-4">
-                              <Skeleton className="w-32 h-24 rounded-lg" />
-                              <div className="flex-1 space-y-2">
-                                <Skeleton className="h-4 w-20" />
-                                <Skeleton className="h-6 w-full" />
-                                <Skeleton className="h-4 w-3/4" />
-                              </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  ) : error ? (
-                    <Card className="border-destructive/50">
-                      <CardContent className="p-8 text-center">
-                        <AlertCircle className="w-12 h-12 text-destructive mx-auto mb-4" />
-                        <h3 className="font-bold text-lg mb-2">Unable to Load News</h3>
-                        <p className="text-muted-foreground mb-4">{error}</p>
-                        <Button onClick={fetchNews} variant="outline">
-                          Try Again
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ) : filteredArticles.length === 0 ? (
-                    <Card>
-                      <CardContent className="p-8 text-center">
-                        <Newspaper className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                        <h3 className="font-bold text-lg mb-2">No Articles Found</h3>
-                        <p className="text-muted-foreground">
-                          {activeTab === "all" 
-                            ? "No news articles available at the moment." 
-                            : `No articles found in the "${activeTab}" category.`}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  ) : (
-                    <div className="space-y-4">
-                      {filteredArticles.map((article, index) => (
-                        <a 
-                          key={article.id}
-                          href={article.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Card 
-                            className="overflow-hidden hover:border-accent/30 transition-all cursor-pointer group animate-fade-in opacity-0"
-                            style={{ animationDelay: `${index * 50}ms` }}
-                          >
-                            <CardContent className="p-0">
-                              <div className="flex flex-col sm:flex-row gap-4">
-                                {article.imageUrl && (
-                                  <div className="sm:w-48 h-32 sm:h-auto overflow-hidden">
-                                    <img
-                                      src={article.imageUrl}
-                                      alt={article.title}
-                                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                      onError={(e) => {
-                                        (e.target as HTMLImageElement).style.display = 'none';
-                                      }}
-                                    />
-                                  </div>
-                                )}
-                                <div className="flex-1 p-4 sm:py-4 sm:pr-4 sm:pl-0">
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <Badge variant="secondary" className={sourceColors[article.source] || sourceColors["News"]}>
-                                      {article.source}
-                                    </Badge>
-                                    <Badge variant="outline" className="gap-1">
-                                      {categoryIcons[article.category] || categoryIcons["News"]}
-                                      {article.category}
-                                    </Badge>
-                                  </div>
-                                  <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors line-clamp-2">
-                                    {article.title}
-                                  </h3>
-                                  <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
-                                    {article.description}
-                                  </p>
-                                  <div className="flex items-center justify-between">
-                                    <span className="text-xs text-muted-foreground flex items-center gap-1">
-                                      <Clock className="w-3 h-3" />
-                                      {article.publishedAt}
-                                    </span>
-                                    <span className="text-xs text-accent flex items-center gap-1">
-                                      Read more <ExternalLink className="w-3 h-3" />
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </TabsContent>
+      {/* Main Content Area - ESPN 3-column layout */}
+      <div className="container py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          {/* Left Sidebar - Quick Links */}
+          <aside className="hidden lg:block lg:col-span-2">
+            <div className="sticky top-24 space-y-6">
+              {/* Promo Card */}
+              <div className="bg-gradient-to-br from-accent/20 to-accent/5 rounded-lg p-4 border border-accent/30">
+                <h3 className="font-bold text-white text-sm mb-2">BRAND OF A CHAMPION</h3>
+                <p className="text-xs text-gray-400 mb-3">Empowering athletes to succeed beyond the game.</p>
+                <Button size="sm" className="w-full bg-accent hover:bg-accent/90 text-xs">
+                  Get Started
+                </Button>
               </div>
 
-              {/* Videos Sidebar */}
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold flex items-center gap-2">
-                  <Play className="w-6 h-6 text-accent" />
-                  Latest Videos
-                </h2>
-
-                <div className="space-y-4">
-                  {videos.map((video, index) => (
-                    <Card 
-                      key={video.id} 
-                      className="overflow-hidden hover:border-accent/30 transition-all cursor-pointer group animate-fade-in opacity-0"
-                      style={{ animationDelay: `${(index + 6) * 50}ms` }}
+              {/* Quick Links */}
+              <div>
+                <h4 className="text-xs font-bold text-gray-500 uppercase mb-3">Quick Links</h4>
+                <nav className="space-y-1">
+                  {quickLinks.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      className="flex items-center gap-2 px-2 py-2 text-sm text-gray-300 hover:text-white hover:bg-[#222] rounded transition-colors"
                     >
-                      <CardContent className="p-0">
-                        <div className="relative">
-                          <img
-                            src={video.thumbnail}
-                            alt={video.title}
-                            className="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center">
-                              <Play className="w-6 h-6 text-accent-foreground fill-current" />
-                            </div>
-                          </div>
-                          <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
-                            {video.duration}
-                          </div>
-                          <Badge 
-                            variant="secondary" 
-                            className={`absolute top-2 left-2 ${sourceColors[video.source]}`}
-                          >
-                            {video.source}
-                          </Badge>
-                        </div>
-                        <div className="p-3">
-                          <h3 className="font-semibold text-sm line-clamp-2 group-hover:text-accent transition-colors">
-                            {video.title}
-                          </h3>
-                          <span className="text-xs text-muted-foreground flex items-center gap-1 mt-2">
-                            <Clock className="w-3 h-3" />
-                            {video.publishedAt}
-                          </span>
-                        </div>
-                      </CardContent>
-                    </Card>
+                      <link.icon className="w-4 h-4 text-gray-500" />
+                      {link.label}
+                    </a>
+                  ))}
+                </nav>
+              </div>
+
+              {/* Sources */}
+              <div>
+                <h4 className="text-xs font-bold text-gray-500 uppercase mb-3">Sources</h4>
+                <div className="space-y-2">
+                  {["247Sports", "On3", "Rivals", "MaxPreps", "ESPN"].map((source) => (
+                    <div key={source} className="flex items-center gap-2 text-sm">
+                      <span className={`w-2 h-2 rounded-full ${sourceColors[source]?.replace('text-', 'bg-')}`} />
+                      <span className="text-gray-400">{source}</span>
+                    </div>
                   ))}
                 </div>
               </div>
             </div>
-          </Tabs>
+          </aside>
+
+          {/* Main Content */}
+          <main className="lg:col-span-7">
+            {isLoading ? (
+              <div className="space-y-6">
+                <Skeleton className="w-full h-[400px] bg-[#222]" />
+                <div className="grid grid-cols-2 gap-4">
+                  <Skeleton className="h-48 bg-[#222]" />
+                  <Skeleton className="h-48 bg-[#222]" />
+                </div>
+              </div>
+            ) : error ? (
+              <div className="bg-[#1a1a1a] rounded-lg p-8 text-center">
+                <Newspaper className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+                <h3 className="font-bold text-white mb-2">Unable to Load News</h3>
+                <p className="text-gray-400 text-sm mb-4">{error}</p>
+                <Button onClick={fetchNews} variant="outline" size="sm">
+                  Try Again
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {/* Featured Article */}
+                {featuredArticle && (
+                  <a href={featuredArticle.url} target="_blank" rel="noopener noreferrer" className="block group">
+                    <article className="relative rounded-lg overflow-hidden bg-[#1a1a1a]">
+                      {featuredArticle.imageUrl ? (
+                        <div className="relative aspect-[16/9]">
+                          <img
+                            src={featuredArticle.imageUrl}
+                            alt={featuredArticle.title}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=800';
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                          <div className="absolute bottom-0 left-0 right-0 p-6">
+                            <Badge className="bg-accent text-white border-0 mb-3">
+                              {featuredArticle.category}
+                            </Badge>
+                            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-accent transition-colors line-clamp-3">
+                              {featuredArticle.title}
+                            </h2>
+                            <p className="text-gray-300 text-sm line-clamp-2 mb-3">
+                              {featuredArticle.description}
+                            </p>
+                            <div className="flex items-center gap-3 text-xs text-gray-400">
+                              <span className={sourceColors[featuredArticle.source]}>{featuredArticle.source}</span>
+                              <span>•</span>
+                              <span>{featuredArticle.publishedAt}</span>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="p-6">
+                          <Badge className="bg-accent text-white border-0 mb-3">
+                            {featuredArticle.category}
+                          </Badge>
+                          <h2 className="text-2xl font-bold text-white mb-2 group-hover:text-accent transition-colors">
+                            {featuredArticle.title}
+                          </h2>
+                          <p className="text-gray-400 text-sm">{featuredArticle.description}</p>
+                        </div>
+                      )}
+                    </article>
+                  </a>
+                )}
+
+                {/* Secondary Articles - 2 column grid */}
+                {secondaryArticles.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {secondaryArticles.map((article) => (
+                      <a 
+                        key={article.id} 
+                        href={article.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="group"
+                      >
+                        <article className="bg-[#1a1a1a] rounded-lg overflow-hidden h-full">
+                          {article.imageUrl && (
+                            <div className="aspect-video overflow-hidden">
+                              <img
+                                src={article.imageUrl}
+                                alt={article.title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).style.display = 'none';
+                                }}
+                              />
+                            </div>
+                          )}
+                          <div className="p-4">
+                            <h3 className="font-bold text-white text-sm mb-2 group-hover:text-accent transition-colors line-clamp-2">
+                              {article.title}
+                            </h3>
+                            <p className="text-gray-400 text-xs line-clamp-2 mb-2">
+                              {article.description}
+                            </p>
+                            <div className="flex items-center gap-2 text-xs text-gray-500">
+                              <span className={sourceColors[article.source]}>{article.source}</span>
+                              <span>•</span>
+                              <span>{article.publishedAt}</span>
+                            </div>
+                          </div>
+                        </article>
+                      </a>
+                    ))}
+                  </div>
+                )}
+
+                {/* More Stories */}
+                {remainingArticles.length > 0 && (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-bold text-white flex items-center gap-2">
+                        <Newspaper className="w-4 h-4 text-accent" />
+                        More Stories
+                      </h3>
+                    </div>
+                    <div className="space-y-3">
+                      {remainingArticles.map((article) => (
+                        <a 
+                          key={article.id} 
+                          href={article.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="group"
+                        >
+                          <article className="flex gap-4 bg-[#1a1a1a] rounded-lg p-3 hover:bg-[#222] transition-colors">
+                            {article.imageUrl && (
+                              <div className="w-24 h-16 flex-shrink-0 rounded overflow-hidden">
+                                <img
+                                  src={article.imageUrl}
+                                  alt={article.title}
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).style.display = 'none';
+                                  }}
+                                />
+                              </div>
+                            )}
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-semibold text-white text-sm group-hover:text-accent transition-colors line-clamp-2">
+                                {article.title}
+                              </h4>
+                              <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
+                                <span className={sourceColors[article.source]}>{article.source}</span>
+                                <span>•</span>
+                                <span>{article.publishedAt}</span>
+                              </div>
+                            </div>
+                            <ChevronRight className="w-4 h-4 text-gray-600 self-center flex-shrink-0" />
+                          </article>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </main>
+
+          {/* Right Sidebar - Top Headlines */}
+          <aside className="lg:col-span-3">
+            <div className="sticky top-24 space-y-6">
+              {/* Top Headlines */}
+              <div className="bg-[#1a1a1a] rounded-lg overflow-hidden">
+                <div className="bg-[#222] px-4 py-3 border-b border-[#333]">
+                  <h3 className="font-bold text-white flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4" />
+                    Top Headlines
+                  </h3>
+                </div>
+                <div className="divide-y divide-[#2a2a2a]">
+                  {isLoading ? (
+                    Array(8).fill(0).map((_, i) => (
+                      <div key={i} className="p-3">
+                        <Skeleton className="h-4 w-full bg-[#333]" />
+                      </div>
+                    ))
+                  ) : (
+                    topHeadlines.map((article, index) => (
+                      <a
+                        key={article.id}
+                        href={article.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block px-4 py-3 hover:bg-[#222] transition-colors group"
+                      >
+                        <div className="flex items-start gap-3">
+                          <span className={`text-xs font-bold mt-0.5 ${sourceColors[article.source]}`}>
+                            {article.source.charAt(0)}
+                          </span>
+                          <p className="text-sm text-gray-300 group-hover:text-white transition-colors line-clamp-2 flex-1">
+                            {article.title}
+                          </p>
+                        </div>
+                      </a>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              {/* ICYMI Section */}
+              <div className="bg-[#1a1a1a] rounded-lg overflow-hidden">
+                <div className="bg-[#222] px-4 py-3 border-b border-[#333]">
+                  <h3 className="font-bold text-white flex items-center gap-2">
+                    <Play className="w-4 h-4" />
+                    ICYMI
+                  </h3>
+                </div>
+                <div className="p-4">
+                  <div className="relative aspect-video rounded-lg overflow-hidden bg-[#222]">
+                    <img
+                      src="https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=400"
+                      alt="Featured video"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-accent/90 flex items-center justify-center">
+                        <Play className="w-5 h-5 text-white fill-white" />
+                      </div>
+                    </div>
+                  </div>
+                  <h4 className="font-semibold text-white text-sm mt-3">Top High School Football Plays of the Week</h4>
+                  <p className="text-xs text-gray-500 mt-1">Watch the best highlights</p>
+                </div>
+              </div>
+
+              {/* Subscribe CTA */}
+              <div className="bg-gradient-to-br from-[#1a1a1a] to-[#222] rounded-lg p-4 border border-[#333]">
+                <Star className="w-8 h-8 text-accent mb-3" />
+                <h3 className="font-bold text-white text-sm mb-1">Never Miss a Story</h3>
+                <p className="text-xs text-gray-400 mb-3">Get the latest recruiting news delivered to your inbox.</p>
+                <Button size="sm" variant="outline" className="w-full text-xs border-gray-600 text-gray-300 hover:bg-[#333]">
+                  Subscribe Now
+                </Button>
+              </div>
+            </div>
+          </aside>
         </div>
-      </section>
+      </div>
 
       <Footer />
     </div>
