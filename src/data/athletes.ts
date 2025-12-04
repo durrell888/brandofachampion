@@ -7,7 +7,7 @@ export const mockAthletes: Athlete[] = [
     sport: "Football",
     position: "Defensive Back",
     location: "Georgia",
-    avatar: "/images/athletes/adryan-cole.jpg",
+    avatar: "/placeholder.svg",
     achievements: ["3X All-Region", "35+ College Offers"],
     supportNeeded: ["Career", "Education"],
     yearsActive: "2023-2027",
