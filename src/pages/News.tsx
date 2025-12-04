@@ -288,7 +288,7 @@ export default function News() {
             <aside className="hidden lg:block lg:col-span-2">
               <div className="sticky top-24 space-y-6">
                 <div className="bg-gradient-to-br from-accent/20 to-accent/5 rounded-lg p-4 border border-accent/30">
-                  <h3 className="font-bold text-white text-sm mb-2">BRAND OF A CHAMPION</h3>
+                  <h3 className="font-bold text-foreground text-sm mb-2">BRAND OF A CHAMPION</h3>
                   <p className="text-xs text-gray-400 mb-3">Empowering athletes to succeed beyond the game.</p>
                   <Button size="sm" className="w-full bg-accent hover:bg-accent/90 text-xs">Get Started</Button>
                 </div>
@@ -323,7 +323,7 @@ export default function News() {
               ) : error ? (
                 <div className="bg-card rounded-lg p-8 text-center">
                   <Newspaper className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-                  <h3 className="font-bold text-white mb-2">Unable to Load News</h3>
+                  <h3 className="font-bold text-foreground mb-2">Unable to Load News</h3>
                   <p className="text-gray-400 text-sm mb-4">{error}</p>
                   <Button onClick={fetchNews} variant="outline" size="sm">Try Again</Button>
                 </div>
@@ -350,7 +350,7 @@ export default function News() {
                         ) : (
                           <div className="p-6">
                             <Badge className="bg-accent text-white border-0 mb-3">{featuredArticle.category}</Badge>
-                            <h2 className="text-2xl font-bold text-white mb-2 group-hover:text-accent transition-colors">{featuredArticle.title}</h2>
+                            <h2 className="text-2xl font-bold text-foreground mb-2 group-hover:text-accent transition-colors">{featuredArticle.title}</h2>
                             <p className="text-gray-400 text-sm">{featuredArticle.description}</p>
                           </div>
                         )}
@@ -369,7 +369,7 @@ export default function News() {
                               </div>
                             )}
                             <div className="p-4">
-                              <h3 className="font-bold text-white text-sm mb-2 group-hover:text-accent transition-colors line-clamp-2">{article.title}</h3>
+                              <h3 className="font-bold text-foreground text-sm mb-2 group-hover:text-accent transition-colors line-clamp-2">{article.title}</h3>
                               <div className="flex items-center gap-2 text-xs text-gray-500">
                                 <span className={sourceColors[article.source]}>{article.source}</span>
                                 <span>•</span>
@@ -384,7 +384,7 @@ export default function News() {
 
                   {remainingArticles.length > 0 && (
                     <div className="space-y-4">
-                      <h3 className="font-bold text-white flex items-center gap-2">
+                      <h3 className="font-bold text-foreground flex items-center gap-2">
                         <Newspaper className="w-4 h-4 text-accent" />More Stories
                       </h3>
                       <div className="space-y-3">
@@ -397,7 +397,7 @@ export default function News() {
                                 </div>
                               )}
                               <div className="flex-1 min-w-0">
-                                <h4 className="font-semibold text-white text-sm group-hover:text-accent transition-colors line-clamp-2">{article.title}</h4>
+                                <h4 className="font-semibold text-foreground text-sm group-hover:text-accent transition-colors line-clamp-2">{article.title}</h4>
                                 <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
                                   <span className={sourceColors[article.source]}>{article.source}</span>
                                   <span>•</span>
@@ -458,7 +458,7 @@ export default function News() {
                     <div className="flex items-center gap-3">
                       <Crown className="w-6 h-6 text-amber-400" />
                       <div>
-                        <h2 className="font-bold text-white text-xl">ESPN 300</h2>
+                        <h2 className="font-bold text-foreground text-xl">ESPN 300</h2>
                         <p className="text-gray-400 text-sm">Class of {classYear} Top Prospects</p>
                       </div>
                     </div>
@@ -478,7 +478,7 @@ export default function News() {
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <span className="font-bold text-white">{player.name}</span>
+                              <span className="font-bold text-foreground">{player.name}</span>
                               <Badge className={`text-xs ${positionColors[player.position] || positionColors.ATH}`}>{player.position}</Badge>
                             </div>
                             <div className="flex items-center gap-2 text-sm text-gray-400">
@@ -516,7 +516,7 @@ export default function News() {
                             <div key={player.rank} className="flex items-center gap-3 px-4 py-3 hover:bg-secondary transition-colors">
                               <span className="w-6 text-center font-bold text-gray-500">{player.rank}</span>
                               <div className="flex-1">
-                                <span className="font-semibold text-white text-sm">{player.name}</span>
+                                <span className="font-semibold text-foreground text-sm">{player.name}</span>
                                 <span className="text-xs text-gray-500 ml-2">{player.state}</span>
                               </div>
                               <StarRating stars={player.stars || 4} />
@@ -546,7 +546,7 @@ export default function News() {
                             <div key={player.rank} className="flex items-center gap-3 px-4 py-3 hover:bg-secondary transition-colors">
                               <span className="w-6 text-center font-bold text-gray-500">{player.rank}</span>
                               <div className="flex-1">
-                                <span className="font-semibold text-white text-sm">{player.name}</span>
+                                <span className="font-semibold text-foreground text-sm">{player.name}</span>
                                 <Badge className={`ml-2 text-xs ${positionColors[player.position] || positionColors.ATH}`}>{player.position}</Badge>
                               </div>
                               <StarRating stars={player.stars || 4} />
@@ -566,7 +566,7 @@ export default function News() {
                     <div className="flex items-center gap-3">
                       <School className="w-6 h-6 text-accent" />
                       <div>
-                        <h2 className="font-bold text-white text-xl">Team Recruiting Rankings</h2>
+                        <h2 className="font-bold text-foreground text-xl">Team Recruiting Rankings</h2>
                         <p className="text-gray-400 text-sm">Class of {classYear}</p>
                       </div>
                     </div>
@@ -594,12 +594,12 @@ export default function News() {
                               <td className="px-6 py-4">
                                 <span className={`font-bold ${team.rank <= 3 ? 'text-amber-400' : 'text-gray-400'}`}>{team.rank}</span>
                               </td>
-                              <td className="px-6 py-4 font-semibold text-white">{team.school}</td>
-                              <td className="px-6 py-4 text-center text-gray-300">{team.commits}</td>
+                              <td className="px-6 py-4 font-semibold text-foreground">{team.school}</td>
+                              <td className="px-6 py-4 text-center text-muted-foreground">{team.commits}</td>
                               <td className="px-6 py-4 text-center">
                                 <Badge className="bg-accent/20 text-accent">{team.avgRating.toFixed(1)}</Badge>
                               </td>
-                              <td className="px-6 py-4 text-right font-bold text-white">{team.points.toFixed(1)}</td>
+                              <td className="px-6 py-4 text-right font-bold text-foreground">{team.points.toFixed(1)}</td>
                             </tr>
                           ))}
                         </tbody>
