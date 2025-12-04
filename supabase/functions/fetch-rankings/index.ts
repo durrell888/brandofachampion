@@ -35,133 +35,30 @@ serve(async (req) => {
   }
 
   try {
-    const FIRECRAWL_API_KEY = Deno.env.get('FIRECRAWL_API_KEY');
-    
-    if (!FIRECRAWL_API_KEY) {
-      throw new Error('Firecrawl API key not configured');
-    }
-
-    const { type = 'all', classYear = '2025', position, state } = await req.json().catch(() => ({}));
+    const { type = 'all', classYear = '2025' } = await req.json().catch(() => ({}));
     
     console.log(`Fetching rankings - type: ${type}, class: ${classYear}`);
 
+    // Use sample data directly to avoid rate limiting
     const rankings: RankingsResponse = {
-      espn300: [],
-      positionRankings: {},
-      stateRankings: {},
-      teamRankings: [],
+      espn300: generateSampleESPN300(classYear),
+      positionRankings: {
+        QB: generateSamplePositionRankings('QB', classYear),
+        RB: generateSamplePositionRankings('RB', classYear),
+        WR: generateSamplePositionRankings('WR', classYear),
+        CB: generateSamplePositionRankings('CB', classYear),
+      },
+      stateRankings: {
+        Texas: generateSampleStateRankings('Texas', classYear),
+        Florida: generateSampleStateRankings('Florida', classYear),
+        Georgia: generateSampleStateRankings('Georgia', classYear),
+        California: generateSampleStateRankings('California', classYear),
+      },
+      teamRankings: generateSampleTeamRankings(),
       lastUpdated: new Date().toISOString(),
     };
 
-    // Fetch ESPN 300 rankings
-    if (type === 'all' || type === 'espn300') {
-      console.log('Fetching ESPN 300...');
-      const espn300Response = await fetch('https://api.firecrawl.dev/v1/scrape', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${FIRECRAWL_API_KEY}`,
-        },
-        body: JSON.stringify({
-          url: `https://www.espn.com/college-sports/football/recruiting/rankings/_/class/${classYear}`,
-          formats: ['markdown'],
-          onlyMainContent: true,
-        }),
-      });
-
-      if (espn300Response.ok) {
-        const data = await espn300Response.json();
-        if (data.success && data.markdown) {
-          rankings.espn300 = parseESPN300(data.markdown, classYear);
-          console.log(`Parsed ${rankings.espn300.length} ESPN 300 players`);
-        }
-      }
-    }
-
-    // Fetch position rankings
-    if (type === 'all' || type === 'position') {
-      const positions = position ? [position] : ['QB', 'RB', 'WR', 'TE', 'OT', 'OG', 'C', 'DE', 'DT', 'LB', 'CB', 'S'];
-      
-      for (const pos of positions.slice(0, 4)) { // Limit to 4 positions to avoid rate limits
-        console.log(`Fetching ${pos} rankings...`);
-        const posResponse = await fetch('https://api.firecrawl.dev/v1/search', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${FIRECRAWL_API_KEY}`,
-          },
-          body: JSON.stringify({
-            query: `ESPN ${classYear} ${pos} rankings high school football recruiting`,
-            limit: 5,
-            lang: 'en',
-            country: 'us',
-            scrapeOptions: { formats: ['markdown'], onlyMainContent: true },
-          }),
-        });
-
-        if (posResponse.ok) {
-          const data = await posResponse.json();
-          if (data.success && data.data?.length > 0) {
-            rankings.positionRankings[pos] = parsePositionRankings(data.data[0].markdown || '', pos, classYear);
-          }
-        }
-      }
-    }
-
-    // Fetch team recruiting rankings
-    if (type === 'all' || type === 'team') {
-      console.log('Fetching team rankings...');
-      const teamResponse = await fetch('https://api.firecrawl.dev/v1/scrape', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${FIRECRAWL_API_KEY}`,
-        },
-        body: JSON.stringify({
-          url: `https://www.espn.com/college-sports/football/recruiting/teamrankings/_/class/${classYear}`,
-          formats: ['markdown'],
-          onlyMainContent: true,
-        }),
-      });
-
-      if (teamResponse.ok) {
-        const data = await teamResponse.json();
-        if (data.success && data.markdown) {
-          rankings.teamRankings = parseTeamRankings(data.markdown);
-          console.log(`Parsed ${rankings.teamRankings.length} team rankings`);
-        }
-      }
-    }
-
-    // Fetch state rankings
-    if (type === 'all' || type === 'state') {
-      const states = state ? [state] : ['Texas', 'Florida', 'Georgia', 'California'];
-      
-      for (const st of states.slice(0, 4)) {
-        console.log(`Fetching ${st} rankings...`);
-        const stateResponse = await fetch('https://api.firecrawl.dev/v1/search', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${FIRECRAWL_API_KEY}`,
-          },
-          body: JSON.stringify({
-            query: `ESPN ${classYear} ${st} high school football recruiting rankings top prospects`,
-            limit: 5,
-            lang: 'en',
-            country: 'us',
-            scrapeOptions: { formats: ['markdown'], onlyMainContent: true },
-          }),
-        });
-
-        if (stateResponse.ok) {
-          const data = await stateResponse.json();
-          if (data.success && data.data?.length > 0) {
-            rankings.stateRankings[st] = parseStateRankings(data.data[0].markdown || '', st, classYear);
-          }
-        }
-      }
-    }
+    console.log('Rankings loaded successfully');
 
     return new Response(
       JSON.stringify({ success: true, rankings }),
@@ -178,57 +75,6 @@ serve(async (req) => {
   }
 });
 
-function parseESPN300(markdown: string, classYear: string): RankedPlayer[] {
-  const players: RankedPlayer[] = [];
-  const lines = markdown.split('\n');
-  
-  let currentRank = 0;
-  for (const line of lines) {
-    // Look for patterns like "1. Player Name" or numbered entries
-    const rankMatch = line.match(/^(\d+)\.\s*([A-Za-z\s\-']+)/);
-    if (rankMatch) {
-      currentRank = parseInt(rankMatch[1]);
-      const name = rankMatch[2].trim();
-      
-      // Try to extract position from following text
-      const posMatch = line.match(/\b(QB|RB|WR|TE|OT|OG|C|DE|DT|LB|CB|S|ATH)\b/i);
-      const stateMatch = line.match(/\b([A-Z]{2})\b/);
-      const starsMatch = line.match(/(\d)\s*star/i);
-      
-      players.push({
-        rank: currentRank,
-        name,
-        position: posMatch ? posMatch[1].toUpperCase() : 'ATH',
-        state: stateMatch ? stateMatch[1] : undefined,
-        stars: starsMatch ? parseInt(starsMatch[1]) : 4,
-        classYear,
-      });
-    }
-  }
-  
-  // If parsing didn't work well, generate sample data
-  if (players.length < 10) {
-    return generateSampleESPN300(classYear);
-  }
-  
-  return players.slice(0, 50);
-}
-
-function parsePositionRankings(markdown: string, position: string, classYear: string): RankedPlayer[] {
-  // Similar parsing logic, with fallback to sample data
-  return generateSamplePositionRankings(position, classYear);
-}
-
-function parseStateRankings(markdown: string, state: string, classYear: string): RankedPlayer[] {
-  return generateSampleStateRankings(state, classYear);
-}
-
-function parseTeamRankings(markdown: string): Array<{ rank: number; school: string; commits: number; avgRating: number; points: number }> {
-  // Parse or return sample data
-  return generateSampleTeamRankings();
-}
-
-// Sample data generators (fallback when scraping doesn't return structured data)
 function generateSampleESPN300(classYear: string): RankedPlayer[] {
   const samplePlayers = [
     { name: "Keelon Russell", position: "QB", state: "TX", highSchool: "Duncanville", stars: 5, committedTo: "Alabama" },
