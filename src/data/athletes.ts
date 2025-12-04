@@ -2,6 +2,23 @@ import { Athlete } from "@/components/AthleteCard";
 
 export const mockAthletes: Athlete[] = [
   {
+    id: "10",
+    name: "Trey Byrd",
+    sport: "Football",
+    position: "Quarterback",
+    location: "Georgia",
+    avatar: "/images/athletes/trey-byrd.jpg",
+    achievements: [],
+    supportNeeded: ["Career", "Education"],
+    yearsActive: "2024-2028",
+    status: "active",
+    classYear: "2028",
+    school: "Veterans High School",
+    gpa: 3.0,
+    height: "6'4\"",
+    weight: "205 lbs",
+  },
+  {
     id: "1",
     name: "Joshua Same-Epelle",
     sport: "Football",
