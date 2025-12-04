@@ -5,6 +5,7 @@ import SearchBar from "@/components/SearchBar";
 import AthleteCard from "@/components/AthleteCard";
 import SupportCategories from "@/components/SupportCategories";
 import NewsletterSignup from "@/components/NewsletterSignup";
+import EmailCapturePopup from "@/components/EmailCapturePopup";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { mockAthletes } from "@/data/athletes";
@@ -44,6 +45,7 @@ const Index = () => {
 
   return (
     <main className="min-h-screen bg-background">
+      <EmailCapturePopup />
       <Navbar />
       <Hero />
 
