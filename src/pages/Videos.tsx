@@ -1,23 +1,23 @@
 import { useState } from "react";
-import { Heart, Play } from "lucide-react";
+import { Heart, Play, ChevronLeft, Film } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import VideoCard from "@/components/VideoCard";
 import FeaturedVideo from "@/components/FeaturedVideo";
 import VideoModal from "@/components/VideoModal";
-import { videos, categories, videoSeries, type Video } from "@/data/videos";
+import { videos, videoSeries, type Video } from "@/data/videos";
 import { Button } from "@/components/ui/button";
 
 const Videos = () => {
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedSeries, setSelectedSeries] = useState<string | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const featuredVideo = videos.find((v) => v.featured);
-  const filteredVideos = videos.filter((video) => {
-    if (selectedCategory === "all") return !video.featured;
-    return video.category === selectedCategory && !video.featured;
-  });
+  const currentSeries = videoSeries.find((s) => s.id === selectedSeries);
+  const seriesVideos = selectedSeries 
+    ? videos.filter((v) => v.category === selectedSeries)
+    : [];
+  const featuredVideo = seriesVideos.find((v) => v.featured);
 
   const handlePlayVideo = (video: Video) => {
     setSelectedVideo(video);
@@ -59,67 +59,98 @@ const Videos = () => {
         </div>
       </section>
 
-      {/* Series Description Section */}
-      {videoSeries.length > 0 && (
-        <section className="py-16 bg-card border-b border-border">
-          <div className="container">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-6">
-                {videoSeries[0].title}
-              </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                {videoSeries[0].description}
-              </p>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Featured Video Section */}
-      {featuredVideo && (
+      {/* Series Selection or Series Content */}
+      {!selectedSeries ? (
+        /* Series Cards */
         <section className="py-20">
           <div className="container">
-            <FeaturedVideo video={featuredVideo} onPlay={handlePlayVideo} />
+            <h2 className="text-3xl md:text-4xl font-extrabold text-foreground text-center mb-12">
+              Video Series
+            </h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {videoSeries.map((series) => {
+                const seriesVideoCount = videos.filter((v) => v.category === series.id).length;
+                return (
+                  <button
+                    key={series.id}
+                    onClick={() => setSelectedSeries(series.id)}
+                    className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:border-accent/50 transition-all duration-300 hover:shadow-xl hover:shadow-accent/10 text-left"
+                  >
+                    <div className="aspect-video bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center">
+                      <Film className="w-16 h-16 text-accent/60 group-hover:scale-110 transition-transform duration-300" />
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-accent transition-colors">
+                        {series.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {seriesVideoCount} Episodes
+                      </p>
+                    </div>
+                    <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </section>
-      )}
-
-      {/* Video Grid Section */}
-      <section className="py-20 bg-secondary/50">
-        <div className="container">
-          {/* Category Filters */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
-            {categories.map((category) => (
+      ) : (
+        <>
+          {/* Back Button & Series Info */}
+          <section className="py-16 bg-card border-b border-border">
+            <div className="container">
               <Button
-                key={category.id}
-                variant={selectedCategory === category.id ? "hero" : "outline"}
-                size="sm"
-                onClick={() => setSelectedCategory(category.id)}
-                className="rounded-full px-6"
+                variant="ghost"
+                onClick={() => setSelectedSeries(null)}
+                className="mb-8 -ml-2"
               >
-                {category.label}
+                <ChevronLeft className="w-5 h-5 mr-1" />
+                Back to Series
               </Button>
-            ))}
-          </div>
+              <div className="max-w-4xl">
+                <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-6">
+                  {currentSeries?.title}
+                </h2>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  {currentSeries?.description}
+                </p>
+              </div>
+            </div>
+          </section>
 
-          {/* Video Grid */}
-          {filteredVideos.length > 0 ? (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredVideos.map((video) => (
-                <VideoCard key={video.id} video={video} onPlay={handlePlayVideo} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-20 bg-card rounded-xl border border-border">
-              <Heart className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-foreground mb-2">More Stories Coming Soon</h3>
-              <p className="text-muted-foreground">
-                We're working on bringing you more inspiring stories. Check back soon!
-              </p>
-            </div>
+          {/* Featured Video Section */}
+          {featuredVideo && (
+            <section className="py-20">
+              <div className="container">
+                <FeaturedVideo video={featuredVideo} onPlay={handlePlayVideo} />
+              </div>
+            </section>
           )}
-        </div>
-      </section>
+
+          {/* Video Grid Section */}
+          <section className="py-20 bg-secondary/50">
+            <div className="container">
+              {seriesVideos.filter((v) => !v.featured).length > 0 ? (
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {seriesVideos
+                    .filter((v) => !v.featured)
+                    .map((video) => (
+                      <VideoCard key={video.id} video={video} onPlay={handlePlayVideo} />
+                    ))}
+                </div>
+              ) : (
+                <div className="text-center py-20 bg-card rounded-xl border border-border">
+                  <Heart className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
+                  <h3 className="text-2xl font-bold text-foreground mb-2">More Episodes Coming Soon</h3>
+                  <p className="text-muted-foreground">
+                    We're working on bringing you more episodes. Check back soon!
+                  </p>
+                </div>
+              )}
+            </div>
+          </section>
+        </>
+      )}
 
       <Footer />
 
