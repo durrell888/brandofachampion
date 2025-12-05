@@ -6,6 +6,12 @@ const durrellSteen = {
   photo: "/images/team/durrell-steen.jpg",
 };
 
+const aaronRoss = {
+  name: "Aaron Ross",
+  title: "Athlete Advisor",
+  photo: "/images/team/aaron-ross.avif",
+};
+
 export const mockAthletes: Athlete[] = [
   {
     id: "12",
@@ -29,7 +35,7 @@ export const mockAthletes: Athlete[] = [
     proAnalysis: {
       rating: 88,
       analysis: "Jamar is an exceptional defensive back with elite ball skills and outstanding football IQ. His commitment to Indiana University speaks to his Division I talent level. He displays excellent closing speed and anticipation, making him a lockdown corner. His leadership on and off the field sets him apart from his peers. With continued development in his press coverage technique, Jamar has the potential to compete for early playing time at the collegiate level.",
-      assessor: durrellSteen,
+      assessor: aaronRoss,
     },
   },
   {
@@ -55,7 +61,7 @@ export const mockAthletes: Athlete[] = [
     proAnalysis: {
       rating: 86,
       analysis: "Adryan possesses rare physical tools for a defensive back at his age. Standing at 6'2\" with excellent length, he has the frame that Power 5 programs covet. His 35+ offers at such a young age demonstrate his elite potential. He shows great instincts in zone coverage and is a physical tackler. His academic excellence (3.8 GPA) makes him a true student-athlete. With two more years of development, Adryan is tracking to be a top prospect in the 2027 class.",
-      assessor: durrellSteen,
+      assessor: aaronRoss,
     },
   },
   {
@@ -174,7 +180,7 @@ export const mockAthletes: Athlete[] = [
     proAnalysis: {
       rating: 85,
       analysis: "Kennedy is a highly touted 4-star defensive back with outstanding athleticism and instincts. His 35 college offers demonstrate his elite status among 2027 prospects. He combines excellent length at 6'2\" with fluid hips and explosive change of direction. Kennedy excels in both man and zone coverage schemes. His ball-hawking ability and competitive nature make him a game-changer on the field. He's on track to be one of the top defensive back recruits in his class.",
-      assessor: durrellSteen,
+      assessor: aaronRoss,
     },
   },
 ];
