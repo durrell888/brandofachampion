@@ -20,7 +20,7 @@ export const mockAthletes: Athlete[] = [
     position: "Wide Receiver",
     location: "Dayton, Ohio",
     avatar: "/images/athletes/jamier-brown.jpg",
-    achievements: ["2X All-Region"],
+    achievements: ["2X All-Region", "35+ College Offers", "Committed to Ohio State"],
     supportNeeded: ["Career", "Education"],
     yearsActive: "2024-2027",
     status: "active",
@@ -35,7 +35,7 @@ export const mockAthletes: Athlete[] = [
     tier: "pro",
     proAnalysis: {
       rating: 94,
-      analysis: "Jamier Brown is an explosive wide receiver with elite potential. At 6'0\" and 185 lbs, he possesses ideal size for a high-level receiver. His 2X All-Region honors showcase his consistent production and dominance at the high school level. Jamier demonstrates exceptional route-running ability, reliable hands, and the speed to separate from defensive backs. His high rating reflects his dynamic playmaking ability and ceiling as a prospect. With continued development, Jamier has the tools to compete at the highest level of college football.",
+      analysis: "Jamier Brown is an elite wide receiver and one of the top prospects in Ohio. His commitment to Ohio State validates his standing among the best in the country. At 6'0\" and 185 lbs with over 35 college offers, he has earned recognition from programs nationwide. His 2X All-Region honors showcase his consistent dominance at the high school level. Jamier demonstrates exceptional route-running ability, reliable hands, and the speed to separate from defensive backs. His high rating reflects his dynamic playmaking ability. Jamier has the tools to make an immediate impact at the collegiate level.",
       assessor: durrellSteen,
     },
   },
