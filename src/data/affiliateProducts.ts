@@ -61,7 +61,7 @@ export const affiliateProducts: AffiliateProduct[] = [
     description: "24g protein per serving for muscle recovery",
     price: "$65",
     image: "https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=400",
-    affiliateLink: "https://www.amazon.com",
+    affiliateLink: "https://amzn.to/3KF7zMW",
     badge: "#1 Protein",
   },
   {
