@@ -6,17 +6,24 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+const TIER_PRICES = {
+  basic: "price_1SaXIxJCEhoZof7cVAHwQfwm", // $4.99/month
+  pro: "price_1ScNJmJCEhoZof7cWvOCcXtE", // $14.99/month
+};
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { parentName, parentEmail, athleteName, athleteAge, sport, school } = await req.json();
+    const { parentName, parentEmail, athleteName, athleteAge, sport, school, tier = "basic" } = await req.json();
     
     if (!parentEmail) {
       throw new Error("Email is required");
     }
+
+    const priceId = TIER_PRICES[tier as keyof typeof TIER_PRICES] || TIER_PRICES.basic;
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2025-08-27.basil",
@@ -34,7 +41,7 @@ serve(async (req) => {
       customer_email: customerId ? undefined : parentEmail,
       line_items: [
         {
-          price: "price_1SaXIxJCEhoZof7cVAHwQfwm", // $4.99/month Athlete Program Membership
+          price: priceId,
           quantity: 1,
         },
       ],
@@ -47,13 +54,16 @@ serve(async (req) => {
         athleteAge,
         sport,
         school,
+        tier,
       },
     });
 
     console.log("[CREATE-REGISTRATION] Checkout session created", { 
       sessionId: session.id, 
       athleteName,
-      parentEmail 
+      parentEmail,
+      tier,
+      priceId,
     });
 
     return new Response(JSON.stringify({ url: session.url }), {

@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Users, Loader2 } from "lucide-react";
+import { Users, Loader2, Crown, Star } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
@@ -61,8 +61,40 @@ const AGE_RANGES = [
   "18+",
 ];
 
+type TierType = "basic" | "pro";
+
+const TIERS = {
+  basic: {
+    name: "Basic",
+    price: 4.99,
+    priceId: "price_1SaXIxJCEhoZof7cVAHwQfwm",
+    icon: Star,
+    features: [
+      "Athlete profile with Hudl film & personal achievements",
+      "Mentorship from professional trainers",
+      "Access to current & former professional players",
+      "Elite athletes network access",
+    ],
+  },
+  pro: {
+    name: "Pro",
+    price: 14.99,
+    priceId: "price_1ScNJmJCEhoZof7cWvOCcXtE",
+    icon: Crown,
+    features: [
+      "Everything in Basic, plus:",
+      "Former NFL player grade on your play",
+      "Personal analysis of your athlete",
+      "NIL Advisor access",
+      "Exclusive community message board",
+      "Ask questions to Brand of Champion support team",
+    ],
+  },
+};
+
 export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrationModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedTier, setSelectedTier] = useState<TierType>("basic");
   const [formData, setFormData] = useState({
     parentName: "",
     parentEmail: "",
@@ -108,6 +140,7 @@ export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrati
           athleteAge: formData.athleteAge,
           sport: formData.sport,
           school: formData.school,
+          tier: selectedTier,
         },
       });
 
@@ -117,7 +150,6 @@ export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrati
         window.open(data.url, "_blank");
         toast.success("Redirecting to checkout...");
         onOpenChange(false);
-        // Reset form
         setFormData({
           parentName: "",
           parentEmail: "",
@@ -128,6 +160,7 @@ export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrati
           school: "",
           goals: "",
         });
+        setSelectedTier("basic");
       }
     } catch (error) {
       console.error("Registration error:", error);
@@ -137,22 +170,63 @@ export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrati
     }
   };
 
+  const currentTier = TIERS[selectedTier];
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Users className="w-5 h-5 text-accent" />
             Register Your Athlete
           </DialogTitle>
           <DialogDescription>
-            Join the Brand of a Champion program for <span className="font-semibold text-accent">$4.99/month</span>. Fill out the form below to get started.
+            Join the Brand of a Champion program. Choose your plan and fill out the form below.
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
+          {/* Tier Selection */}
+          <div className="space-y-3">
+            <h3 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground">
+              Choose Your Plan
+            </h3>
+            <div className="grid grid-cols-2 gap-3">
+              {(Object.entries(TIERS) as [TierType, typeof TIERS.basic][]).map(([key, tier]) => {
+                const Icon = tier.icon;
+                const isSelected = selectedTier === key;
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setSelectedTier(key)}
+                    className={`relative p-4 rounded-lg border-2 text-left transition-all ${
+                      isSelected
+                        ? "border-accent bg-accent/10"
+                        : "border-border hover:border-accent/50"
+                    }`}
+                  >
+                    {key === "pro" && (
+                      <span className="absolute -top-2 -right-2 bg-accent text-accent-foreground text-xs px-2 py-0.5 rounded-full font-medium">
+                        Best Value
+                      </span>
+                    )}
+                    <div className="flex items-center gap-2 mb-2">
+                      <Icon className={`w-5 h-5 ${isSelected ? "text-accent" : "text-muted-foreground"}`} />
+                      <span className="font-semibold">{tier.name}</span>
+                    </div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-2xl font-bold">${tier.price}</span>
+                      <span className="text-sm text-muted-foreground">/month</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Parent Information */}
-          <div className="space-y-4">
+          <div className="space-y-4 pt-4 border-t">
             <h3 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground">
               Parent/Guardian Information
             </h3>
@@ -296,37 +370,36 @@ export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrati
             </div>
           </div>
 
-          {/* Pricing info */}
-          <div className="bg-accent/10 rounded-lg p-4 border border-accent/20 space-y-3">
+          {/* Selected Plan Summary */}
+          <div className={`rounded-lg p-4 border space-y-3 ${
+            selectedTier === "pro" 
+              ? "bg-accent/10 border-accent/30" 
+              : "bg-muted/50 border-border"
+          }`}>
             <div className="flex items-center justify-between">
-              <div>
-                <p className="font-semibold">Athlete Program Membership</p>
-                <p className="text-sm text-muted-foreground">Monthly subscription</p>
+              <div className="flex items-center gap-2">
+                <currentTier.icon className={`w-5 h-5 ${selectedTier === "pro" ? "text-accent" : "text-muted-foreground"}`} />
+                <div>
+                  <p className="font-semibold">{currentTier.name} Membership</p>
+                  <p className="text-sm text-muted-foreground">Monthly subscription</p>
+                </div>
               </div>
               <div className="text-right">
-                <p className="text-2xl font-bold text-accent">$4.99</p>
+                <p className={`text-2xl font-bold ${selectedTier === "pro" ? "text-accent" : ""}`}>
+                  ${currentTier.price}
+                </p>
                 <p className="text-sm text-muted-foreground">/month</p>
               </div>
             </div>
-            <div className="border-t border-accent/20 pt-3">
+            <div className="border-t border-current/10 pt-3">
               <p className="text-sm font-medium mb-2">What's included:</p>
               <ul className="text-sm text-muted-foreground space-y-1">
-                <li className="flex items-start gap-2">
-                  <span className="text-accent">✓</span>
-                  Athlete profile with Hudl film & personal achievements
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent">✓</span>
-                  Mentorship from professional trainers
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent">✓</span>
-                  Access to current & former professional players
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent">✓</span>
-                  Elite athletes network access
-                </li>
+                {currentTier.features.map((feature, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className={selectedTier === "pro" ? "text-accent" : "text-foreground"}>✓</span>
+                    {feature}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -343,7 +416,7 @@ export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrati
                 Processing...
               </>
             ) : (
-              "Continue to Payment"
+              `Continue to Payment - $${currentTier.price}/month`
             )}
           </Button>
 
