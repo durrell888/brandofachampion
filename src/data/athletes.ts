@@ -100,6 +100,7 @@ export const mockAthletes: Athlete[] = [
     school: "Douglas County High School",
     height: "6'1\"",
     weight: "180 lbs",
+    gpa: 3.0,
     hudlLink: "http://www.hudl.com/v/2SgWxV",
     instagramLink: "https://www.instagram.com/jaamar._?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
     twitterLink: "https://x.com/1jamarowens?s=20",
