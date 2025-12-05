@@ -5,7 +5,6 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Send, Image, X, Loader2 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface Thread {
   id: string;
@@ -13,7 +12,6 @@ interface Thread {
   user_id: string;
   created_at: string;
   author?: string;
-  avatar?: string;
 }
 
 interface Message {
@@ -25,9 +23,7 @@ interface Message {
   team_member_name: string | null;
   media_urls: string[] | null;
   created_at: string;
-  // Demo fields
   author?: string;
-  avatar?: string;
 }
 
 interface ThreadDetailProps {
@@ -52,10 +48,9 @@ const formatTimeAgo = (dateString: string): string => {
   return date.toLocaleDateString();
 };
 
-// Sample messages for demo threads
 const getDemoMessages = (threadId: string): Message[] => {
-  const demoMessagesMap: Record<string, Message[]> = {
-    "demo-1": [
+  if (threadId === "demo-1") {
+    return [
       {
         id: "msg-1-1",
         thread_id: "demo-1",
@@ -65,8 +60,7 @@ const getDemoMessages = (threadId: string): Message[] => {
         team_member_name: null,
         media_urls: null,
         created_at: new Date(Date.now() - 15 * 60000).toISOString(),
-        author: "Marcus Thompson",
-        avatar: "/images/athletes/jamar-owens.jpg"
+        author: "Marcus Thompson"
       },
       {
         id: "msg-1-2",
@@ -77,8 +71,7 @@ const getDemoMessages = (threadId: string): Message[] => {
         team_member_name: "Aaron Ross",
         media_urls: null,
         created_at: new Date(Date.now() - 12 * 60000).toISOString(),
-        author: "Aaron Ross",
-        avatar: "/images/team/aaron-ross.avif"
+        author: "Aaron Ross"
       },
       {
         id: "msg-1-3",
@@ -89,8 +82,7 @@ const getDemoMessages = (threadId: string): Message[] => {
         team_member_name: null,
         media_urls: null,
         created_at: new Date(Date.now() - 8 * 60000).toISOString(),
-        author: "Jaylen Carter",
-        avatar: "/images/athletes/trey-byrd.jpg"
+        author: "Jaylen Carter"
       },
       {
         id: "msg-1-4",
@@ -101,23 +93,24 @@ const getDemoMessages = (threadId: string): Message[] => {
         team_member_name: null,
         media_urls: null,
         created_at: new Date(Date.now() - 5 * 60000).toISOString(),
-        author: "Tyler Jackson",
-        avatar: "/images/athletes/nick-burden.jpg"
+        author: "Tyler Jackson"
       },
       {
         id: "msg-1-5",
         thread_id: "demo-1",
         user_id: "demo-user-5",
-        content: "Just scheduled my session with Coach Ross for next week. Can't wait! 💪",
+        content: "Just scheduled my session with Coach Ross for next week. Can't wait!",
         is_team_response: false,
         team_member_name: null,
         media_urls: null,
         created_at: new Date(Date.now() - 2 * 60000).toISOString(),
-        author: "Cameron Davis",
-        avatar: "/images/athletes/aaron-gregory.jpg"
+        author: "Cameron Davis"
       }
-    ],
-    "demo-2": [
+    ];
+  }
+  
+  if (threadId === "demo-2") {
+    return [
       {
         id: "msg-2-1",
         thread_id: "demo-2",
@@ -127,20 +120,18 @@ const getDemoMessages = (threadId: string): Message[] => {
         team_member_name: null,
         media_urls: null,
         created_at: new Date(Date.now() - 45 * 60000).toISOString(),
-        author: "DeShawn Williams",
-        avatar: "/images/athletes/jordan-carter.webp"
+        author: "DeShawn Williams"
       },
       {
         id: "msg-2-2",
         thread_id: "demo-2",
         user_id: "demo-user-1",
-        content: "LETS GOOOOO! 🔥🔥🔥 Congrats bro!",
+        content: "LETS GOOOOO! Congrats bro!",
         is_team_response: false,
         team_member_name: null,
         media_urls: null,
         created_at: new Date(Date.now() - 42 * 60000).toISOString(),
-        author: "Marcus Thompson",
-        avatar: "/images/athletes/jamar-owens.jpg"
+        author: "Marcus Thompson"
       },
       {
         id: "msg-2-3",
@@ -151,8 +142,7 @@ const getDemoMessages = (threadId: string): Message[] => {
         team_member_name: "Durrell Steen",
         media_urls: null,
         created_at: new Date(Date.now() - 38 * 60000).toISOString(),
-        author: "Durrell Steen",
-        avatar: "/images/team/durrell-steen.jpg"
+        author: "Durrell Steen"
       },
       {
         id: "msg-2-4",
@@ -163,35 +153,24 @@ const getDemoMessages = (threadId: string): Message[] => {
         team_member_name: null,
         media_urls: null,
         created_at: new Date(Date.now() - 25 * 60000).toISOString(),
-        author: "Tyler Jackson",
-        avatar: "/images/athletes/nick-burden.jpg"
+        author: "Tyler Jackson"
       },
       {
         id: "msg-2-5",
         thread_id: "demo-2",
         user_id: "demo-user-3",
-        content: "This is what it's all about! Motivation for all of us 🙌",
+        content: "This is what it's all about! Motivation for all of us",
         is_team_response: false,
         team_member_name: null,
         media_urls: null,
         created_at: new Date(Date.now() - 15 * 60000).toISOString(),
-        author: "Jaylen Carter",
-        avatar: "/images/athletes/trey-byrd.jpg"
-      },
-      {
-        id: "msg-2-6",
-        thread_id: "demo-2",
-        user_id: "demo-user-6",
-        content: "Congrats DeShawn! Remember me when you're in the league 😂",
-        is_team_response: false,
-        team_member_name: null,
-        media_urls: null,
-        created_at: new Date(Date.now() - 5 * 60000).toISOString(),
-        author: "Brandon Mitchell",
-        avatar: "/images/athletes/jamier-brown.jpg"
+        author: "Jaylen Carter"
       }
-    ],
-    "demo-3": [
+    ];
+  }
+
+  if (threadId === "demo-3") {
+    return [
       {
         id: "msg-3-1",
         thread_id: "demo-3",
@@ -201,38 +180,23 @@ const getDemoMessages = (threadId: string): Message[] => {
         team_member_name: null,
         media_urls: null,
         created_at: new Date(Date.now() - 2 * 3600000).toISOString(),
-        author: "Jaylen Carter",
-        avatar: "/images/athletes/trey-byrd.jpg"
+        author: "Jaylen Carter"
       },
       {
         id: "msg-3-2",
         thread_id: "demo-3",
         user_id: "team-sanya",
-        content: "Great question Jaylen! Yes, high schoolers can do NIL in most states now. Here's what to watch for:\n\n1. Always have a lawyer or trusted adult review contracts\n2. Understand what they're asking you to do (social posts, appearances, etc.)\n3. Make sure it doesn't conflict with potential college eligibility\n4. Don't sign exclusivity deals early in your career\n\nDM me and we can connect you with our NIL advisor for a free consultation!",
+        content: "Great question Jaylen! Yes, high schoolers can do NIL in most states now. Here's what to watch for:\n\n1. Always have a lawyer or trusted adult review contracts\n2. Understand what they're asking you to do\n3. Make sure it doesn't conflict with potential college eligibility\n4. Don't sign exclusivity deals early\n\nDM me and we can connect you with our NIL advisor!",
         is_team_response: true,
         team_member_name: "Sanya Richards-Ross",
         media_urls: null,
         created_at: new Date(Date.now() - 1.5 * 3600000).toISOString(),
-        author: "Sanya Richards-Ross",
-        avatar: "/images/team/sanya-richards-ross.jpg"
-      },
-      {
-        id: "msg-3-3",
-        thread_id: "demo-3",
-        user_id: "demo-user-1",
-        content: "This is so helpful! I've been wondering the same thing",
-        is_team_response: false,
-        team_member_name: null,
-        media_urls: null,
-        created_at: new Date(Date.now() - 45 * 60000).toISOString(),
-        author: "Marcus Thompson",
-        avatar: "/images/athletes/jamar-owens.jpg"
+        author: "Sanya Richards-Ross"
       }
-    ]
-  };
+    ];
+  }
 
-  // Return specific messages for known threads, or generic ones for others
-  return demoMessagesMap[threadId] || [
+  return [
     {
       id: "msg-generic-1",
       thread_id: threadId,
@@ -242,20 +206,18 @@ const getDemoMessages = (threadId: string): Message[] => {
       team_member_name: null,
       media_urls: null,
       created_at: new Date(Date.now() - 3600000).toISOString(),
-      author: "Marcus Thompson",
-      avatar: "/images/athletes/jamar-owens.jpg"
+      author: "Marcus Thompson"
     },
     {
       id: "msg-generic-2",
       thread_id: threadId,
       user_id: "team-durrell",
-      content: "Thanks for bringing this up! This is exactly the kind of conversation that helps our whole community grow. Let me share some thoughts...",
+      content: "Thanks for bringing this up! This is exactly the kind of conversation that helps our whole community grow.",
       is_team_response: true,
       team_member_name: "Durrell Steen",
       media_urls: null,
       created_at: new Date(Date.now() - 2400000).toISOString(),
-      author: "Durrell Steen",
-      avatar: "/images/team/durrell-steen.jpg"
+      author: "Durrell Steen"
     }
   ];
 };
@@ -390,7 +352,6 @@ const ThreadDetail = ({ thread, userId, onBack, demoMode = false }: ThreadDetail
     if (!newMessage.trim() && mediaFiles.length === 0) return;
 
     if (demoMode) {
-      // In demo mode, just add message locally
       const newMsg: Message = {
         id: `demo-new-${Date.now()}`,
         thread_id: thread.id,
@@ -400,8 +361,7 @@ const ThreadDetail = ({ thread, userId, onBack, demoMode = false }: ThreadDetail
         team_member_name: null,
         media_urls: null,
         created_at: new Date().toISOString(),
-        author: "You",
-        avatar: undefined
+        author: "You"
       };
       setMessages(prev => [...prev, newMsg]);
       setNewMessage("");
@@ -457,12 +417,11 @@ const ThreadDetail = ({ thread, userId, onBack, demoMode = false }: ThreadDetail
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <div className="flex items-center gap-3">
-          {thread.avatar && (
-            <Avatar className="w-10 h-10">
-              <AvatarImage src={thread.avatar} />
-              <AvatarFallback>{thread.author?.charAt(0)}</AvatarFallback>
-            </Avatar>
-          )}
+          <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
+            <span className="text-accent font-bold text-sm">
+              {thread.author?.charAt(0) || '?'}
+            </span>
+          </div>
           <div>
             <h2 className="font-bold text-foreground">{thread.title}</h2>
             <p className="text-sm text-muted-foreground">
@@ -487,12 +446,11 @@ const ThreadDetail = ({ thread, userId, onBack, demoMode = false }: ThreadDetail
               className={`flex ${message.user_id === userId && !message.is_team_response ? 'justify-end' : 'justify-start'}`}
             >
               <div className={`flex gap-2 max-w-[85%] ${message.user_id === userId && !message.is_team_response ? 'flex-row-reverse' : ''}`}>
-                {message.avatar && (
-                  <Avatar className="w-8 h-8 flex-shrink-0">
-                    <AvatarImage src={message.avatar} />
-                    <AvatarFallback className="text-xs">{message.author?.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                )}
+                <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                  <span className="text-accent font-bold text-xs">
+                    {message.author?.charAt(0) || '?'}
+                  </span>
+                </div>
                 <Card className={`p-3 ${
                   message.is_team_response 
                     ? 'bg-accent/10 border-accent/30' 
