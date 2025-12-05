@@ -14,7 +14,7 @@ interface Thread {
 }
 
 interface ThreadListProps {
-  userId: string;
+  userId: string | undefined;
 }
 
 const ThreadList = ({ userId }: ThreadListProps) => {

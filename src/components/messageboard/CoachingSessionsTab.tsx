@@ -23,7 +23,7 @@ interface CoachingSession {
 }
 
 interface CoachingSessionsTabProps {
-  userId: string;
+  userId: string | undefined;
 }
 
 const teamMembers = [
@@ -49,6 +49,10 @@ const CoachingSessionsTab = ({ userId }: CoachingSessionsTabProps) => {
   const [topic, setTopic] = useState("");
 
   const fetchSessions = async () => {
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
     const { data, error } = await supabase
       .from('coaching_sessions')
       .select('*')
@@ -127,14 +131,28 @@ const CoachingSessionsTab = ({ userId }: CoachingSessionsTabProps) => {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold text-foreground">Your Coaching Sessions</h2>
-        <Button variant="hero" onClick={() => setShowRequestModal(true)}>
-          <Plus className="w-4 h-4 mr-2" />
-          Request Session
-        </Button>
+        <h2 className="text-xl font-bold text-foreground">Coaching Sessions</h2>
+        {userId ? (
+          <Button variant="hero" onClick={() => setShowRequestModal(true)}>
+            <Plus className="w-4 h-4 mr-2" />
+            Request Session
+          </Button>
+        ) : (
+          <Button variant="hero" onClick={() => window.location.href = '/auth'}>
+            Sign In to Request
+          </Button>
+        )}
       </div>
 
-      {loading ? (
+      {!userId ? (
+        <Card className="p-8 text-center">
+          <Calendar className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-foreground mb-2">Sign in to view sessions</h3>
+          <p className="text-muted-foreground">
+            Sign in to request coaching sessions with our team members.
+          </p>
+        </Card>
+      ) : loading ? (
         <div className="flex justify-center py-12">
           <Loader2 className="w-6 h-6 animate-spin text-accent" />
         </div>
