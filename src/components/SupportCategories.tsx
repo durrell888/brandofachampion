@@ -1,12 +1,6 @@
-import { Briefcase, GraduationCap, Heart, DollarSign, Home, Scale, Users, ArrowRight } from "lucide-react";
+import { GraduationCap, Heart, DollarSign, Home, Scale, ArrowRight } from "lucide-react";
 
 const categories = [
-  {
-    icon: Briefcase,
-    title: "Career Development",
-    description: "Resume building, interview prep, networking opportunities, and career transition coaching.",
-    accent: "group-hover:bg-accent",
-  },
   {
     icon: GraduationCap,
     title: "Education",
@@ -39,12 +33,6 @@ const categories = [
     description: "Contract review, legal consultations, and advocacy resources.",
     accent: "group-hover:bg-muted-foreground",
     link: "https://www.georgialegalaid.org",
-  },
-  {
-    icon: Users,
-    title: "Community",
-    description: "Mentorship programs, peer networks, and alumni connections.",
-    accent: "group-hover:bg-success",
   },
 ];
 
