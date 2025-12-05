@@ -59,6 +59,92 @@ export type Database = {
         }
         Relationships: []
       }
+      saved_scholarships: {
+        Row: {
+          created_at: string
+          id: string
+          scholarship_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          scholarship_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          scholarship_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_scholarships_scholarship_id_fkey"
+            columns: ["scholarship_id"]
+            isOneToOne: false
+            referencedRelation: "scholarships"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scholarships: {
+        Row: {
+          amount_max: number | null
+          amount_min: number | null
+          application_url: string | null
+          category: string | null
+          created_at: string
+          deadline: string | null
+          description: string | null
+          eligibility: string | null
+          gpa_requirement: number | null
+          grade_levels: string[] | null
+          id: string
+          name: string
+          provider: string
+          source_url: string | null
+          states: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          amount_max?: number | null
+          amount_min?: number | null
+          application_url?: string | null
+          category?: string | null
+          created_at?: string
+          deadline?: string | null
+          description?: string | null
+          eligibility?: string | null
+          gpa_requirement?: number | null
+          grade_levels?: string[] | null
+          id?: string
+          name: string
+          provider: string
+          source_url?: string | null
+          states?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          amount_max?: number | null
+          amount_min?: number | null
+          application_url?: string | null
+          category?: string | null
+          created_at?: string
+          deadline?: string | null
+          description?: string | null
+          eligibility?: string | null
+          gpa_requirement?: number | null
+          grade_levels?: string[] | null
+          id?: string
+          name?: string
+          provider?: string
+          source_url?: string | null
+          states?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       school_coaches: {
         Row: {
           created_at: string
