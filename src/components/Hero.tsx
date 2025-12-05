@@ -28,18 +28,18 @@ const Hero = () => {
         </div>
 
         {/* Main headline */}
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold text-primary-foreground text-center max-w-5xl leading-[0.9] mb-8 animate-fade-in [animation-delay:100ms] opacity-0 tracking-tight">
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold text-primary-foreground text-center max-w-5xl leading-[0.9] mb-8 animate-fade-in [animation-delay:100ms] tracking-tight">
           <span className="block">BUILDING THE</span>
           <span className="text-gradient">BRAND OF A</span>
           <span className="block">CHAMPION</span>
         </h1>
 
-        <p className="text-lg md:text-xl text-primary-foreground/70 text-center max-w-2xl mb-12 animate-fade-in [animation-delay:200ms] opacity-0 font-medium">
+        <p className="text-lg md:text-xl text-primary-foreground/70 text-center max-w-2xl mb-12 animate-fade-in [animation-delay:200ms] font-medium">
           Empowering athletes to succeed in every aspect of life through media relations, marketing, career development, and personal growth.
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 animate-fade-in [animation-delay:300ms] opacity-0">
+        <div className="flex flex-col sm:flex-row gap-4 animate-fade-in [animation-delay:300ms]">
           <Link to="/stories">
             <Button variant="hero" size="xl" className="group">
               <Play className="w-5 h-5" />
@@ -53,7 +53,7 @@ const Hero = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mt-24 animate-fade-in [animation-delay:400ms] opacity-0">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mt-24 animate-fade-in [animation-delay:400ms]">
           <div className="text-center p-6 rounded-xl bg-primary-foreground/5 border border-primary-foreground/10 hover:bg-primary-foreground/10 transition-colors">
             <div className="flex items-center justify-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-lg red-gradient flex items-center justify-center">
