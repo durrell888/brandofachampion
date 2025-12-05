@@ -77,7 +77,7 @@ const SupportCategories = () => {
                 href={category.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group bg-card rounded-xl p-6 border border-border hover:border-accent/30 card-shadow hover:card-shadow-hover transition-all duration-300 cursor-pointer animate-fade-in opacity-0"
+                className="group bg-card rounded-xl p-6 border border-border hover:border-accent/30 card-shadow hover:card-shadow-hover transition-all duration-300 cursor-pointer animate-fade-in"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 {CardContent}
@@ -85,7 +85,7 @@ const SupportCategories = () => {
             ) : (
               <div
                 key={category.title}
-                className="group bg-card rounded-xl p-6 border border-border hover:border-accent/30 card-shadow hover:card-shadow-hover transition-all duration-300 cursor-pointer animate-fade-in opacity-0"
+                className="group bg-card rounded-xl p-6 border border-border hover:border-accent/30 card-shadow hover:card-shadow-hover transition-all duration-300 cursor-pointer animate-fade-in"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 {CardContent}
