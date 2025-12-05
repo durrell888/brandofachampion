@@ -49,8 +49,8 @@ export const affiliateProducts: AffiliateProduct[] = [
     brand: "SKLZ",
     category: "Training",
     description: "Improve footwork, agility, and quickness",
-    price: "$35",
-    image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400",
+    price: "$59",
+    image: "/images/products/sklz-speed-ladder.jpg",
     affiliateLink: "https://amzn.to/4iEMyP7",
   },
   {
