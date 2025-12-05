@@ -13,7 +13,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { ArrowLeft, MapPin, Phone, Mail, Twitter, GraduationCap, Building, Search, Users, X, Lock, CreditCard, Loader2, AlertTriangle } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { ArrowLeft, MapPin, Phone, Mail, Twitter, GraduationCap, Building, Search, Users, X, Lock, CreditCard, Loader2, AlertTriangle, BookOpen, Calendar, MessageCircle, Clock } from "lucide-react";
 import { toast } from "sonner";
 
 const CONTACT_LIMIT = 6;
@@ -579,6 +580,164 @@ export default function Recruiting() {
 
           {/* Paywall Banner for non-subscribers */}
           {!subscriptionLoading && !isSubscribed && <PaywallBanner />}
+
+          {/* NCAA Recruiting Rules Section */}
+          <div className="bg-card rounded-2xl p-6 border border-border mb-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <BookOpen className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold">NCAA Recruiting Rules</h2>
+                <p className="text-sm text-muted-foreground">Important guidelines for parents and student-athletes</p>
+              </div>
+            </div>
+
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="key-rules">
+                <AccordionTrigger className="text-left">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-primary" />
+                    Key Rules & Timelines
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-4 pt-2">
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="p-4 rounded-lg bg-muted/50">
+                        <h4 className="font-semibold mb-2 flex items-center gap-2">
+                          <MessageCircle className="w-4 h-4 text-primary" />
+                          Contact Restrictions
+                        </h4>
+                        <p className="text-sm text-muted-foreground">Rules are in place to control the timing and nature of contact to reduce pressure on student-athletes.</p>
+                      </div>
+                      <div className="p-4 rounded-lg bg-muted/50">
+                        <h4 className="font-semibold mb-2 flex items-center gap-2">
+                          <Clock className="w-4 h-4 text-green-500" />
+                          Contact Periods
+                        </h4>
+                        <p className="text-sm text-muted-foreground">Periods when coaches can have unlimited contact (calls, emails, texts, and in-person meetings) with recruits.</p>
+                      </div>
+                      <div className="p-4 rounded-lg bg-muted/50">
+                        <h4 className="font-semibold mb-2 flex items-center gap-2">
+                          <Clock className="w-4 h-4 text-amber-500" />
+                          Quiet Periods
+                        </h4>
+                        <p className="text-sm text-muted-foreground">Coaches can only have in-person contact on the college campus.</p>
+                      </div>
+                      <div className="p-4 rounded-lg bg-muted/50">
+                        <h4 className="font-semibold mb-2 flex items-center gap-2">
+                          <Clock className="w-4 h-4 text-red-500" />
+                          Dead Periods
+                        </h4>
+                        <p className="text-sm text-muted-foreground">Periods when coaches cannot have contact with recruits or their families in any capacity.</p>
+                      </div>
+                    </div>
+                    <div className="space-y-3 mt-4">
+                      <div className="p-3 rounded-lg border border-border">
+                        <p className="text-sm"><strong>Verbal Scholarship Offers:</strong> Can be extended starting June 15 after the sophomore year for DI, or at any time for DII.</p>
+                      </div>
+                      <div className="p-3 rounded-lg border border-border">
+                        <p className="text-sm"><strong>Official Visits:</strong> Start August 1 before the junior year for DI. Costs are covered by the university.</p>
+                      </div>
+                      <div className="p-3 rounded-lg border border-border">
+                        <p className="text-sm"><strong>Unofficial Visits:</strong> Can be taken at any time, but coaches cannot be involved in discussions before August 1 of the junior year for DI.</p>
+                      </div>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="division-1">
+                <AccordionTrigger className="text-left">
+                  <div className="flex items-center gap-2">
+                    <Badge className="bg-amber-500/20 text-amber-700 dark:text-amber-400">D1</Badge>
+                    Division I Rules
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-3 pt-2">
+                    <div className="p-4 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                      <h4 className="font-semibold mb-2">Contact Timeline</h4>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>• <strong>June 15 after sophomore year:</strong> Coaches can initiate private electronic correspondence (calls, texts, emails)</li>
+                        <li>• <strong>July 1 after junior year:</strong> Off-campus contact can begin</li>
+                        <li>• <strong>September 1 of senior year:</strong> Coaches can make one phone call per week</li>
+                        <li>• <strong>Senior year:</strong> Total of six off-campus contacts with student and parents allowed</li>
+                      </ul>
+                    </div>
+                    <div className="p-4 rounded-lg bg-muted/50">
+                      <h4 className="font-semibold mb-2">Official Visits</h4>
+                      <p className="text-sm text-muted-foreground">Start August 1 before the junior year. University covers all costs including transportation, meals, and lodging.</p>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="division-2">
+                <AccordionTrigger className="text-left">
+                  <div className="flex items-center gap-2">
+                    <Badge className="bg-blue-500/20 text-blue-700 dark:text-blue-400">D2</Badge>
+                    Division II Rules
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-3 pt-2">
+                    <div className="p-4 rounded-lg bg-blue-500/10 border border-blue-500/20">
+                      <h4 className="font-semibold mb-2">Contact Timeline</h4>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>• <strong>Contact:</strong> Can begin at any time regardless of the sport</li>
+                        <li>• <strong>In-person contact:</strong> Limited until June 15 after the sophomore year</li>
+                        <li>• <strong>Verbal offers:</strong> Can be extended at any time</li>
+                      </ul>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="division-3">
+                <AccordionTrigger className="text-left">
+                  <div className="flex items-center gap-2">
+                    <Badge className="bg-green-500/20 text-green-700 dark:text-green-400">D3</Badge>
+                    Division III Rules
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-3 pt-2">
+                    <div className="p-4 rounded-lg bg-green-500/10 border border-green-500/20">
+                      <h4 className="font-semibold mb-2">Contact Timeline</h4>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>• <strong>Contact:</strong> No standardized rules for when contact can begin</li>
+                        <li>• <strong>Off-campus contact:</strong> Cannot occur until after the sophomore year</li>
+                        <li>• <strong>Note:</strong> DIII schools do not offer athletic scholarships, but financial aid packages may be available</li>
+                      </ul>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="important">
+                <AccordionTrigger className="text-left">
+                  <div className="flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4 text-amber-500" />
+                    Important Considerations
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-3 pt-2">
+                    <div className="p-4 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                      <ul className="space-y-3 text-sm text-muted-foreground">
+                        <li>• These are general guidelines. <strong>Specific rules may vary based on sport and division.</strong></li>
+                        <li>• The NCAA defines "contact" as any face-to-face meeting with a college coach off campus during which more than "hello" is said.</li>
+                        <li>• If a coach answers a call from a student-athlete before the official start of recruiting contact, the coach can only answer and not return calls.</li>
+                        <li>• Always verify current rules on the official <a href="https://www.ncaa.org" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">NCAA website</a>.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
 
           {/* Search & Filter Controls */}
           <div className="space-y-4 mb-8">
