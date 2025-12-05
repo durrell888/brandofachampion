@@ -14,6 +14,69 @@ export type Database = {
   }
   public: {
     Tables: {
+      coaching_sessions: {
+        Row: {
+          created_at: string
+          id: string
+          notes: string | null
+          preferred_date: string | null
+          preferred_time: string | null
+          status: string
+          team_member: string
+          topic: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          preferred_date?: string | null
+          preferred_time?: string | null
+          status?: string
+          team_member: string
+          topic: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          preferred_date?: string | null
+          preferred_time?: string | null
+          status?: string
+          team_member?: string
+          topic?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      message_threads: {
+        Row: {
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       ncaa_football_schools: {
         Row: {
           city: string | null
@@ -235,6 +298,47 @@ export type Database = {
           id?: string
         }
         Relationships: []
+      }
+      thread_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          is_team_response: boolean
+          media_urls: string[] | null
+          team_member_name: string | null
+          thread_id: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          is_team_response?: boolean
+          media_urls?: string[] | null
+          team_member_name?: string | null
+          thread_id: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          is_team_response?: boolean
+          media_urls?: string[] | null
+          team_member_name?: string | null
+          thread_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "thread_messages_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "message_threads"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
