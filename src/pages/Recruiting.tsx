@@ -207,7 +207,7 @@ export default function Recruiting() {
     }
   };
 
-  // Fetch contacted schools for last 30 days
+  // Fetch contacted schools for current 30-day period (resets every 30 days, no rollover)
   useEffect(() => {
     const fetchContactedSchools = async () => {
       if (!user) {
@@ -215,14 +215,38 @@ export default function Recruiting() {
         return;
       }
       
-      const thirtyDaysAgo = new Date();
-      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - CONTACT_WINDOW_DAYS);
+      // Get the user's first ever contact to establish their cycle start
+      const { data: firstContact, error: firstError } = await supabase
+        .from("school_contacts")
+        .select("contacted_at")
+        .eq("user_id", user.id)
+        .order("contacted_at", { ascending: true })
+        .limit(1)
+        .maybeSingle();
+      
+      let periodStart: Date;
+      
+      if (firstContact) {
+        // Calculate current period based on first contact date
+        const firstContactDate = new Date(firstContact.contacted_at);
+        const now = new Date();
+        const daysSinceFirst = Math.floor((now.getTime() - firstContactDate.getTime()) / (1000 * 60 * 60 * 24));
+        const currentPeriod = Math.floor(daysSinceFirst / CONTACT_WINDOW_DAYS);
+        
+        periodStart = new Date(firstContactDate);
+        periodStart.setDate(periodStart.getDate() + (currentPeriod * CONTACT_WINDOW_DAYS));
+        periodStart.setHours(0, 0, 0, 0);
+      } else {
+        // No contacts yet, use today as period start
+        periodStart = new Date();
+        periodStart.setHours(0, 0, 0, 0);
+      }
       
       const { data, error } = await supabase
         .from("school_contacts")
         .select("school_id")
         .eq("user_id", user.id)
-        .gte("contacted_at", thirtyDaysAgo.toISOString());
+        .gte("contacted_at", periodStart.toISOString());
       
       if (error) {
         console.error("Error fetching contacts:", error);
@@ -543,7 +567,7 @@ export default function Recruiting() {
                     Premium Subscriber
                   </Badge>
                   <Badge variant="outline" className="text-muted-foreground">
-                    {contactedSchools.size} / {CONTACT_LIMIT} schools contacted (last 30 days)
+                    {contactedSchools.size} / {CONTACT_LIMIT} schools contacted this period
                   </Badge>
                   <Button variant="ghost" size="sm" onClick={handleManageSubscription}>
                     Manage Subscription
@@ -1075,7 +1099,7 @@ export default function Recruiting() {
         </div>
       </main>
 
-      {/* Monthly Limit Modal */}
+      {/* 30-Day Period Limit Modal */}
       <Dialog open={showLimitModal} onOpenChange={setShowLimitModal}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -1086,13 +1110,13 @@ export default function Recruiting() {
             <DialogDescription className="pt-4 space-y-4">
               <p>
                 As a recruiting subscriber, you are allowed to contact up to <strong>{CONTACT_LIMIT} schools every {CONTACT_WINDOW_DAYS} days</strong>. 
-                You have reached your limit.
+                You have reached your limit for this period.
               </p>
               <p>
-                Your oldest contact will expire and free up a slot as time passes. Schools you've already viewed will remain accessible.
+                Your limit will reset at the start of your next 30-day period. Unused contacts do not roll over. Schools you've already viewed will remain accessible.
               </p>
               <div className="bg-muted/50 rounded-lg p-4 mt-4">
-                <p className="text-sm font-medium mb-2">Schools contacted (last 30 days):</p>
+                <p className="text-sm font-medium mb-2">Schools contacted this period:</p>
                 <p className="text-2xl font-bold text-primary">{contactedSchools.size} / {CONTACT_LIMIT}</p>
               </div>
             </DialogDescription>
