@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Send, Image, Video, X, Loader2 } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
+import { ArrowLeft, Send, Image, X, Loader2 } from "lucide-react";
 
 interface Thread {
   id: string;
@@ -30,6 +29,21 @@ interface ThreadDetailProps {
   userId: string;
   onBack: () => void;
 }
+
+const formatTimeAgo = (dateString: string): string => {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMins / 60);
+  const diffDays = Math.floor(diffHours / 24);
+  
+  if (diffMins < 1) return "just now";
+  if (diffMins < 60) return `${diffMins}m ago`;
+  if (diffHours < 24) return `${diffHours}h ago`;
+  if (diffDays < 7) return `${diffDays}d ago`;
+  return date.toLocaleDateString();
+};
 
 const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -94,7 +108,7 @@ const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
     const validFiles = files.filter(file => {
       const isImage = file.type.startsWith('image/');
       const isVideo = file.type.startsWith('video/');
-      const maxSize = isVideo ? 50 * 1024 * 1024 : 10 * 1024 * 1024; // 50MB video, 10MB image
+      const maxSize = isVideo ? 50 * 1024 * 1024 : 10 * 1024 * 1024;
       
       if (!isImage && !isVideo) {
         toast({ title: "Invalid file", description: "Only images and videos are allowed", variant: "destructive" });
@@ -181,7 +195,6 @@ const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
       setMediaFiles([]);
       setMediaPreviews([]);
       
-      // Update thread's updated_at
       await supabase
         .from('message_threads')
         .update({ updated_at: new Date().toISOString() })
@@ -193,7 +206,6 @@ const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
 
   return (
     <div className="flex flex-col h-[600px]">
-      {/* Header */}
       <div className="flex items-center gap-4 pb-4 border-b border-border">
         <Button variant="ghost" size="icon" onClick={onBack}>
           <ArrowLeft className="w-5 h-5" />
@@ -201,12 +213,11 @@ const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
         <div>
           <h2 className="font-bold text-foreground">{thread.title}</h2>
           <p className="text-sm text-muted-foreground">
-            Started {formatDistanceToNow(new Date(thread.created_at), { addSuffix: true })}
+            Started {formatTimeAgo(thread.created_at)}
           </p>
         </div>
       </div>
 
-      {/* Messages */}
       <div className="flex-1 overflow-y-auto py-4 space-y-4">
         {loading ? (
           <div className="flex justify-center py-8">
@@ -262,7 +273,7 @@ const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
                     ? 'text-primary-foreground/70' 
                     : 'text-muted-foreground'
                 }`}>
-                  {formatDistanceToNow(new Date(message.created_at), { addSuffix: true })}
+                  {formatTimeAgo(message.created_at)}
                 </p>
               </Card>
             </div>
@@ -271,7 +282,6 @@ const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Media previews */}
       {mediaPreviews.length > 0 && (
         <div className="flex gap-2 py-2 overflow-x-auto">
           {mediaPreviews.map((preview, idx) => (
@@ -292,7 +302,6 @@ const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
         </div>
       )}
 
-      {/* Input */}
       <div className="pt-4 border-t border-border">
         <div className="flex gap-2">
           <input
