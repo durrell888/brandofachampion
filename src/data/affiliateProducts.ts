@@ -59,7 +59,7 @@ export const affiliateProducts: AffiliateProduct[] = [
     brand: "Optimum Nutrition",
     category: "Nutrition",
     description: "24g protein per serving for muscle recovery",
-    price: "$65",
+    price: "$76",
     image: "https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=400",
     affiliateLink: "https://amzn.to/3KF7zMW",
     badge: "#1 Protein",
