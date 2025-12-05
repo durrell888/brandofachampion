@@ -16,9 +16,10 @@ import { DonationModal } from "@/components/DonationModal";
 const Index = () => {
   const [donationModalOpen, setDonationModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filters, setFilters] = useState<{ sports: string[]; support: string[] }>({
+  const [filters, setFilters] = useState<{ sports: string[]; support: string[]; years: string[] }>({
     sports: [],
     support: [],
+    years: [],
   });
 
   const filteredAthletes = useMemo(() => {
@@ -36,11 +37,15 @@ const Index = () => {
         filters.support.length === 0 ||
         athlete.supportNeeded.some((s) => filters.support.includes(s));
 
-      return matchesQuery && matchesSport && matchesSupport;
+      const matchesYear =
+        filters.years.length === 0 ||
+        (athlete.classYear && filters.years.includes(athlete.classYear));
+
+      return matchesQuery && matchesSport && matchesSupport && matchesYear;
     });
   }, [searchQuery, filters]);
 
-  const handleSearch = (query: string, newFilters: { sports: string[]; support: string[] }) => {
+  const handleSearch = (query: string, newFilters: { sports: string[]; support: string[]; years: string[] }) => {
     setSearchQuery(query);
     setFilters(newFilters);
   };
