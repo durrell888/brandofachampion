@@ -1,6 +1,12 @@
-import { GraduationCap, Heart, DollarSign, Home, Scale, ArrowRight } from "lucide-react";
+import { Briefcase, GraduationCap, Heart, DollarSign, Home, Scale, Users, Lightbulb, ArrowRight } from "lucide-react";
 
 const categories = [
+  {
+    icon: Briefcase,
+    title: "Career Development",
+    description: "Resume building, interview prep, networking opportunities, and career transition coaching.",
+    accent: "group-hover:bg-accent",
+  },
   {
     icon: GraduationCap,
     title: "Education",
@@ -25,14 +31,24 @@ const categories = [
     title: "Housing Support",
     description: "Relocation assistance, housing resources, and transitional living programs.",
     accent: "group-hover:bg-primary",
-    link: "https://georgia.gov/apply-housing-choice-voucher-program",
   },
   {
     icon: Scale,
     title: "Legal Services",
     description: "Contract review, legal consultations, and advocacy resources.",
     accent: "group-hover:bg-muted-foreground",
-    link: "https://www.georgialegalaid.org",
+  },
+  {
+    icon: Users,
+    title: "Community",
+    description: "Mentorship programs, peer networks, and alumni connections.",
+    accent: "group-hover:bg-success",
+  },
+  {
+    icon: Lightbulb,
+    title: "Entrepreneurship",
+    description: "Business coaching, startup resources, and funding opportunities.",
+    accent: "group-hover:bg-accent",
   },
 ];
 
@@ -77,7 +93,7 @@ const SupportCategories = () => {
                 href={category.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group bg-card rounded-xl p-6 border border-border hover:border-accent/30 card-shadow hover:card-shadow-hover transition-all duration-300 cursor-pointer animate-fade-in"
+                className="group bg-card rounded-xl p-6 border border-border hover:border-accent/30 card-shadow hover:card-shadow-hover transition-all duration-300 cursor-pointer animate-fade-in opacity-0"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 {CardContent}
@@ -85,7 +101,7 @@ const SupportCategories = () => {
             ) : (
               <div
                 key={category.title}
-                className="group bg-card rounded-xl p-6 border border-border hover:border-accent/30 card-shadow hover:card-shadow-hover transition-all duration-300 cursor-pointer animate-fade-in"
+                className="group bg-card rounded-xl p-6 border border-border hover:border-accent/30 card-shadow hover:card-shadow-hover transition-all duration-300 cursor-pointer animate-fade-in opacity-0"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 {CardContent}
