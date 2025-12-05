@@ -1,12 +1,6 @@
-import { Briefcase, GraduationCap, Heart, DollarSign, Home, Scale, Users, Lightbulb, ArrowRight } from "lucide-react";
+import { GraduationCap, Heart, DollarSign, Home, ArrowRight } from "lucide-react";
 
 const categories = [
-  {
-    icon: Briefcase,
-    title: "Career Development",
-    description: "Resume building, interview prep, networking opportunities, and career transition coaching.",
-    accent: "group-hover:bg-accent",
-  },
   {
     icon: GraduationCap,
     title: "Education",
@@ -31,24 +25,6 @@ const categories = [
     title: "Housing Support",
     description: "Relocation assistance, housing resources, and transitional living programs.",
     accent: "group-hover:bg-primary",
-  },
-  {
-    icon: Scale,
-    title: "Legal Services",
-    description: "Contract review, legal consultations, and advocacy resources.",
-    accent: "group-hover:bg-muted-foreground",
-  },
-  {
-    icon: Users,
-    title: "Community",
-    description: "Mentorship programs, peer networks, and alumni connections.",
-    accent: "group-hover:bg-success",
-  },
-  {
-    icon: Lightbulb,
-    title: "Entrepreneurship",
-    description: "Business coaching, startup resources, and funding opportunities.",
-    accent: "group-hover:bg-accent",
   },
 ];
 
