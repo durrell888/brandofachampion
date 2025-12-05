@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { MessageSquare, Clock, ChevronRight } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
 import ThreadDetail from "./ThreadDetail";
 
 interface Thread {
@@ -16,6 +15,21 @@ interface Thread {
 interface ThreadListProps {
   userId: string;
 }
+
+const formatTimeAgo = (dateString: string): string => {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMins / 60);
+  const diffDays = Math.floor(diffHours / 24);
+  
+  if (diffMins < 1) return "just now";
+  if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+  if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+  if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+  return date.toLocaleDateString();
+};
 
 const ThreadList = ({ userId }: ThreadListProps) => {
   const [threads, setThreads] = useState<Thread[]>([]);
@@ -37,7 +51,6 @@ const ThreadList = ({ userId }: ThreadListProps) => {
   useEffect(() => {
     fetchThreads();
 
-    // Subscribe to realtime updates
     const channel = supabase
       .channel('threads-changes')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'message_threads' }, () => {
@@ -97,7 +110,7 @@ const ThreadList = ({ userId }: ThreadListProps) => {
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <span className="flex items-center gap-1">
                   <Clock className="w-3 h-3" />
-                  {formatDistanceToNow(new Date(thread.created_at), { addSuffix: true })}
+                  {formatTimeAgo(thread.created_at)}
                 </span>
                 {thread.user_id === userId && (
                   <span className="text-accent text-xs font-medium">Your thread</span>
