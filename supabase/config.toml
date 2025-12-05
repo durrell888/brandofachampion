@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.fetch-scholarships]
 verify_jwt = false
+
+[functions.create-pro-checkout]
+verify_jwt = true
