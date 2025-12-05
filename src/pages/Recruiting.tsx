@@ -16,7 +16,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { ArrowLeft, MapPin, Phone, Mail, Twitter, GraduationCap, Building, Search, Users, X, Lock, CreditCard, Loader2, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 
-const MONTHLY_CONTACT_LIMIT = 4;
+const CONTACT_LIMIT = 6;
+const CONTACT_WINDOW_DAYS = 30;
 
 // Watermark component for premium content
 const ContentWatermark = ({ email }: { email: string }) => (
@@ -206,7 +207,7 @@ export default function Recruiting() {
     }
   };
 
-  // Fetch contacted schools for current month
+  // Fetch contacted schools for last 30 days
   useEffect(() => {
     const fetchContactedSchools = async () => {
       if (!user) {
@@ -214,15 +215,14 @@ export default function Recruiting() {
         return;
       }
       
-      const startOfMonth = new Date();
-      startOfMonth.setDate(1);
-      startOfMonth.setHours(0, 0, 0, 0);
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - CONTACT_WINDOW_DAYS);
       
       const { data, error } = await supabase
         .from("school_contacts")
         .select("school_id")
         .eq("user_id", user.id)
-        .gte("contacted_at", startOfMonth.toISOString());
+        .gte("contacted_at", thirtyDaysAgo.toISOString());
       
       if (error) {
         console.error("Error fetching contacts:", error);
@@ -244,7 +244,7 @@ export default function Recruiting() {
     if (contactedSchools.has(schoolId)) return true;
     
     // Check if at limit
-    if (contactedSchools.size >= MONTHLY_CONTACT_LIMIT) {
+    if (contactedSchools.size >= CONTACT_LIMIT) {
       setShowLimitModal(true);
       return false;
     }
@@ -264,9 +264,9 @@ export default function Recruiting() {
     
     setContactedSchools(prev => new Set([...prev, schoolId]));
     
-    const remaining = MONTHLY_CONTACT_LIMIT - contactedSchools.size - 1;
+    const remaining = CONTACT_LIMIT - contactedSchools.size - 1;
     if (remaining <= 1) {
-      toast.info(`You have ${remaining} school contact${remaining === 1 ? '' : 's'} remaining this month.`);
+      toast.info(`You have ${remaining} school contact${remaining === 1 ? '' : 's'} remaining.`);
     }
     
     return true;
@@ -275,7 +275,7 @@ export default function Recruiting() {
   const canViewSchool = (schoolId: string): boolean => {
     if (!isSubscribed) return true; // Non-subscribers see masked info anyway
     if (contactedSchools.has(schoolId)) return true;
-    return contactedSchools.size < MONTHLY_CONTACT_LIMIT;
+    return contactedSchools.size < CONTACT_LIMIT;
   };
 
   const handleSubscribe = async () => {
@@ -543,7 +543,7 @@ export default function Recruiting() {
                     Premium Subscriber
                   </Badge>
                   <Badge variant="outline" className="text-muted-foreground">
-                    {contactedSchools.size} / {MONTHLY_CONTACT_LIMIT} schools contacted this month
+                    {contactedSchools.size} / {CONTACT_LIMIT} schools contacted (last 30 days)
                   </Badge>
                   <Button variant="ghost" size="sm" onClick={handleManageSubscription}>
                     Manage Subscription
@@ -1059,7 +1059,7 @@ export default function Recruiting() {
                                   }}
                                 >
                                   <GraduationCap className="w-4 h-4" />
-                                  View Contact Info ({MONTHLY_CONTACT_LIMIT - contactedSchools.size} left this month)
+                                  View Contact Info ({CONTACT_LIMIT - contactedSchools.size} left)
                                 </Button>
                               )}
                             </CardContent>
@@ -1081,19 +1081,19 @@ export default function Recruiting() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <AlertTriangle className="w-5 h-5 text-amber-500" />
-              Monthly Contact Limit Reached
+              Contact Limit Reached
             </DialogTitle>
             <DialogDescription className="pt-4 space-y-4">
               <p>
-                As a recruiting subscriber, you are allowed to contact up to <strong>{MONTHLY_CONTACT_LIMIT} schools per month</strong>. 
-                You have reached your limit for this month.
+                As a recruiting subscriber, you are allowed to contact up to <strong>{CONTACT_LIMIT} schools every {CONTACT_WINDOW_DAYS} days</strong>. 
+                You have reached your limit.
               </p>
               <p>
-                Your limit will reset on the 1st of next month. Schools you've already viewed this month will remain accessible.
+                Your oldest contact will expire and free up a slot as time passes. Schools you've already viewed will remain accessible.
               </p>
               <div className="bg-muted/50 rounded-lg p-4 mt-4">
-                <p className="text-sm font-medium mb-2">Schools contacted this month:</p>
-                <p className="text-2xl font-bold text-primary">{contactedSchools.size} / {MONTHLY_CONTACT_LIMIT}</p>
+                <p className="text-sm font-medium mb-2">Schools contacted (last 30 days):</p>
+                <p className="text-2xl font-bold text-primary">{contactedSchools.size} / {CONTACT_LIMIT}</p>
               </div>
             </DialogDescription>
           </DialogHeader>
