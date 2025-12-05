@@ -581,6 +581,103 @@ export default function Recruiting() {
           {/* Paywall Banner for non-subscribers */}
           {!subscriptionLoading && !isSubscribed && <PaywallBanner />}
 
+          {/* NCAA Recruiting Rules Section */}
+          <Card className="mb-8">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <BookOpen className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <CardTitle>NCAA Recruiting Rules</CardTitle>
+                  <p className="text-sm text-muted-foreground">Important guidelines for parents and student-athletes</p>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Key Rules Grid */}
+              <div>
+                <h3 className="font-semibold mb-3 flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-primary" />
+                  Key Rules and Timelines
+                </h3>
+                <div className="grid md:grid-cols-2 gap-3">
+                  <div className="p-3 rounded-lg bg-muted/50">
+                    <p className="font-medium text-sm mb-1">Contact Restrictions</p>
+                    <p className="text-xs text-muted-foreground">Rules control the timing and nature of contact to reduce pressure on student-athletes.</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-green-500/10">
+                    <p className="font-medium text-sm mb-1">Contact Periods</p>
+                    <p className="text-xs text-muted-foreground">Coaches can have unlimited contact (calls, emails, texts, in-person meetings).</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-amber-500/10">
+                    <p className="font-medium text-sm mb-1">Quiet Periods</p>
+                    <p className="text-xs text-muted-foreground">Coaches can only have in-person contact on the college campus.</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-red-500/10">
+                    <p className="font-medium text-sm mb-1">Dead Periods</p>
+                    <p className="text-xs text-muted-foreground">Coaches cannot have contact with recruits or families in any capacity.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Division I */}
+              <div>
+                <h3 className="font-semibold mb-3 flex items-center gap-2">
+                  <Badge className="bg-amber-500/20 text-amber-700 dark:text-amber-400">D1</Badge>
+                  Division I Rules
+                </h3>
+                <div className="p-4 rounded-lg bg-amber-500/5 border border-amber-500/20 text-sm space-y-2">
+                  <p><strong>June 15 after sophomore year:</strong> Coaches can initiate calls, texts, emails</p>
+                  <p><strong>July 1 after junior year:</strong> Off-campus contact can begin</p>
+                  <p><strong>September 1 of senior year:</strong> One phone call per week allowed</p>
+                  <p><strong>Senior year:</strong> Total of 6 off-campus contacts with student and parents</p>
+                  <p><strong>Official visits:</strong> Start August 1 before junior year (university pays)</p>
+                </div>
+              </div>
+
+              {/* Division II */}
+              <div>
+                <h3 className="font-semibold mb-3 flex items-center gap-2">
+                  <Badge className="bg-blue-500/20 text-blue-700 dark:text-blue-400">D2</Badge>
+                  Division II Rules
+                </h3>
+                <div className="p-4 rounded-lg bg-blue-500/5 border border-blue-500/20 text-sm space-y-2">
+                  <p><strong>Contact:</strong> Can begin at any time regardless of sport</p>
+                  <p><strong>In-person contact:</strong> Limited until June 15 after sophomore year</p>
+                  <p><strong>Verbal offers:</strong> Can be extended at any time</p>
+                </div>
+              </div>
+
+              {/* Division III */}
+              <div>
+                <h3 className="font-semibold mb-3 flex items-center gap-2">
+                  <Badge className="bg-green-500/20 text-green-700 dark:text-green-400">D3</Badge>
+                  Division III Rules
+                </h3>
+                <div className="p-4 rounded-lg bg-green-500/5 border border-green-500/20 text-sm space-y-2">
+                  <p><strong>Contact:</strong> No standardized rules for when contact can begin</p>
+                  <p><strong>Off-campus contact:</strong> Cannot occur until after sophomore year</p>
+                  <p><strong>Note:</strong> DIII schools do not offer athletic scholarships, but financial aid may be available</p>
+                </div>
+              </div>
+
+              {/* Important Notes */}
+              <div className="p-4 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                <h3 className="font-semibold mb-2 flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4 text-amber-500" />
+                  Important Considerations
+                </h3>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Specific rules may vary based on sport and division</li>
+                  <li>• NCAA defines contact as any face-to-face meeting off campus where more than hello is said</li>
+                  <li>• Verbal scholarship offers for DI can start June 15 after sophomore year</li>
+                  <li>• Unofficial visits can be taken at any time at your own expense</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Search & Filter Controls */}
           <div className="space-y-4 mb-8">
             <div className="flex flex-wrap gap-2 justify-center">
