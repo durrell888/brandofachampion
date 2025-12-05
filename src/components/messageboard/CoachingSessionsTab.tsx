@@ -23,7 +23,7 @@ interface CoachingSession {
 }
 
 interface CoachingSessionsTabProps {
-  userId: string | undefined;
+  userId: string;
 }
 
 const teamMembers = [
@@ -49,10 +49,6 @@ const CoachingSessionsTab = ({ userId }: CoachingSessionsTabProps) => {
   const [topic, setTopic] = useState("");
 
   const fetchSessions = async () => {
-    if (!userId) {
-      setLoading(false);
-      return;
-    }
     const { data, error } = await supabase
       .from('coaching_sessions')
       .select('*')
@@ -70,15 +66,6 @@ const CoachingSessionsTab = ({ userId }: CoachingSessionsTabProps) => {
   }, [userId]);
 
   const handleRequestSession = async () => {
-    if (!userId) {
-      toast({
-        title: "Sign in required",
-        description: "Please sign in to request a coaching session",
-        variant: "destructive"
-      });
-      return;
-    }
-    
     if (!selectedTeamMember || !topic.trim()) {
       toast({
         title: "Required fields",
@@ -140,28 +127,14 @@ const CoachingSessionsTab = ({ userId }: CoachingSessionsTabProps) => {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold text-foreground">Coaching Sessions</h2>
-        {userId ? (
-          <Button variant="hero" onClick={() => setShowRequestModal(true)}>
-            <Plus className="w-4 h-4 mr-2" />
-            Request Session
-          </Button>
-        ) : (
-          <Button variant="hero" onClick={() => window.location.href = '/auth'}>
-            Sign In to Request
-          </Button>
-        )}
+        <h2 className="text-xl font-bold text-foreground">Your Coaching Sessions</h2>
+        <Button variant="hero" onClick={() => setShowRequestModal(true)}>
+          <Plus className="w-4 h-4 mr-2" />
+          Request Session
+        </Button>
       </div>
 
-      {!userId ? (
-        <Card className="p-8 text-center">
-          <Calendar className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-foreground mb-2">Sign in to view sessions</h3>
-          <p className="text-muted-foreground">
-            Sign in to request coaching sessions with our team members.
-          </p>
-        </Card>
-      ) : loading ? (
+      {loading ? (
         <div className="flex justify-center py-12">
           <Loader2 className="w-6 h-6 animate-spin text-accent" />
         </div>

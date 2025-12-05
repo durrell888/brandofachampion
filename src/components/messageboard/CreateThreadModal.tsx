@@ -11,7 +11,7 @@ import { Loader2 } from "lucide-react";
 interface CreateThreadModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  userId: string | undefined;
+  userId: string;
 }
 
 const CreateThreadModal = ({ open, onOpenChange, userId }: CreateThreadModalProps) => {
@@ -21,15 +21,6 @@ const CreateThreadModal = ({ open, onOpenChange, userId }: CreateThreadModalProp
   const { toast } = useToast();
 
   const handleCreate = async () => {
-    if (!userId) {
-      toast({
-        title: "Sign in required",
-        description: "Please sign in to create a thread",
-        variant: "destructive"
-      });
-      return;
-    }
-    
     if (!title.trim()) {
       toast({
         title: "Title required",

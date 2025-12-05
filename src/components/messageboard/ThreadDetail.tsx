@@ -27,7 +27,7 @@ interface Message {
 
 interface ThreadDetailProps {
   thread: Thread;
-  userId: string | undefined;
+  userId: string;
   onBack: () => void;
 }
 
@@ -150,7 +150,6 @@ const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
   };
 
   const handleSend = async () => {
-    if (!userId) return;
     if (!newMessage.trim() && mediaFiles.length === 0) return;
 
     setSending(true);
@@ -295,52 +294,44 @@ const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
 
       {/* Input */}
       <div className="pt-4 border-t border-border">
-        {userId ? (
-          <div className="flex gap-2">
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*,video/*"
-              multiple
-              className="hidden"
-              onChange={handleFileSelect}
-            />
-            <Button 
-              variant="outline" 
-              size="icon"
-              onClick={() => fileInputRef.current?.click()}
-              disabled={sending}
-            >
-              <Image className="w-4 h-4" />
-            </Button>
-            <Textarea
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Type your message..."
-              className="flex-1 min-h-[40px] max-h-[120px] resize-none"
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend();
-                }
-              }}
-            />
-            <Button 
-              variant="hero" 
-              size="icon"
-              onClick={handleSend}
-              disabled={sending || (!newMessage.trim() && mediaFiles.length === 0)}
-            >
-              {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-            </Button>
-          </div>
-        ) : (
-          <div className="text-center py-2">
-            <a href="/auth" className="text-accent hover:underline font-medium">
-              Sign in to join the conversation
-            </a>
-          </div>
-        )}
+        <div className="flex gap-2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*,video/*"
+            multiple
+            className="hidden"
+            onChange={handleFileSelect}
+          />
+          <Button 
+            variant="outline" 
+            size="icon"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={sending}
+          >
+            <Image className="w-4 h-4" />
+          </Button>
+          <Textarea
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder="Type your message..."
+            className="flex-1 min-h-[40px] max-h-[120px] resize-none"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+              }
+            }}
+          />
+          <Button 
+            variant="hero" 
+            size="icon"
+            onClick={handleSend}
+            disabled={sending || (!newMessage.trim() && mediaFiles.length === 0)}
+          >
+            {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+          </Button>
+        </div>
         {uploading && (
           <p className="text-xs text-muted-foreground mt-1">Uploading media...</p>
         )}
