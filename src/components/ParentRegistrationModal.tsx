@@ -313,19 +313,19 @@ export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrati
               <ul className="text-sm text-muted-foreground space-y-1">
                 <li className="flex items-start gap-2">
                   <span className="text-accent">✓</span>
-                  Personalized athlete development resources
+                  Athlete profile with Hudl film & personal achievements
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-accent">✓</span>
-                  Access to mentorship from professional athletes
+                  Mentorship from professional trainers
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-accent">✓</span>
-                  Life skills training beyond the game
+                  Access to current & former professional players
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-accent">✓</span>
-                  Exclusive community events and workshops
+                  Elite athletes network access
                 </li>
               </ul>
             </div>
