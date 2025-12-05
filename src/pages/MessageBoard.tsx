@@ -85,8 +85,8 @@ const MessageBoard = () => {
     );
   }
 
-  // Paywall for non-Pro subscribers
-  if (!isProSubscriber) {
+  // Paywall for non-Pro subscribers - TEMPORARILY DISABLED FOR TESTING
+  if (false && !isProSubscriber) {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
