@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-const sports = ["Basketball", "Football", "Soccer", "Tennis", "Swimming", "Track & Field", "Baseball", "Hockey"];
+const sports = ["Football", "Basketball", "Track & Field"];
 const supportTypes = ["Career", "Education", "Mental Health", "Financial", "Housing", "Legal"];
 const classYears = ["2026", "2027", "2028", "2029", "2030"];
 
