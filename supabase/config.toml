@@ -14,3 +14,6 @@ verify_jwt = false
 
 [functions.create-registration]
 verify_jwt = false
+
+[functions.fetch-scholarships]
+verify_jwt = false
