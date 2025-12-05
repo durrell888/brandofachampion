@@ -6,6 +6,7 @@ import AthleteCard from "@/components/AthleteCard";
 import SupportCategories from "@/components/SupportCategories";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import EmailCapturePopup from "@/components/EmailCapturePopup";
+import AffiliateProducts from "@/components/AffiliateProducts";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { mockAthletes } from "@/data/athletes";
@@ -100,6 +101,17 @@ const Index = () => {
       {/* Support Categories */}
       <section id="services">
         <SupportCategories />
+      </section>
+
+      {/* Affiliate Products Section */}
+      <section className="py-16 bg-muted/30">
+        <div className="container">
+          <AffiliateProducts 
+            title="Recommended Gear"
+            subtitle="Top picks from our partners to help athletes perform at their best"
+            maxProducts={8}
+          />
+        </div>
       </section>
 
       {/* CTA Section */}
