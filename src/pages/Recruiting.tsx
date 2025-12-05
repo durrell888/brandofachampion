@@ -95,6 +95,7 @@ export default function Recruiting() {
   
   // Contact limit state
   const [showLimitModal, setShowLimitModal] = useState(false);
+  const [showSubscribeModal, setShowSubscribeModal] = useState(false);
   const [contactedSchools, setContactedSchools] = useState<Set<string>>(new Set());
 
   // Check auth state and subscription
@@ -309,10 +310,16 @@ export default function Recruiting() {
       return;
     }
 
+    // Show confirmation modal first
+    setShowSubscribeModal(true);
+  };
+
+  const proceedToCheckout = async () => {
+    setShowSubscribeModal(false);
     setCheckoutLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        headers: { Authorization: `Bearer ${session.access_token}` }
+        headers: { Authorization: `Bearer ${session?.access_token}` }
       });
       
       if (error) throw error;
@@ -1231,6 +1238,51 @@ export default function Recruiting() {
           <div className="flex justify-end mt-4">
             <Button onClick={() => setShowLimitModal(false)}>
               Got it
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Subscription Confirmation Modal */}
+      <Dialog open={showSubscribeModal} onOpenChange={setShowSubscribeModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <CreditCard className="w-5 h-5 text-primary" />
+              Subscribe to Recruiting Services
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <p className="text-muted-foreground">
+              Get complete access to coaching staff contact information for all {schools?.length || 0} FBS schools at <strong>$19.99/month</strong>.
+            </p>
+            <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+                <div className="space-y-2">
+                  <p className="font-semibold text-amber-700 dark:text-amber-400">
+                    Important: 6-School Monthly Limit
+                  </p>
+                  <ul className="text-sm text-amber-700 dark:text-amber-400 space-y-1">
+                    <li>• You can view full contact details for up to <strong>6 schools</strong> per 30-day period</li>
+                    <li>• Unused views do <strong>not</strong> roll over to the next period</li>
+                    <li>• Schools you've already viewed remain accessible</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-3 justify-end">
+            <Button variant="outline" onClick={() => setShowSubscribeModal(false)}>
+              Cancel
+            </Button>
+            <Button onClick={proceedToCheckout} disabled={checkoutLoading} className="gap-2">
+              {checkoutLoading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <CreditCard className="w-4 h-4" />
+              )}
+              Continue to Payment
             </Button>
           </div>
         </DialogContent>
