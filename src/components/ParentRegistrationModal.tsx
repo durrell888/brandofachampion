@@ -297,7 +297,7 @@ export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrati
           </div>
 
           {/* Pricing info */}
-          <div className="bg-accent/10 rounded-lg p-4 border border-accent/20">
+          <div className="bg-accent/10 rounded-lg p-4 border border-accent/20 space-y-3">
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-semibold">Athlete Program Membership</p>
@@ -307,6 +307,27 @@ export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrati
                 <p className="text-2xl font-bold text-accent">$4.99</p>
                 <p className="text-sm text-muted-foreground">/month</p>
               </div>
+            </div>
+            <div className="border-t border-accent/20 pt-3">
+              <p className="text-sm font-medium mb-2">What's included:</p>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                <li className="flex items-start gap-2">
+                  <span className="text-accent">✓</span>
+                  Personalized athlete development resources
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-accent">✓</span>
+                  Access to mentorship from professional athletes
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-accent">✓</span>
+                  Life skills training beyond the game
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-accent">✓</span>
+                  Exclusive community events and workshops
+                </li>
+              </ul>
             </div>
           </div>
 
