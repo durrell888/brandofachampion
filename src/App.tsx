@@ -12,7 +12,6 @@ import Apparel from "./pages/Apparel";
 import ProductDetail from "./pages/ProductDetail";
 import Recruiting from "./pages/Recruiting";
 import Auth from "./pages/Auth";
-import News from "./pages/News";
 import Scholarships from "./pages/Scholarships";
 import NotFound from "./pages/NotFound";
 
@@ -33,7 +32,6 @@ const App = () => (
           <Route path="/apparel" element={<Apparel />} />
           <Route path="/apparel/:handle" element={<ProductDetail />} />
           <Route path="/recruiting" element={<Recruiting />} />
-          <Route path="/news" element={<News />} />
           <Route path="/scholarships" element={<Scholarships />} />
           <Route path="/auth" element={<Auth />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
