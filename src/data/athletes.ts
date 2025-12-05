@@ -14,6 +14,32 @@ const aaronRoss = {
 
 export const mockAthletes: Athlete[] = [
   {
+    id: "16",
+    name: "Jamier Brown",
+    sport: "Football",
+    position: "Wide Receiver",
+    location: "Dayton, Ohio",
+    avatar: "/images/athletes/jamier-brown.jpg",
+    achievements: ["2X All-Region"],
+    supportNeeded: ["Career", "Education"],
+    yearsActive: "2024-2027",
+    status: "active",
+    classYear: "2027",
+    school: "Wayne High School",
+    height: "6'0\"",
+    weight: "185 lbs",
+    gpa: 3.0,
+    hudlLink: "http://www.hudl.com/v/2T9B7d",
+    instagramLink: "https://www.instagram.com/jam1erbrown?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+    twitterLink: "https://x.com/ShowTimee_23?s=20",
+    tier: "pro",
+    proAnalysis: {
+      rating: 94,
+      analysis: "Jamier Brown is an explosive wide receiver with elite potential. At 6'0\" and 185 lbs, he possesses ideal size for a high-level receiver. His 2X All-Region honors showcase his consistent production and dominance at the high school level. Jamier demonstrates exceptional route-running ability, reliable hands, and the speed to separate from defensive backs. His high rating reflects his dynamic playmaking ability and ceiling as a prospect. With continued development, Jamier has the tools to compete at the highest level of college football.",
+      assessor: durrellSteen,
+    },
+  },
+  {
     id: "15",
     name: "Aaron Gregory",
     sport: "Football",
