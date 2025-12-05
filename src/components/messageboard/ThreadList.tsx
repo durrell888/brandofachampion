@@ -3,7 +3,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { MessageSquare, Clock, ChevronRight, Users, TrendingUp } from "lucide-react";
 import ThreadDetail from "./ThreadDetail";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface Thread {
   id: string;
@@ -11,9 +10,7 @@ interface Thread {
   user_id: string;
   created_at: string;
   updated_at: string;
-  // Demo fields
   author?: string;
-  avatar?: string;
   replyCount?: number;
   lastReplyBy?: string;
   isHot?: boolean;
@@ -21,7 +18,6 @@ interface Thread {
 
 interface ThreadListProps {
   userId: string;
-  demoMode?: boolean;
 }
 
 const formatTimeAgo = (dateString: string): string => {
@@ -40,27 +36,25 @@ const formatTimeAgo = (dateString: string): string => {
 };
 
 // Sample threads showing active community
-const sampleThreads: Thread[] = [
+const getSampleThreads = (): Thread[] => [
   {
     id: "demo-1",
     title: "Tips for getting recruited as a DB? Coach Ross helped me a lot!",
     user_id: "demo-user-1",
-    created_at: new Date(Date.now() - 15 * 60000).toISOString(), // 15 mins ago
-    updated_at: new Date(Date.now() - 2 * 60000).toISOString(), // 2 mins ago
+    created_at: new Date(Date.now() - 15 * 60000).toISOString(),
+    updated_at: new Date(Date.now() - 2 * 60000).toISOString(),
     author: "Marcus Thompson",
-    avatar: "/images/athletes/jamar-owens.jpg",
     replyCount: 12,
     lastReplyBy: "Aaron Ross",
     isHot: true
   },
   {
     id: "demo-2",
-    title: "Just got my first D1 offer! Thank you Brand of a Champion family 🙏",
+    title: "Just got my first D1 offer! Thank you Brand of a Champion family",
     user_id: "demo-user-2",
     created_at: new Date(Date.now() - 45 * 60000).toISOString(),
     updated_at: new Date(Date.now() - 5 * 60000).toISOString(),
     author: "DeShawn Williams",
-    avatar: "/images/athletes/jordan-carter.webp",
     replyCount: 28,
     lastReplyBy: "Durrell Steen",
     isHot: true
@@ -69,10 +63,9 @@ const sampleThreads: Thread[] = [
     id: "demo-3",
     title: "Question about NIL deals for high school athletes",
     user_id: "demo-user-3",
-    created_at: new Date(Date.now() - 2 * 3600000).toISOString(), // 2 hours ago
+    created_at: new Date(Date.now() - 2 * 3600000).toISOString(),
     updated_at: new Date(Date.now() - 30 * 60000).toISOString(),
     author: "Jaylen Carter",
-    avatar: "/images/athletes/trey-byrd.jpg",
     replyCount: 8,
     lastReplyBy: "Sanya Richards-Ross"
   },
@@ -83,7 +76,6 @@ const sampleThreads: Thread[] = [
     created_at: new Date(Date.now() - 5 * 3600000).toISOString(),
     updated_at: new Date(Date.now() - 1 * 3600000).toISOString(),
     author: "Tyler Jackson",
-    avatar: "/images/athletes/nick-burden.jpg",
     replyCount: 15,
     lastReplyBy: "Aaron Ross"
   },
@@ -94,7 +86,6 @@ const sampleThreads: Thread[] = [
     created_at: new Date(Date.now() - 8 * 3600000).toISOString(),
     updated_at: new Date(Date.now() - 2 * 3600000).toISOString(),
     author: "Cameron Davis",
-    avatar: "/images/athletes/aaron-gregory.jpg",
     replyCount: 21,
     lastReplyBy: "Kiana Williams"
   },
@@ -105,13 +96,12 @@ const sampleThreads: Thread[] = [
     created_at: new Date(Date.now() - 24 * 3600000).toISOString(),
     updated_at: new Date(Date.now() - 6 * 3600000).toISOString(),
     author: "Brandon Mitchell",
-    avatar: "/images/athletes/jamier-brown.jpg",
     replyCount: 9,
     lastReplyBy: "Andrew Chen"
   }
 ];
 
-const ThreadList = ({ userId, demoMode = true }: ThreadListProps) => {
+const ThreadList = ({ userId }: ThreadListProps) => {
   const [threads, setThreads] = useState<Thread[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedThread, setSelectedThread] = useState<Thread | null>(null);
@@ -122,14 +112,11 @@ const ThreadList = ({ userId, demoMode = true }: ThreadListProps) => {
       .select('*')
       .order('updated_at', { ascending: false });
 
+    const sampleThreads = getSampleThreads();
+    
     if (!error && data) {
-      // Combine real threads with sample threads for demo
-      if (demoMode) {
-        setThreads([...sampleThreads, ...data]);
-      } else {
-        setThreads(data);
-      }
-    } else if (demoMode) {
+      setThreads([...sampleThreads, ...data]);
+    } else {
       setThreads(sampleThreads);
     }
     setLoading(false);
@@ -148,7 +135,7 @@ const ThreadList = ({ userId, demoMode = true }: ThreadListProps) => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [demoMode]);
+  }, []);
 
   if (selectedThread) {
     return (
@@ -189,18 +176,8 @@ const ThreadList = ({ userId, demoMode = true }: ThreadListProps) => {
       {/* Active users indicator */}
       <div className="flex items-center justify-between bg-accent/10 rounded-lg p-3 mb-4">
         <div className="flex items-center gap-2">
-          <div className="flex -space-x-2">
-            {sampleThreads.slice(0, 5).map((t, i) => (
-              <Avatar key={i} className="w-8 h-8 border-2 border-background">
-                <AvatarImage src={t.avatar} />
-                <AvatarFallback className="text-xs bg-accent text-accent-foreground">
-                  {t.author?.charAt(0)}
-                </AvatarFallback>
-              </Avatar>
-            ))}
-          </div>
-          <span className="text-sm text-foreground font-medium ml-2">
-            <Users className="w-4 h-4 inline mr-1" />
+          <Users className="w-4 h-4 text-accent" />
+          <span className="text-sm text-foreground font-medium">
             5 members active now
           </span>
         </div>
@@ -219,12 +196,11 @@ const ThreadList = ({ userId, demoMode = true }: ThreadListProps) => {
           onClick={() => setSelectedThread(thread)}
         >
           <div className="flex items-start gap-3">
-            {thread.avatar && (
-              <Avatar className="w-10 h-10">
-                <AvatarImage src={thread.avatar} />
-                <AvatarFallback>{thread.author?.charAt(0)}</AvatarFallback>
-              </Avatar>
-            )}
+            <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+              <span className="text-accent font-bold text-sm">
+                {thread.author?.charAt(0) || '?'}
+              </span>
+            </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
                 <h3 className="font-semibold text-foreground truncate">{thread.title}</h3>
