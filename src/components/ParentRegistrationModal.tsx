@@ -71,8 +71,6 @@ const TIERS = {
     icon: Star,
     features: [
       "Athlete profile with Hudl film & personal achievements",
-      "Mentorship from professional trainers",
-      "Access to current & former professional players",
       "Elite athletes network access",
     ],
   },
