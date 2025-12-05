@@ -28,6 +28,7 @@ export const mockAthletes: Athlete[] = [
     school: "Douglas County High School",
     height: "6'3\"",
     weight: "175 lbs",
+    gpa: 3.6,
     hudlLink: "http://www.hudl.com/v/2T8WuP",
     tier: "pro",
     proAnalysis: {
@@ -51,6 +52,7 @@ export const mockAthletes: Athlete[] = [
     school: "Douglas County High School",
     height: "6'4\"",
     weight: "265 lbs",
+    gpa: 3.0,
     hudlLink: "http://www.hudl.com/v/2ShpDY",
     tier: "pro",
     proAnalysis: {
@@ -74,6 +76,7 @@ export const mockAthletes: Athlete[] = [
     school: "Douglas County High School",
     height: "6'1\"",
     weight: "188 lbs",
+    gpa: 3.3,
     hudlLink: "http://www.hudl.com/v/2SYPHJ",
     tier: "pro",
     proAnalysis: {
