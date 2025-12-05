@@ -53,12 +53,13 @@ const Navbar = () => {
             { href: "/apparel", label: "Apparel", isRoute: true },
             { href: "/about", label: "About", isRoute: true },
             { href: "/partners", label: "Partners", isRoute: true },
-          ].map((item) => (
+          ].map((item, index) => (
             item.isRoute ? (
                 <Link
                   key={item.href}
                   to={item.href}
-                  className={`nav-link px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive(item.href) ? "text-accent" : ""}`}
+                  className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive(item.href) ? "text-accent" : ""}`}
+                  style={{ animationDelay: `${index * 0.5}s` }}
                 >
                   {item.label}
                 </Link>
@@ -66,7 +67,8 @@ const Navbar = () => {
                 <a
                   key={item.href}
                   href={item.href}
-                  className="nav-link px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent"
+                  className="nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent"
+                  style={{ animationDelay: `${index * 0.5}s` }}
                 >
                   {item.label}
                 </a>
