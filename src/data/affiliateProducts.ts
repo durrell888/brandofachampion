@@ -51,7 +51,7 @@ export const affiliateProducts: AffiliateProduct[] = [
     description: "Improve footwork, agility, and quickness",
     price: "$35",
     image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400",
-    affiliateLink: "https://www.amazon.com",
+    affiliateLink: "https://amzn.to/4iEMyP7",
   },
   {
     id: "5",
