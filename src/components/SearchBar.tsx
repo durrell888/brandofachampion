@@ -6,9 +6,10 @@ import { Badge } from "@/components/ui/badge";
 
 const sports = ["Basketball", "Football", "Soccer", "Tennis", "Swimming", "Track & Field", "Baseball", "Hockey"];
 const supportTypes = ["Career", "Education", "Mental Health", "Financial", "Housing", "Legal"];
+const classYears = ["2026", "2027", "2028", "2029", "2030"];
 
 interface SearchBarProps {
-  onSearch: (query: string, filters: { sports: string[]; support: string[] }) => void;
+  onSearch: (query: string, filters: { sports: string[]; support: string[]; years: string[] }) => void;
 }
 
 const SearchBar = ({ onSearch }: SearchBarProps) => {
@@ -16,13 +17,14 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
   const [showFilters, setShowFilters] = useState(false);
   const [selectedSports, setSelectedSports] = useState<string[]>([]);
   const [selectedSupport, setSelectedSupport] = useState<string[]>([]);
+  const [selectedYears, setSelectedYears] = useState<string[]>([]);
 
   const toggleSport = (sport: string) => {
     const updated = selectedSports.includes(sport)
       ? selectedSports.filter((s) => s !== sport)
       : [...selectedSports, sport];
     setSelectedSports(updated);
-    onSearch(query, { sports: updated, support: selectedSupport });
+    onSearch(query, { sports: updated, support: selectedSupport, years: selectedYears });
   };
 
   const toggleSupport = (support: string) => {
@@ -30,21 +32,30 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
       ? selectedSupport.filter((s) => s !== support)
       : [...selectedSupport, support];
     setSelectedSupport(updated);
-    onSearch(query, { sports: selectedSports, support: updated });
+    onSearch(query, { sports: selectedSports, support: updated, years: selectedYears });
+  };
+
+  const toggleYear = (year: string) => {
+    const updated = selectedYears.includes(year)
+      ? selectedYears.filter((y) => y !== year)
+      : [...selectedYears, year];
+    setSelectedYears(updated);
+    onSearch(query, { sports: selectedSports, support: selectedSupport, years: updated });
   };
 
   const clearFilters = () => {
     setSelectedSports([]);
     setSelectedSupport([]);
-    onSearch(query, { sports: [], support: [] });
+    setSelectedYears([]);
+    onSearch(query, { sports: [], support: [], years: [] });
   };
 
   const handleQueryChange = (value: string) => {
     setQuery(value);
-    onSearch(value, { sports: selectedSports, support: selectedSupport });
+    onSearch(value, { sports: selectedSports, support: selectedSupport, years: selectedYears });
   };
 
-  const hasFilters = selectedSports.length > 0 || selectedSupport.length > 0;
+  const hasFilters = selectedSports.length > 0 || selectedSupport.length > 0 || selectedYears.length > 0;
 
   return (
     <div className="w-full max-w-4xl mx-auto">
@@ -68,7 +79,7 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
           <span className="hidden sm:inline">Filters</span>
           {hasFilters && (
             <span className="ml-1 px-2 py-0.5 text-xs bg-primary-foreground text-accent rounded-full font-bold">
-              {selectedSports.length + selectedSupport.length}
+              {selectedSports.length + selectedSupport.length + selectedYears.length}
             </span>
           )}
         </Button>
@@ -122,6 +133,26 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
                     onClick={() => toggleSupport(support)}
                   >
                     {support}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-3">Class Year</p>
+              <div className="flex flex-wrap gap-2">
+                {classYears.map((year) => (
+                  <Badge
+                    key={year}
+                    variant={selectedYears.includes(year) ? "default" : "outline"}
+                    className={`cursor-pointer px-4 py-2 text-sm font-medium transition-all ${
+                      selectedYears.includes(year)
+                        ? "bg-accent text-accent-foreground border-accent hover:bg-accent/90"
+                        : "hover:border-accent hover:text-accent"
+                    }`}
+                    onClick={() => toggleYear(year)}
+                  >
+                    {year}
                   </Badge>
                 ))}
               </div>
