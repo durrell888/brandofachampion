@@ -115,7 +115,7 @@ export default function News() {
             <span className="text-accent font-bold text-lg whitespace-nowrap">HS Football</span>
             <div className="h-6 w-px bg-border" />
             
-            {["All", "Recruiting", "Rankings", "High School"].map((cat) => (
+            {["All", "Recruiting", "High School"].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat.toLowerCase())}
