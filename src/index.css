@@ -171,4 +171,28 @@
   .stat-glow {
     box-shadow: 0 0 40px -10px hsl(0 84% 50% / 0.3);
   }
+
+  /* Chasing glow animation for nav tabs */
+  @keyframes chase-glow {
+    0%, 100% {
+      text-shadow: none;
+      color: hsl(var(--foreground));
+    }
+    50% {
+      text-shadow: 0 0 10px hsl(var(--accent)), 0 0 20px hsl(var(--accent) / 0.5), 0 0 30px hsl(var(--accent) / 0.3);
+      color: hsl(var(--accent));
+    }
+  }
+
+  .nav-chase-glow {
+    animation: chase-glow 4s ease-in-out infinite;
+  }
+
+  .nav-chase-glow:nth-child(1) { animation-delay: 0s; }
+  .nav-chase-glow:nth-child(2) { animation-delay: 0.5s; }
+  .nav-chase-glow:nth-child(3) { animation-delay: 1s; }
+  .nav-chase-glow:nth-child(4) { animation-delay: 1.5s; }
+  .nav-chase-glow:nth-child(5) { animation-delay: 2s; }
+  .nav-chase-glow:nth-child(6) { animation-delay: 2.5s; }
+  .nav-chase-glow:nth-child(7) { animation-delay: 3s; }
 }
