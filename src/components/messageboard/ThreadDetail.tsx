@@ -5,12 +5,15 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Send, Image, X, Loader2 } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface Thread {
   id: string;
   title: string;
   user_id: string;
   created_at: string;
+  author?: string;
+  avatar?: string;
 }
 
 interface Message {
@@ -22,12 +25,16 @@ interface Message {
   team_member_name: string | null;
   media_urls: string[] | null;
   created_at: string;
+  // Demo fields
+  author?: string;
+  avatar?: string;
 }
 
 interface ThreadDetailProps {
   thread: Thread;
   userId: string;
   onBack: () => void;
+  demoMode?: boolean;
 }
 
 const formatTimeAgo = (dateString: string): string => {
@@ -45,7 +52,215 @@ const formatTimeAgo = (dateString: string): string => {
   return date.toLocaleDateString();
 };
 
-const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
+// Sample messages for demo threads
+const getDemoMessages = (threadId: string): Message[] => {
+  const demoMessagesMap: Record<string, Message[]> = {
+    "demo-1": [
+      {
+        id: "msg-1-1",
+        thread_id: "demo-1",
+        user_id: "demo-user-1",
+        content: "Hey everyone! I've been working with Coach Ross on my film and techniques. Any other DBs here have tips on what coaches are looking for?",
+        is_team_response: false,
+        team_member_name: null,
+        media_urls: null,
+        created_at: new Date(Date.now() - 15 * 60000).toISOString(),
+        author: "Marcus Thompson",
+        avatar: "/images/athletes/jamar-owens.jpg"
+      },
+      {
+        id: "msg-1-2",
+        thread_id: "demo-1",
+        user_id: "team-aaron",
+        content: "Great question Marcus! The main things coaches look for: 1) Hip fluidity in your backpedal 2) Ball skills - can you track and high-point the ball 3) Tackling technique 4) Football IQ. Send me your latest film and I'll give you specific feedback.",
+        is_team_response: true,
+        team_member_name: "Aaron Ross",
+        media_urls: null,
+        created_at: new Date(Date.now() - 12 * 60000).toISOString(),
+        author: "Aaron Ross",
+        avatar: "/images/team/aaron-ross.avif"
+      },
+      {
+        id: "msg-1-3",
+        thread_id: "demo-1",
+        user_id: "demo-user-3",
+        content: "Coach Ross's feedback on my press coverage changed everything. Went from 0 offers to 3 in two months!",
+        is_team_response: false,
+        team_member_name: null,
+        media_urls: null,
+        created_at: new Date(Date.now() - 8 * 60000).toISOString(),
+        author: "Jaylen Carter",
+        avatar: "/images/athletes/trey-byrd.jpg"
+      },
+      {
+        id: "msg-1-4",
+        thread_id: "demo-1",
+        user_id: "demo-user-4",
+        content: "Facts! The 1-on-1 film review sessions are worth every penny of the Pro membership",
+        is_team_response: false,
+        team_member_name: null,
+        media_urls: null,
+        created_at: new Date(Date.now() - 5 * 60000).toISOString(),
+        author: "Tyler Jackson",
+        avatar: "/images/athletes/nick-burden.jpg"
+      },
+      {
+        id: "msg-1-5",
+        thread_id: "demo-1",
+        user_id: "demo-user-5",
+        content: "Just scheduled my session with Coach Ross for next week. Can't wait! 💪",
+        is_team_response: false,
+        team_member_name: null,
+        media_urls: null,
+        created_at: new Date(Date.now() - 2 * 60000).toISOString(),
+        author: "Cameron Davis",
+        avatar: "/images/athletes/aaron-gregory.jpg"
+      }
+    ],
+    "demo-2": [
+      {
+        id: "msg-2-1",
+        thread_id: "demo-2",
+        user_id: "demo-user-2",
+        content: "I can't believe it y'all... Just got off the phone with Georgia State. THEY OFFERED! First D1 offer ever. Couldn't have done it without this community and Durrell's guidance on reaching out to coaches the right way.",
+        is_team_response: false,
+        team_member_name: null,
+        media_urls: null,
+        created_at: new Date(Date.now() - 45 * 60000).toISOString(),
+        author: "DeShawn Williams",
+        avatar: "/images/athletes/jordan-carter.webp"
+      },
+      {
+        id: "msg-2-2",
+        thread_id: "demo-2",
+        user_id: "demo-user-1",
+        content: "LETS GOOOOO! 🔥🔥🔥 Congrats bro!",
+        is_team_response: false,
+        team_member_name: null,
+        media_urls: null,
+        created_at: new Date(Date.now() - 42 * 60000).toISOString(),
+        author: "Marcus Thompson",
+        avatar: "/images/athletes/jamar-owens.jpg"
+      },
+      {
+        id: "msg-2-3",
+        thread_id: "demo-2",
+        user_id: "team-durrell",
+        content: "DeShawn! So proud of you! Remember what we talked about - this is just the beginning. Keep your options open, stay focused on your grades, and let's strategize on your next steps. DM me to set up a call this week.",
+        is_team_response: true,
+        team_member_name: "Durrell Steen",
+        media_urls: null,
+        created_at: new Date(Date.now() - 38 * 60000).toISOString(),
+        author: "Durrell Steen",
+        avatar: "/images/team/durrell-steen.jpg"
+      },
+      {
+        id: "msg-2-4",
+        thread_id: "demo-2",
+        user_id: "demo-user-4",
+        content: "Huge W! You deserve it bro, been watching you grind all year",
+        is_team_response: false,
+        team_member_name: null,
+        media_urls: null,
+        created_at: new Date(Date.now() - 25 * 60000).toISOString(),
+        author: "Tyler Jackson",
+        avatar: "/images/athletes/nick-burden.jpg"
+      },
+      {
+        id: "msg-2-5",
+        thread_id: "demo-2",
+        user_id: "demo-user-3",
+        content: "This is what it's all about! Motivation for all of us 🙌",
+        is_team_response: false,
+        team_member_name: null,
+        media_urls: null,
+        created_at: new Date(Date.now() - 15 * 60000).toISOString(),
+        author: "Jaylen Carter",
+        avatar: "/images/athletes/trey-byrd.jpg"
+      },
+      {
+        id: "msg-2-6",
+        thread_id: "demo-2",
+        user_id: "demo-user-6",
+        content: "Congrats DeShawn! Remember me when you're in the league 😂",
+        is_team_response: false,
+        team_member_name: null,
+        media_urls: null,
+        created_at: new Date(Date.now() - 5 * 60000).toISOString(),
+        author: "Brandon Mitchell",
+        avatar: "/images/athletes/jamier-brown.jpg"
+      }
+    ],
+    "demo-3": [
+      {
+        id: "msg-3-1",
+        thread_id: "demo-3",
+        user_id: "demo-user-3",
+        content: "I've been getting some local businesses reaching out about NIL deals. My parents don't really understand how it works. Can high schoolers even do NIL? What should we look out for?",
+        is_team_response: false,
+        team_member_name: null,
+        media_urls: null,
+        created_at: new Date(Date.now() - 2 * 3600000).toISOString(),
+        author: "Jaylen Carter",
+        avatar: "/images/athletes/trey-byrd.jpg"
+      },
+      {
+        id: "msg-3-2",
+        thread_id: "demo-3",
+        user_id: "team-sanya",
+        content: "Great question Jaylen! Yes, high schoolers can do NIL in most states now. Here's what to watch for:\n\n1. Always have a lawyer or trusted adult review contracts\n2. Understand what they're asking you to do (social posts, appearances, etc.)\n3. Make sure it doesn't conflict with potential college eligibility\n4. Don't sign exclusivity deals early in your career\n\nDM me and we can connect you with our NIL advisor for a free consultation!",
+        is_team_response: true,
+        team_member_name: "Sanya Richards-Ross",
+        media_urls: null,
+        created_at: new Date(Date.now() - 1.5 * 3600000).toISOString(),
+        author: "Sanya Richards-Ross",
+        avatar: "/images/team/sanya-richards-ross.jpg"
+      },
+      {
+        id: "msg-3-3",
+        thread_id: "demo-3",
+        user_id: "demo-user-1",
+        content: "This is so helpful! I've been wondering the same thing",
+        is_team_response: false,
+        team_member_name: null,
+        media_urls: null,
+        created_at: new Date(Date.now() - 45 * 60000).toISOString(),
+        author: "Marcus Thompson",
+        avatar: "/images/athletes/jamar-owens.jpg"
+      }
+    ]
+  };
+
+  // Return specific messages for known threads, or generic ones for others
+  return demoMessagesMap[threadId] || [
+    {
+      id: "msg-generic-1",
+      thread_id: threadId,
+      user_id: "demo-user-1",
+      content: "Great discussion topic! Looking forward to hearing everyone's thoughts.",
+      is_team_response: false,
+      team_member_name: null,
+      media_urls: null,
+      created_at: new Date(Date.now() - 3600000).toISOString(),
+      author: "Marcus Thompson",
+      avatar: "/images/athletes/jamar-owens.jpg"
+    },
+    {
+      id: "msg-generic-2",
+      thread_id: threadId,
+      user_id: "team-durrell",
+      content: "Thanks for bringing this up! This is exactly the kind of conversation that helps our whole community grow. Let me share some thoughts...",
+      is_team_response: true,
+      team_member_name: "Durrell Steen",
+      media_urls: null,
+      created_at: new Date(Date.now() - 2400000).toISOString(),
+      author: "Durrell Steen",
+      avatar: "/images/team/durrell-steen.jpg"
+    }
+  ];
+};
+
+const ThreadDetail = ({ thread, userId, onBack, demoMode = false }: ThreadDetailProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(true);
@@ -58,6 +273,12 @@ const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
   const { toast } = useToast();
 
   const fetchMessages = async () => {
+    if (demoMode) {
+      setMessages(getDemoMessages(thread.id));
+      setLoading(false);
+      return;
+    }
+
     const { data, error } = await supabase
       .from('thread_messages')
       .select('*')
@@ -73,22 +294,24 @@ const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
   useEffect(() => {
     fetchMessages();
 
-    const channel = supabase
-      .channel(`thread-${thread.id}`)
-      .on('postgres_changes', { 
-        event: 'INSERT', 
-        schema: 'public', 
-        table: 'thread_messages',
-        filter: `thread_id=eq.${thread.id}`
-      }, (payload) => {
-        setMessages(prev => [...prev, payload.new as Message]);
-      })
-      .subscribe();
+    if (!demoMode) {
+      const channel = supabase
+        .channel(`thread-${thread.id}`)
+        .on('postgres_changes', { 
+          event: 'INSERT', 
+          schema: 'public', 
+          table: 'thread_messages',
+          filter: `thread_id=eq.${thread.id}`
+        }, (payload) => {
+          setMessages(prev => [...prev, payload.new as Message]);
+        })
+        .subscribe();
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [thread.id]);
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
+  }, [thread.id, demoMode]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -166,6 +389,29 @@ const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
   const handleSend = async () => {
     if (!newMessage.trim() && mediaFiles.length === 0) return;
 
+    if (demoMode) {
+      // In demo mode, just add message locally
+      const newMsg: Message = {
+        id: `demo-new-${Date.now()}`,
+        thread_id: thread.id,
+        user_id: userId,
+        content: newMessage.trim(),
+        is_team_response: false,
+        team_member_name: null,
+        media_urls: null,
+        created_at: new Date().toISOString(),
+        author: "You",
+        avatar: undefined
+      };
+      setMessages(prev => [...prev, newMsg]);
+      setNewMessage("");
+      toast({
+        title: "Message sent!",
+        description: "Your message has been posted to the thread."
+      });
+      return;
+    }
+
     setSending(true);
     let mediaUrls: string[] = [];
 
@@ -210,11 +456,20 @@ const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
         <Button variant="ghost" size="icon" onClick={onBack}>
           <ArrowLeft className="w-5 h-5" />
         </Button>
-        <div>
-          <h2 className="font-bold text-foreground">{thread.title}</h2>
-          <p className="text-sm text-muted-foreground">
-            Started {formatTimeAgo(thread.created_at)}
-          </p>
+        <div className="flex items-center gap-3">
+          {thread.avatar && (
+            <Avatar className="w-10 h-10">
+              <AvatarImage src={thread.avatar} />
+              <AvatarFallback>{thread.author?.charAt(0)}</AvatarFallback>
+            </Avatar>
+          )}
+          <div>
+            <h2 className="font-bold text-foreground">{thread.title}</h2>
+            <p className="text-sm text-muted-foreground">
+              {thread.author && <span className="text-foreground/80">{thread.author} • </span>}
+              Started {formatTimeAgo(thread.created_at)}
+            </p>
+          </div>
         </div>
       </div>
 
@@ -231,51 +486,60 @@ const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
               key={message.id}
               className={`flex ${message.user_id === userId && !message.is_team_response ? 'justify-end' : 'justify-start'}`}
             >
-              <Card className={`max-w-[80%] p-3 ${
-                message.is_team_response 
-                  ? 'bg-accent/10 border-accent/30' 
-                  : message.user_id === userId 
-                    ? 'bg-primary text-primary-foreground' 
-                    : 'bg-secondary'
-              }`}>
-                {message.is_team_response && message.team_member_name && (
-                  <p className="text-xs font-bold text-accent mb-1">
-                    {message.team_member_name} • Team
-                  </p>
+              <div className={`flex gap-2 max-w-[85%] ${message.user_id === userId && !message.is_team_response ? 'flex-row-reverse' : ''}`}>
+                {message.avatar && (
+                  <Avatar className="w-8 h-8 flex-shrink-0">
+                    <AvatarImage src={message.avatar} />
+                    <AvatarFallback className="text-xs">{message.author?.charAt(0)}</AvatarFallback>
+                  </Avatar>
                 )}
-                <p className="whitespace-pre-wrap">{message.content}</p>
-                
-                {message.media_urls && message.media_urls.length > 0 && (
-                  <div className="mt-2 grid grid-cols-2 gap-2">
-                    {message.media_urls.map((url, idx) => (
-                      url.includes('.mp4') || url.includes('.webm') || url.includes('.mov') ? (
-                        <video 
-                          key={idx} 
-                          src={url} 
-                          controls 
-                          className="rounded-lg max-h-48 w-full object-cover"
-                        />
-                      ) : (
-                        <img 
-                          key={idx} 
-                          src={url} 
-                          alt="Attachment" 
-                          className="rounded-lg max-h-48 w-full object-cover cursor-pointer"
-                          onClick={() => window.open(url, '_blank')}
-                        />
-                      )
-                    ))}
-                  </div>
-                )}
-                
-                <p className={`text-xs mt-1 ${
-                  message.user_id === userId && !message.is_team_response 
-                    ? 'text-primary-foreground/70' 
-                    : 'text-muted-foreground'
+                <Card className={`p-3 ${
+                  message.is_team_response 
+                    ? 'bg-accent/10 border-accent/30' 
+                    : message.user_id === userId 
+                      ? 'bg-primary text-primary-foreground' 
+                      : 'bg-secondary'
                 }`}>
-                  {formatTimeAgo(message.created_at)}
-                </p>
-              </Card>
+                  {(message.is_team_response || message.author) && message.user_id !== userId && (
+                    <p className={`text-xs font-bold mb-1 ${message.is_team_response ? 'text-accent' : 'text-foreground/80'}`}>
+                      {message.author || message.team_member_name}
+                      {message.is_team_response && ' • Team'}
+                    </p>
+                  )}
+                  <p className="whitespace-pre-wrap">{message.content}</p>
+                  
+                  {message.media_urls && message.media_urls.length > 0 && (
+                    <div className="mt-2 grid grid-cols-2 gap-2">
+                      {message.media_urls.map((url, idx) => (
+                        url.includes('.mp4') || url.includes('.webm') || url.includes('.mov') ? (
+                          <video 
+                            key={idx} 
+                            src={url} 
+                            controls 
+                            className="rounded-lg max-h-48 w-full object-cover"
+                          />
+                        ) : (
+                          <img 
+                            key={idx} 
+                            src={url} 
+                            alt="Attachment" 
+                            className="rounded-lg max-h-48 w-full object-cover cursor-pointer"
+                            onClick={() => window.open(url, '_blank')}
+                          />
+                        )
+                      ))}
+                    </div>
+                  )}
+                  
+                  <p className={`text-xs mt-1 ${
+                    message.user_id === userId && !message.is_team_response 
+                      ? 'text-primary-foreground/70' 
+                      : 'text-muted-foreground'
+                  }`}>
+                    {formatTimeAgo(message.created_at)}
+                  </p>
+                </Card>
+              </div>
             </div>
           ))
         )}
