@@ -150,6 +150,7 @@ const ThreadDetail = ({ thread, userId, onBack }: ThreadDetailProps) => {
   };
 
   const handleSend = async () => {
+    if (!userId) return;
     if (!newMessage.trim() && mediaFiles.length === 0) return;
 
     setSending(true);

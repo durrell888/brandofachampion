@@ -70,6 +70,15 @@ const CoachingSessionsTab = ({ userId }: CoachingSessionsTabProps) => {
   }, [userId]);
 
   const handleRequestSession = async () => {
+    if (!userId) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in to request a coaching session",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     if (!selectedTeamMember || !topic.trim()) {
       toast({
         title: "Required fields",
