@@ -1,5 +1,11 @@
 import { Athlete } from "@/components/AthleteCard";
 
+const durrellSteen = {
+  name: "Durrell Steen",
+  title: "Executive Director",
+  photo: "/images/team/durrell-steen.jpg",
+};
+
 export const mockAthletes: Athlete[] = [
   {
     id: "12",
@@ -19,6 +25,12 @@ export const mockAthletes: Athlete[] = [
     hudlLink: "http://www.hudl.com/v/2SgWxV",
     instagramLink: "https://www.instagram.com/jaamar._?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
     twitterLink: "https://x.com/1jamarowens?s=20",
+    tier: "pro",
+    proAnalysis: {
+      rating: 88,
+      analysis: "Jamar is an exceptional defensive back with elite ball skills and outstanding football IQ. His commitment to Indiana University speaks to his Division I talent level. He displays excellent closing speed and anticipation, making him a lockdown corner. His leadership on and off the field sets him apart from his peers. With continued development in his press coverage technique, Jamar has the potential to compete for early playing time at the collegiate level.",
+      assessor: durrellSteen,
+    },
   },
   {
     id: "11",
@@ -39,6 +51,12 @@ export const mockAthletes: Athlete[] = [
     hudlLink: "http://www.hudl.com/v/2SgQx5",
     instagramLink: "https://www.instagram.com/liilaye5_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
     twitterLink: "https://x.com/adryan_cole",
+    tier: "pro",
+    proAnalysis: {
+      rating: 86,
+      analysis: "Adryan possesses rare physical tools for a defensive back at his age. Standing at 6'2\" with excellent length, he has the frame that Power 5 programs covet. His 35+ offers at such a young age demonstrate his elite potential. He shows great instincts in zone coverage and is a physical tackler. His academic excellence (3.8 GPA) makes him a true student-athlete. With two more years of development, Adryan is tracking to be a top prospect in the 2027 class.",
+      assessor: durrellSteen,
+    },
   },
   {
     id: "10",
@@ -58,6 +76,12 @@ export const mockAthletes: Athlete[] = [
     weight: "205 lbs",
     instagramLink: "https://www.instagram.com/treybyrd_2028?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
     twitterLink: "https://x.com/TreyByrd2029",
+    tier: "pro",
+    proAnalysis: {
+      rating: 74,
+      analysis: "Trey is a young quarterback with tremendous upside. At 6'4\" with a developing frame, he has the ideal size scouts look for at the position. While still early in his high school career, he shows promising arm strength and the ability to make all the throws. His footwork and pocket presence are areas for continued development. With proper coaching and dedication, Trey has the raw tools to develop into a highly recruited prospect by his junior and senior years.",
+      assessor: durrellSteen,
+    },
   },
   {
     id: "1",
@@ -78,6 +102,12 @@ export const mockAthletes: Athlete[] = [
     hudlLink: "http://www.hudl.com/v/2SfxZH",
     instagramLink: "https://www.instagram.com/4wjosh?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
     twitterLink: "https://x.com/JoshuaSamEpelle",
+    tier: "pro",
+    proAnalysis: {
+      rating: 84,
+      analysis: "Joshua is an imposing presence on the offensive line. At 6'9\" and 325 lbs, he has rare size that immediately catches the attention of college scouts. His length and anchor ability make him a formidable pass protector. As a team captain, he demonstrates the leadership qualities coaches value. His continued development in footwork and hand placement will elevate his game to elite status. Joshua has the physical tools to compete at the highest level of college football.",
+      assessor: durrellSteen,
+    },
   },
   {
     id: "3",
@@ -140,5 +170,11 @@ export const mockAthletes: Athlete[] = [
     hudlLink: "http://www.hudl.com/v/2SgQ8s",
     instagramLink: "https://www.instagram.com/kj_up1?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
     twitterLink: "https://x.com/KjGreen7k",
+    tier: "pro",
+    proAnalysis: {
+      rating: 85,
+      analysis: "Kennedy is a highly touted 4-star defensive back with outstanding athleticism and instincts. His 35 college offers demonstrate his elite status among 2027 prospects. He combines excellent length at 6'2\" with fluid hips and explosive change of direction. Kennedy excels in both man and zone coverage schemes. His ball-hawking ability and competitive nature make him a game-changer on the field. He's on track to be one of the top defensive back recruits in his class.",
+      assessor: durrellSteen,
+    },
   },
 ];
