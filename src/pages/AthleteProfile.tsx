@@ -1,10 +1,25 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, MapPin, Trophy, GraduationCap, Ruler, Weight, Video, Briefcase, Heart, DollarSign, Home, Scale, Instagram, Twitter } from "lucide-react";
+import { ArrowLeft, MapPin, Trophy, GraduationCap, Ruler, Weight, Video, Briefcase, Heart, DollarSign, Home, Scale, Instagram, Twitter, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { mockAthletes } from "@/data/athletes";
+
+const getRatingColor = (rating: number) => {
+  if (rating >= 85) return "text-success";
+  if (rating >= 75) return "text-accent";
+  return "text-muted-foreground";
+};
+
+const getRatingLabel = (rating: number) => {
+  if (rating >= 90) return "Elite";
+  if (rating >= 85) return "Excellent";
+  if (rating >= 80) return "Very Good";
+  if (rating >= 75) return "Good";
+  if (rating >= 70) return "Solid";
+  return "Developing";
+};
 
 const supportIcons: Record<string, React.ReactNode> = {
   Career: <Briefcase className="w-4 h-4" />,
@@ -192,6 +207,50 @@ const AthleteProfile = () => {
                 </Button>
               )}
             </div>
+
+            {/* Pro Analysis Section */}
+            {athlete.tier === "pro" && athlete.proAnalysis && (
+              <div className="mt-8 p-6 bg-gradient-to-br from-primary/5 to-accent/10 rounded-2xl border border-accent/20">
+                <div className="flex items-center gap-2 mb-4">
+                  <Star className="w-5 h-5 text-accent" />
+                  <h3 className="text-lg font-bold text-foreground">Pro Analysis</h3>
+                  <Badge className="bg-accent text-accent-foreground ml-auto">Pro Member</Badge>
+                </div>
+                
+                {/* Rating Display */}
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="relative w-20 h-20 flex items-center justify-center">
+                    <div className={`text-4xl font-black ${getRatingColor(athlete.proAnalysis.rating)}`}>
+                      {athlete.proAnalysis.rating}
+                    </div>
+                  </div>
+                  <div>
+                    <p className={`text-lg font-bold ${getRatingColor(athlete.proAnalysis.rating)}`}>
+                      {getRatingLabel(athlete.proAnalysis.rating)}
+                    </p>
+                    <p className="text-sm text-muted-foreground">Overall Rating</p>
+                  </div>
+                </div>
+
+                {/* Analysis Text */}
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                  {athlete.proAnalysis.analysis}
+                </p>
+
+                {/* Assessor Info */}
+                <div className="flex items-center gap-3 pt-4 border-t border-border/50">
+                  <img 
+                    src={athlete.proAnalysis.assessor.photo} 
+                    alt={athlete.proAnalysis.assessor.name}
+                    className="w-12 h-12 rounded-full object-cover ring-2 ring-accent/20"
+                  />
+                  <div>
+                    <p className="font-semibold text-foreground">{athlete.proAnalysis.assessor.name}</p>
+                    <p className="text-sm text-muted-foreground">{athlete.proAnalysis.assessor.title}</p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

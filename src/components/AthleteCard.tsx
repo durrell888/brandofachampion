@@ -3,6 +3,18 @@ import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
+export interface AthleteAssessor {
+  name: string;
+  title: string;
+  photo: string;
+}
+
+export interface AthleteAnalysis {
+  rating: number;
+  analysis: string;
+  assessor: AthleteAssessor;
+}
+
 export interface Athlete {
   id: string;
   name: string;
@@ -22,6 +34,8 @@ export interface Athlete {
   hudlLink?: string;
   instagramLink?: string;
   twitterLink?: string;
+  tier?: "basic" | "pro";
+  proAnalysis?: AthleteAnalysis;
 }
 
 const supportIcons: Record<string, React.ReactNode> = {
