@@ -477,15 +477,9 @@ export default function Recruiting() {
     <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20 rounded-2xl p-8 text-center mb-8">
       <Lock className="w-12 h-12 text-primary mx-auto mb-4" />
       <h2 className="text-2xl font-bold mb-2">Unlock Full Access</h2>
-      <p className="text-muted-foreground mb-4 max-w-lg mx-auto">
+      <p className="text-muted-foreground mb-6 max-w-lg mx-auto">
         Get complete access to coaching staff contact information including phone numbers, emails, and social media for all {schools?.length || 0} FBS schools.
       </p>
-      <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 mb-6 max-w-md mx-auto">
-        <p className="text-sm text-amber-700 dark:text-amber-400 font-medium">
-          <AlertTriangle className="w-4 h-4 inline-block mr-1 -mt-0.5" />
-          Subscribers can view full contact details for up to 6 schools per 30-day period. Unused views do not roll over.
-        </p>
-      </div>
       <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
         <Button 
           size="lg" 
