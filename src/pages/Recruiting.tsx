@@ -621,31 +621,34 @@ export default function Recruiting() {
                 </div>
               </div>
 
-              {/* Division I */}
-              <div>
-                <h3 className="font-semibold mb-3 flex items-center gap-2">
-                  <Badge className="bg-amber-500/20 text-amber-700 dark:text-amber-400">D1</Badge>
-                  Division I Rules
-                </h3>
-                <div className="p-4 rounded-lg bg-amber-500/5 border border-amber-500/20 text-sm space-y-2">
-                  <p><strong>June 15 after sophomore year:</strong> Coaches can initiate calls, texts, emails</p>
-                  <p><strong>July 1 after junior year:</strong> Off-campus contact can begin</p>
-                  <p><strong>September 1 of senior year:</strong> One phone call per week allowed</p>
-                  <p><strong>Senior year:</strong> Total of 6 off-campus contacts with student and parents</p>
-                  <p><strong>Official visits:</strong> Start August 1 before junior year (university pays)</p>
+              {/* Division I & II Side by Side */}
+              <div className="grid md:grid-cols-2 gap-4">
+                {/* Division I */}
+                <div>
+                  <h3 className="font-semibold mb-3 flex items-center gap-2">
+                    <Badge className="bg-amber-500/20 text-amber-700 dark:text-amber-400">D1</Badge>
+                    Division I Rules
+                  </h3>
+                  <div className="p-4 rounded-lg bg-amber-500/5 border border-amber-500/20 text-sm space-y-2 h-full">
+                    <p><strong>June 15 after sophomore year:</strong> Coaches can initiate calls, texts, emails</p>
+                    <p><strong>July 1 after junior year:</strong> Off-campus contact can begin</p>
+                    <p><strong>September 1 of senior year:</strong> One phone call per week allowed</p>
+                    <p><strong>Senior year:</strong> Total of 6 off-campus contacts with student and parents</p>
+                    <p><strong>Official visits:</strong> Start August 1 before junior year (university pays)</p>
+                  </div>
                 </div>
-              </div>
 
-              {/* Division II */}
-              <div>
-                <h3 className="font-semibold mb-3 flex items-center gap-2">
-                  <Badge className="bg-blue-500/20 text-blue-700 dark:text-blue-400">D2</Badge>
-                  Division II Rules
-                </h3>
-                <div className="p-4 rounded-lg bg-blue-500/5 border border-blue-500/20 text-sm space-y-2">
-                  <p><strong>Contact:</strong> Can begin at any time regardless of sport</p>
-                  <p><strong>In-person contact:</strong> Limited until June 15 after sophomore year</p>
-                  <p><strong>Verbal offers:</strong> Can be extended at any time</p>
+                {/* Division II */}
+                <div>
+                  <h3 className="font-semibold mb-3 flex items-center gap-2">
+                    <Badge className="bg-blue-500/20 text-blue-700 dark:text-blue-400">D2</Badge>
+                    Division II Rules
+                  </h3>
+                  <div className="p-4 rounded-lg bg-blue-500/5 border border-blue-500/20 text-sm space-y-2 h-full">
+                    <p><strong>Contact:</strong> Can begin at any time regardless of sport</p>
+                    <p><strong>In-person contact:</strong> Limited until June 15 after sophomore year</p>
+                    <p><strong>Verbal offers:</strong> Can be extended at any time</p>
+                  </div>
                 </div>
               </div>
 
