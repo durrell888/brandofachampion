@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import VideoCard from "@/components/VideoCard";
 import FeaturedVideo from "@/components/FeaturedVideo";
 import VideoModal from "@/components/VideoModal";
-import { videos, categories, type Video } from "@/data/videos";
+import { videos, categories, videoSeries, type Video } from "@/data/videos";
 import { Button } from "@/components/ui/button";
 
 const Videos = () => {
@@ -58,6 +58,22 @@ const Videos = () => {
           </svg>
         </div>
       </section>
+
+      {/* Series Description Section */}
+      {videoSeries.length > 0 && (
+        <section className="py-16 bg-card border-b border-border">
+          <div className="container">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-6">
+                {videoSeries[0].title}
+              </h2>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                {videoSeries[0].description}
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Featured Video Section */}
       {featuredVideo && (
