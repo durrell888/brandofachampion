@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { User, Session } from "@supabase/supabase-js";
@@ -12,8 +12,11 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, MapPin, Phone, Mail, Twitter, GraduationCap, Building, Search, Users, X, Lock, CreditCard, Loader2 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { ArrowLeft, MapPin, Phone, Mail, Twitter, GraduationCap, Building, Search, Users, X, Lock, CreditCard, Loader2, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
+
+const MONTHLY_CONTACT_LIMIT = 4;
 
 // Watermark component for premium content
 const ContentWatermark = ({ email }: { email: string }) => (
@@ -49,6 +52,13 @@ interface Coach {
   twitter: string | null;
 }
 
+interface SchoolContact {
+  id: string;
+  user_id: string;
+  school_id: string;
+  contacted_at: string;
+}
+
 const conferences = [
   "All",
   "SEC",
@@ -66,6 +76,7 @@ const conferences = [
 
 export default function Recruiting() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -79,6 +90,10 @@ export default function Recruiting() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [subscriptionLoading, setSubscriptionLoading] = useState(true);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
+  
+  // Contact limit state
+  const [showLimitModal, setShowLimitModal] = useState(false);
+  const [contactedSchools, setContactedSchools] = useState<Set<string>>(new Set());
 
   // Check auth state and subscription
   useEffect(() => {
@@ -189,6 +204,78 @@ export default function Recruiting() {
     } finally {
       setSubscriptionLoading(false);
     }
+  };
+
+  // Fetch contacted schools for current month
+  useEffect(() => {
+    const fetchContactedSchools = async () => {
+      if (!user) {
+        setContactedSchools(new Set());
+        return;
+      }
+      
+      const startOfMonth = new Date();
+      startOfMonth.setDate(1);
+      startOfMonth.setHours(0, 0, 0, 0);
+      
+      const { data, error } = await supabase
+        .from("school_contacts")
+        .select("school_id")
+        .eq("user_id", user.id)
+        .gte("contacted_at", startOfMonth.toISOString());
+      
+      if (error) {
+        console.error("Error fetching contacts:", error);
+        return;
+      }
+      
+      const uniqueSchools = new Set(data?.map(c => c.school_id) || []);
+      setContactedSchools(uniqueSchools);
+    };
+    
+    fetchContactedSchools();
+  }, [user]);
+
+  // Track school contact
+  const trackSchoolContact = async (schoolId: string): Promise<boolean> => {
+    if (!user || !isSubscribed) return true; // Non-subscribers can't see info anyway
+    
+    // Already contacted this school
+    if (contactedSchools.has(schoolId)) return true;
+    
+    // Check if at limit
+    if (contactedSchools.size >= MONTHLY_CONTACT_LIMIT) {
+      setShowLimitModal(true);
+      return false;
+    }
+    
+    // Record the contact
+    const { error } = await supabase
+      .from("school_contacts")
+      .insert({
+        user_id: user.id,
+        school_id: schoolId
+      });
+    
+    if (error) {
+      console.error("Error recording contact:", error);
+      return true; // Allow viewing even if tracking fails
+    }
+    
+    setContactedSchools(prev => new Set([...prev, schoolId]));
+    
+    const remaining = MONTHLY_CONTACT_LIMIT - contactedSchools.size - 1;
+    if (remaining <= 1) {
+      toast.info(`You have ${remaining} school contact${remaining === 1 ? '' : 's'} remaining this month.`);
+    }
+    
+    return true;
+  };
+
+  const canViewSchool = (schoolId: string): boolean => {
+    if (!isSubscribed) return true; // Non-subscribers see masked info anyway
+    if (contactedSchools.has(schoolId)) return true;
+    return contactedSchools.size < MONTHLY_CONTACT_LIMIT;
   };
 
   const handleSubscribe = async () => {
@@ -450,13 +537,18 @@ export default function Recruiting() {
               Explore NCAA Division I FBS football programs across the nation. Search schools, filter by conference, or click on a state to view coaching staff.
             </p>
             {isSubscribed && (
-              <div className="mt-4 flex justify-center gap-2">
-                <Badge variant="secondary" className="bg-green-500/20 text-green-700 dark:text-green-400">
-                  Premium Subscriber
-                </Badge>
-                <Button variant="ghost" size="sm" onClick={handleManageSubscription}>
-                  Manage Subscription
-                </Button>
+              <div className="mt-4 flex flex-col items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap justify-center">
+                  <Badge variant="secondary" className="bg-green-500/20 text-green-700 dark:text-green-400">
+                    Premium Subscriber
+                  </Badge>
+                  <Badge variant="outline" className="text-muted-foreground">
+                    {contactedSchools.size} / {MONTHLY_CONTACT_LIMIT} schools contacted this month
+                  </Badge>
+                  <Button variant="ghost" size="sm" onClick={handleManageSubscription}>
+                    Manage Subscription
+                  </Button>
+                </div>
               </div>
             )}
           </div>
@@ -798,9 +890,46 @@ export default function Recruiting() {
                     <div className="grid md:grid-cols-2 gap-6">
                       {filteredSchools.map((school) => {
                         const schoolCoaches = getCoachesForSchool(school.id);
+                        const hasViewed = contactedSchools.has(school.id);
+                        const canView = canViewSchool(school.id);
+                        const showContactInfo = isSubscribed && (hasViewed || canView);
+                        
+                        const handleViewSchool = async () => {
+                          if (!isSubscribed || hasViewed) return;
+                          await trackSchoolContact(school.id);
+                        };
+                        
                         return (
-                          <Card key={school.id} className="overflow-hidden hover:shadow-lg transition-shadow relative" data-protected="true">
-                            {isSubscribed && user?.email && <ContentWatermark email={user.email} />}
+                          <Card 
+                            key={school.id} 
+                            className={`overflow-hidden hover:shadow-lg transition-shadow relative ${!canView && isSubscribed ? 'opacity-75' : ''}`} 
+                            data-protected="true"
+                            onClick={handleViewSchool}
+                          >
+                            {isSubscribed && user?.email && hasViewed && <ContentWatermark email={user.email} />}
+                            {isSubscribed && hasViewed && (
+                              <Badge className="absolute top-2 right-2 z-20 bg-green-500/20 text-green-700 dark:text-green-400 text-xs">
+                                Viewed
+                              </Badge>
+                            )}
+                            {isSubscribed && !hasViewed && !canView && (
+                              <div className="absolute inset-0 bg-background/80 z-20 flex items-center justify-center rounded-lg">
+                                <div className="text-center p-4">
+                                  <Lock className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+                                  <p className="text-sm text-muted-foreground">Monthly limit reached</p>
+                                  <Button 
+                                    variant="link" 
+                                    size="sm" 
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setShowLimitModal(true);
+                                    }}
+                                  >
+                                    Learn more
+                                  </Button>
+                                </div>
+                              </div>
+                            )}
                             <CardHeader className="pb-3 select-none">
                               <div className="flex items-start justify-between gap-4">
                                 <div className="flex items-center gap-3">
@@ -824,7 +953,7 @@ export default function Recruiting() {
                                     </p>
                                   </div>
                                 </div>
-                                <Badge className={conferenceColors[school.conference] || "bg-muted"}>
+                                <Badge className={`${conferenceColors[school.conference] || "bg-muted"} ${isSubscribed && hasViewed ? 'mr-16' : ''}`}>
                                   {school.conference}
                                 </Badge>
                               </div>
@@ -839,13 +968,14 @@ export default function Recruiting() {
                                   <p className="font-medium mb-2">
                                     {coach.name || "To be updated"}
                                   </p>
-                                  <div className={`space-y-1 text-sm ${!isSubscribed ? "blur-sm select-none" : ""}`}>
-                                    {isSubscribed ? (
+                                  <div className={`space-y-1 text-sm ${!showContactInfo || (!hasViewed && isSubscribed) ? "blur-sm select-none" : ""}`}>
+                                    {showContactInfo && hasViewed ? (
                                       <>
                                         {coach.phone ? (
                                           <a
                                             href={`tel:${coach.phone}`}
                                             className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+                                            onClick={(e) => e.stopPropagation()}
                                           >
                                             <Phone className="w-3 h-3" />
                                             {coach.phone}
@@ -860,6 +990,7 @@ export default function Recruiting() {
                                           <a
                                             href={`mailto:${coach.email}`}
                                             className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+                                            onClick={(e) => e.stopPropagation()}
                                           >
                                             <Mail className="w-3 h-3" />
                                             {coach.email}
@@ -876,6 +1007,7 @@ export default function Recruiting() {
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+                                            onClick={(e) => e.stopPropagation()}
                                           >
                                             <Twitter className="w-3 h-3" />
                                             @{coach.twitter}
@@ -907,11 +1039,27 @@ export default function Recruiting() {
                                 <Button 
                                   variant="outline" 
                                   className="w-full gap-2"
-                                  onClick={handleSubscribe}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleSubscribe();
+                                  }}
                                   disabled={checkoutLoading}
                                 >
                                   <Lock className="w-4 h-4" />
                                   Unlock Contact Info
+                                </Button>
+                              )}
+                              {isSubscribed && !hasViewed && canView && (
+                                <Button 
+                                  variant="outline" 
+                                  className="w-full gap-2"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleViewSchool();
+                                  }}
+                                >
+                                  <GraduationCap className="w-4 h-4" />
+                                  View Contact Info ({MONTHLY_CONTACT_LIMIT - contactedSchools.size} left this month)
                                 </Button>
                               )}
                             </CardContent>
@@ -926,6 +1074,36 @@ export default function Recruiting() {
           )}
         </div>
       </main>
+
+      {/* Monthly Limit Modal */}
+      <Dialog open={showLimitModal} onOpenChange={setShowLimitModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5 text-amber-500" />
+              Monthly Contact Limit Reached
+            </DialogTitle>
+            <DialogDescription className="pt-4 space-y-4">
+              <p>
+                As a recruiting subscriber, you are allowed to contact up to <strong>{MONTHLY_CONTACT_LIMIT} schools per month</strong>. 
+                You have reached your limit for this month.
+              </p>
+              <p>
+                Your limit will reset on the 1st of next month. Schools you've already viewed this month will remain accessible.
+              </p>
+              <div className="bg-muted/50 rounded-lg p-4 mt-4">
+                <p className="text-sm font-medium mb-2">Schools contacted this month:</p>
+                <p className="text-2xl font-bold text-primary">{contactedSchools.size} / {MONTHLY_CONTACT_LIMIT}</p>
+              </div>
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-end mt-4">
+            <Button onClick={() => setShowLimitModal(false)}>
+              Got it
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <Footer />
     </div>

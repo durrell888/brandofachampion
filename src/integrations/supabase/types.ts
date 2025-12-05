@@ -189,6 +189,35 @@ export type Database = {
           },
         ]
       }
+      school_contacts: {
+        Row: {
+          contacted_at: string
+          id: string
+          school_id: string
+          user_id: string
+        }
+        Insert: {
+          contacted_at?: string
+          id?: string
+          school_id: string
+          user_id: string
+        }
+        Update: {
+          contacted_at?: string
+          id?: string
+          school_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "school_contacts_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "ncaa_football_schools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subscribers: {
         Row: {
           created_at: string
