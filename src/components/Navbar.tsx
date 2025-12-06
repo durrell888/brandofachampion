@@ -31,15 +31,6 @@ const Navbar = () => {
     setRegistrationModalOpen(true);
   };
 
-  const navItems = [
-    { href: "#athletes", label: "Athletes" },
-    { href: "/recruiting", label: "Recruiting", isRoute: true },
-    { href: "/scholarships", label: "Scholarships", isRoute: true },
-    { href: "/community", label: "Community", isRoute: true },
-    { href: "/stories", label: "Stories", isRoute: true },
-    { href: "/apparel", label: "Apparel", isRoute: true },
-  ];
-
   return (
     <>
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -60,35 +51,61 @@ const Navbar = () => {
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-1">
-            {navItems.map((item, index) => (
-              item.isRoute ? (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                  className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive(item.href) ? "text-accent" : ""}`}
-                  style={{ animationDelay: `${index * 0.5}s` }}
-                >
-                  {item.label}
-                </Link>
-              ) : (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent"
-                  style={{ animationDelay: `${index * 0.5}s` }}
-                >
-                  {item.label}
-                </a>
-              )
-            ))}
+            <a
+              href="#athletes"
+              className="nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent"
+              style={{ animationDelay: "0s" }}
+            >
+              Athletes
+            </a>
+            <Link
+              to="/recruiting"
+              className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/recruiting") ? "text-accent" : ""}`}
+              style={{ animationDelay: "0.5s" }}
+            >
+              Recruiting
+            </Link>
+            <Link
+              to="/scholarships"
+              className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/scholarships") ? "text-accent" : ""}`}
+              style={{ animationDelay: "1s" }}
+            >
+              Scholarships
+            </Link>
+            <Link
+              to="/community"
+              className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/community") ? "text-accent" : ""}`}
+              style={{ animationDelay: "1.5s" }}
+            >
+              Community
+            </Link>
+            <Link
+              to="/stories"
+              className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/stories") ? "text-accent" : ""}`}
+              style={{ animationDelay: "2s" }}
+            >
+              Stories
+            </Link>
+            <Link
+              to="/apparel"
+              className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/apparel") ? "text-accent" : ""}`}
+              style={{ animationDelay: "2.5s" }}
+            >
+              Apparel
+            </Link>
             
             {/* About Dropdown */}
             <DropdownMenu>
-              <DropdownMenuTrigger className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent flex items-center gap-1 ${isActive("/about") || isActive("/partners") ? "text-accent" : ""}`} style={{ animationDelay: `${navItems.length * 0.5}s` }}>
-                About
-                <ChevronDown className="h-3 w-3" />
+              <DropdownMenuTrigger asChild>
+                <button 
+                  className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent flex items-center gap-1 outline-none ${isActive("/about") || isActive("/partners") ? "text-accent" : ""}`} 
+                  style={{ animationDelay: "3s" }}
+                >
+                  About
+                  <ChevronDown className="h-3 w-3" />
+                </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-background border-border z-50">
+              <DropdownMenuContent align="end" className="bg-background border-border">
                 <DropdownMenuItem asChild>
                   <Link to="/about" className={`w-full cursor-pointer ${isActive("/about") ? "text-accent" : ""}`}>
                     Our Story
