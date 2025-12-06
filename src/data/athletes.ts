@@ -17,7 +17,7 @@ export const mockAthletes: Athlete[] = [
     id: "18",
     name: "Lasiah Jackson",
     sport: "Football",
-    position: "Cornerback",
+    position: "Defensive Back",
     location: "Leesburg, Georgia",
     avatar: "/images/athletes/lasiah-jackson.jpg",
     achievements: ["2X All-Region", "Committed to Stanford University"],
