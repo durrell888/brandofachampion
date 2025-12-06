@@ -3,17 +3,12 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { ParentRegistrationModal } from "@/components/ParentRegistrationModal";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [registrationModalOpen, setRegistrationModalOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -23,6 +18,14 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = () => setAboutOpen(false);
+    if (aboutOpen) {
+      document.addEventListener("click", handleClickOutside);
+      return () => document.removeEventListener("click", handleClickOutside);
+    }
+  }, [aboutOpen]);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -94,30 +97,38 @@ const Navbar = () => {
               Apparel
             </Link>
             
-            {/* About Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button 
-                  className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent flex items-center gap-1 outline-none ${isActive("/about") || isActive("/partners") ? "text-accent" : ""}`} 
-                  style={{ animationDelay: "3s" }}
-                >
-                  About
-                  <ChevronDown className="h-3 w-3" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-background border-border">
-                <DropdownMenuItem asChild>
-                  <Link to="/about" className={`w-full cursor-pointer ${isActive("/about") ? "text-accent" : ""}`}>
+            {/* About Dropdown - Custom implementation */}
+            <div className="relative">
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setAboutOpen(!aboutOpen);
+                }}
+                className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent flex items-center gap-1 ${isActive("/about") || isActive("/partners") ? "text-accent" : ""}`} 
+                style={{ animationDelay: "3s" }}
+              >
+                About
+                <ChevronDown className={`h-3 w-3 transition-transform ${aboutOpen ? "rotate-180" : ""}`} />
+              </button>
+              {aboutOpen && (
+                <div className="absolute right-0 top-full mt-2 w-40 rounded-md bg-background border border-border shadow-lg z-50">
+                  <Link 
+                    to="/about" 
+                    className={`block px-4 py-2 text-sm font-medium hover:bg-secondary transition-colors ${isActive("/about") ? "text-accent" : "text-foreground"}`}
+                    onClick={() => setAboutOpen(false)}
+                  >
                     Our Story
                   </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/partners" className={`w-full cursor-pointer ${isActive("/partners") ? "text-accent" : ""}`}>
+                  <Link 
+                    to="/partners" 
+                    className={`block px-4 py-2 text-sm font-medium hover:bg-secondary transition-colors ${isActive("/partners") ? "text-accent" : "text-foreground"}`}
+                    onClick={() => setAboutOpen(false)}
+                  >
                     Partners
                   </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="hidden md:flex items-center gap-3">
