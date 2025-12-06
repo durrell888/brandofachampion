@@ -35,8 +35,8 @@ export const mockAthletes: Athlete[] = [
     tier: "pro",
     proAnalysis: {
       rating: 90,
-      analysis: "Lasiah Jackson is an elite wide receiver with exceptional size and athleticism. At 6'3\" and 180 lbs, he possesses the ideal frame for a modern receiver who can dominate at all levels of the field. His commitment to Stanford University showcases both his athletic excellence and academic prowess. Lasiah's 2X All-Region honors demonstrate his consistent dominance against high school competition. He displays outstanding route-running, reliable hands, and the length to win contested catches. His combination of physical tools and football IQ make him a future star at the collegiate level.",
-      assessor: durrellSteen,
+      analysis: "Lasiah Jackson is an elite defensive back with exceptional size and athleticism. At 6'3\" and 180 lbs, he possesses the ideal frame for a modern defensive back who can match up with any receiver. His commitment to Stanford University showcases both his athletic excellence and academic prowess. Lasiah's 2X All-Region honors demonstrate his consistent dominance against high school competition. He displays outstanding ball skills, lockdown coverage ability, and the length to contest any catch. His combination of physical tools and football IQ make him a future star at the collegiate level.",
+      assessor: aaronRoss,
     },
   },
   {
