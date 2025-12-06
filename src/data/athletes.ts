@@ -14,6 +14,31 @@ const aaronRoss = {
 
 export const mockAthletes: Athlete[] = [
   {
+    id: "17",
+    name: "Rodney Colton Jr.",
+    sport: "Football",
+    position: "Linebacker",
+    location: "Newnan, Georgia",
+    avatar: "/images/athletes/rodney-colton-jr.jpg",
+    achievements: ["40+ College Offers", "Committed to Colorado University", "2X All-Region"],
+    supportNeeded: ["Career", "Education"],
+    yearsActive: "2023-2026",
+    status: "active",
+    classYear: "2026",
+    school: "Newnan High School",
+    height: "6'1\"",
+    weight: "225 lbs",
+    gpa: 3.0,
+    hudlLink: "http://www.hudl.com/v/2TJaTV",
+    instagramLink: "https://www.instagram.com/rodneyy.1_/",
+    tier: "pro",
+    proAnalysis: {
+      rating: 91,
+      analysis: "Rodney Colton Jr. is an elite linebacker with exceptional athleticism and instincts. At 6'1\" and 225 lbs, he possesses the ideal frame for a modern linebacker who can play sideline to sideline. With over 40 college offers and his commitment to Colorado University, he's proven his standing among the nation's top prospects. Rodney displays outstanding lateral quickness, tackling ability, and coverage skills that make him a three-down player. His 2X All-Region honors showcase his consistent dominance. He has the tools to make an immediate impact at the collegiate level and project as a future NFL prospect.",
+      assessor: durrellSteen,
+    },
+  },
+  {
     id: "16",
     name: "Jamier Brown",
     sport: "Football",
