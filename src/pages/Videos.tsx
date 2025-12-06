@@ -14,10 +14,12 @@ const Videos = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const featuredVideo = videos.find((v) => v.featured);
-  const filteredVideos = videos.filter((video) => {
-    if (selectedCategory === "all") return !video.featured;
-    return video.category === selectedCategory && !video.featured;
-  });
+  const filteredVideos = videos
+    .filter((video) => {
+      if (selectedCategory === "all") return !video.featured;
+      return video.category === selectedCategory && !video.featured;
+    })
+    .sort((a, b) => parseInt(a.id) - parseInt(b.id));
 
   const currentSeries = videoSeries.find((s) => s.id === selectedCategory);
 
