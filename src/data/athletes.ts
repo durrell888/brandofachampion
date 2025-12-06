@@ -14,6 +14,32 @@ const aaronRoss = {
 
 export const mockAthletes: Athlete[] = [
   {
+    id: "18",
+    name: "Lasiah Jackson",
+    sport: "Football",
+    position: "Wide Receiver",
+    location: "Leesburg, Georgia",
+    avatar: "/images/athletes/lasiah-jackson.jpg",
+    achievements: ["2X All-Region", "Committed to Stanford University"],
+    supportNeeded: ["Career", "Education"],
+    yearsActive: "2023-2026",
+    status: "active",
+    classYear: "2026",
+    school: "Lee County High School",
+    height: "6'3\"",
+    weight: "180 lbs",
+    gpa: 3.1,
+    hudlLink: "http://www.hudl.com/video/3/17508769/66b91df4c5139a810953e7d3",
+    instagramLink: "https://www.instagram.com/_la.1x_/",
+    twitterLink: "https://x.com/LasiahJackson",
+    tier: "pro",
+    proAnalysis: {
+      rating: 90,
+      analysis: "Lasiah Jackson is an elite wide receiver with exceptional size and athleticism. At 6'3\" and 180 lbs, he possesses the ideal frame for a modern receiver who can dominate at all levels of the field. His commitment to Stanford University showcases both his athletic excellence and academic prowess. Lasiah's 2X All-Region honors demonstrate his consistent dominance against high school competition. He displays outstanding route-running, reliable hands, and the length to win contested catches. His combination of physical tools and football IQ make him a future star at the collegiate level.",
+      assessor: durrellSteen,
+    },
+  },
+  {
     id: "17",
     name: "Rodney Colton Jr.",
     sport: "Football",
