@@ -45,13 +45,13 @@ const Navbar = () => {
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-1">
-            <a
-              href="#athletes"
-              className="nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent"
+            <Link
+              to="/athletes"
+              className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/athletes") ? "text-accent" : ""}`}
               style={{ animationDelay: "0s" }}
             >
               Athletes
-            </a>
+            </Link>
             <Link
               to="/recruiting"
               className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/recruiting") ? "text-accent" : ""}`}
@@ -125,9 +125,9 @@ const Navbar = () => {
         {isOpen && (
           <div className="md:hidden bg-background border-t border-border animate-fade-in">
             <div className="container py-6 space-y-4">
-              <a href="#athletes" className="block text-foreground hover:text-accent transition-colors font-semibold py-2">
+              <Link to="/athletes" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 Athletes
-              </a>
+              </Link>
               <Link to="/recruiting" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 Recruiting
               </Link>
