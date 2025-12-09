@@ -14,8 +14,19 @@ serve(async (req) => {
   try {
     const { amount, email } = await req.json();
     
-    if (!amount || amount < 1) {
+    // Validate amount - minimum $1, maximum $50,000
+    if (!amount || typeof amount !== 'number' || amount < 1) {
       throw new Error("Please enter a valid donation amount (minimum $1)");
+    }
+    
+    if (amount > 50000) {
+      throw new Error("Donation amount exceeds maximum allowed ($50,000)");
+    }
+    
+    // Validate email format if provided
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email && (typeof email !== 'string' || !emailRegex.test(email))) {
+      throw new Error("Please enter a valid email address");
     }
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
