@@ -94,6 +94,13 @@ const Navbar = () => {
             >
               About
             </Link>
+            <Link
+              to="/donate"
+              className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-primary hover:text-accent ${isActive("/donate") ? "text-accent" : ""}`}
+              style={{ animationDelay: "3.5s" }}
+            >
+              Donate
+            </Link>
           </div>
 
           <div className="hidden md:flex items-center gap-3">
@@ -138,6 +145,9 @@ const Navbar = () => {
               </Link>
               <Link to="/about" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 About
+              </Link>
+              <Link to="/donate" className="block text-primary hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
+                Donate
               </Link>
               <div className="flex gap-3 pt-4 border-t border-border">
                 <Button variant="outline" size="sm" className="flex-1">
