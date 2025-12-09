@@ -21,8 +21,21 @@ const CreateThreadModal = ({ open, onOpenChange, userId }: CreateThreadModalProp
   const { toast } = useToast();
 
   const handleCreate = async () => {
-    if (!title.trim()) {
+    const trimmedTitle = title.trim();
+    const trimmedMessage = message.trim();
+    
+    if (!trimmedTitle) {
       toast({ title: "Title required", description: "Please enter a title", variant: "destructive" });
+      return;
+    }
+    
+    if (trimmedTitle.length > 200) {
+      toast({ title: "Title too long", description: "Maximum 200 characters allowed", variant: "destructive" });
+      return;
+    }
+    
+    if (trimmedMessage.length > 10000) {
+      toast({ title: "Message too long", description: "Maximum 10,000 characters allowed", variant: "destructive" });
       return;
     }
 
@@ -30,7 +43,7 @@ const CreateThreadModal = ({ open, onOpenChange, userId }: CreateThreadModalProp
 
     const { data: thread, error } = await supabase
       .from('message_threads')
-      .insert({ user_id: userId, title: title.trim() })
+      .insert({ user_id: userId, title: trimmedTitle })
       .select()
       .single();
 
@@ -40,11 +53,11 @@ const CreateThreadModal = ({ open, onOpenChange, userId }: CreateThreadModalProp
       return;
     }
 
-    if (message.trim()) {
+    if (trimmedMessage) {
       await supabase.from('thread_messages').insert({
         thread_id: thread.id,
         user_id: userId,
-        content: message.trim()
+        content: trimmedMessage
       });
     }
 
