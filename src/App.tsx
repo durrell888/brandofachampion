@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SitePasswordGate } from "@/components/SitePasswordGate";
 import Index from "./pages/Index";
 import Videos from "./pages/Videos";
 import AthleteProfile from "./pages/AthleteProfile";
@@ -24,24 +25,26 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/stories" element={<Videos />} />
-          <Route path="/athletes/:id" element={<AthleteProfile />} />
-          <Route path="/partners" element={<Partners />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/apparel" element={<Apparel />} />
-          <Route path="/apparel/:handle" element={<ProductDetail />} />
-          <Route path="/recruiting" element={<Recruiting />} />
-          <Route path="/scholarships" element={<Scholarships />} />
-          <Route path="/community" element={<MessageBoard />} />
-          <Route path="/donate" element={<Donate />} />
-          <Route path="/auth" element={<Auth />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <SitePasswordGate>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/stories" element={<Videos />} />
+            <Route path="/athletes/:id" element={<AthleteProfile />} />
+            <Route path="/partners" element={<Partners />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/apparel" element={<Apparel />} />
+            <Route path="/apparel/:handle" element={<ProductDetail />} />
+            <Route path="/recruiting" element={<Recruiting />} />
+            <Route path="/scholarships" element={<Scholarships />} />
+            <Route path="/community" element={<MessageBoard />} />
+            <Route path="/donate" element={<Donate />} />
+            <Route path="/auth" element={<Auth />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </SitePasswordGate>
     </TooltipProvider>
   </QueryClientProvider>
 );
