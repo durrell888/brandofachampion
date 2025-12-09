@@ -7,6 +7,11 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+const logStep = (step: string, details?: unknown) => {
+  const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
+  console.log(`[CHECK-SUBSCRIPTION] ${step}${detailsStr}`);
+};
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -19,6 +24,8 @@ serve(async (req) => {
   );
 
   try {
+    logStep("Function started");
+    
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
     if (!stripeKey) throw new Error("STRIPE_SECRET_KEY is not set");
 
@@ -31,10 +38,41 @@ serve(async (req) => {
     const user = userData.user;
     if (!user?.email) throw new Error("User not authenticated or email not available");
 
+    logStep("User authenticated", { userId: user.id, email: user.email });
+
+    // First check local subscription_status table
+    const { data: localStatus, error: localError } = await supabaseClient
+      .from("subscription_status")
+      .select("*")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (!localError && localStatus && localStatus.status === "active") {
+      const periodEnd = new Date(localStatus.current_period_end);
+      if (periodEnd > new Date()) {
+        logStep("Found active subscription in local database", { 
+          subscriptionId: localStatus.stripe_subscription_id,
+          productId: localStatus.product_id,
+          periodEnd: localStatus.current_period_end
+        });
+        
+        return new Response(JSON.stringify({
+          subscribed: true,
+          product_id: localStatus.product_id,
+          subscription_end: localStatus.current_period_end
+        }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 200,
+        });
+      }
+    }
+
+    // Fallback to checking Stripe directly and sync to database
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
     
     if (customers.data.length === 0) {
+      logStep("No Stripe customer found");
       return new Response(JSON.stringify({ subscribed: false }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
@@ -42,6 +80,8 @@ serve(async (req) => {
     }
 
     const customerId = customers.data[0].id;
+    logStep("Found Stripe customer", { customerId });
+
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,
       status: "active",
@@ -49,15 +89,54 @@ serve(async (req) => {
     });
     
     const hasActiveSub = subscriptions.data.length > 0;
+    let productId = null;
     let subscriptionEnd = null;
 
     if (hasActiveSub) {
       const subscription = subscriptions.data[0];
       subscriptionEnd = new Date(subscription.current_period_end * 1000).toISOString();
+      productId = subscription.items.data[0]?.price?.product as string;
+      
+      logStep("Active subscription found, syncing to database", { 
+        subscriptionId: subscription.id,
+        productId,
+        endDate: subscriptionEnd 
+      });
+
+      // Sync to local database
+      const subscriptionData = {
+        user_id: user.id,
+        stripe_customer_id: customerId,
+        stripe_subscription_id: subscription.id,
+        product_id: productId,
+        status: "active",
+        current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
+        current_period_end: subscriptionEnd,
+        updated_at: new Date().toISOString(),
+      };
+
+      const { error: upsertError } = await supabaseClient
+        .from("subscription_status")
+        .upsert(subscriptionData, { onConflict: "user_id" });
+
+      if (upsertError) {
+        logStep("Warning: Could not sync subscription to database", { error: upsertError.message });
+      }
+    } else {
+      logStep("No active subscription found");
+      
+      // Update local database to reflect inactive status
+      if (localStatus) {
+        await supabaseClient
+          .from("subscription_status")
+          .update({ status: "inactive", updated_at: new Date().toISOString() })
+          .eq("user_id", user.id);
+      }
     }
 
     return new Response(JSON.stringify({
       subscribed: hasActiveSub,
+      product_id: productId,
       subscription_end: subscriptionEnd
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -65,6 +144,7 @@ serve(async (req) => {
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
+    logStep("ERROR in check-subscription", { message: errorMessage });
     return new Response(JSON.stringify({ error: errorMessage }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
