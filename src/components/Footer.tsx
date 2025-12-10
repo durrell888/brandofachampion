@@ -90,11 +90,11 @@ const Footer = () => {
           <div>
             <h3 className="font-bold text-sm uppercase tracking-wider mb-6">Quick Links</h3>
             <ul className="space-y-4">
-              <li><a href="#athletes" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Find Athletes</a></li>
-              <li><a href="#services" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Our Services</a></li>
-              <li><Link to="/stories" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Success Stories</Link></li>
-              <li><Link to="/partners" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Partner With Us</Link></li>
-              <li><a href="#" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Donate</a></li>
+              <li><Link to="/athletes" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Find Athletes</Link></li>
+              <li><Link to="/#services" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Our Services</Link></li>
+              <li><Link to="/videos" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Success Stories</Link></li>
+              <li><Link to="/#partners" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Partner With Us</Link></li>
+              <li><Link to="/donate" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Donate</Link></li>
             </ul>
           </div>
 
@@ -102,11 +102,11 @@ const Footer = () => {
           <div>
             <h3 className="font-bold text-sm uppercase tracking-wider mb-6">Resources</h3>
             <ul className="space-y-4">
-              <li><a href="#" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Career Guide</a></li>
-              <li><a href="#" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Financial Toolkit</a></li>
-              <li><a href="#" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Mental Health Resources</a></li>
-              <li><a href="#" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Education Programs</a></li>
-              <li><a href="#" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Blog</a></li>
+              <li><Link to="/recruiting" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Recruiting Guide</Link></li>
+              <li><Link to="/scholarships" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Scholarships</Link></li>
+              <li><Link to="/community" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Community Board</Link></li>
+              <li><Link to="/news" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">News & Updates</Link></li>
+              <li><Link to="/apparel" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Apparel Store</Link></li>
             </ul>
           </div>
 
