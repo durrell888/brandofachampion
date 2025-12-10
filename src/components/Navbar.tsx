@@ -44,59 +44,59 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1">
             <Link
               to="/athletes"
-              className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/athletes") ? "text-accent" : ""}`}
+              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/athletes") ? "text-accent" : ""}`}
               style={{ animationDelay: "0s" }}
             >
               Athletes
             </Link>
             <Link
               to="/recruiting"
-              className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/recruiting") ? "text-accent" : ""}`}
+              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/recruiting") ? "text-accent" : ""}`}
               style={{ animationDelay: "0.5s" }}
             >
               Recruiting
             </Link>
             <Link
               to="/scholarships"
-              className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/scholarships") ? "text-accent" : ""}`}
+              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/scholarships") ? "text-accent" : ""}`}
               style={{ animationDelay: "1s" }}
             >
               Scholarships
             </Link>
             <Link
               to="/community"
-              className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/community") ? "text-accent" : ""}`}
+              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/community") ? "text-accent" : ""}`}
               style={{ animationDelay: "1.5s" }}
             >
               Community
             </Link>
             <Link
               to="/stories"
-              className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/stories") ? "text-accent" : ""}`}
+              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/stories") ? "text-accent" : ""}`}
               style={{ animationDelay: "2s" }}
             >
               Stories
             </Link>
             <Link
               to="/apparel"
-              className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/apparel") ? "text-accent" : ""}`}
+              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/apparel") ? "text-accent" : ""}`}
               style={{ animationDelay: "2.5s" }}
             >
               Apparel
             </Link>
             <Link
               to="/donate"
-              className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-primary hover:text-accent ${isActive("/donate") ? "text-accent" : ""}`}
+              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-primary hover:text-accent ${isActive("/donate") ? "text-accent" : ""}`}
               style={{ animationDelay: "3s" }}
             >
               Donate
             </Link>
           </div>
 
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-3">
             <Button variant={scrolled ? "ghost" : "heroOutline"} size="sm">
               Sign In
             </Button>
@@ -107,7 +107,7 @@ const Navbar = () => {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-lg transition-colors text-foreground hover:bg-secondary"
+            className="lg:hidden p-2 rounded-lg transition-colors text-foreground hover:bg-secondary"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -116,7 +116,7 @@ const Navbar = () => {
 
         {/* Mobile menu */}
         {isOpen && (
-          <div className="md:hidden bg-background border-t border-border animate-fade-in">
+          <div className="lg:hidden bg-background border-t border-border animate-fade-in">
             <div className="container py-6 space-y-4">
               <Link to="/athletes" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 Athletes
