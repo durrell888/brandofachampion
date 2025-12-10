@@ -384,17 +384,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Affiliate Products Section */}
-      <section className="py-16 bg-muted/30">
-        <div className="container">
-          <AffiliateProducts 
-            title="Recommended Gear"
-            subtitle="Top picks from our partners to help athletes perform at their best"
-            maxProducts={8}
-          />
-        </div>
-      </section>
-
       {/* Partnership Form Section */}
       <section className="py-24 bg-background">
         <div className="container">
@@ -488,6 +477,17 @@ const Index = () => {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Affiliate Products Section */}
+      <section className="py-16 bg-muted/30">
+        <div className="container">
+          <AffiliateProducts 
+            title="Recommended Gear"
+            subtitle="Top picks from our partners to help athletes perform at their best"
+            maxProducts={8}
+          />
         </div>
       </section>
 
