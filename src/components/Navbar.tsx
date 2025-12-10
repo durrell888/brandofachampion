@@ -88,16 +88,9 @@ const Navbar = () => {
               Apparel
             </Link>
             <Link
-              to="/about"
-              className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/about") ? "text-accent" : ""}`}
-              style={{ animationDelay: "3s" }}
-            >
-              About
-            </Link>
-            <Link
               to="/donate"
               className={`nav-link nav-chase-glow px-4 py-2 text-sm font-semibold transition-colors text-primary hover:text-accent ${isActive("/donate") ? "text-accent" : ""}`}
-              style={{ animationDelay: "3.5s" }}
+              style={{ animationDelay: "3s" }}
             >
               Donate
             </Link>
@@ -142,9 +135,6 @@ const Navbar = () => {
               </Link>
               <Link to="/apparel" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 Apparel
-              </Link>
-              <Link to="/about" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
-                About
               </Link>
               <Link to="/donate" className="block text-primary hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 Donate
