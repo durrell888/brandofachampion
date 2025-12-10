@@ -97,9 +97,11 @@ const Navbar = () => {
           </div>
 
           <div className="hidden lg:flex items-center gap-3">
-            <Button variant={scrolled ? "ghost" : "heroOutline"} size="sm">
-              Sign In
-            </Button>
+            <Link to="/auth">
+              <Button variant={scrolled ? "ghost" : "heroOutline"} size="sm">
+                Sign In
+              </Button>
+            </Link>
             <Button variant="hero" size="sm" onClick={handleGetStarted}>
               Get Started
             </Button>
@@ -140,9 +142,11 @@ const Navbar = () => {
                 Donate
               </Link>
               <div className="flex gap-3 pt-4 border-t border-border">
-                <Button variant="outline" size="sm" className="flex-1">
-                  Sign In
-                </Button>
+                <Link to="/auth" className="flex-1" onClick={() => setIsOpen(false)}>
+                  <Button variant="outline" size="sm" className="w-full">
+                    Sign In
+                  </Button>
+                </Link>
                 <Button variant="hero" size="sm" className="flex-1" onClick={handleGetStarted}>
                   Get Started
                 </Button>
