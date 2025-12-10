@@ -13,6 +13,7 @@ import Apparel from "./pages/Apparel";
 import ProductDetail from "./pages/ProductDetail";
 import Recruiting from "./pages/Recruiting";
 import Auth from "./pages/Auth";
+import Account from "./pages/Account";
 import Scholarships from "./pages/Scholarships";
 import MessageBoard from "./pages/MessageBoard";
 import Donate from "./pages/Donate";
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/community" element={<MessageBoard />} />
             <Route path="/donate" element={<Donate />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/account" element={<Account />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
