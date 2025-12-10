@@ -81,7 +81,7 @@ const Index = () => {
               <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                 We believe that true champions are built not just on the field, but through character, community, and continuous growth. Our programs provide comprehensive support in career development, education, mental health, financial literacy, and more.
               </p>
-              <a href="#partners">
+              <a href="#partner-form">
                 <Button variant="hero" size="lg" className="group">
                   <Handshake className="w-5 h-5" />
                   Partner With Us
@@ -385,7 +385,7 @@ const Index = () => {
       </section>
 
       {/* Partnership Form Section */}
-      <section className="pb-24 pt-8 bg-secondary/50">
+      <section id="partner-form" className="pb-24 pt-8 bg-secondary/50">
         <div className="container">
           <div className="relative overflow-hidden rounded-2xl hero-gradient">
             <div className="absolute inset-0">
@@ -513,7 +513,7 @@ const Index = () => {
                   Join our network of supporters and help athletes transition successfully into their next chapter.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a href="#partners">
+                  <a href="#partner-form">
                     <Button variant="hero" size="xl" className="group w-full sm:w-auto">
                       <Handshake className="w-5 h-5" />
                       Become a Partner
