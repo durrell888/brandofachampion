@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -11,19 +12,40 @@ const TIER_PRICES = {
   pro: "price_1ScNJmJCEhoZof7cWvOCcXtE", // $14.99/month
 };
 
+// Input validation schema
+const registrationSchema = z.object({
+  parentName: z.string().min(1, "Parent name is required").max(100, "Parent name too long").trim(),
+  parentEmail: z.string().email("Invalid email address").max(255, "Email too long").trim(),
+  athleteName: z.string().min(1, "Athlete name is required").max(100, "Athlete name too long").trim(),
+  athleteAge: z.string().min(1, "Athlete age is required").max(20, "Age value too long"),
+  sport: z.string().min(1, "Sport is required").max(50, "Sport name too long").trim(),
+  school: z.string().min(1, "School is required").max(100, "School name too long").trim(),
+  tier: z.enum(["basic", "pro"]).default("basic"),
+});
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { parentName, parentEmail, athleteName, athleteAge, sport, school, tier = "basic" } = await req.json();
+    const body = await req.json();
     
-    if (!parentEmail) {
-      throw new Error("Email is required");
+    // Validate input using zod schema
+    const validationResult = registrationSchema.safeParse(body);
+    
+    if (!validationResult.success) {
+      const errorMessage = validationResult.error.errors.map(e => e.message).join(", ");
+      console.error("[CREATE-REGISTRATION] Validation error:", errorMessage);
+      return new Response(JSON.stringify({ error: errorMessage }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 400,
+      });
     }
+    
+    const { parentName, parentEmail, athleteName, athleteAge, sport, school, tier } = validationResult.data;
 
-    const priceId = TIER_PRICES[tier as keyof typeof TIER_PRICES] || TIER_PRICES.basic;
+    const priceId = TIER_PRICES[tier];
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2025-08-27.basil",
