@@ -385,7 +385,7 @@ const Index = () => {
       </section>
 
       {/* Partnership Form Section */}
-      <section className="py-24 bg-background">
+      <section className="pb-24 pt-8 bg-secondary/50">
         <div className="container">
           <div className="relative overflow-hidden rounded-2xl hero-gradient">
             <div className="absolute inset-0">
