@@ -12,6 +12,7 @@ import { Search, DollarSign, Calendar, GraduationCap, MapPin, ExternalLink, Book
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { toast } from "sonner";
+import { SEO, createWebPageSchema } from "@/components/SEO";
 
 interface Scholarship {
   id: string;
@@ -318,6 +319,16 @@ const Scholarships = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Scholarships for Student Athletes"
+        description="Search thousands of scholarships tailored for student-athletes. Filter by grade, state, and category to find the perfect opportunities."
+        canonical="https://brandofachampion.org/scholarships"
+        structuredData={createWebPageSchema(
+          "Scholarship Database",
+          "Search thousands of scholarships for student-athletes.",
+          "https://brandofachampion.org/scholarships"
+        )}
+      />
       <Navbar />
 
       {/* Hero Section */}

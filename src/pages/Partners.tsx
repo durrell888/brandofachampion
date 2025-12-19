@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ExternalLink, Send, Handshake, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { SEO, createWebPageSchema } from "@/components/SEO";
 
 const Partners = () => {
   const { toast } = useToast();
@@ -37,6 +38,16 @@ const Partners = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Our Partners"
+        description="We're proud to partner with organizations that share our commitment to empowering athletes. Learn about our sponsors and partnership opportunities."
+        canonical="https://brandofachampion.org/partners"
+        structuredData={createWebPageSchema(
+          "Our Partners",
+          "Partner organizations supporting Brand of a Champion.",
+          "https://brandofachampion.org/partners"
+        )}
+      />
       <Navbar />
       
       {/* Hero Section */}
