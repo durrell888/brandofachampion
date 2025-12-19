@@ -7,6 +7,7 @@ import FeaturedVideo from "@/components/FeaturedVideo";
 import VideoModal from "@/components/VideoModal";
 import { videos, categories, videoSeries, type Video } from "@/data/videos";
 import { Button } from "@/components/ui/button";
+import { SEO, createWebPageSchema } from "@/components/SEO";
 
 const Videos = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -30,6 +31,16 @@ const Videos = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Stories of Champions"
+        description="Watch inspiring stories of athletes building their legacy beyond the game. Discover how Brand of a Champion is making an impact."
+        canonical="https://brandofachampion.org/stories"
+        structuredData={createWebPageSchema(
+          "Stories of Champions",
+          "Watch inspiring stories of athletes building their legacy beyond the game.",
+          "https://brandofachampion.org/stories"
+        )}
+      />
       <Navbar />
 
       {/* Hero Section */}

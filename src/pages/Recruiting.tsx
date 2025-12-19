@@ -16,6 +16,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowLeft, MapPin, Phone, Mail, Twitter, GraduationCap, Building, Search, Users, X, Lock, CreditCard, Loader2, AlertTriangle, BookOpen, Calendar, MessageCircle, Clock } from "lucide-react";
 import { toast } from "sonner";
+import { SEO, createWebPageSchema } from "@/components/SEO";
 
 const CONTACT_LIMIT = 6;
 const CONTACT_WINDOW_DAYS = 30;
@@ -556,6 +557,16 @@ export default function Recruiting() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="College Recruiting Database"
+        description="Explore NCAA Division I FBS football programs. Search schools, filter by conference, and access coaching staff contact information."
+        canonical="https://brandofachampion.org/recruiting"
+        structuredData={createWebPageSchema(
+          "College Recruiting Database",
+          "Explore NCAA Division I FBS football programs and coaching staff.",
+          "https://brandofachampion.org/recruiting"
+        )}
+      />
       <Navbar />
       
       <main className="pt-24 pb-16">

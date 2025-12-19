@@ -14,6 +14,7 @@ import { ArrowRight, Handshake, Heart, Users, Trophy, Target, Mail, Phone, Exter
 import { DonationModal } from "@/components/DonationModal";
 import { partners } from "@/data/partners";
 import { useToast } from "@/hooks/use-toast";
+import { SEO, organizationSchema } from "@/components/SEO";
 
 const Index = () => {
   const { toast } = useToast();
@@ -45,6 +46,10 @@ const Index = () => {
 
   return (
     <main className="min-h-screen bg-background">
+      <SEO 
+        canonical="https://brandofachampion.org/"
+        structuredData={organizationSchema}
+      />
       <EmailCapturePopup />
       <Navbar />
       <Hero />

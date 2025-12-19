@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { SEO, createWebPageSchema } from "@/components/SEO";
 
 const PRESET_AMOUNTS = [25, 50, 100, 250, 500, 1000];
 
@@ -76,6 +77,16 @@ const Donate = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Donate"
+        description="Support young athletes with your tax-deductible donation. Every dollar empowers athletes to succeed beyond the game."
+        canonical="https://brandofachampion.org/donate"
+        structuredData={createWebPageSchema(
+          "Donate to Brand of a Champion",
+          "Support young athletes with your tax-deductible donation.",
+          "https://brandofachampion.org/donate"
+        )}
+      />
       <Navbar />
       
       {/* Hero Section */}

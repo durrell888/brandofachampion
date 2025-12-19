@@ -4,6 +4,7 @@ import SearchBar from "@/components/SearchBar";
 import AthleteCard from "@/components/AthleteCard";
 import Footer from "@/components/Footer";
 import { mockAthletes } from "@/data/athletes";
+import { SEO, createWebPageSchema } from "@/components/SEO";
 
 const Athletes = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -43,6 +44,16 @@ const Athletes = () => {
 
   return (
     <main className="min-h-screen bg-background">
+      <SEO 
+        title="Athletes"
+        description="Discover athletes who need support and connect them with resources. Brand of a Champion helps young athletes reach their full potential."
+        canonical="https://brandofachampion.org/athletes"
+        structuredData={createWebPageSchema(
+          "Athletes Directory",
+          "Discover athletes who need support and connect them with resources.",
+          "https://brandofachampion.org/athletes"
+        )}
+      />
       <Navbar />
       
       {/* Hero Section */}

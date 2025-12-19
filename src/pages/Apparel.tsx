@@ -10,6 +10,7 @@ import hoodieModelCover from "@/assets/hoodie-model-cover.jpg";
 import hoodieShowcaseFront from "@/assets/hoodie-showcase-front.jpg";
 import hoodieModelBackFemale from "@/assets/hoodie-model-back-female.jpg";
 import tshirtModelShowcase from "@/assets/tshirt-model-showcase.jpg";
+import { SEO, createWebPageSchema } from "@/components/SEO";
 
 const Apparel = () => {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
@@ -33,6 +34,17 @@ const Apparel = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="BOAC Collection Apparel"
+        description="Shop the Brand of a Champion collection. Every purchase supports our mission to empower athletes beyond the game."
+        canonical="https://brandofachampion.org/apparel"
+        type="product"
+        structuredData={createWebPageSchema(
+          "BOAC Apparel Collection",
+          "Shop the official Brand of a Champion merchandise collection.",
+          "https://brandofachampion.org/apparel"
+        )}
+      />
       <Navbar />
       
       {/* Hero Video Section - H&M Style */}
