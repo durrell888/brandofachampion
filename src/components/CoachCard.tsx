@@ -76,7 +76,15 @@ export function CoachCard({ coach, onBook }: CoachCardProps) {
           )}
         </div>
 
-        <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:justify-between">
+        <div className="pt-2 flex flex-col gap-2">
+          <Button
+            onClick={handleBookClick}
+            variant="hero"
+            className="w-full"
+          >
+            <Calendar className="mr-2 h-4 w-4 shrink-0" />
+            Book Session
+          </Button>
           <Button
             variant="ghost"
             size="sm"
@@ -84,15 +92,6 @@ export function CoachCard({ coach, onBook }: CoachCardProps) {
           >
             View Curriculum
             <ChevronRight className="ml-1 h-4 w-4" />
-          </Button>
-          <Button
-            onClick={handleBookClick}
-            size="sm"
-            variant="hero"
-            className="w-full sm:w-auto whitespace-normal h-auto py-2 leading-tight"
-          >
-            <Calendar className="mr-2 h-4 w-4 shrink-0" />
-            Book Session
           </Button>
         </div>
       </div>
