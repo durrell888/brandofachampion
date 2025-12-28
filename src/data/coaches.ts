@@ -11,75 +11,35 @@ export interface Coach {
 
 export const coaches: Coach[] = [
   {
-    id: "rb-coach",
-    name: "Marcus Williams",
-    position: "Running Backs Coach",
-    positionGroup: "Running Backs",
-    image: "/images/team/durrell-steen.jpg",
-    bio: "Former NFL running back with 8 years of professional experience. Specializes in vision, footwork, and explosive movement training.",
-    experience: "12+ years coaching",
-    specialties: ["Ball Security", "Route Running", "Pass Protection", "Vision Training"]
-  },
-  {
     id: "qb-coach",
-    name: "Derek Thompson",
+    name: "Ron Veal",
     position: "Quarterbacks Coach",
     positionGroup: "Quarterbacks",
-    image: "/images/team/aaron-ross.avif",
-    bio: "Former D1 quarterback and offensive coordinator. Expert in quarterback mechanics, decision-making, and leadership development.",
+    image: "/images/team/ron-veal.jpg",
+    bio: "Elite quarterback developer with extensive experience training athletes at all levels. Expert in quarterback mechanics, decision-making, and leadership development.",
     experience: "15+ years coaching",
     specialties: ["Throwing Mechanics", "Pocket Presence", "Reading Defenses", "Leadership"]
   },
   {
-    id: "ol-coach",
-    name: "James Carter",
-    position: "Offensive Line Coach",
-    positionGroup: "Offensive Lineman",
-    image: "/images/team/everett-levy.jpeg",
-    bio: "Former All-American offensive tackle. Specializes in technique, footwork, and developing physical dominance in the trenches.",
-    experience: "10+ years coaching",
-    specialties: ["Pass Protection", "Run Blocking", "Hand Technique", "Footwork"]
-  },
-  {
-    id: "dl-coach",
-    name: "Antoine Jackson",
-    position: "Defensive Line Coach",
-    positionGroup: "Defensive Lineman",
-    image: "/images/team/durrell-steen.jpg",
-    bio: "Former NFL defensive end with Pro Bowl experience. Expert in pass rush techniques and run defense fundamentals.",
-    experience: "14+ years coaching",
-    specialties: ["Pass Rush Moves", "Run Stuffing", "Hand Combat", "Explosion Training"]
-  },
-  {
     id: "wr-coach",
-    name: "Terrance Mitchell",
+    name: "Hilton Alexander",
     position: "Wide Receivers Coach",
     positionGroup: "Wide Receivers",
-    image: "/images/team/aaron-ross.avif",
+    image: "/images/team/hilton-alexander.jpg",
     bio: "Former professional wide receiver with exceptional route-running expertise. Develops elite separation and catching skills.",
     experience: "11+ years coaching",
     specialties: ["Route Running", "Separation Techniques", "Contested Catches", "Release Moves"]
   },
   {
-    id: "lb-coach",
-    name: "Brandon Foster",
-    position: "Linebackers Coach",
-    positionGroup: "Linebackers",
-    image: "/images/team/everett-levy.jpeg",
-    bio: "Former college linebacker and defensive coordinator. Specializes in instincts, tackling, and coverage skills.",
-    experience: "13+ years coaching",
-    specialties: ["Tackling Technique", "Zone Coverage", "Blitzing", "Reading Keys"]
+    id: "strength-coach",
+    name: "Scott Lashley",
+    position: "Physical Performance & Development Coach",
+    positionGroup: "Strength & Conditioning",
+    image: "/images/team/durrell-steen.jpg",
+    bio: "Elite strength and conditioning coach specializing in athletic performance development. Focuses on building functional strength, speed, and power for football athletes.",
+    experience: "10+ years coaching",
+    specialties: ["Strength Training", "Speed Development", "Power Training", "Athletic Performance"]
   },
-  {
-    id: "db-coach",
-    name: "Chris Anderson",
-    position: "Defensive Backs Coach",
-    positionGroup: "Defensive Backs",
-    image: "/images/team/aaron-ross.avif",
-    bio: "Former All-Pro cornerback with championship experience. Expert in coverage techniques and ball skills.",
-    experience: "16+ years coaching",
-    specialties: ["Man Coverage", "Zone Technique", "Ball Skills", "Hip Fluidity"]
-  }
 ];
 
 export const trainingAreas = [
