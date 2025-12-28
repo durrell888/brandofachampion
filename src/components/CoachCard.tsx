@@ -85,7 +85,12 @@ export function CoachCard({ coach, onBook }: CoachCardProps) {
             View Curriculum
             <ChevronRight className="ml-1 h-4 w-4" />
           </Button>
-          <Button onClick={handleBookClick} size="sm" variant="hero" className="whitespace-nowrap">
+          <Button
+            onClick={handleBookClick}
+            size="sm"
+            variant="hero"
+            className="w-full sm:w-auto whitespace-normal h-auto py-2 leading-tight"
+          >
             <Calendar className="mr-2 h-4 w-4 shrink-0" />
             Book Session
           </Button>
