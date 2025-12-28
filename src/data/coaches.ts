@@ -70,6 +70,24 @@ export const coaches: Coach[] = [
       { title: "Football-Specific Conditioning", topics: ["Energy system training", "Work capacity", "Recovery protocols"] },
       { title: "Injury Prevention & Recovery", topics: ["Mobility work", "Prehab exercises", "Recovery techniques"] }
     ]
+  },
+  {
+    id: "ol-coach",
+    name: "Kevin McAlmont",
+    position: "Offensive Line Coach",
+    positionGroup: "Offensive Line",
+    image: "/images/team/kevin-mcalmont.jpg",
+    bio: "Expert offensive line coach with deep knowledge of blocking schemes, leverage, and trench warfare. Develops linemen with elite technique and football IQ.",
+    experience: "12+ years coaching",
+    specialties: ["Run Blocking", "Pass Protection", "Line Communication", "Trench Technique"],
+    curriculum: [
+      { title: "Stance & First Step", topics: ["Three-point stance", "Get-off", "Initial punch timing"] },
+      { title: "Hand Placement & Punch Timing", topics: ["Inside hands", "Punch power", "Hand replacement"] },
+      { title: "Leverage & Pad Level", topics: ["Playing low", "Knee bend", "Power angles"] },
+      { title: "Run Blocking Schemes", topics: ["Zone blocking", "Gap schemes", "Combo blocks"] },
+      { title: "Pass Protection Sets", topics: ["Kick slide", "Vertical set", "Anchor technique"] },
+      { title: "Defensive Recognition", topics: ["Reading fronts", "Identifying stunts", "Communication"] }
+    ]
   }
 ];
 
