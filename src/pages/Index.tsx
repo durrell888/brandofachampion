@@ -315,7 +315,7 @@ const Index = () => {
                 <h3 className="text-xl font-extrabold text-foreground mb-1">Everett Levy</h3>
                 <p className="text-accent font-bold mb-3">NIL Advisor</p>
                 <p className="text-muted-foreground text-sm mb-4">
-                  University of Maryland graduate, NFL Agent at Goal Line Sports, helping athletes navigate NIL opportunities.
+                  University of Maryland graduate, NFL Agent at Goal Line Football, helping athletes navigate NIL opportunities.
                 </p>
                 <div className="flex flex-wrap justify-center gap-2">
                   <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary text-xs font-medium text-foreground">
