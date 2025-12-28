@@ -18,6 +18,7 @@ import Account from "./pages/Account";
 import Scholarships from "./pages/Scholarships";
 import MessageBoard from "./pages/MessageBoard";
 import Donate from "./pages/Donate";
+import FootballTraining from "./pages/FootballTraining";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +43,7 @@ const App = () => (
               <Route path="/scholarships" element={<Scholarships />} />
               <Route path="/community" element={<MessageBoard />} />
               <Route path="/donate" element={<Donate />} />
+              <Route path="/training" element={<FootballTraining />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/account" element={<Account />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
