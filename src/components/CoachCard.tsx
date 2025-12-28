@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { Calendar, Award, Star } from "lucide-react";
+import { Calendar, Award, Star, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Coach } from "@/data/coaches";
+import { useNavigate } from "react-router-dom";
 
 interface CoachCardProps {
   coach: Coach;
@@ -10,13 +11,25 @@ interface CoachCardProps {
 }
 
 export function CoachCard({ coach, onBook }: CoachCardProps) {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/coach/${coach.id}`);
+  };
+
+  const handleBookClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onBook(coach);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-accent/50 transition-all duration-300"
+      onClick={handleCardClick}
+      className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-accent/50 transition-all duration-300 cursor-pointer"
     >
       <div className="relative h-64 overflow-hidden">
         <img
@@ -64,14 +77,15 @@ export function CoachCard({ coach, onBook }: CoachCardProps) {
         </div>
 
         <div className="pt-2 flex items-center justify-between">
-          <div className="flex items-center gap-1 text-accent">
-            <Star className="h-4 w-4 fill-accent" />
-            <Star className="h-4 w-4 fill-accent" />
-            <Star className="h-4 w-4 fill-accent" />
-            <Star className="h-4 w-4 fill-accent" />
-            <Star className="h-4 w-4 fill-accent" />
-          </div>
-          <Button onClick={() => onBook(coach)} size="sm" variant="hero">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-accent hover:text-accent/80"
+          >
+            View Curriculum
+            <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
+          <Button onClick={handleBookClick} size="sm" variant="hero">
             <Calendar className="mr-2 h-4 w-4" />
             Book Session
           </Button>
