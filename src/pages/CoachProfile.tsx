@@ -1,10 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Calendar, CheckCircle, PlayCircle, Award, BookOpen, Target } from "lucide-react";
+import { ArrowLeft, Calendar, CheckCircle, PlayCircle, Award, BookOpen, Target, Video, Users, Film } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { coaches } from "@/data/coaches";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -110,7 +111,7 @@ export default function CoachProfile() {
         </div>
       </section>
 
-      {/* Video Section */}
+      {/* Video & Virtual Training Section */}
       <section className="py-16 bg-card/50">
         <div className="container mx-auto px-4">
           <motion.div
@@ -119,11 +120,15 @@ export default function CoachProfile() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
+            <div className="inline-flex items-center gap-2 bg-accent/10 px-4 py-2 rounded-full mb-6">
+              <Video className="h-5 w-5 text-accent" />
+              <span className="text-accent font-semibold">Virtual Training Room</span>
+            </div>
             <h2 className="text-3xl font-display font-bold text-foreground mb-4">
-              Training Preview
+              Live Video Sessions with {coach.name}
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Watch {coach.name} in action and see the training methodology that has developed elite athletes.
+              Connect with your coach for film review, technique analysis, and live feedback through our integrated video platform.
             </p>
           </motion.div>
 
@@ -131,19 +136,127 @@ export default function CoachProfile() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="max-w-4xl mx-auto"
+            className="max-w-5xl mx-auto"
           >
-            <Card className="bg-card border-border overflow-hidden">
-              <div className="aspect-video bg-muted flex items-center justify-center relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20" />
-                <div className="relative z-10 text-center space-y-4">
-                  <div className="w-20 h-20 rounded-full bg-accent/20 flex items-center justify-center mx-auto">
-                    <PlayCircle className="h-12 w-12 text-accent" />
-                  </div>
-                  <p className="text-muted-foreground">Training videos coming soon</p>
-                </div>
-              </div>
-            </Card>
+            <Tabs defaultValue="video-room" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-8">
+                <TabsTrigger value="video-room" className="flex items-center gap-2">
+                  <Users className="h-4 w-4" />
+                  Video Conference
+                </TabsTrigger>
+                <TabsTrigger value="film-review" className="flex items-center gap-2">
+                  <Film className="h-4 w-4" />
+                  Film Review
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="video-room">
+                <Card className="bg-card border-border overflow-hidden">
+                  <CardHeader className="border-b border-border">
+                    <CardTitle className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
+                        <Video className="h-5 w-5 text-accent" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">{coach.name}'s Video Room</h3>
+                        <p className="text-sm text-muted-foreground font-normal">
+                          Join scheduled sessions or request a live call
+                        </p>
+                      </div>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-0">
+                    {/* Jitsi Meet Embed - Free video conferencing */}
+                    <div className="aspect-video bg-muted relative">
+                      <iframe
+                        src={`https://meet.jit.si/BigLeagueAdvantage-${coach.id}-Room`}
+                        className="w-full h-full border-0"
+                        allow="camera; microphone; fullscreen; display-capture; autoplay"
+                        title={`Video call with ${coach.name}`}
+                      />
+                    </div>
+                    <div className="p-4 bg-muted/30 border-t border-border">
+                      <div className="flex flex-wrap gap-3 justify-center">
+                        <Badge variant="outline" className="text-xs">
+                          <div className="w-2 h-2 rounded-full bg-green-500 mr-2" />
+                          Camera & Mic Required
+                        </Badge>
+                        <Badge variant="outline" className="text-xs">
+                          End-to-End Encrypted
+                        </Badge>
+                        <Badge variant="outline" className="text-xs">
+                          Screen Sharing Enabled
+                        </Badge>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="film-review">
+                <Card className="bg-card border-border overflow-hidden">
+                  <CardHeader className="border-b border-border">
+                    <CardTitle className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
+                        <Film className="h-5 w-5 text-accent" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">Film Review Session</h3>
+                        <p className="text-sm text-muted-foreground font-normal">
+                          Share your game film and get real-time feedback
+                        </p>
+                      </div>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-6">
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div className="space-y-4">
+                        <div className="aspect-video bg-muted rounded-lg flex items-center justify-center relative border border-dashed border-border">
+                          <div className="text-center space-y-3">
+                            <PlayCircle className="h-12 w-12 text-muted-foreground mx-auto" />
+                            <p className="text-sm text-muted-foreground">
+                              Upload or share screen to display your film
+                            </p>
+                          </div>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Share your game film during a video session for real-time breakdown and technique analysis.
+                        </p>
+                      </div>
+                      <div className="space-y-4">
+                        <h4 className="font-semibold text-foreground">Film Review Includes:</h4>
+                        <ul className="space-y-3">
+                          <li className="flex items-start gap-3 text-muted-foreground">
+                            <CheckCircle className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+                            <span>Frame-by-frame technique analysis</span>
+                          </li>
+                          <li className="flex items-start gap-3 text-muted-foreground">
+                            <CheckCircle className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+                            <span>Screen sharing for side-by-side comparison</span>
+                          </li>
+                          <li className="flex items-start gap-3 text-muted-foreground">
+                            <CheckCircle className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+                            <span>Personalized improvement plan</span>
+                          </li>
+                          <li className="flex items-start gap-3 text-muted-foreground">
+                            <CheckCircle className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+                            <span>Recorded session for future reference</span>
+                          </li>
+                        </ul>
+                        <Button
+                          variant="hero"
+                          className="w-full mt-4"
+                          onClick={() => setIsBookingOpen(true)}
+                        >
+                          <Calendar className="mr-2 h-4 w-4" />
+                          Schedule Film Review
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
           </motion.div>
         </div>
       </section>
