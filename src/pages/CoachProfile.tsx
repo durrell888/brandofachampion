@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Calendar, CheckCircle, PlayCircle, Award, BookOpen, Target, Video, Users, Film } from "lucide-react";
+import { ArrowLeft, Calendar, CheckCircle, PlayCircle, Award, BookOpen, Target, Video, Users, Film, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -82,15 +82,26 @@ export default function CoachProfile() {
                 ))}
               </div>
 
-              <Button
-                variant="hero"
-                size="lg"
-                onClick={() => setIsBookingOpen(true)}
-                className="mt-6"
-              >
-                <Calendar className="mr-2 h-5 w-5" />
-                Book Training Session
-              </Button>
+              <div className="flex flex-wrap gap-3 mt-6">
+                <Button
+                  variant="hero"
+                  size="lg"
+                  onClick={() => setIsBookingOpen(true)}
+                >
+                  <Calendar className="mr-2 h-5 w-5" />
+                  Book Training Session
+                </Button>
+                {coach.externalLink && (
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={() => window.open(coach.externalLink, '_blank')}
+                  >
+                    <ExternalLink className="mr-2 h-5 w-5" />
+                    Visit Website
+                  </Button>
+                )}
+              </div>
             </motion.div>
 
             <motion.div
@@ -350,7 +361,7 @@ export default function CoachProfile() {
                   onClick={() => setIsBookingOpen(true)}
                 >
                   <Calendar className="mr-2 h-5 w-5" />
-                  Book Your Session - $75
+                  Book Your Session
                 </Button>
               </CardContent>
             </Card>
