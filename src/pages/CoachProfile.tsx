@@ -82,26 +82,15 @@ export default function CoachProfile() {
                 ))}
               </div>
 
-              <div className="flex flex-wrap gap-3 mt-6">
-                <Button
-                  variant="hero"
-                  size="lg"
-                  onClick={() => setIsBookingOpen(true)}
-                >
-                  <Calendar className="mr-2 h-5 w-5" />
-                  Book Training Session
-                </Button>
-                {coach.externalLink && (
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    onClick={() => window.open(coach.externalLink, '_blank')}
-                  >
-                    <ExternalLink className="mr-2 h-5 w-5" />
-                    Visit Website
-                  </Button>
-                )}
-              </div>
+              <Button
+                variant="hero"
+                size="lg"
+                onClick={() => coach.externalLink ? window.open(coach.externalLink, '_blank') : setIsBookingOpen(true)}
+                className="mt-6"
+              >
+                <Calendar className="mr-2 h-5 w-5" />
+                Book Training Session
+              </Button>
             </motion.div>
 
             <motion.div
@@ -257,7 +246,7 @@ export default function CoachProfile() {
                         <Button
                           variant="hero"
                           className="w-full mt-4"
-                          onClick={() => setIsBookingOpen(true)}
+                          onClick={() => coach.externalLink ? window.open(coach.externalLink, '_blank') : setIsBookingOpen(true)}
                         >
                           <Calendar className="mr-2 h-4 w-4" />
                           Schedule Film Review
@@ -358,7 +347,7 @@ export default function CoachProfile() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => setIsBookingOpen(true)}
+                  onClick={() => coach.externalLink ? window.open(coach.externalLink, '_blank') : setIsBookingOpen(true)}
                 >
                   <Calendar className="mr-2 h-5 w-5" />
                   Book Your Session
