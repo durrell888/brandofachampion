@@ -19,7 +19,11 @@ export function CoachCard({ coach, onBook }: CoachCardProps) {
 
   const handleBookClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onBook(coach);
+    if (coach.externalLink) {
+      window.open(coach.externalLink, '_blank');
+    } else {
+      onBook(coach);
+    }
   };
 
   return (
