@@ -199,13 +199,9 @@ export function BookingModal({ open, onOpenChange, coach }: BookingModalProps) {
             </Select>
           </div>
 
-          {/* Price Display */}
+          {/* Session Info */}
           <div className="bg-secondary/50 rounded-lg p-4 border border-border">
-            <div className="flex items-center justify-between">
-              <span className="text-muted-foreground">Session Price</span>
-              <span className="text-2xl font-bold text-accent">$75.00</span>
-            </div>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-muted-foreground">
               1-hour personalized training session
             </p>
           </div>

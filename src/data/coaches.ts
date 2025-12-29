@@ -14,6 +14,7 @@ export interface Coach {
   specialties: string[];
   curriculum: CurriculumModule[];
   videoUrl?: string;
+  externalLink?: string;
 }
 
 export const coaches: Coach[] = [
@@ -51,7 +52,8 @@ export const coaches: Coach[] = [
       { title: "Body Control & Sideline Awareness", topics: ["Toe-tap catches", "Body positioning", "Spatial awareness"] },
       { title: "Blocking Fundamentals", topics: ["Stalk blocking", "Cut blocking", "Sustaining blocks"] },
       { title: "Timing with Quarterback", topics: ["Route depth", "Break timing", "Chemistry building"] }
-    ]
+    ],
+    externalLink: "https://linktr.ee/routekingtraining?utm_source=ig&utm_medium=social&utm_content=link_in_bio"
   },
   {
     id: "strength-coach",
@@ -69,7 +71,8 @@ export const coaches: Coach[] = [
       { title: "Agility & Change of Direction", topics: ["Lateral movement", "Cutting technique", "Reaction drills"] },
       { title: "Football-Specific Conditioning", topics: ["Energy system training", "Work capacity", "Recovery protocols"] },
       { title: "Injury Prevention & Recovery", topics: ["Mobility work", "Prehab exercises", "Recovery techniques"] }
-    ]
+    ],
+    externalLink: "https://www.slpathlete.com/home"
   },
   {
     id: "ol-coach",
