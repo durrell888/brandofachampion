@@ -26,14 +26,30 @@ export const CartDrawer = () => {
   const totalPrice = items.reduce((sum, item) => sum + (parseFloat(item.price.amount) * item.quantity), 0);
 
   const handleCheckout = async () => {
+    // Shopify checkout pages generally cannot be embedded in the preview iframe.
+    // Open a new tab synchronously (to avoid popup blockers), then redirect it once we have the URL.
+    const checkoutWindow = window.open("about:blank", "_blank", "noopener,noreferrer");
+
     try {
       const checkoutUrl = await createCheckout();
-      if (checkoutUrl) {
-        // Use location.href to avoid popup blockers
-        window.location.href = checkoutUrl;
+
+      if (!checkoutUrl) {
+        checkoutWindow?.close();
+        return;
       }
+
+      if (checkoutWindow) {
+        checkoutWindow.location.href = checkoutUrl;
+        checkoutWindow.focus();
+      } else {
+        // Fallback (may be blocked by popup blockers)
+        window.open(checkoutUrl, "_blank", "noopener,noreferrer");
+      }
+
+      setIsOpen(false);
     } catch (error) {
-      console.error('Checkout failed:', error);
+      checkoutWindow?.close();
+      console.error("Checkout failed:", error);
     }
   };
 
