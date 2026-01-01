@@ -29,8 +29,8 @@ export const CartDrawer = () => {
     try {
       const checkoutUrl = await createCheckout();
       if (checkoutUrl) {
-        window.open(checkoutUrl, '_blank');
-        setIsOpen(false);
+        // Use location.href to avoid popup blockers
+        window.location.href = checkoutUrl;
       }
     } catch (error) {
       console.error('Checkout failed:', error);
