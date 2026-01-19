@@ -53,20 +53,71 @@ export default function TrenchAcademy() {
       />
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1a365d] via-[#234e70] to-[#2d5a3c]" />
-        <div className="absolute inset-0 bg-[url('/placeholder.svg')] bg-cover bg-center opacity-10" />
-        
-        {/* Animated grid pattern */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-            backgroundSize: '50px 50px'
-          }} />
+      {/* Hero Section with 4 Video Grid */}
+      <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden">
+        {/* 4-Video Grid Background */}
+        <div className="absolute inset-0 grid grid-cols-2 grid-rows-2">
+          {/* O-Line Drills */}
+          <div className="relative overflow-hidden">
+            <iframe
+              src="https://www.youtube.com/embed/KOZmu6aGKNg?autoplay=1&mute=1&loop=1&playlist=KOZmu6aGKNg&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+              className="absolute inset-0 w-full h-full scale-150"
+              style={{ border: 'none', pointerEvents: 'none' }}
+              allow="autoplay; encrypted-media"
+              title="O-Line Drills"
+            />
+            <div className="absolute bottom-4 left-4 z-20">
+              <Badge className="bg-[#4ade80] text-[#1a365d] font-bold">O-LINE</Badge>
+            </div>
+          </div>
+          
+          {/* D-Line Drills */}
+          <div className="relative overflow-hidden">
+            <iframe
+              src="https://www.youtube.com/embed/Klb9zsJmWRM?autoplay=1&mute=1&loop=1&playlist=Klb9zsJmWRM&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+              className="absolute inset-0 w-full h-full scale-150"
+              style={{ border: 'none', pointerEvents: 'none' }}
+              allow="autoplay; encrypted-media"
+              title="D-Line Drills"
+            />
+            <div className="absolute bottom-4 left-4 z-20">
+              <Badge className="bg-[#4ade80] text-[#1a365d] font-bold">D-LINE</Badge>
+            </div>
+          </div>
+          
+          {/* Linebacker Drills */}
+          <div className="relative overflow-hidden">
+            <iframe
+              src="https://www.youtube.com/embed/odDqY9uWGc4?autoplay=1&mute=1&loop=1&playlist=odDqY9uWGc4&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+              className="absolute inset-0 w-full h-full scale-150"
+              style={{ border: 'none', pointerEvents: 'none' }}
+              allow="autoplay; encrypted-media"
+              title="Linebacker Drills"
+            />
+            <div className="absolute bottom-4 left-4 z-20">
+              <Badge className="bg-[#4ade80] text-[#1a365d] font-bold">LINEBACKER</Badge>
+            </div>
+          </div>
+          
+          {/* Running Back Drills */}
+          <div className="relative overflow-hidden">
+            <iframe
+              src="https://www.youtube.com/embed/GwYEFWCHwTM?autoplay=1&mute=1&loop=1&playlist=GwYEFWCHwTM&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+              className="absolute inset-0 w-full h-full scale-150"
+              style={{ border: 'none', pointerEvents: 'none' }}
+              allow="autoplay; encrypted-media"
+              title="Running Back Drills"
+            />
+            <div className="absolute bottom-4 left-4 z-20">
+              <Badge className="bg-[#4ade80] text-[#1a365d] font-bold">RUNNING BACK</Badge>
+            </div>
+          </div>
         </div>
+        
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/60 z-10" />
 
-        <div className="container relative z-10 px-4 py-20">
+        <div className="container relative z-20 px-4 py-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
