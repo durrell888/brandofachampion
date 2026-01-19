@@ -12,7 +12,11 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useState } from "react";
 import { BookingModal } from "@/components/BookingModal";
-import { YouTubeBackgroundTile } from "@/components/YouTubeBackgroundTile";
+import { VideoBackgroundTile } from "@/components/VideoBackgroundTile";
+import olineDrill from "@/assets/videos/oline-drill.mp4";
+import dlineDrill from "@/assets/videos/dline-drill.mp4";
+import linebackerDrill from "@/assets/videos/linebacker-drill.mp4";
+import rbDrill from "@/assets/videos/rb-drill.mp4";
 
 export default function CoachProfile() {
   const { coachId } = useParams<{ coachId: string }>();
@@ -118,10 +122,10 @@ export default function CoachProfile() {
         <section className="py-12 bg-background">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-hidden rounded-2xl border border-border">
-              <YouTubeBackgroundTile videoId="KOZmu6aGKNg" label="O-LINE" className="min-h-[220px]" />
-              <YouTubeBackgroundTile videoId="Klb9zsJmWRM" label="D-LINE" className="min-h-[220px]" />
-              <YouTubeBackgroundTile videoId="odDqY9uWGc4" label="LINEBACKER" className="min-h-[220px]" />
-              <YouTubeBackgroundTile videoId="GwYEFWCHwTM" label="RUNNING BACK" className="min-h-[220px]" />
+              <VideoBackgroundTile videoSrc={olineDrill} label="O-LINE" className="min-h-[220px]" />
+              <VideoBackgroundTile videoSrc={dlineDrill} label="D-LINE" className="min-h-[220px]" />
+              <VideoBackgroundTile videoSrc={linebackerDrill} label="LINEBACKER" className="min-h-[220px]" />
+              <VideoBackgroundTile videoSrc={rbDrill} label="RUNNING BACK" className="min-h-[220px]" />
             </div>
           </div>
         </section>
