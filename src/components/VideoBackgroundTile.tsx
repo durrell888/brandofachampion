@@ -13,14 +13,15 @@ export function VideoBackgroundTile({
   className,
 }: VideoBackgroundTileProps) {
   return (
-    <div className={cn("relative overflow-hidden", className)}>
+    <div className={cn("relative overflow-hidden min-h-[200px]", className)}>
       <video
         src={videoSrc}
         autoPlay
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-full object-cover scale-110"
+        preload="auto"
+        className="absolute inset-0 h-full w-full object-cover scale-110"
       />
 
       {/* Soft darkening for readability */}
