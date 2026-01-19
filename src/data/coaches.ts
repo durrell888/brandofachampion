@@ -91,6 +91,23 @@ export const coaches: Coach[] = [
       { title: "Pass Protection Sets", topics: ["Kick slide", "Vertical set", "Anchor technique"] },
       { title: "Defensive Recognition", topics: ["Reading fronts", "Identifying stunts", "Communication"] }
     ]
+  },
+  {
+    id: "trench-academy-iq",
+    name: "Trench Academy IQ",
+    position: "Position Specialists",
+    positionGroup: "Trenches & Skill Positions",
+    image: "/images/partners/trench-iq-logo.png",
+    bio: "The nation's premier position training program with 30+ years of elite coaching experience. Specializing in linebacker, offensive line, defensive line, and running back development with comprehensive film evaluation from multiple angles.",
+    experience: "30+ years coaching",
+    specialties: ["Linebacker Training", "Offensive Line", "Defensive Line", "Running Backs", "Film Evaluation"],
+    curriculum: [
+      { title: "Position-Specific Mastery", topics: ["Stance & alignment", "Technique fundamentals", "Situational awareness"] },
+      { title: "Multi-Angle Film Breakdown", topics: ["7-angle analysis", "Technical assessment", "Cognitive evaluation"] },
+      { title: "Mental Game Development", topics: ["Formation recognition", "Play diagnosis", "Decision-making"] },
+      { title: "Elite Performance Training", topics: ["First step explosion", "Hand techniques", "Finishing ability"] }
+    ],
+    externalLink: "/trench-academy"
   }
 ];
 
