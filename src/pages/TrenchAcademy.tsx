@@ -8,6 +8,7 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { SEO } from "@/components/SEO";
+import { YouTubeBackgroundTile } from "@/components/YouTubeBackgroundTile";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -57,61 +58,10 @@ export default function TrenchAcademy() {
       <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden">
         {/* 4-Video Grid Background */}
         <div className="absolute inset-0 grid grid-cols-2 grid-rows-2">
-          {/* O-Line Drills */}
-          <div className="relative overflow-hidden">
-            <iframe
-              src="https://www.youtube.com/embed/KOZmu6aGKNg?autoplay=1&mute=1&loop=1&playlist=KOZmu6aGKNg&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
-              className="absolute inset-0 w-full h-full scale-150"
-              style={{ border: 'none', pointerEvents: 'none' }}
-              allow="autoplay; encrypted-media"
-              title="O-Line Drills"
-            />
-            <div className="absolute bottom-4 left-4 z-20">
-              <Badge className="bg-[#4ade80] text-[#1a365d] font-bold">O-LINE</Badge>
-            </div>
-          </div>
-          
-          {/* D-Line Drills */}
-          <div className="relative overflow-hidden">
-            <iframe
-              src="https://www.youtube.com/embed/Klb9zsJmWRM?autoplay=1&mute=1&loop=1&playlist=Klb9zsJmWRM&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
-              className="absolute inset-0 w-full h-full scale-150"
-              style={{ border: 'none', pointerEvents: 'none' }}
-              allow="autoplay; encrypted-media"
-              title="D-Line Drills"
-            />
-            <div className="absolute bottom-4 left-4 z-20">
-              <Badge className="bg-[#4ade80] text-[#1a365d] font-bold">D-LINE</Badge>
-            </div>
-          </div>
-          
-          {/* Linebacker Drills */}
-          <div className="relative overflow-hidden">
-            <iframe
-              src="https://www.youtube.com/embed/odDqY9uWGc4?autoplay=1&mute=1&loop=1&playlist=odDqY9uWGc4&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
-              className="absolute inset-0 w-full h-full scale-150"
-              style={{ border: 'none', pointerEvents: 'none' }}
-              allow="autoplay; encrypted-media"
-              title="Linebacker Drills"
-            />
-            <div className="absolute bottom-4 left-4 z-20">
-              <Badge className="bg-[#4ade80] text-[#1a365d] font-bold">LINEBACKER</Badge>
-            </div>
-          </div>
-          
-          {/* Running Back Drills */}
-          <div className="relative overflow-hidden">
-            <iframe
-              src="https://www.youtube.com/embed/GwYEFWCHwTM?autoplay=1&mute=1&loop=1&playlist=GwYEFWCHwTM&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
-              className="absolute inset-0 w-full h-full scale-150"
-              style={{ border: 'none', pointerEvents: 'none' }}
-              allow="autoplay; encrypted-media"
-              title="Running Back Drills"
-            />
-            <div className="absolute bottom-4 left-4 z-20">
-              <Badge className="bg-[#4ade80] text-[#1a365d] font-bold">RUNNING BACK</Badge>
-            </div>
-          </div>
+          <YouTubeBackgroundTile videoId="KOZmu6aGKNg" label="O-LINE" />
+          <YouTubeBackgroundTile videoId="Klb9zsJmWRM" label="D-LINE" />
+          <YouTubeBackgroundTile videoId="odDqY9uWGc4" label="LINEBACKER" />
+          <YouTubeBackgroundTile videoId="GwYEFWCHwTM" label="RUNNING BACK" />
         </div>
         
         {/* Dark overlay for text readability */}
