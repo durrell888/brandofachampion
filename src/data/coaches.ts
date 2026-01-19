@@ -94,7 +94,7 @@ export const coaches: Coach[] = [
   },
   {
     id: "trench-academy-iq",
-    name: "Trench Academy IQ",
+    name: "Trench IQ",
     position: "Position Specialists",
     positionGroup: "Trenches & Skill Positions",
     image: "/images/partners/trench-iq-logo.png",

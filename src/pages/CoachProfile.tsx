@@ -20,6 +20,7 @@ export default function CoachProfile() {
 
   const coach = coaches.find((c) => c.id === coachId);
   const isLogoImage = coach?.id === "trench-academy-iq" || coach?.image.includes("trench-iq-logo") === true;
+  const coachImageSrc = isLogoImage ? `${coach?.image}?v=trench-iq-1` : coach?.image;
 
   if (!coach) {
     return (
@@ -102,8 +103,8 @@ export default function CoachProfile() {
             >
               <div className="aspect-square rounded-2xl overflow-hidden border border-border shadow-2xl">
                 <img
-                  src={coach.image}
-                  alt={coach.id === "trench-academy-iq" ? "Trench Academy IQ logo" : coach.name}
+                  src={coachImageSrc}
+                  alt={coach.id === "trench-academy-iq" ? "Trench IQ logo" : coach.name}
                   className={`w-full h-full ${isLogoImage ? "object-contain p-8 bg-background" : "object-cover object-top"}`}
                 />
               </div>

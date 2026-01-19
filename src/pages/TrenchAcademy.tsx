@@ -48,7 +48,7 @@ export default function TrenchAcademy() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Trench Academy IQ | Elite Position Training"
+        title="Trench IQ | Elite Position Training"
         description="The nation's premier football position training program. 30+ years of elite coaching experience in linebacker, offensive line, defensive line, and running back development."
       />
       <Navbar />
@@ -82,8 +82,8 @@ export default function TrenchAcademy() {
             >
               <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-white/10 backdrop-blur-sm border-2 border-[#4ade80]/50 mb-6">
                 <img
-                  src="/images/partners/trench-iq-logo.png"
-                  alt="Trench Academy IQ logo"
+                  src="/images/partners/trench-iq-logo.png?v=trench-iq-1"
+                  alt="Trench IQ logo"
                   className="h-24 w-auto object-contain"
                   loading="eager"
                   decoding="async"
@@ -97,7 +97,7 @@ export default function TrenchAcademy() {
 
             <h1 className="text-5xl md:text-7xl font-display font-black text-white mb-6 tracking-tight">
               TRENCH
-              <span className="block text-[#4ade80]">ACADEMY IQ</span>
+              <span className="block text-[#4ade80]">IQ</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-3xl mx-auto font-light">
@@ -154,7 +154,7 @@ export default function TrenchAcademy() {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto text-center mb-16"
           >
-            <Badge variant="outline" className="mb-4">Why Trench Academy IQ</Badge>
+            <Badge variant="outline" className="mb-4">Why Trench IQ</Badge>
             <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-6">
               The Nation's Premier Position Training Program
             </h2>
@@ -463,7 +463,7 @@ export default function TrenchAcademy() {
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               While programs like IMG Academy, Excel Sports, and regional elite camps offer quality training, 
-              Trench Academy IQ provides an unmatched focus on position-specific mastery.
+              Trench IQ provides an unmatched focus on position-specific mastery.
             </p>
           </motion.div>
 
@@ -530,7 +530,7 @@ export default function TrenchAcademy() {
               Ready to Dominate Your Position?
             </h2>
             <p className="text-lg text-white/80 mb-8">
-              Join the elite athletes who have transformed their game through Trench Academy IQ's 
+              Join the elite athletes who have transformed their game through Trench IQ's 
               position-specific training and film evaluation.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
