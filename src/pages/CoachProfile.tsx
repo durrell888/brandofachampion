@@ -122,10 +122,10 @@ export default function CoachProfile() {
         <section className="py-12 bg-background">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-hidden rounded-2xl border border-border">
-              <VideoBackgroundTile videoSrc={olineDrill} label="O-LINE" className="min-h-[220px]" />
-              <VideoBackgroundTile videoSrc={dlineDrill} label="D-LINE" className="min-h-[220px]" />
-              <VideoBackgroundTile videoSrc={linebackerDrill} label="LINEBACKER" className="min-h-[220px]" />
-              <VideoBackgroundTile videoSrc={rbDrill} label="RUNNING BACK" className="min-h-[220px]" />
+              <VideoBackgroundTile videoSrc={`${olineDrill}?v=1`} label="O-LINE" className="min-h-[220px]" />
+              <VideoBackgroundTile videoSrc={`${dlineDrill}?v=1`} label="D-LINE" className="min-h-[220px]" />
+              <VideoBackgroundTile videoSrc={`${linebackerDrill}?v=1`} label="LINEBACKER" className="min-h-[220px]" />
+              <VideoBackgroundTile videoSrc={`${rbDrill}?v=2`} label="RUNNING BACK" className="min-h-[220px]" />
             </div>
           </div>
         </section>

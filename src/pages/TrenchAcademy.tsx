@@ -62,10 +62,10 @@ export default function TrenchAcademy() {
       <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden">
         {/* 4-Video Grid Background */}
         <div className="absolute inset-0 grid grid-cols-2 grid-rows-2">
-          <VideoBackgroundTile videoSrc={olineDrill} label="O-LINE" />
-          <VideoBackgroundTile videoSrc={dlineDrill} label="D-LINE" />
-          <VideoBackgroundTile videoSrc={linebackerDrill} label="LINEBACKER" />
-          <VideoBackgroundTile videoSrc={rbDrill} label="RUNNING BACK" />
+          <VideoBackgroundTile videoSrc={`${olineDrill}?v=1`} label="O-LINE" />
+          <VideoBackgroundTile videoSrc={`${dlineDrill}?v=1`} label="D-LINE" />
+          <VideoBackgroundTile videoSrc={`${linebackerDrill}?v=1`} label="LINEBACKER" />
+          <VideoBackgroundTile videoSrc={`${rbDrill}?v=2`} label="RUNNING BACK" />
         </div>
         
         {/* Dark overlay for text readability */}
