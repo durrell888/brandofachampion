@@ -20,6 +20,7 @@ import MessageBoard from "./pages/MessageBoard";
 import Donate from "./pages/Donate";
 import FootballTraining from "./pages/FootballTraining";
 import CoachProfile from "./pages/CoachProfile";
+import TrenchAcademy from "./pages/TrenchAcademy";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,6 +47,7 @@ const App = () => (
               <Route path="/donate" element={<Donate />} />
               <Route path="/training" element={<FootballTraining />} />
               <Route path="/coach/:coachId" element={<CoachProfile />} />
+              <Route path="/trench-academy" element={<TrenchAcademy />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/account" element={<Account />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
