@@ -19,6 +19,7 @@ export default function CoachProfile() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   const coach = coaches.find((c) => c.id === coachId);
+  const isLogoImage = coach?.id === "trench-academy-iq" || coach?.image.includes("trench-iq-logo") === true;
 
   if (!coach) {
     return (
@@ -102,8 +103,8 @@ export default function CoachProfile() {
               <div className="aspect-square rounded-2xl overflow-hidden border border-border shadow-2xl">
                 <img
                   src={coach.image}
-                  alt={coach.name}
-                  className="w-full h-full object-cover object-top"
+                  alt={coach.id === "trench-academy-iq" ? "Trench Academy IQ logo" : coach.name}
+                  className={`w-full h-full ${isLogoImage ? "object-contain p-8 bg-background" : "object-cover object-top"}`}
                 />
               </div>
             </motion.div>

@@ -81,9 +81,13 @@ export default function TrenchAcademy() {
               className="mb-8"
             >
               <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-white/10 backdrop-blur-sm border-2 border-[#4ade80]/50 mb-6">
-                <span className="text-5xl font-display font-black text-white">
-                  KQ
-                </span>
+                <img
+                  src="/images/partners/trench-iq-logo.png"
+                  alt="Trench Academy IQ logo"
+                  className="h-24 w-auto object-contain"
+                  loading="eager"
+                  decoding="async"
+                />
               </div>
             </motion.div>
 

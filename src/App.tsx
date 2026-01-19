@@ -48,6 +48,7 @@ const App = () => (
               <Route path="/training" element={<FootballTraining />} />
               <Route path="/coach/:coachId" element={<CoachProfile />} />
               <Route path="/trench-academy" element={<TrenchAcademy />} />
+              <Route path="/trench-academy-iq" element={<TrenchAcademy />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/account" element={<Account />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
