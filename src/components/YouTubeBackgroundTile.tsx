@@ -18,8 +18,9 @@ export function YouTubeBackgroundTile({
 
   const embedSrc = useMemo(() => {
     const params = new URLSearchParams({
+      // Autoplay with sound is often blocked by browsers; start muted for reliability.
       autoplay: "1",
-      mute: "0",
+      mute: "1",
       controls: "1",
       rel: "0",
       modestbranding: "1",
