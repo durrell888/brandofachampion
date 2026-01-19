@@ -8,7 +8,11 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { SEO } from "@/components/SEO";
-import { YouTubeBackgroundTile } from "@/components/YouTubeBackgroundTile";
+import { VideoBackgroundTile } from "@/components/VideoBackgroundTile";
+import olineDrill from "@/assets/videos/oline-drill.mp4";
+import dlineDrill from "@/assets/videos/dline-drill.mp4";
+import linebackerDrill from "@/assets/videos/linebacker-drill.mp4";
+import rbDrill from "@/assets/videos/rb-drill.mp4";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -58,10 +62,10 @@ export default function TrenchAcademy() {
       <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden">
         {/* 4-Video Grid Background */}
         <div className="absolute inset-0 grid grid-cols-2 grid-rows-2">
-          <YouTubeBackgroundTile videoId="KOZmu6aGKNg" label="O-LINE" />
-          <YouTubeBackgroundTile videoId="Klb9zsJmWRM" label="D-LINE" />
-          <YouTubeBackgroundTile videoId="odDqY9uWGc4" label="LINEBACKER" />
-          <YouTubeBackgroundTile videoId="GwYEFWCHwTM" label="RUNNING BACK" />
+          <VideoBackgroundTile videoSrc={olineDrill} label="O-LINE" />
+          <VideoBackgroundTile videoSrc={dlineDrill} label="D-LINE" />
+          <VideoBackgroundTile videoSrc={linebackerDrill} label="LINEBACKER" />
+          <VideoBackgroundTile videoSrc={rbDrill} label="RUNNING BACK" />
         </div>
         
         {/* Dark overlay for text readability */}
