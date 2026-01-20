@@ -14,7 +14,12 @@ export function CoachCard({ coach, onBook }: CoachCardProps) {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/coach/${coach.id}`);
+    // Trench IQ has a dedicated page, other coaches use the generic profile
+    if (coach.id === "trench-academy-iq") {
+      navigate("/trench-academy-iq");
+    } else {
+      navigate(`/coach/${coach.id}`);
+    }
   };
 
   const handleBookClick = (e: React.MouseEvent) => {
