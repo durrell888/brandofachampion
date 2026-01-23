@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { 
   Shield, Target, Zap, Brain, Eye, Video, Users, Award, 
   TrendingUp, Dumbbell, ChevronRight, Play, CheckCircle,
-  Star, Calendar, ArrowRight, ExternalLink
+  Star, Calendar, ArrowRight, ExternalLink, DollarSign
 } from "lucide-react";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
@@ -48,6 +48,11 @@ export default function TrenchAcademy() {
 
   const handleVideoReview = () => {
     window.open(trenchAcademyInfo.videoReviewLink, '_blank');
+  };
+
+  const handleBookSession = () => {
+    // Redirect to Cash App with $TrenchIQ cashtag and $40 amount
+    window.open('https://cash.app/$TrenchIQ/40', '_blank');
   };
 
   return (
@@ -113,6 +118,14 @@ export default function TrenchAcademy() {
               <Button 
                 size="lg" 
                 className="bg-[#4ade80] hover:bg-[#22c55e] text-[#1a365d] font-bold px-8"
+                onClick={handleBookSession}
+              >
+                <DollarSign className="mr-2 h-5 w-5" />
+                Book Session - $40
+              </Button>
+              <Button 
+                size="lg" 
+                className="bg-[#1a365d] hover:bg-[#0f2940] text-white font-bold px-8"
                 onClick={() => document.getElementById('positions')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Explore Curriculum
@@ -434,14 +447,22 @@ export default function TrenchAcademy() {
                           </CardContent>
                         </Card>
 
-                        {/* Quick Action */}
+                        {/* Quick Actions */}
                         <Button 
                           className="w-full mt-4"
                           variant="hero"
+                          onClick={handleBookSession}
+                        >
+                          <DollarSign className="mr-2 h-4 w-4" />
+                          Book Session - $40
+                        </Button>
+                        <Button 
+                          className="w-full mt-2"
+                          variant="outline"
                           onClick={handleVideoReview}
                         >
                           <Calendar className="mr-2 h-4 w-4" />
-                          Schedule Evaluation
+                          Schedule Film Review
                         </Button>
                       </div>
                     </div>
@@ -542,6 +563,15 @@ export default function TrenchAcademy() {
               <Button 
                 size="lg" 
                 className="bg-[#4ade80] hover:bg-[#22c55e] text-[#1a365d] font-bold px-8"
+                onClick={handleBookSession}
+              >
+                <DollarSign className="mr-2 h-5 w-5" />
+                Book Session - $40
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-white/30 text-white hover:bg-white/10"
                 onClick={() => document.getElementById('positions')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 View Training Programs
