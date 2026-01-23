@@ -56,30 +56,47 @@ export function BookingModal({ open, onOpenChange, coach }: BookingModalProps) {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
+  const isSubscription = coach?.isSubscription === true;
+
   const handleBookSession = async () => {
-    if (!date || !time || !athleteName || !parentEmail) {
-      toast({
-        title: "Missing Information",
-        description: "Please fill in all fields to book your session.",
-        variant: "destructive",
-      });
-      return;
+    // For subscriptions, only require athlete name and email
+    if (isSubscription) {
+      if (!athleteName || !parentEmail) {
+        toast({
+          title: "Missing Information",
+          description: "Please fill in all fields to start your subscription.",
+          variant: "destructive",
+        });
+        return;
+      }
+    } else {
+      if (!date || !time || !athleteName || !parentEmail) {
+        toast({
+          title: "Missing Information",
+          description: "Please fill in all fields to book your session.",
+          variant: "destructive",
+        });
+        return;
+      }
     }
 
     setLoading(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke("create-training-checkout", {
-        body: {
-          coachId: coach?.id,
-          coachName: coach?.name,
-          position: coach?.positionGroup,
-          date: format(date, "yyyy-MM-dd"),
-          time,
-          athleteName,
-          parentEmail,
-        },
-      });
+      const functionName = isSubscription ? "create-strength-checkout" : "create-training-checkout";
+      const body = isSubscription
+        ? { athleteName, parentEmail }
+        : {
+            coachId: coach?.id,
+            coachName: coach?.name,
+            position: coach?.positionGroup,
+            date: format(date!, "yyyy-MM-dd"),
+            time,
+            athleteName,
+            parentEmail,
+          };
+
+      const { data, error } = await supabase.functions.invoke(functionName, { body });
 
       if (error) throw error;
 
@@ -88,14 +105,16 @@ export function BookingModal({ open, onOpenChange, coach }: BookingModalProps) {
         onOpenChange(false);
         toast({
           title: "Redirecting to Payment",
-          description: "Complete your payment to confirm your booking.",
+          description: isSubscription
+            ? "Complete your payment to start your monthly subscription."
+            : "Complete your payment to confirm your booking.",
         });
       }
     } catch (error: any) {
       console.error("Booking error:", error);
       toast({
-        title: "Booking Failed",
-        description: error.message || "Unable to process booking. Please try again.",
+        title: isSubscription ? "Subscription Failed" : "Booking Failed",
+        description: error.message || "Unable to process. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -108,13 +127,18 @@ export function BookingModal({ open, onOpenChange, coach }: BookingModalProps) {
       <DialogContent className="sm:max-w-[500px] bg-card border-border">
         <DialogHeader>
           <DialogTitle className="text-2xl font-display">
-            Book Training Session
+            {isSubscription ? "Subscribe to Training" : "Book Training Session"}
           </DialogTitle>
           <DialogDescription>
             {coach && (
               <span className="text-accent font-semibold">{coach.name}</span>
             )}{" "}
-            - {coach?.positionGroup} Training
+            - {coach?.positionGroup}
+            {isSubscription && coach?.subscriptionPrice && (
+              <span className="block mt-1 text-lg font-bold text-accent">
+                ${coach.subscriptionPrice}/month
+              </span>
+            )}
           </DialogDescription>
         </DialogHeader>
 
@@ -144,65 +168,71 @@ export function BookingModal({ open, onOpenChange, coach }: BookingModalProps) {
             />
           </div>
 
-          {/* Date Picker */}
-          <div className="space-y-2">
-            <Label>Select Date</Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-full justify-start text-left font-normal bg-background border-border",
-                    !date && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date ? format(date, "PPP") : <span>Pick a date</span>}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={setDate}
-                  disabled={(date) =>
-                    date < new Date() || date.getDay() === 0
-                  }
-                  initialFocus
-                  className="pointer-events-auto"
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
+          {/* Date Picker - Only show for non-subscription bookings */}
+          {!isSubscription && (
+            <div className="space-y-2">
+              <Label>Select Date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal bg-background border-border",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    disabled={(date) =>
+                      date < new Date() || date.getDay() === 0
+                    }
+                    initialFocus
+                    className="pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+          )}
 
-          {/* Time Slot */}
-          <div className="space-y-2">
-            <Label>Select Time</Label>
-            <Select value={time} onValueChange={setTime}>
-              <SelectTrigger className="w-full bg-background border-border">
-                <SelectValue placeholder="Choose a time slot">
-                  {time && (
-                    <span className="flex items-center gap-2">
-                      <Clock className="h-4 w-4" />
-                      {time}
-                    </span>
-                  )}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent>
-                {timeSlots.map((slot) => (
-                  <SelectItem key={slot} value={slot}>
-                    {slot}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          {/* Time Slot - Only show for non-subscription bookings */}
+          {!isSubscription && (
+            <div className="space-y-2">
+              <Label>Select Time</Label>
+              <Select value={time} onValueChange={setTime}>
+                <SelectTrigger className="w-full bg-background border-border">
+                  <SelectValue placeholder="Choose a time slot">
+                    {time && (
+                      <span className="flex items-center gap-2">
+                        <Clock className="h-4 w-4" />
+                        {time}
+                      </span>
+                    )}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {timeSlots.map((slot) => (
+                    <SelectItem key={slot} value={slot}>
+                      {slot}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
 
           {/* Session Info */}
           <div className="bg-secondary/50 rounded-lg p-4 border border-border">
             <p className="text-sm text-muted-foreground">
-              1-hour personalized training session
+              {isSubscription
+                ? "Monthly subscription includes unlimited access to training materials and scheduled sessions"
+                : "1-hour personalized training session"}
             </p>
           </div>
 
@@ -218,7 +248,7 @@ export function BookingModal({ open, onOpenChange, coach }: BookingModalProps) {
             ) : (
               <>
                 <CreditCard className="mr-2 h-5 w-5" />
-                Proceed to Payment
+                {isSubscription ? "Subscribe Now" : "Proceed to Payment"}
               </>
             )}
           </Button>

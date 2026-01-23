@@ -15,6 +15,9 @@ export interface Coach {
   curriculum: CurriculumModule[];
   videoUrl?: string;
   externalLink?: string;
+  isSubscription?: boolean;
+  subscriptionPriceId?: string;
+  subscriptionPrice?: number;
 }
 
 export const coaches: Coach[] = [
@@ -58,21 +61,23 @@ export const coaches: Coach[] = [
   {
     id: "strength-coach",
     name: "Scott Lashley",
-    position: "Physical Performance & Development Coach",
-    positionGroup: "Strength & Conditioning",
+    position: "Strength and Speed Performance",
+    positionGroup: "Strength & Speed Performance",
     image: "/images/team/scott-lashley.png",
-    bio: "Elite strength and conditioning coach specializing in athletic performance development. Focuses on building functional strength, speed, and power for football athletes.",
+    bio: "Elite strength and speed performance coach specializing in explosive power development, sprint mechanics, and athletic performance. Training includes agility ladder drills, resistance band work, plyometric exercises, and sprint technique coaching.",
     experience: "10+ years coaching",
-    specialties: ["Strength Training", "Speed Development", "Power Training", "Athletic Performance"],
+    specialties: ["Explosive Power Development", "Speed Mechanics", "Agility Drills", "Plyometrics"],
     curriculum: [
-      { title: "Strength Foundation", topics: ["Compound lifts", "Core stability", "Functional strength"] },
-      { title: "Explosive Power Development", topics: ["Olympic lifts", "Plyometrics", "Power cleans"] },
-      { title: "Speed & Acceleration", topics: ["Sprint mechanics", "First-step quickness", "Top-end speed"] },
-      { title: "Agility & Change of Direction", topics: ["Lateral movement", "Cutting technique", "Reaction drills"] },
-      { title: "Football-Specific Conditioning", topics: ["Energy system training", "Work capacity", "Recovery protocols"] },
-      { title: "Injury Prevention & Recovery", topics: ["Mobility work", "Prehab exercises", "Recovery techniques"] }
+      { title: "Explosive Power Development", topics: ["Olympic lifts", "Power cleans", "Box jumps", "Medicine ball throws"] },
+      { title: "Speed Mechanics Training", topics: ["Sprint technique", "Arm drive", "Stride length optimization", "Acceleration patterns"] },
+      { title: "Agility Ladder Drills", topics: ["Footwork patterns", "Quick feet drills", "Coordination exercises", "Reaction training"] },
+      { title: "Resistance Band Work", topics: ["Band-resisted sprints", "Lateral band walks", "Explosive band exercises", "Hip activation"] },
+      { title: "Plyometric Exercises", topics: ["Depth jumps", "Bounding drills", "Single-leg hops", "Reactive agility"] },
+      { title: "Sprint Technique Coaching", topics: ["Start mechanics", "Drive phase", "Top-end speed", "Deceleration technique"] }
     ],
-    externalLink: "https://www.slpathlete.com/home"
+    isSubscription: true,
+    subscriptionPriceId: "price_1SsoXGJCEhoZof7crlYkUj9r",
+    subscriptionPrice: 150
   },
   {
     id: "ol-coach",
