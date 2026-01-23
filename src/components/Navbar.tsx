@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { ParentRegistrationModal } from "@/components/ParentRegistrationModal";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [registrationModalOpen, setRegistrationModalOpen] = useState(false);
+  const [recruitingDropdownOpen, setRecruitingDropdownOpen] = useState(false);
+  const [donateDropdownOpen, setDonateDropdownOpen] = useState(false);
+  const [mobileRecruitingOpen, setMobileRecruitingOpen] = useState(false);
+  const [mobileDonateOpen, setMobileDonateOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -59,48 +63,87 @@ const Navbar = () => {
             >
               Athletes
             </Link>
-            <Link
-              to="/recruiting"
-              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/recruiting") ? "text-accent" : ""}`}
-              style={{ animationDelay: "1s" }}
+            
+            {/* Recruiting Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setRecruitingDropdownOpen(true)}
+              onMouseLeave={() => setRecruitingDropdownOpen(false)}
             >
-              Recruiting
-            </Link>
-            <Link
-              to="/scholarships"
-              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/scholarships") ? "text-accent" : ""}`}
-              style={{ animationDelay: "1.5s" }}
-            >
-              Scholarships
-            </Link>
-            <Link
-              to="/community"
-              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/community") ? "text-accent" : ""}`}
-              style={{ animationDelay: "2s" }}
-            >
-              Community
-            </Link>
+              <button
+                className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent flex items-center gap-1 ${isActive("/recruiting") || isActive("/scholarships") ? "text-accent" : ""}`}
+                style={{ animationDelay: "1s" }}
+              >
+                Recruiting
+                <ChevronDown className={`w-4 h-4 transition-transform ${recruitingDropdownOpen ? "rotate-180" : ""}`} />
+              </button>
+              {recruitingDropdownOpen && (
+                <div className="absolute top-full left-0 pt-2 w-48">
+                  <div className="bg-background border border-border rounded-lg shadow-xl py-2 animate-fade-in">
+                    <Link
+                      to="/recruiting"
+                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/recruiting") ? "text-accent" : "text-foreground"}`}
+                    >
+                      College Recruiting
+                    </Link>
+                    <Link
+                      to="/scholarships"
+                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/scholarships") ? "text-accent" : "text-foreground"}`}
+                    >
+                      Scholarships
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+
             <Link
               to="/stories"
               className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/stories") ? "text-accent" : ""}`}
-              style={{ animationDelay: "2.5s" }}
+              style={{ animationDelay: "1.5s" }}
             >
               Stories
             </Link>
             <Link
               to="/apparel"
               className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/apparel") ? "text-accent" : ""}`}
-              style={{ animationDelay: "3s" }}
+              style={{ animationDelay: "2s" }}
             >
               Apparel
             </Link>
-            <Link
-              to="/donate"
-              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-primary hover:text-accent ${isActive("/donate") ? "text-accent" : ""}`}
-              style={{ animationDelay: "3.5s" }}
+            
+            {/* Donate Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setDonateDropdownOpen(true)}
+              onMouseLeave={() => setDonateDropdownOpen(false)}
             >
-              Donate
-            </Link>
+              <button
+                className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-primary hover:text-accent flex items-center gap-1 ${isActive("/donate") || isActive("/community") ? "text-accent" : ""}`}
+                style={{ animationDelay: "2.5s" }}
+              >
+                Donate
+                <ChevronDown className={`w-4 h-4 transition-transform ${donateDropdownOpen ? "rotate-180" : ""}`} />
+              </button>
+              {donateDropdownOpen && (
+                <div className="absolute top-full right-0 pt-2 w-48">
+                  <div className="bg-background border border-border rounded-lg shadow-xl py-2 animate-fade-in">
+                    <Link
+                      to="/donate"
+                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/donate") ? "text-accent" : "text-foreground"}`}
+                    >
+                      Make a Donation
+                    </Link>
+                    <Link
+                      to="/community"
+                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/community") ? "text-accent" : "text-foreground"}`}
+                    >
+                      Community
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="hidden lg:flex items-center gap-3">
@@ -126,31 +169,63 @@ const Navbar = () => {
         {/* Mobile menu */}
         {isOpen && (
           <div className="lg:hidden bg-background border-t border-border animate-fade-in">
-            <div className="container py-6 space-y-4">
+            <div className="container py-6 space-y-2">
               <Link to="/our-program" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 Our Program
               </Link>
               <Link to="/athletes" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 Athletes
               </Link>
-              <Link to="/recruiting" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
-                Recruiting
-              </Link>
-              <Link to="/scholarships" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
-                Scholarships
-              </Link>
-              <Link to="/community" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
-                Community
-              </Link>
+              
+              {/* Mobile Recruiting Accordion */}
+              <div>
+                <button 
+                  className={`flex items-center justify-between w-full text-foreground hover:text-accent transition-colors font-semibold py-2 ${isActive("/recruiting") || isActive("/scholarships") ? "text-accent" : ""}`}
+                  onClick={() => setMobileRecruitingOpen(!mobileRecruitingOpen)}
+                >
+                  Recruiting
+                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileRecruitingOpen ? "rotate-180" : ""}`} />
+                </button>
+                {mobileRecruitingOpen && (
+                  <div className="pl-4 space-y-1 pt-1">
+                    <Link to="/recruiting" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
+                      College Recruiting
+                    </Link>
+                    <Link to="/scholarships" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
+                      Scholarships
+                    </Link>
+                  </div>
+                )}
+              </div>
+              
               <Link to="/stories" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 Stories
               </Link>
               <Link to="/apparel" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 Apparel
               </Link>
-              <Link to="/donate" className="block text-primary hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
-                Donate
-              </Link>
+              
+              {/* Mobile Donate Accordion */}
+              <div>
+                <button 
+                  className={`flex items-center justify-between w-full text-primary hover:text-accent transition-colors font-semibold py-2 ${isActive("/donate") || isActive("/community") ? "text-accent" : ""}`}
+                  onClick={() => setMobileDonateOpen(!mobileDonateOpen)}
+                >
+                  Donate
+                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileDonateOpen ? "rotate-180" : ""}`} />
+                </button>
+                {mobileDonateOpen && (
+                  <div className="pl-4 space-y-1 pt-1">
+                    <Link to="/donate" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
+                      Make a Donation
+                    </Link>
+                    <Link to="/community" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
+                      Community
+                    </Link>
+                  </div>
+                )}
+              </div>
+              
               <div className="flex gap-3 pt-4 border-t border-border">
                 <Link to="/training" className="flex-1" onClick={() => setIsOpen(false)}>
                   <Button variant="outline" size="sm" className="w-full">
