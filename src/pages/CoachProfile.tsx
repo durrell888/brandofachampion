@@ -90,9 +90,26 @@ export default function CoachProfile() {
               </div>
 
               {coach.isSubscription && coach.subscriptionPrice && (
-                <div className="bg-accent/10 border border-accent/30 rounded-lg p-4 inline-block">
-                  <p className="text-2xl font-bold text-accent">${coach.subscriptionPrice}/month</p>
-                  <p className="text-sm text-muted-foreground">Monthly subscription</p>
+                <div className="space-y-4">
+                  <div className="bg-accent/10 border border-accent/30 rounded-lg p-4 inline-block">
+                    <p className="text-2xl font-bold text-accent">${coach.subscriptionPrice}/month</p>
+                    <p className="text-sm text-muted-foreground">Monthly subscription</p>
+                  </div>
+                  
+                  {coach.id === "strength-coach" && (
+                    <div className="bg-card border border-border rounded-lg p-4 space-y-2">
+                      <h4 className="font-semibold text-foreground flex items-center gap-2">
+                        <Calendar className="h-4 w-4 text-accent" />
+                        Training Schedule
+                      </h4>
+                      <div className="text-sm text-muted-foreground space-y-1">
+                        <p><span className="font-medium text-foreground">Days:</span> Monday, Tuesday & Thursday</p>
+                        <p><span className="font-medium text-foreground">Time:</span> 7:00 AM</p>
+                        <p><span className="font-medium text-foreground">Location:</span> Douglas County Football Facility</p>
+                        <p><span className="font-medium text-foreground">Starting:</span> February 3rd, 2025</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
