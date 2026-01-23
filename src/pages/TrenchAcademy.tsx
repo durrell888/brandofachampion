@@ -63,20 +63,9 @@ export default function TrenchAcademy() {
       />
       <Navbar />
 
-      {/* Hero Section with 4 Video Grid */}
-      <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden">
-        {/* 4-Video Grid Background */}
-        <div className="absolute inset-0 grid grid-cols-2 grid-rows-2">
-          <VideoBackgroundTile videoSrc={`${olineDrill}?v=1`} label="O-LINE" />
-          <VideoBackgroundTile videoSrc={`${dlineDrill}?v=1`} label="D-LINE" />
-          <VideoBackgroundTile videoSrc={`${linebackerDrill}?v=1`} label="LINEBACKER" />
-          <VideoBackgroundTile videoSrc={`${rbDrill}?v=2`} label="RUNNING BACK" />
-        </div>
-        
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-black/60 z-10" />
-
-        <div className="container relative z-20 px-4 py-20">
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-b from-[#1a365d] via-[#234e70] to-[#2d5a3c] pt-24 pb-12">
+        <div className="container relative z-10 px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -125,7 +114,7 @@ export default function TrenchAcademy() {
               </Button>
               <Button 
                 size="lg" 
-                className="bg-[#1a365d] hover:bg-[#0f2940] text-white font-bold px-8"
+                className="bg-[#1a365d] hover:bg-[#0f2940] text-white font-bold px-8 border border-white/20"
                 onClick={() => document.getElementById('positions')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Explore Curriculum
@@ -143,7 +132,7 @@ export default function TrenchAcademy() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {trenchAcademyInfo.stats.map((stat, index) => (
                 <motion.div
                   key={stat.label}
@@ -158,6 +147,44 @@ export default function TrenchAcademy() {
                   <div className="text-sm text-white/70">{stat.label}</div>
                 </motion.div>
               ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Video Grid Section */}
+      <section className="py-12 bg-background">
+        <div className="container px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-8"
+          >
+            <Badge variant="outline" className="mb-4">Position Training Preview</Badge>
+            <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground">
+              See Our Training in Action
+            </h2>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto"
+          >
+            <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
+              <VideoBackgroundTile videoSrc={`${olineDrill}?v=1`} label="O-LINE" />
+            </div>
+            <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
+              <VideoBackgroundTile videoSrc={`${dlineDrill}?v=1`} label="D-LINE" />
+            </div>
+            <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
+              <VideoBackgroundTile videoSrc={`${linebackerDrill}?v=1`} label="LINEBACKER" />
+            </div>
+            <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
+              <VideoBackgroundTile videoSrc={`${rbDrill}?v=2`} label="RUNNING BACK" />
             </div>
           </motion.div>
         </div>
