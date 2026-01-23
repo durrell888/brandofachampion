@@ -21,6 +21,7 @@ import Donate from "./pages/Donate";
 import FootballTraining from "./pages/FootballTraining";
 import CoachProfile from "./pages/CoachProfile";
 import TrenchAcademy from "./pages/TrenchAcademy";
+import OurProgram from "./pages/OurProgram";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -49,6 +50,7 @@ const App = () => (
               <Route path="/coach/:coachId" element={<CoachProfile />} />
               <Route path="/trench-academy" element={<TrenchAcademy />} />
               <Route path="/trench-academy-iq" element={<TrenchAcademy />} />
+              <Route path="/our-program" element={<OurProgram />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/account" element={<Account />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
