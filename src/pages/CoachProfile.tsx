@@ -89,6 +89,13 @@ export default function CoachProfile() {
                 ))}
               </div>
 
+              {coach.isSubscription && coach.subscriptionPrice && (
+                <div className="bg-accent/10 border border-accent/30 rounded-lg p-4 inline-block">
+                  <p className="text-2xl font-bold text-accent">${coach.subscriptionPrice}/month</p>
+                  <p className="text-sm text-muted-foreground">Monthly subscription</p>
+                </div>
+              )}
+
               <Button
                 variant="hero"
                 size="lg"
@@ -96,7 +103,7 @@ export default function CoachProfile() {
                 className="mt-6"
               >
                 <Calendar className="mr-2 h-5 w-5" />
-                Book Training Session
+                {coach.isSubscription ? "Subscribe Now" : "Book Training Session"}
               </Button>
             </motion.div>
 
