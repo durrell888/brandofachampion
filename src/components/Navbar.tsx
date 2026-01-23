@@ -138,7 +138,7 @@ const Navbar = () => {
                       to="/community"
                       className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/community") ? "text-accent" : "text-foreground"}`}
                     >
-                      Community
+                      Community Chat
                     </Link>
                   </div>
                 </div>
@@ -220,7 +220,7 @@ const Navbar = () => {
                       Make a Donation
                     </Link>
                     <Link to="/community" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
-                      Community
+                      Community Chat
                     </Link>
                   </div>
                 )}
