@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import { 
   Shield, Target, Zap, Brain, Eye, Video, Users, Award, 
   TrendingUp, Dumbbell, ChevronRight, Play, CheckCircle,
-  Star, Calendar, ArrowRight, ExternalLink, DollarSign
+  Star, Calendar, ArrowRight, ExternalLink, DollarSign,
+  Phone, Mail, Instagram
 } from "lucide-react";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
@@ -130,6 +131,38 @@ export default function TrenchAcademy() {
                 Schedule Film Review
               </Button>
             </div>
+
+            {/* Contact Information */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex flex-wrap justify-center gap-6 mb-10"
+            >
+              <a 
+                href="tel:4048673278" 
+                className="flex items-center gap-2 text-white/90 hover:text-[#4ade80] transition-colors"
+              >
+                <Phone className="h-5 w-5" />
+                <span>(404) 867-3278</span>
+              </a>
+              <a 
+                href="mailto:kqtrenchiq@gmail.com" 
+                className="flex items-center gap-2 text-white/90 hover:text-[#4ade80] transition-colors"
+              >
+                <Mail className="h-5 w-5" />
+                <span>kqtrenchiq@gmail.com</span>
+              </a>
+              <a 
+                href="https://www.instagram.com/trenchiq_/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-white/90 hover:text-[#4ade80] transition-colors"
+              >
+                <Instagram className="h-5 w-5" />
+                <span>@trenchiq_</span>
+              </a>
+            </motion.div>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
