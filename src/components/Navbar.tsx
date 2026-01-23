@@ -46,51 +46,58 @@ const Navbar = () => {
           {/* Desktop nav */}
           <div className="hidden lg:flex items-center gap-1">
             <Link
+              to="/our-program"
+              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/our-program") ? "text-accent" : ""}`}
+              style={{ animationDelay: "0s" }}
+            >
+              Our Program
+            </Link>
+            <Link
               to="/athletes"
               className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/athletes") ? "text-accent" : ""}`}
-              style={{ animationDelay: "0s" }}
+              style={{ animationDelay: "0.5s" }}
             >
               Athletes
             </Link>
             <Link
               to="/recruiting"
               className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/recruiting") ? "text-accent" : ""}`}
-              style={{ animationDelay: "0.5s" }}
+              style={{ animationDelay: "1s" }}
             >
               Recruiting
             </Link>
             <Link
               to="/scholarships"
               className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/scholarships") ? "text-accent" : ""}`}
-              style={{ animationDelay: "1s" }}
+              style={{ animationDelay: "1.5s" }}
             >
               Scholarships
             </Link>
             <Link
               to="/community"
               className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/community") ? "text-accent" : ""}`}
-              style={{ animationDelay: "1.5s" }}
+              style={{ animationDelay: "2s" }}
             >
               Community
             </Link>
             <Link
               to="/stories"
               className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/stories") ? "text-accent" : ""}`}
-              style={{ animationDelay: "2s" }}
+              style={{ animationDelay: "2.5s" }}
             >
               Stories
             </Link>
             <Link
               to="/apparel"
               className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/apparel") ? "text-accent" : ""}`}
-              style={{ animationDelay: "2.5s" }}
+              style={{ animationDelay: "3s" }}
             >
               Apparel
             </Link>
             <Link
               to="/donate"
               className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-primary hover:text-accent ${isActive("/donate") ? "text-accent" : ""}`}
-              style={{ animationDelay: "3s" }}
+              style={{ animationDelay: "3.5s" }}
             >
               Donate
             </Link>
@@ -120,6 +127,9 @@ const Navbar = () => {
         {isOpen && (
           <div className="lg:hidden bg-background border-t border-border animate-fade-in">
             <div className="container py-6 space-y-4">
+              <Link to="/our-program" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
+                Our Program
+              </Link>
               <Link to="/athletes" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 Athletes
               </Link>
