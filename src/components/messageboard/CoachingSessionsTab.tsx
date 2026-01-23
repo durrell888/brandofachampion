@@ -32,7 +32,7 @@ const teamMembers = [
   { id: "sanya-richards-ross", name: "Sanya Richards-Ross", role: "Athlete Marketing" },
   { id: "kiana-williams", name: "Kiana Williams", role: "Women's Athlete Advisor" },
   { id: "andrew-chen", name: "Andrew Chen", role: "Financial Advisor" },
-  { id: "everett-levy", name: "Everett Levy", role: "NIL Advisor" },
+  { id: "everett-levy", name: "Everett Levy", role: "NFL PA Certified Agent" },
 ];
 
 const CoachingSessionsTab = ({ userId }: CoachingSessionsTabProps) => {
