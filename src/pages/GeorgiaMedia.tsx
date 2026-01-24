@@ -48,6 +48,15 @@ interface VisitorStreak {
   total_visits: number;
 }
 
+interface MediaVideo {
+  id: string;
+  title: string;
+  description: string | null;
+  youtube_id: string | null;
+  category: string | null;
+  is_featured: boolean;
+}
+
 // Generate a simple visitor ID based on browser fingerprint
 const getVisitorId = () => {
   let visitorId = localStorage.getItem('ga_visitor_id');
@@ -62,6 +71,7 @@ const GeorgiaMedia = () => {
   const [votes, setVotes] = useState<PlayerVote[]>([]);
   const [polls, setPolls] = useState<DailyPoll[]>([]);
   const [streak, setStreak] = useState<VisitorStreak | null>(null);
+  const [videos, setVideos] = useState<MediaVideo[]>([]);
   const [selectedPosition, setSelectedPosition] = useState<string>("QB");
   const [isLoading, setIsLoading] = useState(true);
   
@@ -114,6 +124,19 @@ const GeorgiaMedia = () => {
       if (pollVotes) {
         setVotedPolls(new Set(pollVotes.map(pv => pv.poll_id)));
       }
+    }
+  };
+
+  // Fetch media videos
+  const fetchVideos = async () => {
+    const { data, error } = await supabase
+      .from('georgia_media')
+      .select('*')
+      .order('is_featured', { ascending: false })
+      .order('created_at', { ascending: false });
+    
+    if (!error && data) {
+      setVideos(data as MediaVideo[]);
     }
   };
 
@@ -306,6 +329,7 @@ const GeorgiaMedia = () => {
       await Promise.all([
         fetchVotes(),
         fetchPolls(),
+        fetchVideos(),
         trackVisitorStreak()
       ]);
       setIsLoading(false);
@@ -676,29 +700,67 @@ const GeorgiaMedia = () => {
               <p className="text-muted-foreground mt-2">The best highlights from across the Peach State</p>
             </div>
             
-            {/* Featured Videos Placeholder */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                { title: "Friday Night Lights: Week 1 Highlights", category: "highlights" },
-                { title: "Top 10 Plays of the Month", category: "top plays" },
-                { title: "Recruiting Update: 2026 Class Watch", category: "recruiting" },
-              ].map((video, i) => (
-                <Card key={i} className="overflow-hidden group cursor-pointer">
-                  <div className="aspect-video bg-gradient-to-br from-red-900 to-black relative">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Play className="w-8 h-8 text-white ml-1" />
+            {/* YouTube Videos from Database */}
+            {videos.length > 0 ? (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {videos.map((video) => (
+                  <Card key={video.id} className="overflow-hidden group">
+                    {video.youtube_id ? (
+                      <div className="aspect-video">
+                        <iframe
+                          src={`https://www.youtube.com/embed/${video.youtube_id}`}
+                          title={video.title}
+                          className="w-full h-full"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
                       </div>
+                    ) : (
+                      <div className="aspect-video bg-gradient-to-br from-red-900 to-black relative flex items-center justify-center">
+                        <Play className="w-12 h-12 text-white/50" />
+                      </div>
+                    )}
+                    <div className="p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        {video.is_featured && (
+                          <Badge className="bg-red-600">Featured</Badge>
+                        )}
+                        {video.category && (
+                          <Badge variant="outline">{video.category}</Badge>
+                        )}
+                      </div>
+                      <h4 className="font-bold">{video.title}</h4>
+                      {video.description && (
+                        <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{video.description}</p>
+                      )}
                     </div>
-                    <Badge className="absolute top-3 left-3 bg-red-600">{video.category}</Badge>
-                  </div>
-                  <div className="p-4">
-                    <h4 className="font-bold group-hover:text-primary transition-colors">{video.title}</h4>
-                    <p className="text-sm text-muted-foreground mt-1">Coming soon</p>
-                  </div>
-                </Card>
-              ))}
-            </div>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[
+                  { title: "Friday Night Lights: Week 1 Highlights", category: "highlights" },
+                  { title: "Top 10 Plays of the Month", category: "top plays" },
+                  { title: "Recruiting Update: 2026 Class Watch", category: "recruiting" },
+                ].map((video, i) => (
+                  <Card key={i} className="overflow-hidden group cursor-pointer">
+                    <div className="aspect-video bg-gradient-to-br from-red-900 to-black relative">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+                          <Play className="w-8 h-8 text-white ml-1" />
+                        </div>
+                      </div>
+                      <Badge className="absolute top-3 left-3 bg-red-600">{video.category}</Badge>
+                    </div>
+                    <div className="p-4">
+                      <h4 className="font-bold group-hover:text-primary transition-colors">{video.title}</h4>
+                      <p className="text-sm text-muted-foreground mt-1">Coming soon</p>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            )}
             
             <div className="text-center py-8">
               <p className="text-muted-foreground mb-4">Want to submit a highlight? Contact us!</p>
