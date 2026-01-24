@@ -19,7 +19,8 @@ export const mockAthletes: Athlete[] = [
     sport: "Football",
     position: "Quarterback",
     location: "Parker, Colorado",
-    avatar: "/images/athletes/dj-bordeaux.jpeg",
+    // Use a cache-busting filename so browsers don't keep showing the old image
+    avatar: "/images/athletes/dj-bordeaux-2026.webp",
     achievements: ["3-Star Ranking", "3X All-Region", "Committed to UCLA"],
     supportNeeded: ["Career", "Education"],
     yearsActive: "2023-2026",
