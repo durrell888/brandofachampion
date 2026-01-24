@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Heart, Users, Trophy, GraduationCap, Star, Quote, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,8 +9,6 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { SEO, createWebPageSchema } from "@/components/SEO";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
 
 const PRESET_AMOUNTS = [25, 50, 100, 250, 500, 1000];
 
@@ -49,25 +47,63 @@ const Donate = () => {
   const [customAmount, setCustomAmount] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 5000, stopOnInteraction: false })
-  ]);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
+  // Auto-rotate testimonials
   useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on("select", onSelect);
-    return () => {
-      emblaApi.off("select", onSelect);
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const getCardStyle = (index: number) => {
+    const total = testimonials.length;
+    const diff = (index - currentIndex + total) % total;
+    
+    if (diff === 0) {
+      // Current card - front and center
+      return {
+        zIndex: 30,
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotateY: 0,
+        opacity: 1,
+      };
+    } else if (diff === 1 || diff === total - 1) {
+      // Next/Previous card - peeking from right
+      const isNext = diff === 1;
+      return {
+        zIndex: 20,
+        x: isNext ? 180 : -180,
+        y: 20,
+        scale: 0.85,
+        rotateY: isNext ? -15 : 15,
+        opacity: 0.6,
+      };
+    } else if (diff === 2 || diff === total - 2) {
+      // Further cards - barely visible
+      const isAfterNext = diff === 2;
+      return {
+        zIndex: 10,
+        x: isAfterNext ? 280 : -280,
+        y: 40,
+        scale: 0.7,
+        rotateY: isAfterNext ? -25 : 25,
+        opacity: 0.3,
+      };
+    }
+    // Hidden cards
+    return {
+      zIndex: 0,
+      x: 0,
+      y: 60,
+      scale: 0.5,
+      rotateY: 0,
+      opacity: 0,
     };
-  }, [emblaApi, onSelect]);
+  };
 
   const handlePresetClick = (preset: number) => {
     setAmount(preset);
@@ -326,7 +362,7 @@ const Donate = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Testimonials - Unique 3D Stacked Carousel */}
       <section className="py-20 bg-muted/30 overflow-hidden">
         <div className="container mx-auto px-4">
           <motion.div
@@ -334,51 +370,84 @@ const Donate = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Voices of Impact</h2>
           </motion.div>
 
-          <div className="max-w-2xl mx-auto">
-            <div className="overflow-hidden" ref={emblaRef}>
-              <div className="flex">
-                {testimonials.map((testimonial, index) => (
-                  <div
-                    key={index}
-                    className="flex-[0_0_100%] min-w-0 px-4"
-                  >
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="bg-card border border-border rounded-xl p-8 relative"
-                    >
-                      <Quote className="w-10 h-10 text-primary/20 absolute top-4 right-4" />
-                      <p className="text-lg italic mb-6 leading-relaxed">"{testimonial.quote}"</p>
+          {/* 3D Stacked Cards Container */}
+          <div 
+            className="relative h-[320px] md:h-[280px] max-w-4xl mx-auto"
+            style={{ perspective: "1200px" }}
+          >
+            {testimonials.map((testimonial, index) => {
+              const style = getCardStyle(index);
+              return (
+                <motion.div
+                  key={index}
+                  className="absolute left-1/2 top-0 w-full max-w-lg cursor-pointer"
+                  animate={{
+                    x: `calc(-50% + ${style.x}px)`,
+                    y: style.y,
+                    scale: style.scale,
+                    rotateY: style.rotateY,
+                    opacity: style.opacity,
+                    zIndex: style.zIndex,
+                  }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 30,
+                  }}
+                  onClick={() => setCurrentIndex(index)}
+                  style={{ transformStyle: "preserve-3d" }}
+                >
+                  <div className="bg-card border border-border rounded-2xl p-6 md:p-8 relative shadow-2xl backdrop-blur-sm">
+                    {/* Gradient accent */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none" />
+                    
+                    <Quote className="w-8 h-8 md:w-10 md:h-10 text-primary/30 absolute top-4 right-4" />
+                    
+                    <p className="text-base md:text-lg italic mb-6 leading-relaxed relative z-10 pr-8">
+                      "{testimonial.quote}"
+                    </p>
+                    
+                    <div className="flex items-center gap-3 relative z-10">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-bold text-sm">
+                        {testimonial.author.split(' ').map(n => n[0]).join('')}
+                      </div>
                       <div>
                         <div className="font-semibold">{testimonial.author}</div>
                         <div className="text-sm text-muted-foreground">{testimonial.role}</div>
                       </div>
-                    </motion.div>
+                    </div>
                   </div>
-                ))}
-              </div>
-            </div>
-            
-            {/* Dots indicator */}
-            <div className="flex justify-center gap-2 mt-6">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => emblaApi?.scrollTo(index)}
-                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                    selectedIndex === index 
-                      ? "bg-primary w-8" 
-                      : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                  }`}
-                  aria-label={`Go to testimonial ${index + 1}`}
-                />
-              ))}
-            </div>
+                </motion.div>
+              );
+            })}
+          </div>
+          
+          {/* Progress dots with glow effect */}
+          <div className="flex justify-center gap-3 mt-8">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`relative h-2.5 rounded-full transition-all duration-500 ${
+                  currentIndex === index 
+                    ? "w-10 bg-primary" 
+                    : "w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                }`}
+                aria-label={`Go to testimonial ${index + 1}`}
+              >
+                {currentIndex === index && (
+                  <motion.div
+                    layoutId="activeDot"
+                    className="absolute inset-0 rounded-full bg-primary shadow-[0_0_12px_rgba(var(--primary),0.5)]"
+                  />
+                )}
+              </button>
+            ))}
           </div>
         </div>
       </section>
