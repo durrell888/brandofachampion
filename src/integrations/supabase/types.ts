@@ -53,6 +53,182 @@ export type Database = {
         }
         Relationships: []
       }
+      georgia_daily_polls: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          option_a: string
+          option_b: string
+          poll_date: string
+          question: string
+          votes_a: number
+          votes_b: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          option_a: string
+          option_b: string
+          poll_date?: string
+          question: string
+          votes_a?: number
+          votes_b?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          option_a?: string
+          option_b?: string
+          poll_date?: string
+          question?: string
+          votes_a?: number
+          votes_b?: number
+        }
+        Relationships: []
+      }
+      georgia_media: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          id: string
+          is_featured: boolean
+          thumbnail_url: string | null
+          title: string
+          video_url: string | null
+          view_count: number
+          youtube_id: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_featured?: boolean
+          thumbnail_url?: string | null
+          title: string
+          video_url?: string | null
+          view_count?: number
+          youtube_id?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_featured?: boolean
+          thumbnail_url?: string | null
+          title?: string
+          video_url?: string | null
+          view_count?: number
+          youtube_id?: string | null
+        }
+        Relationships: []
+      }
+      georgia_player_votes: {
+        Row: {
+          class_year: string | null
+          created_at: string
+          id: string
+          player_name: string
+          position: string
+          school: string | null
+          updated_at: string
+          vote_count: number
+          voter_id: string | null
+        }
+        Insert: {
+          class_year?: string | null
+          created_at?: string
+          id?: string
+          player_name: string
+          position: string
+          school?: string | null
+          updated_at?: string
+          vote_count?: number
+          voter_id?: string | null
+        }
+        Update: {
+          class_year?: string | null
+          created_at?: string
+          id?: string
+          player_name?: string
+          position?: string
+          school?: string | null
+          updated_at?: string
+          vote_count?: number
+          voter_id?: string | null
+        }
+        Relationships: []
+      }
+      georgia_poll_votes: {
+        Row: {
+          chosen_option: string
+          created_at: string
+          id: string
+          poll_id: string
+          voter_id: string
+        }
+        Insert: {
+          chosen_option: string
+          created_at?: string
+          id?: string
+          poll_id: string
+          voter_id: string
+        }
+        Update: {
+          chosen_option?: string
+          created_at?: string
+          id?: string
+          poll_id?: string
+          voter_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "georgia_poll_votes_poll_id_fkey"
+            columns: ["poll_id"]
+            isOneToOne: false
+            referencedRelation: "georgia_daily_polls"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      georgia_visitor_streaks: {
+        Row: {
+          created_at: string
+          current_streak: number
+          id: string
+          last_visit_date: string
+          longest_streak: number
+          total_visits: number
+          updated_at: string
+          visitor_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_streak?: number
+          id?: string
+          last_visit_date?: string
+          longest_streak?: number
+          total_visits?: number
+          updated_at?: string
+          visitor_id: string
+        }
+        Update: {
+          created_at?: string
+          current_streak?: number
+          id?: string
+          last_visit_date?: string
+          longest_streak?: number
+          total_visits?: number
+          updated_at?: string
+          visitor_id?: string
+        }
+        Relationships: []
+      }
       message_threads: {
         Row: {
           created_at: string
