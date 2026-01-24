@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 
 const POSITIONS = [
-  "QB", "RB", "WR", "TE", "OL", "DL", "LB", "CB", "S", "ATH", "K", "P"
+  "QB", "RB", "WR", "TE", "OL", "DL", "LB", "CB", "S", "ATH"
 ];
 
 const CLASS_YEARS = ["2025", "2026", "2027", "2028", "2029"];
