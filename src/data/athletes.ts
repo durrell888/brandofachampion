@@ -14,6 +14,30 @@ const aaronRoss = {
 
 export const mockAthletes: Athlete[] = [
   {
+    id: "19",
+    name: "DJ Bordeaux",
+    sport: "Football",
+    position: "Quarterback",
+    location: "Parker, Colorado",
+    avatar: "/images/athletes/dj-bordeaux.jpeg",
+    achievements: ["3-Star Ranking", "3X All-Region", "Committed to UCLA"],
+    supportNeeded: ["Career", "Education"],
+    yearsActive: "2023-2026",
+    status: "active",
+    classYear: "2026",
+    school: "Legend High School",
+    height: "6'2\"",
+    weight: "195 lbs",
+    gpa: 3.5,
+    hudlLink: "http://www.hudl.com/video/3/14609119/677068316d1af18b5379bdde",
+    tier: "pro",
+    proAnalysis: {
+      rating: 87,
+      analysis: "DJ Bordeaux is an exceptional quarterback with elite arm talent and impressive athleticism. At 6'2\" and 195 lbs, he has the ideal frame for a modern quarterback. His big arm allows him to make all the throws, from deep posts to tight-window out routes. What sets DJ apart is his high football IQ and ability to read defenses pre and post-snap. His great speed adds a dual-threat dimension that creates problems for opposing defenses. His commitment to UCLA validates his Pac-12 caliber talent. DJ has the tools to compete for starting time early in his collegiate career.",
+      assessor: durrellSteen,
+    },
+  },
+  {
     id: "18",
     name: "Lasiah Jackson",
     sport: "Football",
