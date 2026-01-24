@@ -21,6 +21,11 @@ const impactStats = [
 
 const testimonials = [
   {
+    quote: "It all started when my dad and mom sat down with Brand of a Champion and came up with the plan. My life started to change from that moment.",
+    author: "Aaron Gregory",
+    role: "Douglas County Alum, All-American",
+  },
+  {
     quote: "Brand of a Champion didn't just help me become a better athlete—they helped me become a better person. The mentorship changed my life.",
     author: "Jordan Carter",
     role: "Douglas County Alum, College Athlete",
