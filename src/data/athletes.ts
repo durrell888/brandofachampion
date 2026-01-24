@@ -260,7 +260,7 @@ export const mockAthletes: Athlete[] = [
     twitterLink: "https://x.com/TreyByrd2029",
     tier: "pro",
     proAnalysis: {
-      rating: 74,
+      rating: 80,
       analysis: "Trey is a young quarterback with tremendous upside and a cannon for an arm—he can throw the ball 70 yards with ease. At 6'4\" with big shoulders and an imposing stature, he draws comparisons to Cam Newton. He stands tall in the pocket with surprising athletic ability for his size, showing the poise and arm talent that scouts dream about. While still early in his high school career, his physical tools are already evident. With proper coaching and continued development, Trey has the raw ability to become one of the most highly recruited quarterback prospects in his class.",
       assessor: durrellSteen,
     },
