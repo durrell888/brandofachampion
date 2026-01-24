@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, ExternalLink, X, Sparkles, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -28,11 +29,22 @@ const partnerVideos: PartnerVideo[] = [
 ];
 
 const AthletePartnerships = () => {
+  const navigate = useNavigate();
   const [activeVideo, setActiveVideo] = useState<PartnerVideo | null>(null);
   const [hoveredPartner, setHoveredPartner] = useState<string | null>(null);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
   const featuredVideo = partnerVideos.find(v => v.featured) || partnerVideos[0];
+
+  const handleBecomePartner = () => {
+    navigate('/');
+    setTimeout(() => {
+      const partnerForm = document.getElementById('partner-form');
+      if (partnerForm) {
+        partnerForm.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
 
   const nextVideo = () => {
     setCurrentVideoIndex((prev) => (prev + 1) % partnerVideos.length);
@@ -325,8 +337,8 @@ const AthletePartnerships = () => {
             <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
               Join our roster of world-class partners and help support the next generation of champions
             </p>
-            <Button variant="hero" size="lg" asChild>
-              <a href="/#partner-form">Become a Partner</a>
+            <Button variant="hero" size="lg" onClick={handleBecomePartner}>
+              Become a Partner
             </Button>
           </motion.div>
         </div>
