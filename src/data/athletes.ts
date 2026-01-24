@@ -261,7 +261,7 @@ export const mockAthletes: Athlete[] = [
     tier: "pro",
     proAnalysis: {
       rating: 74,
-      analysis: "Trey is a young quarterback with tremendous upside. At 6'4\" with a developing frame, he has the ideal size scouts look for at the position. While still early in his high school career, he shows promising arm strength and the ability to make all the throws. His footwork and pocket presence are areas for continued development. With proper coaching and dedication, Trey has the raw tools to develop into a highly recruited prospect by his junior and senior years.",
+      analysis: "Trey is a young quarterback with tremendous upside and a cannon for an arm—he can throw the ball 70 yards with ease. At 6'4\" with big shoulders and an imposing stature, he draws comparisons to Cam Newton. He stands tall in the pocket with surprising athletic ability for his size, showing the poise and arm talent that scouts dream about. While still early in his high school career, his physical tools are already evident. With proper coaching and continued development, Trey has the raw ability to become one of the most highly recruited quarterback prospects in his class.",
       assessor: durrellSteen,
     },
   },
