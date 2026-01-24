@@ -87,6 +87,9 @@ const GeorgiaMedia = () => {
   // Poll voting
   const [votedPolls, setVotedPolls] = useState<Set<string>>(new Set());
   
+  // Position voting - track which positions user has already voted for
+  const [votedPositions, setVotedPositions] = useState<Set<string>>(new Set());
+  
   const visitorId = getVisitorId();
 
   // Fetch votes for selected position
@@ -124,6 +127,18 @@ const GeorgiaMedia = () => {
       if (pollVotes) {
         setVotedPolls(new Set(pollVotes.map(pv => pv.poll_id)));
       }
+    }
+  };
+
+  // Fetch which positions the visitor has already voted for
+  const fetchVotedPositions = async () => {
+    const { data } = await supabase
+      .from('georgia_position_votes')
+      .select('position')
+      .eq('visitor_id', visitorId);
+    
+    if (data) {
+      setVotedPositions(new Set(data.map(pv => pv.position)));
     }
   };
 
@@ -238,6 +253,14 @@ const GeorgiaMedia = () => {
       toast.error("Please enter player name and position");
       return;
     }
+
+    // Check if visitor already voted for this position
+    if (votedPositions.has(submitPosition)) {
+      toast.error(`You've already voted for ${submitPosition}!`, {
+        description: "Each visitor can only vote once per position."
+      });
+      return;
+    }
     
     // Check if player already exists
     const { data: existing } = await supabase
@@ -247,7 +270,10 @@ const GeorgiaMedia = () => {
       .eq('position', submitPosition)
       .maybeSingle();
     
+    let playerId: string;
+    
     if (existing) {
+      playerId = existing.id;
       // Increment vote count
       await supabase
         .from('georgia_player_votes')
@@ -257,7 +283,7 @@ const GeorgiaMedia = () => {
       toast.success(`Vote added for ${playerName}!`);
     } else {
       // Create new entry
-      await supabase
+      const { data: newPlayer } = await supabase
         .from('georgia_player_votes')
         .insert({
           player_name: playerName.trim(),
@@ -266,11 +292,24 @@ const GeorgiaMedia = () => {
           class_year: playerClassYear || null,
           voter_id: visitorId,
           vote_count: 1
-        });
+        })
+        .select('id')
+        .single();
       
+      playerId = newPlayer?.id || '';
       toast.success(`${playerName} nominated for Top 10 ${submitPosition}!`);
     }
+
+    // Record that this visitor voted for this position
+    await supabase
+      .from('georgia_position_votes')
+      .insert({
+        visitor_id: visitorId,
+        position: submitPosition,
+        player_id: playerId
+      });
     
+    setVotedPositions(prev => new Set([...prev, submitPosition]));
     setPlayerName("");
     setPlayerSchool("");
     setPlayerClassYear("");
@@ -280,11 +319,29 @@ const GeorgiaMedia = () => {
 
   // Quick vote for existing player
   const handleQuickVote = async (player: PlayerVote) => {
+    // Check if visitor already voted for this position
+    if (votedPositions.has(player.position)) {
+      toast.error(`You've already voted for ${player.position}!`, {
+        description: "Each visitor can only vote once per position."
+      });
+      return;
+    }
+
     await supabase
       .from('georgia_player_votes')
       .update({ vote_count: player.vote_count + 1 })
       .eq('id', player.id);
+
+    // Record that this visitor voted for this position
+    await supabase
+      .from('georgia_position_votes')
+      .insert({
+        visitor_id: visitorId,
+        position: player.position,
+        player_id: player.id
+      });
     
+    setVotedPositions(prev => new Set([...prev, player.position]));
     toast.success(`Vote added for ${player.player_name}!`);
     fetchVotes();
   };
@@ -330,6 +387,7 @@ const GeorgiaMedia = () => {
         fetchVotes(),
         fetchPolls(),
         fetchVideos(),
+        fetchVotedPositions(),
         trackVisitorStreak()
       ]);
       setIsLoading(false);
@@ -496,9 +554,16 @@ const GeorgiaMedia = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                  <Button type="submit" className="w-full">
+                  <Button 
+                    type="submit" 
+                    className="w-full"
+                    disabled={submitPosition && votedPositions.has(submitPosition)}
+                  >
                     <ThumbsUp className="w-4 h-4 mr-2" />
-                    Submit Vote
+                    {submitPosition && votedPositions.has(submitPosition) 
+                      ? `Already voted for ${submitPosition}` 
+                      : "Submit Vote"
+                    }
                   </Button>
                 </form>
               </Card>
@@ -577,7 +642,15 @@ const GeorgiaMedia = () => {
                               size="sm"
                               variant="outline"
                               onClick={() => handleQuickVote(player)}
-                              className="hover:bg-primary hover:text-primary-foreground"
+                              disabled={votedPositions.has(player.position)}
+                              className={votedPositions.has(player.position) 
+                                ? "opacity-50 cursor-not-allowed" 
+                                : "hover:bg-primary hover:text-primary-foreground"
+                              }
+                              title={votedPositions.has(player.position) 
+                                ? "You've already voted for this position" 
+                                : "Vote for this player"
+                              }
                             >
                               <ArrowUp className="w-4 h-4" />
                             </Button>

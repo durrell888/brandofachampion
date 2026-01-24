@@ -196,6 +196,30 @@ export type Database = {
           },
         ]
       }
+      georgia_position_votes: {
+        Row: {
+          created_at: string
+          id: string
+          player_id: string
+          position: string
+          visitor_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          player_id: string
+          position: string
+          visitor_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          player_id?: string
+          position?: string
+          visitor_id?: string
+        }
+        Relationships: []
+      }
       georgia_visitor_streaks: {
         Row: {
           created_at: string
