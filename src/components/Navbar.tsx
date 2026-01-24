@@ -105,9 +105,16 @@ const Navbar = () => {
               Stories
             </Link>
             <Link
+              to="/georgia-media"
+              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/georgia-media") ? "text-accent" : ""}`}
+              style={{ animationDelay: "2s" }}
+            >
+              GA Media
+            </Link>
+            <Link
               to="/apparel"
               className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/apparel") ? "text-accent" : ""}`}
-              style={{ animationDelay: "2s" }}
+              style={{ animationDelay: "2.5s" }}
             >
               Apparel
             </Link>
@@ -200,6 +207,9 @@ const Navbar = () => {
               
               <Link to="/stories" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 Stories
+              </Link>
+              <Link to="/georgia-media" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
+                GA Media
               </Link>
               <Link to="/apparel" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 Apparel
