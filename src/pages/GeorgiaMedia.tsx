@@ -4,32 +4,27 @@ import Footer from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 import { 
-  Trophy, Flame, TrendingUp, Users, Vote, Play, 
-  Star, Crown, Zap, Target, ArrowUp, ArrowDown,
-  Calendar, Award, MessageSquare, ThumbsUp, Send
+  Flame, TrendingUp, Users, Vote, Play, 
+  Star, Zap, Newspaper, RefreshCw, ChevronRight,
+  Calendar, MessageSquare
 } from "lucide-react";
 import { toast } from "sonner";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
-const POSITIONS = [
-  "QB", "RB", "WR", "TE", "OL", "DL", "LB", "CB", "S", "ATH"
-];
-
-const CLASS_YEARS = ["2025", "2026", "2027", "2028", "2029"];
-
-interface PlayerVote {
+interface NewsArticle {
   id: string;
-  player_name: string;
-  position: string;
-  school: string | null;
-  class_year: string | null;
-  vote_count: number;
+  title: string;
+  description: string;
+  source: string;
+  url: string;
+  imageUrl?: string;
+  publishedAt: string;
+  category: string;
 }
 
 interface DailyPoll {
@@ -57,6 +52,33 @@ interface MediaVideo {
   is_featured: boolean;
 }
 
+const sourceColors: Record<string, string> = {
+  "247Sports": "text-blue-400",
+  "On3": "text-emerald-400",
+  "Rivals": "text-orange-400",
+  "MaxPreps": "text-purple-400",
+  "ESPN": "text-red-400",
+  "GHSA": "text-yellow-400",
+  "Georgia Sports Now": "text-red-500",
+  "Georgia Sports": "text-red-500",
+};
+
+function getTimeAgo(dateString: string): string {
+  try {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffHours / 24);
+    if (diffHours < 1) return "Just now";
+    if (diffHours < 24) return `${diffHours}h`;
+    if (diffDays < 7) return `${diffDays}d`;
+    return date.toLocaleDateString();
+  } catch {
+    return "Recently";
+  }
+}
+
 // Generate a simple visitor ID based on browser fingerprint
 const getVisitorId = () => {
   let visitorId = localStorage.getItem('ga_visitor_id');
@@ -68,43 +90,45 @@ const getVisitorId = () => {
 };
 
 const GeorgiaMedia = () => {
-  const [votes, setVotes] = useState<PlayerVote[]>([]);
+  const [articles, setArticles] = useState<NewsArticle[]>([]);
+  const [newsLoading, setNewsLoading] = useState(true);
   const [polls, setPolls] = useState<DailyPoll[]>([]);
   const [streak, setStreak] = useState<VisitorStreak | null>(null);
   const [videos, setVideos] = useState<MediaVideo[]>([]);
-  const [selectedPosition, setSelectedPosition] = useState<string>("QB");
   const [isLoading, setIsLoading] = useState(true);
-  
-  // Submission form
-  const [playerName, setPlayerName] = useState("");
-  const [playerSchool, setPlayerSchool] = useState("");
-  const [playerClassYear, setPlayerClassYear] = useState("");
-  const [submitPosition, setSubmitPosition] = useState("");
-  
-  // Known players quick vote
-  const [quickVotePlayer, setQuickVotePlayer] = useState("");
+  const [activeCategory, setActiveCategory] = useState("all");
   
   // Poll voting
   const [votedPolls, setVotedPolls] = useState<Set<string>>(new Set());
   
-  // Position voting - track which positions user has already voted for
-  const [votedPositions, setVotedPositions] = useState<Set<string>>(new Set());
-  
   const visitorId = getVisitorId();
 
-  // Fetch votes for selected position
-  const fetchVotes = useCallback(async () => {
-    const { data, error } = await supabase
-      .from('georgia_player_votes')
-      .select('*')
-      .eq('position', selectedPosition)
-      .order('vote_count', { ascending: false })
-      .limit(10);
-    
-    if (!error && data) {
-      setVotes(data);
+  // Fetch Georgia news
+  const fetchNews = useCallback(async () => {
+    setNewsLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('fetch-georgia-news');
+      if (error) throw new Error(error.message);
+      if (data?.success && data?.articles) {
+        const formattedArticles: NewsArticle[] = data.articles.map((article: any, index: number) => ({
+          id: `article-${index}`,
+          title: article.title,
+          description: article.description,
+          source: article.source || 'Georgia Sports',
+          url: article.url,
+          imageUrl: article.imageUrl,
+          publishedAt: getTimeAgo(article.publishedAt),
+          category: article.category || 'High School',
+        }));
+        setArticles(formattedArticles);
+      }
+    } catch (err) {
+      console.error('Error fetching news:', err);
+      toast.error('Failed to load news');
+    } finally {
+      setNewsLoading(false);
     }
-  }, [selectedPosition]);
+  }, []);
 
   // Fetch active polls
   const fetchPolls = async () => {
@@ -127,18 +151,6 @@ const GeorgiaMedia = () => {
       if (pollVotes) {
         setVotedPolls(new Set(pollVotes.map(pv => pv.poll_id)));
       }
-    }
-  };
-
-  // Fetch which positions the visitor has already voted for
-  const fetchVotedPositions = async () => {
-    const { data } = await supabase
-      .from('georgia_position_votes')
-      .select('position')
-      .eq('visitor_id', visitorId);
-    
-    if (data) {
-      setVotedPositions(new Set(data.map(pv => pv.position)));
     }
   };
 
@@ -172,14 +184,12 @@ const GeorgiaMedia = () => {
       const yesterdayStr = yesterday.toISOString().split('T')[0];
       
       if (lastVisit === today) {
-        // Already visited today
         setStreak({
           current_streak: existing.current_streak,
           longest_streak: existing.longest_streak,
           total_visits: existing.total_visits
         });
       } else if (lastVisit === yesterdayStr) {
-        // Consecutive day - increase streak
         const newStreak = existing.current_streak + 1;
         const newLongest = Math.max(newStreak, existing.longest_streak);
         
@@ -205,7 +215,6 @@ const GeorgiaMedia = () => {
           });
         }
       } else {
-        // Streak broken
         await supabase
           .from('georgia_visitor_streaks')
           .update({
@@ -222,7 +231,6 @@ const GeorgiaMedia = () => {
         });
       }
     } else {
-      // First visit
       await supabase
         .from('georgia_visitor_streaks')
         .insert({
@@ -245,107 +253,6 @@ const GeorgiaMedia = () => {
     }
   };
 
-  // Submit a new player nomination
-  const handleSubmitPlayer = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!playerName.trim() || !submitPosition) {
-      toast.error("Please enter player name and position");
-      return;
-    }
-
-    // Check if visitor already voted for this position
-    if (votedPositions.has(submitPosition)) {
-      toast.error(`You've already voted for ${submitPosition}!`, {
-        description: "Each visitor can only vote once per position."
-      });
-      return;
-    }
-    
-    // Check if player already exists
-    const { data: existing } = await supabase
-      .from('georgia_player_votes')
-      .select('*')
-      .eq('player_name', playerName.trim())
-      .eq('position', submitPosition)
-      .maybeSingle();
-    
-    let playerId: string;
-    
-    if (existing) {
-      playerId = existing.id;
-      // Increment vote count
-      await supabase
-        .from('georgia_player_votes')
-        .update({ vote_count: existing.vote_count + 1 })
-        .eq('id', existing.id);
-      
-      toast.success(`Vote added for ${playerName}!`);
-    } else {
-      // Create new entry
-      const { data: newPlayer } = await supabase
-        .from('georgia_player_votes')
-        .insert({
-          player_name: playerName.trim(),
-          position: submitPosition,
-          school: playerSchool.trim() || null,
-          class_year: playerClassYear || null,
-          voter_id: visitorId,
-          vote_count: 1
-        })
-        .select('id')
-        .single();
-      
-      playerId = newPlayer?.id || '';
-      toast.success(`${playerName} nominated for Top 10 ${submitPosition}!`);
-    }
-
-    // Record that this visitor voted for this position
-    await supabase
-      .from('georgia_position_votes')
-      .insert({
-        visitor_id: visitorId,
-        position: submitPosition,
-        player_id: playerId
-      });
-    
-    setVotedPositions(prev => new Set([...prev, submitPosition]));
-    setPlayerName("");
-    setPlayerSchool("");
-    setPlayerClassYear("");
-    setSubmitPosition("");
-    fetchVotes();
-  };
-
-  // Quick vote for existing player
-  const handleQuickVote = async (player: PlayerVote) => {
-    // Check if visitor already voted for this position
-    if (votedPositions.has(player.position)) {
-      toast.error(`You've already voted for ${player.position}!`, {
-        description: "Each visitor can only vote once per position."
-      });
-      return;
-    }
-
-    await supabase
-      .from('georgia_player_votes')
-      .update({ vote_count: player.vote_count + 1 })
-      .eq('id', player.id);
-
-    // Record that this visitor voted for this position
-    await supabase
-      .from('georgia_position_votes')
-      .insert({
-        visitor_id: visitorId,
-        position: player.position,
-        player_id: player.id
-      });
-    
-    setVotedPositions(prev => new Set([...prev, player.position]));
-    toast.success(`Vote added for ${player.player_name}!`);
-    fetchVotes();
-  };
-
   // Vote on poll
   const handlePollVote = async (pollId: string, option: 'a' | 'b') => {
     if (votedPolls.has(pollId)) {
@@ -356,7 +263,6 @@ const GeorgiaMedia = () => {
     const poll = polls.find(p => p.id === pollId);
     if (!poll) return;
     
-    // Record the vote
     await supabase
       .from('georgia_poll_votes')
       .insert({
@@ -365,7 +271,6 @@ const GeorgiaMedia = () => {
         chosen_option: option
       });
     
-    // Update poll counts
     const updateField = option === 'a' ? 'votes_a' : 'votes_b';
     const newCount = option === 'a' ? poll.votes_a + 1 : poll.votes_b + 1;
     
@@ -379,29 +284,19 @@ const GeorgiaMedia = () => {
     fetchPolls();
   };
 
-  // Real-time subscriptions
   useEffect(() => {
     const loadData = async () => {
       setIsLoading(true);
       await Promise.all([
-        fetchVotes(),
+        fetchNews(),
         fetchPolls(),
         fetchVideos(),
-        fetchVotedPositions(),
         trackVisitorStreak()
       ]);
       setIsLoading(false);
     };
     
     loadData();
-    
-    // Subscribe to real-time updates
-    const votesChannel = supabase
-      .channel('georgia_votes_realtime')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'georgia_player_votes' }, () => {
-        fetchVotes();
-      })
-      .subscribe();
     
     const pollsChannel = supabase
       .channel('georgia_polls_realtime')
@@ -411,28 +306,24 @@ const GeorgiaMedia = () => {
       .subscribe();
     
     return () => {
-      supabase.removeChannel(votesChannel);
       supabase.removeChannel(pollsChannel);
     };
-  }, [fetchVotes]);
+  }, [fetchNews]);
 
-  // Refetch when position changes
-  useEffect(() => {
-    fetchVotes();
-  }, [selectedPosition, fetchVotes]);
+  const filteredArticles = activeCategory === "all" 
+    ? articles 
+    : articles.filter(a => a.category.toLowerCase() === activeCategory.toLowerCase());
 
-  const getRankBadge = (index: number) => {
-    if (index === 0) return <Crown className="w-5 h-5 text-yellow-500" />;
-    if (index === 1) return <Trophy className="w-5 h-5 text-gray-400" />;
-    if (index === 2) return <Award className="w-5 h-5 text-amber-600" />;
-    return <span className="text-muted-foreground font-bold">#{index + 1}</span>;
-  };
+  const featuredArticle = filteredArticles[0];
+  const secondaryArticles = filteredArticles.slice(1, 3);
+  const remainingArticles = filteredArticles.slice(3);
+  const topHeadlines = articles.slice(0, 8);
 
   return (
     <div className="min-h-screen bg-background">
       <SEO 
-        title="Georgia Media | Georgia High School Football Rankings & Polls" 
-        description="Vote for Georgia's top high school football players by position. Daily polls, live rankings, and the best football media in the Peach State."
+        title="Georgia Media | Georgia High School Football News & Polls" 
+        description="Your source for Georgia high school football news, recruiting updates, and daily polls. Stay connected to the Peach State's best football coverage."
       />
       <Navbar />
       
@@ -452,7 +343,7 @@ const GeorgiaMedia = () => {
               </h1>
             </div>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              The pulse of Georgia high school football. Vote, debate, and crown the best.
+              Your source for Georgia high school football news, recruiting, and hot takes.
             </p>
             
             {/* Streak Display */}
@@ -487,10 +378,10 @@ const GeorgiaMedia = () => {
       </section>
 
       <main className="container mx-auto px-4 py-12">
-        <Tabs defaultValue="rankings" className="space-y-8">
+        <Tabs defaultValue="news" className="space-y-8">
           <TabsList className="grid grid-cols-3 max-w-lg mx-auto">
-            <TabsTrigger value="rankings" className="flex items-center gap-2">
-              <Trophy className="w-4 h-4" /> Rankings
+            <TabsTrigger value="news" className="flex items-center gap-2">
+              <Newspaper className="w-4 h-4" /> News
             </TabsTrigger>
             <TabsTrigger value="polls" className="flex items-center gap-2">
               <Vote className="w-4 h-4" /> Daily Polls
@@ -500,167 +391,212 @@ const GeorgiaMedia = () => {
             </TabsTrigger>
           </TabsList>
 
-          {/* RANKINGS TAB */}
-          <TabsContent value="rankings" className="space-y-8">
-            <div className="grid lg:grid-cols-3 gap-8">
-              {/* Left: Submit Form */}
-              <Card className="p-6 bg-card border-border">
-                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                  <Send className="w-5 h-5 text-primary" />
-                  Nominate a Player
-                </h3>
-                <form onSubmit={handleSubmitPlayer} className="space-y-4">
-                  <div>
-                    <label className="text-sm text-muted-foreground">Player Name *</label>
-                    <Input 
-                      value={playerName}
-                      onChange={(e) => setPlayerName(e.target.value)}
-                      placeholder="e.g. Marcus Johnson"
-                      className="mt-1"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm text-muted-foreground">Position *</label>
-                    <Select value={submitPosition} onValueChange={setSubmitPosition}>
-                      <SelectTrigger className="mt-1">
-                        <SelectValue placeholder="Select position" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {POSITIONS.map(pos => (
-                          <SelectItem key={pos} value={pos}>{pos}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <label className="text-sm text-muted-foreground">School</label>
-                    <Input 
-                      value={playerSchool}
-                      onChange={(e) => setPlayerSchool(e.target.value)}
-                      placeholder="e.g. Buford High School"
-                      className="mt-1"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm text-muted-foreground">Class Year</label>
-                    <Select value={playerClassYear} onValueChange={setPlayerClassYear}>
-                      <SelectTrigger className="mt-1">
-                        <SelectValue placeholder="Select year" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {CLASS_YEARS.map(year => (
-                          <SelectItem key={year} value={year}>{year}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <Button 
-                    type="submit" 
-                    className="w-full"
-                    disabled={submitPosition && votedPositions.has(submitPosition)}
-                  >
-                    <ThumbsUp className="w-4 h-4 mr-2" />
-                    {submitPosition && votedPositions.has(submitPosition) 
-                      ? `Already voted for ${submitPosition}` 
-                      : "Submit Vote"
-                    }
-                  </Button>
-                </form>
-              </Card>
+          {/* NEWS TAB */}
+          <TabsContent value="news" className="space-y-6">
+            {/* Category Filter */}
+            <div className="flex items-center gap-4 overflow-x-auto pb-2">
+              <span className="text-primary font-bold whitespace-nowrap">GA Football</span>
+              <div className="h-6 w-px bg-border" />
+              {["All", "High School", "Recruiting"].map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat.toLowerCase())}
+                  className={`text-sm whitespace-nowrap transition-colors px-3 py-1 rounded-full ${
+                    activeCategory === cat.toLowerCase() 
+                      ? "bg-primary text-primary-foreground" 
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+              <div className="ml-auto">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={fetchNews}
+                  disabled={newsLoading}
+                >
+                  <RefreshCw className={`w-4 h-4 ${newsLoading ? "animate-spin" : ""}`} />
+                </Button>
+              </div>
+            </div>
 
-              {/* Center: Live Rankings */}
-              <Card className="lg:col-span-2 p-6 bg-card border-border">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-bold flex items-center gap-2">
-                    <TrendingUp className="w-5 h-5 text-green-500" />
-                    Top 10 {selectedPosition}s in Georgia
-                    <Badge variant="secondary" className="ml-2 animate-pulse">
-                      LIVE
-                    </Badge>
-                  </h3>
-                  <Select value={selectedPosition} onValueChange={setSelectedPosition}>
-                    <SelectTrigger className="w-32">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {POSITIONS.map(pos => (
-                        <SelectItem key={pos} value={pos}>{pos}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {isLoading ? (
-                  <div className="space-y-3">
-                    {[...Array(5)].map((_, i) => (
-                      <div key={i} className="h-16 bg-muted animate-pulse rounded-lg" />
-                    ))}
-                  </div>
-                ) : votes.length === 0 ? (
-                  <div className="text-center py-12 text-muted-foreground">
-                    <Target className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                    <p>No {selectedPosition}s ranked yet. Be the first to nominate!</p>
-                  </div>
-                ) : (
-                  <AnimatePresence mode="popLayout">
-                    <div className="space-y-3">
-                      {votes.map((player, index) => (
-                        <motion.div
-                          key={player.id}
-                          layout
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: 20 }}
-                          transition={{ delay: index * 0.05 }}
-                          className={`flex items-center gap-4 p-4 rounded-lg border transition-all hover:bg-accent/50 ${
-                            index === 0 ? 'bg-gradient-to-r from-yellow-500/10 to-transparent border-yellow-500/30' :
-                            index === 1 ? 'bg-gradient-to-r from-gray-400/10 to-transparent border-gray-400/30' :
-                            index === 2 ? 'bg-gradient-to-r from-amber-600/10 to-transparent border-amber-600/30' :
-                            'bg-card border-border'
-                          }`}
-                        >
-                          <div className="w-8 flex justify-center">
-                            {getRankBadge(index)}
-                          </div>
-                          <div className="flex-1">
-                            <p className="font-bold">{player.player_name}</p>
-                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                              {player.school && <span>{player.school}</span>}
-                              {player.class_year && (
-                                <Badge variant="outline" className="text-xs">
-                                  Class of {player.class_year}
-                                </Badge>
-                              )}
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <div className="text-right">
-                              <p className="text-2xl font-black text-primary">{player.vote_count}</p>
-                              <p className="text-xs text-muted-foreground">votes</p>
-                            </div>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => handleQuickVote(player)}
-                              disabled={votedPositions.has(player.position)}
-                              className={votedPositions.has(player.position) 
-                                ? "opacity-50 cursor-not-allowed" 
-                                : "hover:bg-primary hover:text-primary-foreground"
-                              }
-                              title={votedPositions.has(player.position) 
-                                ? "You've already voted for this position" 
-                                : "Vote for this player"
-                              }
-                            >
-                              <ArrowUp className="w-4 h-4" />
-                            </Button>
-                          </div>
-                        </motion.div>
-                      ))}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              {/* Main Content */}
+              <div className="lg:col-span-8">
+                {newsLoading ? (
+                  <div className="space-y-6">
+                    <Skeleton className="w-full h-[400px] bg-muted rounded-lg" />
+                    <div className="grid grid-cols-2 gap-4">
+                      <Skeleton className="h-48 bg-muted rounded-lg" />
+                      <Skeleton className="h-48 bg-muted rounded-lg" />
                     </div>
-                  </AnimatePresence>
+                  </div>
+                ) : filteredArticles.length === 0 ? (
+                  <Card className="p-12 text-center">
+                    <Newspaper className="w-12 h-12 text-muted-foreground mx-auto mb-4 opacity-50" />
+                    <p className="text-muted-foreground">No news articles found.</p>
+                  </Card>
+                ) : (
+                  <div className="space-y-6">
+                    {/* Featured Article */}
+                    {featuredArticle && (
+                      <a href={featuredArticle.url} target="_blank" rel="noopener noreferrer" className="block group">
+                        <article className="relative rounded-lg overflow-hidden bg-card">
+                          {featuredArticle.imageUrl ? (
+                            <div className="relative aspect-[16/9]">
+                              <img 
+                                src={featuredArticle.imageUrl} 
+                                alt={featuredArticle.title} 
+                                className="w-full h-full object-cover" 
+                                onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=800'; }} 
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                              <div className="absolute bottom-0 left-0 right-0 p-6">
+                                <Badge className="bg-primary text-primary-foreground border-0 mb-3">{featuredArticle.category}</Badge>
+                                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-primary transition-colors line-clamp-3">{featuredArticle.title}</h2>
+                                <p className="text-gray-300 text-sm line-clamp-2 mb-3">{featuredArticle.description}</p>
+                                <div className="flex items-center gap-3 text-xs text-gray-400">
+                                  <span className={sourceColors[featuredArticle.source] || 'text-gray-400'}>{featuredArticle.source}</span>
+                                  <span>•</span>
+                                  <span>{featuredArticle.publishedAt}</span>
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="p-6">
+                              <Badge className="bg-primary text-primary-foreground border-0 mb-3">{featuredArticle.category}</Badge>
+                              <h2 className="text-2xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{featuredArticle.title}</h2>
+                              <p className="text-muted-foreground text-sm">{featuredArticle.description}</p>
+                            </div>
+                          )}
+                        </article>
+                      </a>
+                    )}
+
+                    {/* Secondary Articles */}
+                    {secondaryArticles.length > 0 && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {secondaryArticles.map((article) => (
+                          <a key={article.id} href={article.url} target="_blank" rel="noopener noreferrer" className="group">
+                            <article className="bg-card rounded-lg overflow-hidden h-full border border-border hover:border-primary/50 transition-colors">
+                              {article.imageUrl && (
+                                <div className="aspect-video overflow-hidden">
+                                  <img 
+                                    src={article.imageUrl} 
+                                    alt={article.title} 
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} 
+                                  />
+                                </div>
+                              )}
+                              <div className="p-4">
+                                <h3 className="font-bold text-foreground text-sm mb-2 group-hover:text-primary transition-colors line-clamp-2">{article.title}</h3>
+                                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                  <span className={sourceColors[article.source] || 'text-muted-foreground'}>{article.source}</span>
+                                  <span>•</span>
+                                  <span>{article.publishedAt}</span>
+                                </div>
+                              </div>
+                            </article>
+                          </a>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Remaining Articles */}
+                    {remainingArticles.length > 0 && (
+                      <div className="space-y-4">
+                        <h3 className="font-bold text-foreground flex items-center gap-2">
+                          <Newspaper className="w-4 h-4 text-primary" /> More Stories
+                        </h3>
+                        <div className="space-y-3">
+                          {remainingArticles.map((article) => (
+                            <a key={article.id} href={article.url} target="_blank" rel="noopener noreferrer" className="group">
+                              <article className="flex gap-4 bg-card rounded-lg p-3 hover:bg-accent transition-colors border border-border">
+                                {article.imageUrl && (
+                                  <div className="w-24 h-16 flex-shrink-0 rounded overflow-hidden">
+                                    <img 
+                                      src={article.imageUrl} 
+                                      alt={article.title} 
+                                      className="w-full h-full object-cover" 
+                                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} 
+                                    />
+                                  </div>
+                                )}
+                                <div className="flex-1 min-w-0">
+                                  <h4 className="font-semibold text-foreground text-sm group-hover:text-primary transition-colors line-clamp-2">{article.title}</h4>
+                                  <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
+                                    <span className={sourceColors[article.source] || 'text-muted-foreground'}>{article.source}</span>
+                                    <span>•</span>
+                                    <span>{article.publishedAt}</span>
+                                  </div>
+                                </div>
+                                <ChevronRight className="w-4 h-4 text-muted-foreground self-center flex-shrink-0" />
+                              </article>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 )}
-              </Card>
+              </div>
+
+              {/* Right Sidebar */}
+              <aside className="lg:col-span-4">
+                <div className="sticky top-24 space-y-6">
+                  <Card className="overflow-hidden">
+                    <div className="bg-primary/10 px-4 py-3 border-b border-border">
+                      <h3 className="font-bold text-foreground flex items-center gap-2">
+                        <TrendingUp className="w-4 h-4 text-primary" /> Top Headlines
+                      </h3>
+                    </div>
+                    <div className="divide-y divide-border">
+                      {newsLoading ? (
+                        Array(6).fill(0).map((_, i) => (
+                          <div key={i} className="p-3">
+                            <Skeleton className="h-4 w-full bg-muted" />
+                          </div>
+                        ))
+                      ) : (
+                        topHeadlines.map((article) => (
+                          <a 
+                            key={article.id} 
+                            href={article.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="block px-4 py-3 hover:bg-accent transition-colors group"
+                          >
+                            <div className="flex items-start gap-3">
+                              <span className={`text-xs font-bold mt-0.5 ${sourceColors[article.source] || 'text-muted-foreground'}`}>
+                                {article.source.charAt(0)}
+                              </span>
+                              <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors line-clamp-2 flex-1">
+                                {article.title}
+                              </p>
+                            </div>
+                          </a>
+                        ))
+                      )}
+                    </div>
+                  </Card>
+
+                  {/* Quick Poll Preview */}
+                  {polls.length > 0 && (
+                    <Card className="p-4">
+                      <h3 className="font-bold text-foreground flex items-center gap-2 mb-3">
+                        <Zap className="w-4 h-4 text-yellow-500" /> Today's Hot Take
+                      </h3>
+                      <p className="text-sm text-muted-foreground mb-3">{polls[0].question}</p>
+                      <Button size="sm" variant="outline" className="w-full" onClick={() => document.querySelector('[value="polls"]')?.dispatchEvent(new MouseEvent('click', { bubbles: true }))}>
+                        Vote Now
+                      </Button>
+                    </Card>
+                  )}
+                </div>
+              </aside>
             </div>
           </TabsContent>
 
@@ -700,60 +636,59 @@ const GeorgiaMedia = () => {
                             {new Date(poll.poll_date).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
                           </span>
                         </div>
+                        
                         <h3 className="text-lg font-bold mb-6 flex-1">{poll.question}</h3>
                         
                         <div className="space-y-3">
                           <button
                             onClick={() => handlePollVote(poll.id, 'a')}
                             disabled={hasVoted}
-                            className={`w-full p-4 rounded-lg border-2 text-left transition-all ${
-                              hasVoted
-                                ? 'cursor-default border-border'
-                                : 'hover:border-primary cursor-pointer border-border hover:bg-accent'
+                            className={`w-full p-4 rounded-lg border-2 text-left transition-all relative overflow-hidden ${
+                              hasVoted 
+                                ? 'cursor-default border-border' 
+                                : 'hover:border-primary cursor-pointer border-border'
                             }`}
                           >
-                            <div className="flex justify-between items-center mb-2">
-                              <span className="font-medium">{poll.option_a}</span>
-                              {hasVoted && <span className="font-bold text-primary">{percentA}%</span>}
-                            </div>
                             {hasVoted && (
-                              <div className="h-2 bg-muted rounded-full overflow-hidden">
-                                <motion.div 
-                                  initial={{ width: 0 }}
-                                  animate={{ width: `${percentA}%` }}
-                                  className="h-full bg-primary"
-                                />
-                              </div>
+                              <div 
+                                className="absolute inset-0 bg-primary/20" 
+                                style={{ width: `${percentA}%` }}
+                              />
                             )}
+                            <div className="relative flex items-center justify-between">
+                              <span className="font-medium">{poll.option_a}</span>
+                              {hasVoted && (
+                                <span className="font-bold text-primary">{percentA}%</span>
+                              )}
+                            </div>
                           </button>
                           
                           <button
                             onClick={() => handlePollVote(poll.id, 'b')}
                             disabled={hasVoted}
-                            className={`w-full p-4 rounded-lg border-2 text-left transition-all ${
-                              hasVoted
-                                ? 'cursor-default border-border'
-                                : 'hover:border-primary cursor-pointer border-border hover:bg-accent'
+                            className={`w-full p-4 rounded-lg border-2 text-left transition-all relative overflow-hidden ${
+                              hasVoted 
+                                ? 'cursor-default border-border' 
+                                : 'hover:border-primary cursor-pointer border-border'
                             }`}
                           >
-                            <div className="flex justify-between items-center mb-2">
-                              <span className="font-medium">{poll.option_b}</span>
-                              {hasVoted && <span className="font-bold text-primary">{percentB}%</span>}
-                            </div>
                             {hasVoted && (
-                              <div className="h-2 bg-muted rounded-full overflow-hidden">
-                                <motion.div 
-                                  initial={{ width: 0 }}
-                                  animate={{ width: `${percentB}%` }}
-                                  className="h-full bg-primary"
-                                />
-                              </div>
+                              <div 
+                                className="absolute inset-0 bg-primary/20" 
+                                style={{ width: `${percentB}%` }}
+                              />
                             )}
+                            <div className="relative flex items-center justify-between">
+                              <span className="font-medium">{poll.option_b}</span>
+                              {hasVoted && (
+                                <span className="font-bold text-primary">{percentB}%</span>
+                              )}
+                            </div>
                           </button>
                         </div>
                         
-                        <p className="text-center text-sm text-muted-foreground mt-4">
-                          {totalVotes} {totalVotes === 1 ? 'vote' : 'votes'}
+                        <p className="text-xs text-muted-foreground text-center mt-4">
+                          {totalVotes} vote{totalVotes !== 1 ? 's' : ''}
                         </p>
                       </Card>
                     </motion.div>
@@ -767,18 +702,22 @@ const GeorgiaMedia = () => {
           <TabsContent value="media" className="space-y-6">
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold flex items-center justify-center gap-3">
-                <Play className="w-8 h-8 text-red-500" />
-                Georgia Football Highlights
+                <Play className="w-8 h-8 text-primary" />
+                Georgia Football Media
               </h2>
-              <p className="text-muted-foreground mt-2">The best highlights from across the Peach State</p>
+              <p className="text-muted-foreground mt-2">Watch the best highlights and features from Georgia high school football.</p>
             </div>
-            
-            {/* YouTube Videos from Database */}
-            {videos.length > 0 ? (
+
+            {videos.length === 0 ? (
+              <Card className="p-12 text-center">
+                <Play className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                <p className="text-muted-foreground">No videos available yet. Check back soon!</p>
+              </Card>
+            ) : (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {videos.map((video) => (
                   <Card key={video.id} className="overflow-hidden group">
-                    {video.youtube_id ? (
+                    {video.youtube_id && (
                       <div className="aspect-video">
                         <iframe
                           src={`https://www.youtube.com/embed/${video.youtube_id}`}
@@ -788,60 +727,20 @@ const GeorgiaMedia = () => {
                           allowFullScreen
                         />
                       </div>
-                    ) : (
-                      <div className="aspect-video bg-gradient-to-br from-red-900 to-black relative flex items-center justify-center">
-                        <Play className="w-12 h-12 text-white/50" />
-                      </div>
                     )}
                     <div className="p-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        {video.is_featured && (
-                          <Badge className="bg-red-600">Featured</Badge>
-                        )}
-                        {video.category && (
-                          <Badge variant="outline">{video.category}</Badge>
-                        )}
-                      </div>
-                      <h4 className="font-bold">{video.title}</h4>
+                      <h3 className="font-bold text-foreground mb-1 line-clamp-2">{video.title}</h3>
                       {video.description && (
-                        <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{video.description}</p>
+                        <p className="text-sm text-muted-foreground line-clamp-2">{video.description}</p>
+                      )}
+                      {video.category && (
+                        <Badge variant="outline" className="mt-2">{video.category}</Badge>
                       )}
                     </div>
                   </Card>
                 ))}
               </div>
-            ) : (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[
-                  { title: "Friday Night Lights: Week 1 Highlights", category: "highlights" },
-                  { title: "Top 10 Plays of the Month", category: "top plays" },
-                  { title: "Recruiting Update: 2026 Class Watch", category: "recruiting" },
-                ].map((video, i) => (
-                  <Card key={i} className="overflow-hidden group cursor-pointer">
-                    <div className="aspect-video bg-gradient-to-br from-red-900 to-black relative">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
-                          <Play className="w-8 h-8 text-white ml-1" />
-                        </div>
-                      </div>
-                      <Badge className="absolute top-3 left-3 bg-red-600">{video.category}</Badge>
-                    </div>
-                    <div className="p-4">
-                      <h4 className="font-bold group-hover:text-primary transition-colors">{video.title}</h4>
-                      <p className="text-sm text-muted-foreground mt-1">Coming soon</p>
-                    </div>
-                  </Card>
-                ))}
-              </div>
             )}
-            
-            <div className="text-center py-8">
-              <p className="text-muted-foreground mb-4">Want to submit a highlight? Contact us!</p>
-              <Button variant="outline">
-                <Send className="w-4 h-4 mr-2" />
-                Submit Media
-              </Button>
-            </div>
           </TabsContent>
         </Tabs>
       </main>
