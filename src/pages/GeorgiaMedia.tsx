@@ -557,15 +557,53 @@ const GeorgiaMedia = () => {
                     <div className="p-4">
                       <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
                         <Calendar className="w-3 h-3" />
-                        <span>Updated Every Week</span>
+                        <span>January 24, 2026</span>
                       </div>
-                      <div className="bg-muted/50 rounded-lg p-4 min-h-[200px] border border-dashed border-border">
-                        <p className="text-muted-foreground text-sm italic text-center">
-                          Your weekly story goes here...
-                        </p>
-                        <p className="text-muted-foreground/60 text-xs text-center mt-2">
-                          (Admin: Edit this section to add your story)
-                        </p>
+                      
+                      {/* Joey King Story */}
+                      <div className="space-y-4">
+                        <img 
+                          src="/images/joey-king-carrollton.jpg" 
+                          alt="Joey King - Carrollton Trojans Head Coach" 
+                          className="w-full rounded-lg object-cover aspect-square"
+                        />
+                        
+                        <h4 className="font-bold text-foreground text-lg leading-tight">
+                          Is Joey King Overrated? A Fair Question Emerging in Georgia High School Football
+                        </h4>
+                        
+                        <div className="text-sm text-muted-foreground space-y-3 max-h-[400px] overflow-y-auto pr-2">
+                          <p>
+                            In Georgia high school football circles, few names spark as much conversation as Joey King. As the head coach of the Carrollton Trojans, King sits at the center of one of the most talent-rich programs in the state—and one of the most scrutinized.
+                          </p>
+                          <p>
+                            Carrollton has become a destination job. Elite facilities, a massive community following, and a roster that routinely features Power Five–level prospects. Most notably, King has coached Julian Lewis, widely regarded as the No. 1 quarterback in the nation during his high school career, along with a host of other blue-chip recruits year after year.
+                          </p>
+                          <p>
+                            King is also reportedly the highest-paid high school football coach in the state of Georgia, a reflection of expectations that come with the job. And that's where the debate begins.
+                          </p>
+                          <p>
+                            Despite deep playoff runs and consistent national attention, <strong>a state championship has remained elusive at Carrollton</strong> during King's tenure. For a program built to win it all, "almost" has started to feel like a lingering headline.
+                          </p>
+                          <p className="font-medium text-foreground">
+                            That reality has fueled a growing question among fans, parents, and high school football analysts alike: Is Joey King overrated—or is the criticism unfair?
+                          </p>
+                          <p>
+                            Supporters of King point to his résumé. Before Carrollton, he led Cartersville to multiple state championships, establishing himself as one of the premier coaches in Georgia. His teams are disciplined, his quarterbacks are well-developed, and his programs are consistently competitive on the biggest stages.
+                          </p>
+                          <p>
+                            Critics, however, argue that elite talent demands elite results. With rosters stacked with Division I prospects—especially at quarterback—the absence of a state title stands out. In their view, when resources, pay, and personnel are at the very top, championships are the measuring stick, not playoff appearances.
+                          </p>
+                          <p>
+                            Others fall somewhere in the middle, noting that Georgia high school football is arguably the most competitive in the country. One or two plays can swing a season. Injuries, matchups, and timing matter. Winning a state title is never guaranteed.
+                          </p>
+                          <p className="font-medium text-foreground italic">
+                            So, is Joey King overrated? Or is he a proven winner navigating one of the toughest competitive landscapes in high school sports, where expectations may be higher than reality allows?
+                          </p>
+                          <p>
+                            The answer likely depends on perspective. What's undeniable is this: as long as Carrollton continues to attract elite talent and fall just short of a championship, the question won't go away. And in Georgia high school football, few questions are louder—or more debated—than this one.
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </Card>
