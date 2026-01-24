@@ -28,6 +28,11 @@ const testimonials = [
     role: "Douglas County Alum, All-American",
   },
   {
+    quote: "The conversations with Durrell gave me an unwavering vote of confidence. I didn't believe I could accomplish my goals, I knew I would.",
+    author: "DJ Bordeaux",
+    role: "Class of 2026, UCLA Commit",
+  },
+  {
     quote: "Brand of a Champion didn't just help me become a better athlete—they helped me become a better person. The mentorship changed my life.",
     author: "Jordan Carter",
     role: "Douglas County Alum, College Athlete",
