@@ -16,7 +16,7 @@ interface NewsArticle {
   category?: string;
 }
 
-// Fallback articles focused on Georgia high school football
+// Fallback articles focused on Georgia high school football (excluding On3)
 const fallbackArticles: NewsArticle[] = [
   {
     title: "Buford Wolves Eye Another State Championship Run",
@@ -26,15 +26,6 @@ const fallbackArticles: NewsArticle[] = [
     imageUrl: "https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=600",
     publishedAt: new Date().toISOString(),
     category: "High School",
-  },
-  {
-    title: "Top 2026 Georgia Recruits Drawing SEC Attention",
-    description: "Georgia's Class of 2026 is loaded with talent as UGA, Alabama, and Tennessee battle for the state's best prospects.",
-    source: "On3",
-    url: "https://on3.com",
-    imageUrl: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=600",
-    publishedAt: new Date().toISOString(),
-    category: "Recruiting",
   },
   {
     title: "Milton Eagles QB Commits to Top 10 Program",
@@ -64,11 +55,11 @@ const fallbackArticles: NewsArticle[] = [
     category: "High School",
   },
   {
-    title: "Georgia Bulldogs Host Elite Prospects at Junior Day",
-    description: "Over 50 of the nation's top 2026 and 2027 prospects visited Athens for UGA's elite junior day event.",
-    source: "On3",
-    url: "https://on3.com",
-    imageUrl: "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=600",
+    title: "Top 2026 Georgia Recruits Drawing SEC Attention",
+    description: "Georgia's Class of 2026 is loaded with talent as UGA, Alabama, and Tennessee battle for the state's best prospects.",
+    source: "247Sports",
+    url: "https://247sports.com",
+    imageUrl: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=600",
     publishedAt: new Date().toISOString(),
     category: "Recruiting",
   },
@@ -98,15 +89,6 @@ const fallbackArticles: NewsArticle[] = [
     imageUrl: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600",
     publishedAt: new Date().toISOString(),
     category: "Recruiting",
-  },
-  {
-    title: "North Gwinnett vs Brookwood: Game of the Week Preview",
-    description: "Two Gwinnett County powerhouses clash in what promises to be an electric atmosphere with playoff implications on the line.",
-    source: "MaxPreps",
-    url: "https://maxpreps.com",
-    imageUrl: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600",
-    publishedAt: new Date().toISOString(),
-    category: "High School",
   },
 ];
 
@@ -171,10 +153,16 @@ serve(async (req) => {
 
     if (searchData.success && searchData.data) {
       for (const result of searchData.data) {
-        let source = 'Georgia Sports';
         const url = result.url || '';
-        if (url.includes('on3.com')) source = 'On3';
-        else if (url.includes('247sports.com')) source = '247Sports';
+        
+        // Skip On3 articles
+        if (url.includes('on3.com')) {
+          console.log('Skipping On3 article:', result.title);
+          continue;
+        }
+
+        let source = 'Georgia Sports';
+        if (url.includes('247sports.com')) source = '247Sports';
         else if (url.includes('rivals.com')) source = 'Rivals';
         else if (url.includes('espn.com')) source = 'ESPN';
         else if (url.includes('maxpreps.com')) source = 'MaxPreps';

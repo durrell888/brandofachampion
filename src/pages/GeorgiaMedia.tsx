@@ -547,6 +547,29 @@ const GeorgiaMedia = () => {
               {/* Right Sidebar */}
               <aside className="lg:col-span-4">
                 <div className="sticky top-24 space-y-6">
+                  {/* Weekly Story Box */}
+                  <Card className="overflow-hidden border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-background">
+                    <div className="bg-primary px-4 py-3">
+                      <h3 className="font-bold text-primary-foreground flex items-center gap-2">
+                        <MessageSquare className="w-4 h-4" /> Weekly Story
+                      </h3>
+                    </div>
+                    <div className="p-4">
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
+                        <Calendar className="w-3 h-3" />
+                        <span>Updated Every Week</span>
+                      </div>
+                      <div className="bg-muted/50 rounded-lg p-4 min-h-[200px] border border-dashed border-border">
+                        <p className="text-muted-foreground text-sm italic text-center">
+                          Your weekly story goes here...
+                        </p>
+                        <p className="text-muted-foreground/60 text-xs text-center mt-2">
+                          (Admin: Edit this section to add your story)
+                        </p>
+                      </div>
+                    </div>
+                  </Card>
+
                   <Card className="overflow-hidden">
                     <div className="bg-primary/10 px-4 py-3 border-b border-border">
                       <h3 className="font-bold text-foreground flex items-center gap-2">
