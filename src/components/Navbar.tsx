@@ -10,8 +10,10 @@ const Navbar = () => {
   const [registrationModalOpen, setRegistrationModalOpen] = useState(false);
   const [recruitingDropdownOpen, setRecruitingDropdownOpen] = useState(false);
   const [donateDropdownOpen, setDonateDropdownOpen] = useState(false);
+  const [athletesDropdownOpen, setAthletesDropdownOpen] = useState(false);
   const [mobileRecruitingOpen, setMobileRecruitingOpen] = useState(false);
   const [mobileDonateOpen, setMobileDonateOpen] = useState(false);
+  const [mobileAthletesOpen, setMobileAthletesOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -56,13 +58,38 @@ const Navbar = () => {
             >
               Our Program
             </Link>
-            <Link
-              to="/athletes"
-              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/athletes") ? "text-accent" : ""}`}
-              style={{ animationDelay: "0.5s" }}
+            {/* Athletes Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setAthletesDropdownOpen(true)}
+              onMouseLeave={() => setAthletesDropdownOpen(false)}
             >
-              Athletes
-            </Link>
+              <button
+                className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent flex items-center gap-1 ${isActive("/athletes") || isActive("/athlete-partnerships") ? "text-accent" : ""}`}
+                style={{ animationDelay: "0.5s" }}
+              >
+                Athletes
+                <ChevronDown className={`w-4 h-4 transition-transform ${athletesDropdownOpen ? "rotate-180" : ""}`} />
+              </button>
+              {athletesDropdownOpen && (
+                <div className="absolute top-full left-0 pt-2 w-48">
+                  <div className="bg-background border border-border rounded-lg shadow-xl py-2 animate-fade-in">
+                    <Link
+                      to="/athletes"
+                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/athletes") ? "text-accent" : "text-foreground"}`}
+                    >
+                      All Athletes
+                    </Link>
+                    <Link
+                      to="/athlete-partnerships"
+                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/athlete-partnerships") ? "text-accent" : "text-foreground"}`}
+                    >
+                      Athlete Partnerships
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
             
             {/* Recruiting Dropdown */}
             <div 
@@ -180,9 +207,26 @@ const Navbar = () => {
               <Link to="/our-program" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 Our Program
               </Link>
-              <Link to="/athletes" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
-                Athletes
-              </Link>
+              {/* Mobile Athletes Accordion */}
+              <div>
+                <button 
+                  className={`flex items-center justify-between w-full text-foreground hover:text-accent transition-colors font-semibold py-2 ${isActive("/athletes") || isActive("/athlete-partnerships") ? "text-accent" : ""}`}
+                  onClick={() => setMobileAthletesOpen(!mobileAthletesOpen)}
+                >
+                  Athletes
+                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileAthletesOpen ? "rotate-180" : ""}`} />
+                </button>
+                {mobileAthletesOpen && (
+                  <div className="pl-4 space-y-1 pt-1">
+                    <Link to="/athletes" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
+                      All Athletes
+                    </Link>
+                    <Link to="/athlete-partnerships" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
+                      Athlete Partnerships
+                    </Link>
+                  </div>
+                )}
+              </div>
               
               {/* Mobile Recruiting Accordion */}
               <div>
