@@ -323,60 +323,19 @@ const MediaDevelopment = () => {
               <p className="text-muted-foreground mb-4">
                 Learn to create content like this by joining our production team
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-                <motion.div 
-                  whileHover={{ scale: 1.03 }}
-                  className="relative group rounded-xl overflow-hidden aspect-video cursor-pointer"
-                >
-                  <img 
-                    src="https://img.youtube.com/vi/FF1og_pLkmA/maxresdefault.jpg" 
-                    alt="Cinematic Shots"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <div className="flex items-center gap-2">
-                      <Camera className="w-4 h-4 text-accent" />
-                      <span className="text-sm font-bold text-white">Cinematic Shots</span>
-                    </div>
-                  </div>
-                </motion.div>
-                
-                <motion.div 
-                  whileHover={{ scale: 1.03 }}
-                  className="relative group rounded-xl overflow-hidden aspect-video cursor-pointer"
-                >
-                  <img 
-                    src="https://img.youtube.com/vi/CifVIQKwWD8/maxresdefault.jpg" 
-                    alt="Professional Editing"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <div className="flex items-center gap-2">
-                      <Film className="w-4 h-4 text-accent" />
-                      <span className="text-sm font-bold text-white">Professional Editing</span>
-                    </div>
-                  </div>
-                </motion.div>
-                
-                <motion.div 
-                  whileHover={{ scale: 1.03 }}
-                  className="relative group rounded-xl overflow-hidden aspect-video cursor-pointer"
-                >
-                  <img 
-                    src="https://img.youtube.com/vi/ApVCy1HLN_Q/maxresdefault.jpg" 
-                    alt="Storytelling"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <div className="flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-accent" />
-                      <span className="text-sm font-bold text-white">Storytelling</span>
-                    </div>
-                  </div>
-                </motion.div>
+              <div className="flex flex-wrap justify-center gap-4">
+                <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-full border border-border">
+                  <Camera className="w-4 h-4 text-accent" />
+                  <span className="text-sm font-medium">Cinematic Shots</span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-full border border-border">
+                  <Film className="w-4 h-4 text-accent" />
+                  <span className="text-sm font-medium">Professional Editing</span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-full border border-border">
+                  <Sparkles className="w-4 h-4 text-accent" />
+                  <span className="text-sm font-medium">Storytelling</span>
+                </div>
               </div>
             </motion.div>
           </motion.div>
