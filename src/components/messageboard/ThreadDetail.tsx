@@ -338,11 +338,17 @@ const ThreadDetail = ({ thread, userId, onBack, demoMode = false }: ThreadDetail
         continue;
       }
 
-      const { data: { publicUrl } } = supabase.storage
+      // Use signed URL instead of public URL for private bucket
+      const { data: signedUrlData, error: signedError } = await supabase.storage
         .from('message-media')
-        .getPublicUrl(fileName);
+        .createSignedUrl(fileName, 86400); // 24 hour expiry
       
-      urls.push(publicUrl);
+      if (signedError || !signedUrlData?.signedUrl) {
+        console.error('Signed URL error:', signedError);
+        continue;
+      }
+      
+      urls.push(signedUrlData.signedUrl);
     }
 
     return urls;
