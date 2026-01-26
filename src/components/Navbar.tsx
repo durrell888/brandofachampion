@@ -136,7 +136,7 @@ const Navbar = () => {
                 className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent flex items-center gap-1 ${isActive("/stories") || isActive("/media-development") ? "text-accent" : ""}`}
                 style={{ animationDelay: "1.5s" }}
               >
-                Stories
+                Video Production
                 <ChevronDown className={`w-4 h-4 transition-transform ${storiesDropdownOpen ? "rotate-180" : ""}`} />
               </button>
               {storiesDropdownOpen && (
@@ -282,7 +282,7 @@ const Navbar = () => {
                   className={`flex items-center justify-between w-full text-foreground hover:text-accent transition-colors font-semibold py-2 ${isActive("/stories") || isActive("/media-development") ? "text-accent" : ""}`}
                   onClick={() => setMobileStoriesOpen(!mobileStoriesOpen)}
                 >
-                  Stories
+                  Video Production
                   <ChevronDown className={`w-4 h-4 transition-transform ${mobileStoriesOpen ? "rotate-180" : ""}`} />
                 </button>
                 {mobileStoriesOpen && (
