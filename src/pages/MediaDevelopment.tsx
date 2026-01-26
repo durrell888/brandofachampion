@@ -347,99 +347,151 @@ const MediaDevelopment = () => {
         </div>
       </section>
 
-      {/* Production Shows Section */}
-      <section className="py-20">
-        <div className="container">
+      {/* Production Shows Section - Creative Design */}
+      <section className="relative py-24 overflow-hidden">
+        {/* Dynamic background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary/30 to-background" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-accent/5 blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-primary/5 blur-[100px]" />
+        
+        <div className="container relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6"
+            >
+              <Clapperboard className="w-4 h-4 text-accent" />
+              <span className="text-sm font-bold text-accent uppercase tracking-wider">Our Work</span>
+            </motion.div>
+            <h2 className="text-4xl md:text-6xl font-black mb-4">
               Our <span className="text-gradient">Productions</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Be part of the team behind these incredible shows and content series
+              Be part of the team behind these incredible shows
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {productionShows.map((show, index) => (
-              <motion.div
-                key={show.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group"
-              >
-                <Card className="overflow-hidden bg-card border-border hover:border-accent/50 transition-all duration-300">
-                  {show.videoBackground ? (
-                    <div className="relative aspect-video overflow-hidden">
-                      <video
-                        src={show.videoBackground}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="auto"
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-background/20" />
+          {/* Staggered Masonry-style Grid */}
+          <div className="grid md:grid-cols-12 gap-6 max-w-6xl mx-auto">
+            {productionShows.map((show, index) => {
+              // Different sizes for visual interest
+              const gridClasses = index === 0 
+                ? "md:col-span-7 md:row-span-2" 
+                : index === 1 
+                  ? "md:col-span-5" 
+                  : "md:col-span-5";
+              
+              return (
+                <motion.div
+                  key={show.title}
+                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.15, duration: 0.5 }}
+                  className={`group ${gridClasses}`}
+                >
+                  <motion.div
+                    whileHover={{ y: -8 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className="relative h-full rounded-2xl overflow-hidden border border-border/50 hover:border-accent/50 bg-card shadow-xl hover:shadow-2xl hover:shadow-accent/10 transition-all duration-500"
+                  >
+                    {/* Media Container */}
+                    <div className={`relative overflow-hidden ${index === 0 ? 'aspect-[4/3]' : 'aspect-video'}`}>
+                      {show.videoBackground ? (
+                        <>
+                          <video
+                            src={show.videoBackground}
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            preload="auto"
+                            className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                        </>
+                      ) : show.socialProof ? (
+                        <>
+                          <img
+                            src={show.socialProof}
+                            alt={show.title}
+                            className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                        </>
+                      ) : (
+                        <>
+                          <img
+                            src={show.image}
+                            alt={show.title}
+                            className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                          
+                          {/* Play button overlay */}
+                          <motion.div
+                            className="absolute inset-0 flex items-center justify-center"
+                            initial={{ opacity: 0 }}
+                            whileHover={{ opacity: 1 }}
+                          >
+                            <motion.div
+                              whileHover={{ scale: 1.1 }}
+                              className="w-20 h-20 rounded-full bg-accent/90 backdrop-blur-sm flex items-center justify-center shadow-2xl"
+                            >
+                              <Play className="w-10 h-10 text-accent-foreground ml-1" />
+                            </motion.div>
+                          </motion.div>
+                        </>
+                      )}
+
+                      {/* Type Badge */}
                       <div className="absolute top-4 left-4 z-10">
-                        <span className="px-3 py-1 bg-accent/90 text-accent-foreground text-xs font-bold rounded-full">
+                        <motion.span 
+                          initial={{ x: -20, opacity: 0 }}
+                          whileInView={{ x: 0, opacity: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: index * 0.15 + 0.3 }}
+                          className="px-4 py-1.5 bg-accent text-accent-foreground text-xs font-bold rounded-full shadow-lg"
+                        >
                           {show.type}
-                        </span>
+                        </motion.span>
                       </div>
-                    </div>
-                  ) : show.socialProof ? (
-                    <div className="relative aspect-video overflow-hidden">
-                      <img
-                        src={show.socialProof}
-                        alt={show.title}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1 bg-accent/90 text-accent-foreground text-xs font-bold rounded-full">
-                          {show.type}
-                        </span>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="relative aspect-video overflow-hidden">
-                      <img
-                        src={show.image}
-                        alt={show.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                      <div className="absolute bottom-4 left-4">
-                        <span className="px-3 py-1 bg-accent/90 text-accent-foreground text-xs font-bold rounded-full">
-                          {show.type}
-                        </span>
-                      </div>
-                      <motion.div
-                        className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                        whileHover={{ scale: 1.1 }}
-                      >
-                        <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center">
-                          <Play className="w-8 h-8 text-accent-foreground ml-1" />
+
+                      {/* Content Overlay */}
+                      <div className="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 className="text-2xl md:text-3xl font-black text-white mb-2 drop-shadow-lg">
+                          {show.title}
+                        </h3>
+                        <p className="text-white/80 text-sm mb-3 line-clamp-2">
+                          {show.description}
+                        </p>
+                        <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-2 text-accent font-semibold text-sm">
+                            <Film className="w-4 h-4" />
+                            {show.episodes}
+                          </div>
+                          <motion.div
+                            className="flex items-center gap-1 text-white/60 text-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                            initial={{ x: -10 }}
+                            whileHover={{ x: 0 }}
+                          >
+                            <span>Watch now</span>
+                            <ArrowRight className="w-4 h-4" />
+                          </motion.div>
                         </div>
-                      </motion.div>
+                      </div>
                     </div>
-                  )}
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-bold mb-2">{show.title}</h3>
-                    <p className="text-muted-foreground text-sm mb-4">{show.description}</p>
-                    <div className="flex items-center gap-2 text-sm text-accent font-semibold">
-                      <Film className="w-4 h-4" />
-                      {show.episodes}
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+                  </motion.div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -496,195 +548,85 @@ const MediaDevelopment = () => {
         </div>
       </section>
 
-      {/* Curriculum Section - Cinematic Design */}
-      <section id="curriculum" className="relative py-32 scroll-mt-20 overflow-hidden bg-gradient-to-b from-background via-black to-background">
-        {/* Cinematic Background Elements */}
-        <div className="absolute inset-0">
-          {/* Film grain overlay */}
-          <div className="absolute inset-0 opacity-[0.03]" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          }} />
-          
-          {/* Dramatic spotlight effects */}
-          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-accent/5 blur-[150px]" />
-          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-primary/5 blur-[120px]" />
-          
-          {/* Film strip borders */}
-          <div className="absolute left-0 top-0 bottom-0 w-16 opacity-20">
-            <div className="h-full flex flex-col justify-around py-8">
-              {[...Array(12)].map((_, i) => (
-                <div key={i} className="w-8 h-6 mx-auto border-2 border-accent/40 rounded-sm" />
-              ))}
-            </div>
-          </div>
-          <div className="absolute right-0 top-0 bottom-0 w-16 opacity-20">
-            <div className="h-full flex flex-col justify-around py-8">
-              {[...Array(12)].map((_, i) => (
-                <div key={i} className="w-8 h-6 mx-auto border-2 border-accent/40 rounded-sm" />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="container relative z-10">
-          {/* Cinematic Header */}
+      {/* Curriculum Section - Clean Design */}
+      <section id="curriculum" className="py-24 bg-secondary/30 scroll-mt-20">
+        <div className="container">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-20"
+            className="text-center mb-16"
           >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-accent/20 via-accent/10 to-accent/20 border border-accent/30 mb-8 backdrop-blur-sm"
-            >
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-              >
-                <Film className="w-5 h-5 text-accent" />
-              </motion.div>
-              <span className="text-sm font-bold text-accent uppercase tracking-[0.2em]">Your Journey Begins</span>
-            </motion.div>
-            
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tight">
-              <span className="block text-primary-foreground">MASTER THE</span>
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-accent via-orange-400 to-accent">
-                CRAFT
-              </span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
+              <BookOpen className="w-4 h-4 text-accent" />
+              <span className="text-sm font-bold text-accent uppercase tracking-wider">14-Week Program</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Production <span className="text-gradient">Curriculum</span>
             </h2>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto font-light">
-              A 14-week intensive program that transforms beginners into production-ready filmmakers
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Master video production from the ground up
             </p>
           </motion.div>
 
-          {/* Cinematic Timeline Grid */}
-          <div className="relative max-w-6xl mx-auto">
-            {/* Center timeline line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-accent/50 to-transparent hidden lg:block" />
-            
-            <div className="space-y-8 lg:space-y-0">
-              {curriculumModules.map((module, index) => (
-                <motion.div
-                  key={module.id}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ delay: index * 0.1, duration: 0.6 }}
-                  className={`relative lg:grid lg:grid-cols-2 lg:gap-12 ${
-                    index % 2 === 0 ? '' : 'lg:flex-row-reverse'
-                  }`}
+          {/* Clean Grid Layout */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {curriculumModules.map((module, index) => (
+              <motion.div
+                key={module.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.08 }}
+              >
+                <Card 
+                  className="h-full p-6 bg-card border-border hover:border-accent/50 hover:shadow-lg hover:shadow-accent/5 transition-all duration-300 cursor-pointer group"
+                  onClick={() => setActiveModule(index)}
                 >
-                  {/* Timeline Node */}
-                  <motion.div 
-                    className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
-                    whileInView={{ scale: [0, 1.2, 1] }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 + 0.3 }}
-                  >
-                    <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${module.color} flex items-center justify-center shadow-lg shadow-accent/20 border-4 border-background`}>
-                      <span className="text-white font-black text-xl">{module.id}</span>
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-4">
+                    <div className={`p-3 rounded-xl bg-gradient-to-br ${module.color}`}>
+                      <module.icon className="w-5 h-5 text-white" />
                     </div>
-                  </motion.div>
-
-                  {/* Content Card */}
-                  <div className={`${index % 2 === 0 ? 'lg:pr-16 lg:text-right' : 'lg:col-start-2 lg:pl-16'}`}>
-                    <motion.div
-                      whileHover={{ scale: 1.02, y: -5 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                      onClick={() => setActiveModule(index)}
-                      className={`relative group cursor-pointer p-8 rounded-2xl border transition-all duration-500 ${
-                        activeModule === index
-                          ? 'bg-gradient-to-br from-accent/20 via-accent/10 to-transparent border-accent shadow-2xl shadow-accent/20'
-                          : 'bg-card/50 border-border/50 hover:border-accent/50 hover:bg-card/80 backdrop-blur-sm'
-                      }`}
-                    >
-                      {/* Glow effect on hover */}
-                      <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${module.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
-                      
-                      {/* Mobile number badge */}
-                      <div className={`lg:hidden absolute -top-4 -left-4 w-12 h-12 rounded-full bg-gradient-to-br ${module.color} flex items-center justify-center shadow-lg`}>
-                        <span className="text-white font-black text-lg">{module.id}</span>
-                      </div>
-
-                      <div className={`relative z-10 ${index % 2 === 0 ? 'lg:flex lg:flex-col lg:items-end' : ''}`}>
-                        {/* Icon and Duration */}
-                        <div className={`flex items-center gap-4 mb-4 ${index % 2 === 0 ? 'lg:flex-row-reverse' : ''}`}>
-                          <div className={`p-3 rounded-xl bg-gradient-to-br ${module.color} shadow-lg`}>
-                            <module.icon className="w-6 h-6 text-white" />
-                          </div>
-                          <span className="px-3 py-1 bg-secondary/80 rounded-full text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                            {module.duration}
-                          </span>
-                        </div>
-
-                        {/* Title */}
-                        <h3 className="text-2xl font-bold mb-4 group-hover:text-accent transition-colors">
-                          {module.title}
-                        </h3>
-
-                        {/* Topics */}
-                        <div className={`flex flex-wrap gap-2 ${index % 2 === 0 ? 'lg:justify-end' : ''}`}>
-                          {module.topics.map((topic, i) => (
-                            <motion.span
-                              key={topic}
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              whileInView={{ opacity: 1, scale: 1 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: index * 0.1 + i * 0.05 }}
-                              className="px-3 py-1.5 bg-secondary/60 rounded-lg text-sm text-muted-foreground border border-border/50"
-                            >
-                              {topic}
-                            </motion.span>
-                          ))}
-                        </div>
-
-                        {/* Active indicator */}
-                        {activeModule === index && (
-                          <motion.div
-                            layoutId="activeIndicator"
-                            className={`mt-4 flex items-center gap-2 text-accent font-semibold ${index % 2 === 0 ? 'lg:flex-row-reverse' : ''}`}
-                          >
-                            <CheckCircle className="w-5 h-5" />
-                            <span className="text-sm uppercase tracking-wider">Currently Viewing</span>
-                          </motion.div>
-                        )}
-                      </div>
-                    </motion.div>
+                    <span className="text-xs font-medium text-muted-foreground bg-secondary px-2 py-1 rounded-full">
+                      {module.duration}
+                    </span>
                   </div>
 
-                  {/* Spacer for alternating layout */}
-                  {index % 2 !== 0 && <div className="hidden lg:block" />}
-                </motion.div>
-              ))}
-            </div>
+                  {/* Title */}
+                  <h3 className="text-lg font-bold mb-3 group-hover:text-accent transition-colors">
+                    {module.title}
+                  </h3>
+
+                  {/* Topics List */}
+                  <ul className="space-y-2">
+                    {module.topics.map((topic) => (
+                      <li key={topic} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 shrink-0" />
+                        {topic}
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </motion.div>
+            ))}
           </div>
 
-          {/* Bottom CTA */}
+          {/* Simple CTA */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mt-20"
+            className="text-center mt-12"
           >
-            <div className="inline-flex flex-col sm:flex-row items-center gap-6 p-8 rounded-2xl bg-gradient-to-r from-accent/10 via-accent/5 to-accent/10 border border-accent/20 backdrop-blur-sm">
-              <div className="text-center sm:text-left">
-                <p className="text-2xl font-bold mb-1">Ready to start your journey?</p>
-                <p className="text-muted-foreground">Join the next cohort of production creators</p>
-              </div>
-              <Button 
-                variant="hero" 
-                size="lg"
-                onClick={() => document.getElementById('apply-form')?.scrollIntoView({ behavior: 'smooth' })}
-                className="whitespace-nowrap"
-              >
-                Apply Now
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-            </div>
+            <Button 
+              variant="hero" 
+              size="lg"
+              onClick={() => document.getElementById('apply-form')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              Start Learning
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
           </motion.div>
         </div>
       </section>
