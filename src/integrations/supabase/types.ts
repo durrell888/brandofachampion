@@ -322,6 +322,33 @@ export type Database = {
         }
         Relationships: []
       }
+      password_rate_limits: {
+        Row: {
+          attempt_count: number
+          blocked_until: string | null
+          first_attempt_at: string
+          id: string
+          ip_address: string
+          last_attempt_at: string
+        }
+        Insert: {
+          attempt_count?: number
+          blocked_until?: string | null
+          first_attempt_at?: string
+          id?: string
+          ip_address: string
+          last_attempt_at?: string
+        }
+        Update: {
+          attempt_count?: number
+          blocked_until?: string | null
+          first_attempt_at?: string
+          id?: string
+          ip_address?: string
+          last_attempt_at?: string
+        }
+        Relationships: []
+      }
       saved_scholarships: {
         Row: {
           created_at: string
@@ -445,6 +472,35 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "school_coaches_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "ncaa_football_schools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      school_contact_interest: {
+        Row: {
+          created_at: string
+          id: string
+          school_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          school_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          school_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "school_contact_interest_school_id_fkey"
             columns: ["school_id"]
             isOneToOne: false
             referencedRelation: "ncaa_football_schools"
@@ -614,6 +670,10 @@ export type Database = {
       }
       has_product_subscription: {
         Args: { check_product_id: string; check_user_id: string }
+        Returns: boolean
+      }
+      has_school_interest: {
+        Args: { _school_id: string; _user_id: string }
         Returns: boolean
       }
     }
