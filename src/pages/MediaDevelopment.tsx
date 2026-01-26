@@ -496,109 +496,196 @@ const MediaDevelopment = () => {
         </div>
       </section>
 
-      {/* Curriculum Section */}
-      <section id="curriculum" className="py-20 scroll-mt-20">
-        <div className="container">
+      {/* Curriculum Section - Cinematic Design */}
+      <section id="curriculum" className="relative py-32 scroll-mt-20 overflow-hidden bg-gradient-to-b from-background via-black to-background">
+        {/* Cinematic Background Elements */}
+        <div className="absolute inset-0">
+          {/* Film grain overlay */}
+          <div className="absolute inset-0 opacity-[0.03]" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          }} />
+          
+          {/* Dramatic spotlight effects */}
+          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-accent/5 blur-[150px]" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-primary/5 blur-[120px]" />
+          
+          {/* Film strip borders */}
+          <div className="absolute left-0 top-0 bottom-0 w-16 opacity-20">
+            <div className="h-full flex flex-col justify-around py-8">
+              {[...Array(12)].map((_, i) => (
+                <div key={i} className="w-8 h-6 mx-auto border-2 border-accent/40 rounded-sm" />
+              ))}
+            </div>
+          </div>
+          <div className="absolute right-0 top-0 bottom-0 w-16 opacity-20">
+            <div className="h-full flex flex-col justify-around py-8">
+              {[...Array(12)].map((_, i) => (
+                <div key={i} className="w-8 h-6 mx-auto border-2 border-accent/40 rounded-sm" />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="container relative z-10">
+          {/* Cinematic Header */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
-              <BookOpen className="w-4 h-4 text-accent" />
-              <span className="text-sm font-bold text-accent uppercase tracking-wider">Learn & Grow</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Production <span className="text-gradient">Curriculum</span>
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-accent/20 via-accent/10 to-accent/20 border border-accent/30 mb-8 backdrop-blur-sm"
+            >
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              >
+                <Film className="w-5 h-5 text-accent" />
+              </motion.div>
+              <span className="text-sm font-bold text-accent uppercase tracking-[0.2em]">Your Journey Begins</span>
+            </motion.div>
+            
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tight">
+              <span className="block text-primary-foreground">MASTER THE</span>
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-accent via-orange-400 to-accent">
+                CRAFT
+              </span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Master the art of video production with our comprehensive training program
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto font-light">
+              A 14-week intensive program that transforms beginners into production-ready filmmakers
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Module List */}
-            <div className="space-y-4">
+          {/* Cinematic Timeline Grid */}
+          <div className="relative max-w-6xl mx-auto">
+            {/* Center timeline line */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-accent/50 to-transparent hidden lg:block" />
+            
+            <div className="space-y-8 lg:space-y-0">
               {curriculumModules.map((module, index) => (
                 <motion.div
                   key={module.id}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ delay: index * 0.1, duration: 0.6 }}
+                  className={`relative lg:grid lg:grid-cols-2 lg:gap-12 ${
+                    index % 2 === 0 ? '' : 'lg:flex-row-reverse'
+                  }`}
                 >
-                  <Card
-                    className={`p-4 cursor-pointer transition-all duration-300 ${
-                      activeModule === index 
-                        ? 'border-accent bg-accent/5 shadow-lg shadow-accent/10' 
-                        : 'border-border hover:border-accent/30'
-                    }`}
-                    onClick={() => setActiveModule(index)}
+                  {/* Timeline Node */}
+                  <motion.div 
+                    className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
+                    whileInView={{ scale: [0, 1.2, 1] }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 + 0.3 }}
                   >
-                    <div className="flex items-center gap-4">
-                      <div className={`p-3 rounded-xl bg-gradient-to-br ${module.color}`}>
-                        <module.icon className="w-5 h-5 text-white" />
+                    <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${module.color} flex items-center justify-center shadow-lg shadow-accent/20 border-4 border-background`}>
+                      <span className="text-white font-black text-xl">{module.id}</span>
+                    </div>
+                  </motion.div>
+
+                  {/* Content Card */}
+                  <div className={`${index % 2 === 0 ? 'lg:pr-16 lg:text-right' : 'lg:col-start-2 lg:pl-16'}`}>
+                    <motion.div
+                      whileHover={{ scale: 1.02, y: -5 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                      onClick={() => setActiveModule(index)}
+                      className={`relative group cursor-pointer p-8 rounded-2xl border transition-all duration-500 ${
+                        activeModule === index
+                          ? 'bg-gradient-to-br from-accent/20 via-accent/10 to-transparent border-accent shadow-2xl shadow-accent/20'
+                          : 'bg-card/50 border-border/50 hover:border-accent/50 hover:bg-card/80 backdrop-blur-sm'
+                      }`}
+                    >
+                      {/* Glow effect on hover */}
+                      <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${module.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+                      
+                      {/* Mobile number badge */}
+                      <div className={`lg:hidden absolute -top-4 -left-4 w-12 h-12 rounded-full bg-gradient-to-br ${module.color} flex items-center justify-center shadow-lg`}>
+                        <span className="text-white font-black text-lg">{module.id}</span>
                       </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h3 className="font-bold">{module.title}</h3>
-                          <span className="text-xs text-muted-foreground bg-secondary px-2 py-1 rounded-full">
+
+                      <div className={`relative z-10 ${index % 2 === 0 ? 'lg:flex lg:flex-col lg:items-end' : ''}`}>
+                        {/* Icon and Duration */}
+                        <div className={`flex items-center gap-4 mb-4 ${index % 2 === 0 ? 'lg:flex-row-reverse' : ''}`}>
+                          <div className={`p-3 rounded-xl bg-gradient-to-br ${module.color} shadow-lg`}>
+                            <module.icon className="w-6 h-6 text-white" />
+                          </div>
+                          <span className="px-3 py-1 bg-secondary/80 rounded-full text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                             {module.duration}
                           </span>
                         </div>
+
+                        {/* Title */}
+                        <h3 className="text-2xl font-bold mb-4 group-hover:text-accent transition-colors">
+                          {module.title}
+                        </h3>
+
+                        {/* Topics */}
+                        <div className={`flex flex-wrap gap-2 ${index % 2 === 0 ? 'lg:justify-end' : ''}`}>
+                          {module.topics.map((topic, i) => (
+                            <motion.span
+                              key={topic}
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true }}
+                              transition={{ delay: index * 0.1 + i * 0.05 }}
+                              className="px-3 py-1.5 bg-secondary/60 rounded-lg text-sm text-muted-foreground border border-border/50"
+                            >
+                              {topic}
+                            </motion.span>
+                          ))}
+                        </div>
+
+                        {/* Active indicator */}
+                        {activeModule === index && (
+                          <motion.div
+                            layoutId="activeIndicator"
+                            className={`mt-4 flex items-center gap-2 text-accent font-semibold ${index % 2 === 0 ? 'lg:flex-row-reverse' : ''}`}
+                          >
+                            <CheckCircle className="w-5 h-5" />
+                            <span className="text-sm uppercase tracking-wider">Currently Viewing</span>
+                          </motion.div>
+                        )}
                       </div>
-                      {activeModule === index && (
-                        <CheckCircle className="w-5 h-5 text-accent" />
-                      )}
-                    </div>
-                  </Card>
+                    </motion.div>
+                  </div>
+
+                  {/* Spacer for alternating layout */}
+                  {index % 2 !== 0 && <div className="hidden lg:block" />}
                 </motion.div>
               ))}
             </div>
-
-            {/* Module Details */}
-            <motion.div
-              key={activeModule}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="sticky top-24"
-            >
-              <Card className="p-8 bg-gradient-to-br from-card to-secondary/50 border-accent/20">
-                <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${curriculumModules[activeModule].color} mb-6`}>
-                  {(() => {
-                    const IconComponent = curriculumModules[activeModule].icon;
-                    return <IconComponent className="w-8 h-8 text-white" />;
-                  })()}
-                </div>
-                <h3 className="text-2xl font-bold mb-2">
-                  Module {curriculumModules[activeModule].id}: {curriculumModules[activeModule].title}
-                </h3>
-                <p className="text-muted-foreground mb-6">
-                  Duration: {curriculumModules[activeModule].duration}
-                </p>
-                
-                <h4 className="font-semibold mb-4 flex items-center gap-2">
-                  <Star className="w-4 h-4 text-accent" />
-                  What You'll Learn
-                </h4>
-                <ul className="space-y-3">
-                  {curriculumModules[activeModule].topics.map((topic, i) => (
-                    <motion.li
-                      key={topic}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      className="flex items-center gap-3"
-                    >
-                      <div className="w-2 h-2 rounded-full bg-accent" />
-                      <span>{topic}</span>
-                    </motion.li>
-                  ))}
-                </ul>
-              </Card>
-            </motion.div>
           </div>
+
+          {/* Bottom CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mt-20"
+          >
+            <div className="inline-flex flex-col sm:flex-row items-center gap-6 p-8 rounded-2xl bg-gradient-to-r from-accent/10 via-accent/5 to-accent/10 border border-accent/20 backdrop-blur-sm">
+              <div className="text-center sm:text-left">
+                <p className="text-2xl font-bold mb-1">Ready to start your journey?</p>
+                <p className="text-muted-foreground">Join the next cohort of production creators</p>
+              </div>
+              <Button 
+                variant="hero" 
+                size="lg"
+                onClick={() => document.getElementById('apply-form')?.scrollIntoView({ behavior: 'smooth' })}
+                className="whitespace-nowrap"
+              >
+                Apply Now
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </div>
+          </motion.div>
         </div>
       </section>
 
