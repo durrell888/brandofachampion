@@ -74,8 +74,9 @@ const productionShows = [
     description: "Our flagship documentary series following high school football programs and their transformation journey.",
     image: "https://img.youtube.com/vi/FF1og_pLkmA/maxresdefault.jpg",
     episodes: "13+ Episodes",
-    type: "Documentary Series",
-    youtubeId: "FF1og_pLkmA"
+    type: "Docuseries",
+    youtubeId: "FF1og_pLkmA",
+    externalLink: "https://youtu.be/FF1og_pLkmA?si=L0T9-5H7hGRXW9C7"
   },
   {
     title: "Athlete Spotlights",
@@ -84,7 +85,8 @@ const productionShows = [
     episodes: "Weekly",
     type: "Social Content",
     youtubeId: "CifVIQKwWD8",
-    socialProof: tiktokViews
+    socialProof: tiktokViews,
+    externalLink: "https://www.tiktok.com/@dc..football?_r=1&_t=ZP-93P4SWJuGYp"
   },
   {
     title: "Game Day Coverage",
@@ -397,98 +399,156 @@ const MediaDevelopment = () => {
                   transition={{ delay: index * 0.15, duration: 0.5 }}
                   className={`group ${gridClasses}`}
                 >
-                  <motion.div
-                    whileHover={{ y: -8 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className="relative h-full rounded-2xl overflow-hidden border border-border/50 hover:border-accent/50 bg-card shadow-xl hover:shadow-2xl hover:shadow-accent/10 transition-all duration-500"
-                  >
-                    {/* Media Container */}
-                    <div className={`relative overflow-hidden ${index === 0 ? 'aspect-[4/3]' : 'aspect-video'}`}>
-                      {show.videoBackground ? (
-                        <>
-                          <video
-                            src={show.videoBackground}
-                            autoPlay
-                            muted
-                            loop
-                            playsInline
-                            preload="auto"
-                            className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-                        </>
-                      ) : show.socialProof ? (
-                        <>
-                          <img
-                            src={show.socialProof}
-                            alt={show.title}
-                            className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                        </>
-                      ) : (
-                        <>
-                          <img
-                            src={show.image}
-                            alt={show.title}
-                            className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-                          
-                          {/* Play button overlay */}
-                          <motion.div
-                            className="absolute inset-0 flex items-center justify-center"
-                            initial={{ opacity: 0 }}
-                            whileHover={{ opacity: 1 }}
-                          >
-                            <motion.div
-                              whileHover={{ scale: 1.1 }}
-                              className="w-20 h-20 rounded-full bg-accent/90 backdrop-blur-sm flex items-center justify-center shadow-2xl"
+                  {show.externalLink ? (
+                    <a 
+                      href={show.externalLink} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="block h-full"
+                    >
+                      <motion.div
+                        whileHover={{ y: -8 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="relative h-full rounded-2xl overflow-hidden border border-border/50 hover:border-accent/50 bg-card shadow-xl hover:shadow-2xl hover:shadow-accent/10 transition-all duration-500 cursor-pointer"
+                      >
+                        {/* Media Container */}
+                        <div className={`relative overflow-hidden ${index === 0 ? 'aspect-[4/3]' : 'aspect-video'}`}>
+                          {show.socialProof ? (
+                            <>
+                              <img
+                                src={show.socialProof}
+                                alt={show.title}
+                                className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                            </>
+                          ) : (
+                            <>
+                              <img
+                                src={show.image}
+                                alt={show.title}
+                                className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                              
+                              {/* Play button overlay */}
+                              <motion.div
+                                className="absolute inset-0 flex items-center justify-center"
+                                initial={{ opacity: 0 }}
+                                whileHover={{ opacity: 1 }}
+                              >
+                                <motion.div
+                                  whileHover={{ scale: 1.1 }}
+                                  className="w-20 h-20 rounded-full bg-accent/90 backdrop-blur-sm flex items-center justify-center shadow-2xl"
+                                >
+                                  <Play className="w-10 h-10 text-accent-foreground ml-1" />
+                                </motion.div>
+                              </motion.div>
+                            </>
+                          )}
+
+                          {/* Type Badge */}
+                          <div className="absolute top-4 left-4 z-10">
+                            <motion.span 
+                              initial={{ x: -20, opacity: 0 }}
+                              whileInView={{ x: 0, opacity: 1 }}
+                              viewport={{ once: true }}
+                              transition={{ delay: index * 0.15 + 0.3 }}
+                              className="px-4 py-1.5 bg-accent text-accent-foreground text-xs font-bold rounded-full shadow-lg"
                             >
-                              <Play className="w-10 h-10 text-accent-foreground ml-1" />
-                            </motion.div>
-                          </motion.div>
-                        </>
-                      )}
-
-                      {/* Type Badge */}
-                      <div className="absolute top-4 left-4 z-10">
-                        <motion.span 
-                          initial={{ x: -20, opacity: 0 }}
-                          whileInView={{ x: 0, opacity: 1 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: index * 0.15 + 0.3 }}
-                          className="px-4 py-1.5 bg-accent text-accent-foreground text-xs font-bold rounded-full shadow-lg"
-                        >
-                          {show.type}
-                        </motion.span>
-                      </div>
-
-                      {/* Content Overlay */}
-                      <div className="absolute bottom-0 left-0 right-0 p-6">
-                        <h3 className="text-2xl md:text-3xl font-black text-white mb-2 drop-shadow-lg">
-                          {show.title}
-                        </h3>
-                        <p className="text-white/80 text-sm mb-3 line-clamp-2">
-                          {show.description}
-                        </p>
-                        <div className="flex items-center gap-3">
-                          <div className="flex items-center gap-2 text-accent font-semibold text-sm">
-                            <Film className="w-4 h-4" />
-                            {show.episodes}
+                              {show.type}
+                            </motion.span>
                           </div>
-                          <motion.div
-                            className="flex items-center gap-1 text-white/60 text-sm opacity-0 group-hover:opacity-100 transition-opacity"
-                            initial={{ x: -10 }}
-                            whileHover={{ x: 0 }}
+
+                          {/* Content Overlay */}
+                          <div className="absolute bottom-0 left-0 right-0 p-6">
+                            <h3 className="text-2xl md:text-3xl font-black text-white mb-2 drop-shadow-lg">
+                              {show.title}
+                            </h3>
+                            <p className="text-white/80 text-sm mb-3 line-clamp-2">
+                              {show.description}
+                            </p>
+                            <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-2 text-accent font-semibold text-sm">
+                                <Film className="w-4 h-4" />
+                                {show.episodes}
+                              </div>
+                              <motion.div
+                                className="flex items-center gap-1 text-white/60 text-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                                initial={{ x: -10 }}
+                                whileHover={{ x: 0 }}
+                              >
+                                <span>Watch now</span>
+                                <ArrowRight className="w-4 h-4" />
+                              </motion.div>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </a>
+                  ) : (
+                    <motion.div
+                      whileHover={{ y: -8 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                      className="relative h-full rounded-2xl overflow-hidden border border-border/50 hover:border-accent/50 bg-card shadow-xl hover:shadow-2xl hover:shadow-accent/10 transition-all duration-500"
+                    >
+                      {/* Media Container */}
+                      <div className={`relative overflow-hidden ${index === 0 ? 'aspect-[4/3]' : 'aspect-video'}`}>
+                        {show.videoBackground ? (
+                          <>
+                            <video
+                              src={show.videoBackground}
+                              autoPlay
+                              muted
+                              loop
+                              playsInline
+                              preload="auto"
+                              className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                          </>
+                        ) : (
+                          <>
+                            <img
+                              src={show.image}
+                              alt={show.title}
+                              className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                          </>
+                        )}
+
+                        {/* Type Badge */}
+                        <div className="absolute top-4 left-4 z-10">
+                          <motion.span 
+                            initial={{ x: -20, opacity: 0 }}
+                            whileInView={{ x: 0, opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.15 + 0.3 }}
+                            className="px-4 py-1.5 bg-accent text-accent-foreground text-xs font-bold rounded-full shadow-lg"
                           >
-                            <span>Watch now</span>
-                            <ArrowRight className="w-4 h-4" />
-                          </motion.div>
+                            {show.type}
+                          </motion.span>
+                        </div>
+
+                        {/* Content Overlay */}
+                        <div className="absolute bottom-0 left-0 right-0 p-6">
+                          <h3 className="text-2xl md:text-3xl font-black text-white mb-2 drop-shadow-lg">
+                            {show.title}
+                          </h3>
+                          <p className="text-white/80 text-sm mb-3 line-clamp-2">
+                            {show.description}
+                          </p>
+                          <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2 text-accent font-semibold text-sm">
+                              <Film className="w-4 h-4" />
+                              {show.episodes}
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </motion.div>
+                    </motion.div>
+                  )}
                 </motion.div>
               );
             })}
