@@ -71,23 +71,32 @@ const productionShows = [
     description: "Our flagship documentary series following high school football programs and their transformation journey.",
     image: "https://img.youtube.com/vi/FF1og_pLkmA/maxresdefault.jpg",
     episodes: "13+ Episodes",
-    type: "Documentary Series"
+    type: "Documentary Series",
+    youtubeId: "FF1og_pLkmA"
   },
   {
     title: "Athlete Spotlights",
     description: "Short-form content highlighting individual athlete stories and their path to success.",
     image: "https://img.youtube.com/vi/CifVIQKwWD8/maxresdefault.jpg",
     episodes: "Weekly",
-    type: "Social Content"
+    type: "Social Content",
+    youtubeId: "CifVIQKwWD8"
   },
   {
     title: "Game Day Coverage",
     description: "Live and post-game content capturing the excitement of high school football.",
     image: "https://img.youtube.com/vi/ApVCy1HLN_Q/maxresdefault.jpg",
     episodes: "Seasonal",
-    type: "Live Production"
+    type: "Live Production",
+    youtubeId: "ApVCy1HLN_Q"
   }
 ];
+
+const featuredShowreel = {
+  youtubeId: "jrL43PSDMXA",
+  title: "Our Production Style",
+  description: "See how we capture the intensity and artistry of football through cinematic storytelling."
+};
 
 const teamRoles = [
   { role: "Camera Operators", icon: Camera, openings: 5 },
@@ -239,6 +248,84 @@ const MediaDevelopment = () => {
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="w-full h-16">
             <path d="M0 80L1440 0V80H0Z" className="fill-background" />
           </svg>
+        </div>
+      </section>
+
+      {/* Featured Showreel Section */}
+      <section className="py-20 bg-secondary/30">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
+              <Play className="w-4 h-4 text-accent" />
+              <span className="text-sm font-bold text-accent uppercase tracking-wider">See Our Work</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              How We <span className="text-gradient">Film Football</span>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              {featuredShowreel.description}
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="max-w-5xl mx-auto"
+          >
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-accent/10 border border-accent/20">
+              {/* Cinematic frame effect */}
+              <div className="absolute inset-0 pointer-events-none z-10">
+                <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-black/40 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black/40 to-transparent" />
+              </div>
+              
+              <div className="aspect-video">
+                <iframe
+                  src={`https://www.youtube.com/embed/${featuredShowreel.youtubeId}?rel=0&modestbranding=1`}
+                  title={featuredShowreel.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                />
+              </div>
+              
+              {/* Decorative elements */}
+              <div className="absolute -top-4 -left-4 w-24 h-24 border-l-4 border-t-4 border-accent/30 rounded-tl-3xl" />
+              <div className="absolute -bottom-4 -right-4 w-24 h-24 border-r-4 border-b-4 border-accent/30 rounded-br-3xl" />
+            </div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="mt-8 text-center"
+            >
+              <p className="text-muted-foreground mb-4">
+                Learn to create content like this by joining our production team
+              </p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-full border border-border">
+                  <Camera className="w-4 h-4 text-accent" />
+                  <span className="text-sm font-medium">Cinematic Shots</span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-full border border-border">
+                  <Film className="w-4 h-4 text-accent" />
+                  <span className="text-sm font-medium">Professional Editing</span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-full border border-border">
+                  <Sparkles className="w-4 h-4 text-accent" />
+                  <span className="text-sm font-medium">Storytelling</span>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
