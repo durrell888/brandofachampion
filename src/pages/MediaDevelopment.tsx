@@ -22,38 +22,8 @@ const productionStaff = [
   { 
     id: "durrell-steen", 
     name: "Durrell Steen", 
-    role: "Executive Producer",
+    role: "Producer",
     image: "/images/team/durrell-steen.jpg"
-  },
-  { 
-    id: "aaron-ross", 
-    name: "Aaron Ross", 
-    role: "Creative Director",
-    image: "/images/team/aaron-ross.avif"
-  },
-  { 
-    id: "sanya-richards-ross", 
-    name: "Sanya Richards-Ross", 
-    role: "Brand Storyteller",
-    image: "/images/team/sanya-richards-ross.jpg"
-  },
-  { 
-    id: "kiana-williams", 
-    name: "Kiana Williams", 
-    role: "Content Strategist",
-    image: "/images/team/kiana-williams.webp"
-  },
-  { 
-    id: "andrew-chen", 
-    name: "Andrew Chen", 
-    role: "Post-Production Lead",
-    image: "/images/team/andrew-chen.jpg"
-  },
-  { 
-    id: "everett-levy", 
-    name: "Everett Levy", 
-    role: "Media Relations",
-    image: "/images/team/everett-levy.jpeg"
   },
 ];
 
@@ -369,112 +339,46 @@ const MediaDevelopment = () => {
               </p>
             </motion.div>
 
-            {/* Production Staff Carousel - Unique 3D Hexagon Style */}
+            {/* Production Staff - Single Featured Photo */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="relative"
+              className="relative flex flex-col items-center justify-center"
             >
-              <div className="relative h-[400px] flex items-center justify-center">
-                {/* Rotating hexagon frame background */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                    className="w-72 h-72 border-2 border-accent/20 rounded-full"
-                  />
-                  <motion.div
-                    animate={{ rotate: -360 }}
-                    transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                    className="absolute w-56 h-56 border border-accent/30 rounded-full"
+              <div className="relative">
+                {/* Rotating ring decorations */}
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+                  className="absolute inset-0 w-64 h-64 -m-8 border-2 border-accent/20 rounded-full"
+                  style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}
+                />
+                <motion.div
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+                  className="absolute inset-0 w-56 h-56 -m-4 border border-accent/30 rounded-full"
+                  style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}
+                />
+                
+                {/* Main photo */}
+                <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-accent shadow-2xl shadow-accent/30">
+                  <img
+                    src={productionStaff[0].image}
+                    alt={productionStaff[0].name}
+                    className="w-full h-full object-cover"
                   />
                 </div>
-
-                {/* Staff photos in circular orbit */}
-                <div className="relative w-64 h-64">
-                  {productionStaff.map((staff, index) => {
-                    const angle = (index / productionStaff.length) * 2 * Math.PI - Math.PI / 2;
-                    const radius = 110;
-                    const x = Math.cos(angle) * radius;
-                    const y = Math.sin(angle) * radius;
-                    const isActive = index === activeStaffIndex;
-
-                    return (
-                      <motion.div
-                        key={staff.id}
-                        className="absolute cursor-pointer"
-                        style={{
-                          left: '50%',
-                          top: '50%',
-                        }}
-                        animate={{
-                          x: x - (isActive ? 0 : 24),
-                          y: y - (isActive ? 0 : 24),
-                          scale: isActive ? 1.5 : 0.8,
-                          zIndex: isActive ? 20 : 10,
-                        }}
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        onClick={() => setActiveStaffIndex(index)}
-                      >
-                        <div className={`relative ${isActive ? 'w-24 h-24' : 'w-12 h-12'} rounded-full overflow-hidden border-4 transition-all duration-300 ${isActive ? 'border-accent shadow-xl shadow-accent/30' : 'border-border/50 opacity-60 hover:opacity-100'}`}>
-                          <img
-                            src={staff.image}
-                            alt={staff.name}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-
-                  {/* Center info for active staff */}
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={activeStaffIndex}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none"
-                    >
-                      <h4 className="font-bold text-lg text-foreground">
-                        {productionStaff[activeStaffIndex].name}
-                      </h4>
-                      <p className="text-sm text-accent font-medium">
-                        {productionStaff[activeStaffIndex].role}
-                      </p>
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-
-                {/* Navigation arrows */}
-                <button
-                  onClick={prevStaff}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 p-2 rounded-full bg-card border border-border hover:border-accent transition-colors"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={nextStaff}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 p-2 rounded-full bg-card border border-border hover:border-accent transition-colors"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
               </div>
-
-              {/* Indicator dots */}
-              <div className="flex justify-center gap-2 mt-4">
-                {productionStaff.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveStaffIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all ${
-                      index === activeStaffIndex 
-                        ? 'bg-accent w-6' 
-                        : 'bg-border hover:bg-muted-foreground'
-                    }`}
-                  />
-                ))}
+              
+              {/* Name and role below photo */}
+              <div className="text-center mt-6">
+                <h4 className="font-bold text-2xl text-foreground">
+                  {productionStaff[0].name}
+                </h4>
+                <p className="text-lg text-accent font-medium mt-1">
+                  {productionStaff[0].role}
+                </p>
               </div>
             </motion.div>
           </div>
