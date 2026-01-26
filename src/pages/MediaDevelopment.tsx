@@ -14,6 +14,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { SEO, createWebPageSchema } from "@/components/SEO";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import tiktokViews from "@/assets/tiktok-views.png";
+
 const curriculumModules = [
   {
     id: 1,
@@ -80,7 +82,8 @@ const productionShows = [
     image: "https://img.youtube.com/vi/CifVIQKwWD8/maxresdefault.jpg",
     episodes: "Weekly",
     type: "Social Content",
-    youtubeId: "CifVIQKwWD8"
+    youtubeId: "CifVIQKwWD8",
+    socialProof: tiktokViews
   },
   {
     title: "Game Day Coverage",
@@ -394,10 +397,24 @@ const MediaDevelopment = () => {
                   <CardContent className="p-6">
                     <h3 className="text-xl font-bold mb-2">{show.title}</h3>
                     <p className="text-muted-foreground text-sm mb-4">{show.description}</p>
-                    <div className="flex items-center gap-2 text-sm text-accent font-semibold">
+                    <div className="flex items-center gap-2 text-sm text-accent font-semibold mb-4">
                       <Film className="w-4 h-4" />
                       {show.episodes}
                     </div>
+                    {show.socialProof && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="mt-2"
+                      >
+                        <img 
+                          src={show.socialProof} 
+                          alt="Social media reach" 
+                          className="w-full rounded-lg border border-border"
+                        />
+                      </motion.div>
+                    )}
                   </CardContent>
                 </Card>
               </motion.div>
