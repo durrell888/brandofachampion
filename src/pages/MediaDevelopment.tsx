@@ -15,6 +15,7 @@ import { SEO, createWebPageSchema } from "@/components/SEO";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import tiktokViews from "@/assets/tiktok-views.png";
+import liveProductionVideo from "@/assets/videos/live-production.mp4";
 
 const curriculumModules = [
   {
@@ -91,7 +92,8 @@ const productionShows = [
     image: "https://img.youtube.com/vi/ApVCy1HLN_Q/maxresdefault.jpg",
     episodes: "Seasonal",
     type: "Live Production",
-    youtubeId: "ApVCy1HLN_Q"
+    youtubeId: "ApVCy1HLN_Q",
+    videoBackground: liveProductionVideo
   }
 ];
 
@@ -373,7 +375,25 @@ const MediaDevelopment = () => {
                 className="group"
               >
                 <Card className="overflow-hidden bg-card border-border hover:border-accent/50 transition-all duration-300">
-                  {show.socialProof ? (
+                  {show.videoBackground ? (
+                    <div className="relative aspect-video overflow-hidden">
+                      <video
+                        src={show.videoBackground}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="auto"
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-background/20" />
+                      <div className="absolute top-4 left-4 z-10">
+                        <span className="px-3 py-1 bg-accent/90 text-accent-foreground text-xs font-bold rounded-full">
+                          {show.type}
+                        </span>
+                      </div>
+                    </div>
+                  ) : show.socialProof ? (
                     <div className="relative aspect-video overflow-hidden">
                       <img
                         src={show.socialProof}
