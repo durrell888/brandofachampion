@@ -373,48 +373,49 @@ const MediaDevelopment = () => {
                 className="group"
               >
                 <Card className="overflow-hidden bg-card border-border hover:border-accent/50 transition-all duration-300">
-                  <div className="relative aspect-video overflow-hidden">
-                    <img
-                      src={show.image}
-                      alt={show.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                    <div className="absolute bottom-4 left-4">
-                      <span className="px-3 py-1 bg-accent/90 text-accent-foreground text-xs font-bold rounded-full">
-                        {show.type}
-                      </span>
-                    </div>
-                    <motion.div
-                      className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                      whileHover={{ scale: 1.1 }}
-                    >
-                      <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center">
-                        <Play className="w-8 h-8 text-accent-foreground ml-1" />
+                  {show.socialProof ? (
+                    <div className="relative overflow-hidden">
+                      <img
+                        src={show.socialProof}
+                        alt={show.title}
+                        className="w-full h-auto object-cover"
+                      />
+                      <div className="absolute top-4 left-4">
+                        <span className="px-3 py-1 bg-accent/90 text-accent-foreground text-xs font-bold rounded-full">
+                          {show.type}
+                        </span>
                       </div>
-                    </motion.div>
-                  </div>
+                    </div>
+                  ) : (
+                    <div className="relative aspect-video overflow-hidden">
+                      <img
+                        src={show.image}
+                        alt={show.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                      <div className="absolute bottom-4 left-4">
+                        <span className="px-3 py-1 bg-accent/90 text-accent-foreground text-xs font-bold rounded-full">
+                          {show.type}
+                        </span>
+                      </div>
+                      <motion.div
+                        className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                        whileHover={{ scale: 1.1 }}
+                      >
+                        <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center">
+                          <Play className="w-8 h-8 text-accent-foreground ml-1" />
+                        </div>
+                      </motion.div>
+                    </div>
+                  )}
                   <CardContent className="p-6">
                     <h3 className="text-xl font-bold mb-2">{show.title}</h3>
                     <p className="text-muted-foreground text-sm mb-4">{show.description}</p>
-                    <div className="flex items-center gap-2 text-sm text-accent font-semibold mb-4">
+                    <div className="flex items-center gap-2 text-sm text-accent font-semibold">
                       <Film className="w-4 h-4" />
                       {show.episodes}
                     </div>
-                    {show.socialProof && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="mt-2"
-                      >
-                        <img 
-                          src={show.socialProof} 
-                          alt="Social media reach" 
-                          className="w-full rounded-lg border border-border"
-                        />
-                      </motion.div>
-                    )}
                   </CardContent>
                 </Card>
               </motion.div>
