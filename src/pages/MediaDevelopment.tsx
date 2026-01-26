@@ -374,11 +374,11 @@ const MediaDevelopment = () => {
               >
                 <Card className="overflow-hidden bg-card border-border hover:border-accent/50 transition-all duration-300">
                   {show.socialProof ? (
-                    <div className="relative overflow-hidden">
+                    <div className="relative aspect-video overflow-hidden">
                       <img
                         src={show.socialProof}
                         alt={show.title}
-                        className="w-full h-auto object-cover"
+                        className="w-full h-full object-cover"
                       />
                       <div className="absolute top-4 left-4">
                         <span className="px-3 py-1 bg-accent/90 text-accent-foreground text-xs font-bold rounded-full">
