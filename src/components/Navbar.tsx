@@ -11,9 +11,11 @@ const Navbar = () => {
   const [recruitingDropdownOpen, setRecruitingDropdownOpen] = useState(false);
   const [donateDropdownOpen, setDonateDropdownOpen] = useState(false);
   const [athletesDropdownOpen, setAthletesDropdownOpen] = useState(false);
+  const [storiesDropdownOpen, setStoriesDropdownOpen] = useState(false);
   const [mobileRecruitingOpen, setMobileRecruitingOpen] = useState(false);
   const [mobileDonateOpen, setMobileDonateOpen] = useState(false);
   const [mobileAthletesOpen, setMobileAthletesOpen] = useState(false);
+  const [mobileStoriesOpen, setMobileStoriesOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -124,13 +126,38 @@ const Navbar = () => {
               )}
             </div>
 
-            <Link
-              to="/stories"
-              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/stories") ? "text-accent" : ""}`}
-              style={{ animationDelay: "1.5s" }}
+            {/* Stories Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setStoriesDropdownOpen(true)}
+              onMouseLeave={() => setStoriesDropdownOpen(false)}
             >
-              Stories
-            </Link>
+              <button
+                className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent flex items-center gap-1 ${isActive("/stories") || isActive("/media-development") ? "text-accent" : ""}`}
+                style={{ animationDelay: "1.5s" }}
+              >
+                Stories
+                <ChevronDown className={`w-4 h-4 transition-transform ${storiesDropdownOpen ? "rotate-180" : ""}`} />
+              </button>
+              {storiesDropdownOpen && (
+                <div className="absolute top-full left-0 pt-2 w-48">
+                  <div className="bg-background border border-border rounded-lg shadow-xl py-2 animate-fade-in">
+                    <Link
+                      to="/stories"
+                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/stories") ? "text-accent" : "text-foreground"}`}
+                    >
+                      Our Stories
+                    </Link>
+                    <Link
+                      to="/media-development"
+                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/media-development") ? "text-accent" : "text-foreground"}`}
+                    >
+                      Media Development
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
             <Link
               to="/georgia-media"
               className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/georgia-media") ? "text-accent" : ""}`}
@@ -249,9 +276,26 @@ const Navbar = () => {
                 )}
               </div>
               
-              <Link to="/stories" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
-                Stories
-              </Link>
+              {/* Mobile Stories Accordion */}
+              <div>
+                <button 
+                  className={`flex items-center justify-between w-full text-foreground hover:text-accent transition-colors font-semibold py-2 ${isActive("/stories") || isActive("/media-development") ? "text-accent" : ""}`}
+                  onClick={() => setMobileStoriesOpen(!mobileStoriesOpen)}
+                >
+                  Stories
+                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileStoriesOpen ? "rotate-180" : ""}`} />
+                </button>
+                {mobileStoriesOpen && (
+                  <div className="pl-4 space-y-1 pt-1">
+                    <Link to="/stories" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
+                      Our Stories
+                    </Link>
+                    <Link to="/media-development" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
+                      Media Development
+                    </Link>
+                  </div>
+                )}
+              </div>
               <Link to="/georgia-media" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 GA Media
               </Link>
