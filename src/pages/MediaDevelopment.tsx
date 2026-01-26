@@ -76,7 +76,7 @@ const productionShows = [
     episodes: "13+ Episodes",
     type: "Docuseries",
     youtubeId: "FF1og_pLkmA",
-    externalLink: "https://youtu.be/FF1og_pLkmA?si=L0T9-5H7hGRXW9C7"
+    externalLink: "https://youtu.be/FF1og_pLkmA?si=6T1Ae6jp1AEGrjAU"
   },
   {
     title: "Athlete Spotlights",
