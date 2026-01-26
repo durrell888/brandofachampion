@@ -13,7 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { SEO, createWebPageSchema } from "@/components/SEO";
 import { useToast } from "@/hooks/use-toast";
-
+import { supabase } from "@/integrations/supabase/client";
 const curriculumModules = [
   {
     id: 1,
@@ -124,23 +124,36 @@ const MediaDevelopment = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast({
-      title: "Application Submitted!",
-      description: "We'll review your application and get back to you soon.",
-    });
-    
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      experience: "",
-      interest: "",
-      message: ""
-    });
-    setIsSubmitting(false);
+    try {
+      const { data, error } = await supabase.functions.invoke('send-media-application', {
+        body: formData
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Application Submitted!",
+        description: "We'll review your application and get back to you soon.",
+      });
+      
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        experience: "",
+        interest: "",
+        message: ""
+      });
+    } catch (error: any) {
+      console.error("Error submitting application:", error);
+      toast({
+        title: "Submission Error",
+        description: "There was a problem submitting your application. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
