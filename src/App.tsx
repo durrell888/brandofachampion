@@ -4,7 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import { SitePasswordGate } from "@/components/SitePasswordGate";
+import { AuthGate } from "@/components/AuthGate";
+import AuthRequired from "./pages/AuthRequired";
 import Index from "./pages/Index";
 import Videos from "./pages/Videos";
 import Athletes from "./pages/Athletes";
@@ -35,7 +36,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <SitePasswordGate>
+        <AuthGate fallback={<AuthRequired />}>
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
@@ -63,7 +64,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
-        </SitePasswordGate>
+        </AuthGate>
       </TooltipProvider>
     </QueryClientProvider>
   </HelmetProvider>
