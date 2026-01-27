@@ -57,9 +57,9 @@ const productionStaff = [
   },
   { 
     id: "social-media", 
-    name: "Open Position", 
+    name: "Madison", 
     role: "Social Media Manager",
-    image: null
+    image: "/images/team/madison.jpeg"
   },
   { 
     id: "production-assistant", 
