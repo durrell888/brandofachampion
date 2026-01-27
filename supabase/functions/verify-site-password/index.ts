@@ -28,16 +28,10 @@ serve(async (req) => {
                    req.headers.get("x-real-ip") || 
                    "unknown";
 
-  // Use service role for rate limiting operations
+  // Use service role for rate limiting operations and reading settings
   const supabaseAdmin = createClient(
     Deno.env.get("SUPABASE_URL") ?? "",
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
-  );
-
-  // Anon client for reading settings
-  const supabaseClient = createClient(
-    Deno.env.get("SUPABASE_URL") ?? "",
-    Deno.env.get("SUPABASE_ANON_KEY") ?? "",
   );
 
   try {
@@ -102,8 +96,8 @@ serve(async (req) => {
       });
     }
 
-    // Get site password from settings
-    const { data: settings, error: settingsError } = await supabaseClient
+    // Get site password hash from settings using service role
+    const { data: settings, error: settingsError } = await supabaseAdmin
       .from("site_settings")
       .select("setting_key, setting_value")
       .in("setting_key", ["site_password_enabled", "site_password_hash"]);
@@ -127,16 +121,25 @@ serve(async (req) => {
       });
     }
 
-    // Use bcrypt to compare passwords
+    // Require bcrypt hash - no plaintext fallback allowed
+    if (!sitePasswordHash || sitePasswordHash.length < 20) {
+      logStep("Site password hash not configured properly");
+      return new Response(JSON.stringify({ valid: false, error: "Site password not configured. Contact administrator." }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 500,
+      });
+    }
+
+    // Use bcrypt to compare passwords - no plaintext fallback
     let isValid = false;
     try {
       isValid = await compare(password, sitePasswordHash);
     } catch (e) {
-      // If bcrypt comparison fails (e.g., invalid hash format), fall back to direct comparison
-      // This handles migration from plaintext to hashed passwords
-      const plaintextPassword = settings?.find(s => s.setting_key === "site_password")?.setting_value || "";
-      isValid = password === plaintextPassword;
-      logStep("Bcrypt comparison failed, used plaintext fallback");
+      logStep("Bcrypt comparison failed", { error: String(e) });
+      return new Response(JSON.stringify({ valid: false, error: "Password verification failed" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 500,
+      });
     }
     
     logStep("Password verification", { valid: isValid });
