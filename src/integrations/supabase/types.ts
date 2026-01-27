@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      coach_access_logs: {
+        Row: {
+          access_type: string
+          created_at: string
+          id: string
+          school_id: string
+          user_id: string
+        }
+        Insert: {
+          access_type?: string
+          created_at?: string
+          id?: string
+          school_id: string
+          user_id: string
+        }
+        Update: {
+          access_type?: string
+          created_at?: string
+          id?: string
+          school_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       coaching_sessions: {
         Row: {
           created_at: string
@@ -664,6 +688,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_coach_access_rate_limit: {
+        Args: { _user_id: string }
+        Returns: boolean
+      }
       has_active_subscription: {
         Args: { check_user_id: string }
         Returns: boolean
