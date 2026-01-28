@@ -15,8 +15,8 @@ export function CoachCard({ coach, onBook }: CoachCardProps) {
 
   const handleCardClick = () => {
     // Trench IQ has a dedicated page, other coaches use the generic profile
-    if (coach.id === "trench-academy-iq") {
-      navigate("/trench-academy-iq");
+    if (coach.id === "trench-iq") {
+      navigate("/trench-iq");
     } else {
       navigate(`/coach/${coach.id}`);
     }
@@ -31,7 +31,7 @@ export function CoachCard({ coach, onBook }: CoachCardProps) {
     }
   };
 
-  const isLogoImage = coach.id === "trench-academy-iq" || coach.image.includes("trench-iq-logo");
+  const isLogoImage = coach.id === "trench-iq" || coach.image.includes("trench-iq-logo");
   const coachImageSrc = isLogoImage ? `${coach.image}?v=trench-iq-1` : coach.image;
 
   return (
@@ -46,7 +46,7 @@ export function CoachCard({ coach, onBook }: CoachCardProps) {
       <div className="relative h-64 overflow-hidden">
         <img
           src={coachImageSrc}
-          alt={coach.id === "trench-academy-iq" ? "Trench IQ logo" : coach.name}
+          alt={coach.id === "trench-iq" ? "Trench IQ logo" : coach.name}
           className={`w-full h-full ${isLogoImage ? "object-contain p-6 bg-background" : "object-cover object-top"} group-hover:scale-105 transition-transform duration-500`}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />

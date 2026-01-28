@@ -98,7 +98,7 @@ export const coaches: Coach[] = [
     ]
   },
   {
-    id: "trench-academy-iq",
+    id: "trench-iq",
     name: "Trench IQ",
     position: "Position Specialists",
     positionGroup: "Trenches & Skill Positions",
@@ -112,7 +112,7 @@ export const coaches: Coach[] = [
       { title: "Mental Game Development", topics: ["Formation recognition", "Play diagnosis", "Decision-making"] },
       { title: "Elite Performance Training", topics: ["First step explosion", "Hand techniques", "Finishing ability"] }
     ],
-    externalLink: "/trench-academy-iq"
+    externalLink: "/trench-iq"
   }
 ];
 

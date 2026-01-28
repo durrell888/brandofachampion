@@ -53,8 +53,7 @@ const App = () => (
               <Route path="/donate" element={<Donate />} />
               <Route path="/training" element={<FootballTraining />} />
               <Route path="/coach/:coachId" element={<CoachProfile />} />
-              <Route path="/trench-academy" element={<TrenchAcademy />} />
-              <Route path="/trench-academy-iq" element={<TrenchAcademy />} />
+              <Route path="/trench-iq" element={<TrenchAcademy />} />
               <Route path="/our-program" element={<OurProgram />} />
               <Route path="/georgia-media" element={<GeorgiaMedia />} />
               <Route path="/media-development" element={<MediaDevelopment />} />

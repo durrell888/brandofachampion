@@ -24,7 +24,7 @@ export default function CoachProfile() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   const coach = coaches.find((c) => c.id === coachId);
-  const isLogoImage = coach?.id === "trench-academy-iq" || coach?.image.includes("trench-iq-logo") === true;
+  const isLogoImage = coach?.id === "trench-iq" || coach?.image.includes("trench-iq-logo") === true;
   const coachImageSrc = isLogoImage ? `${coach?.image}?v=trench-iq-1` : coach?.image;
 
   if (!coach) {
@@ -133,7 +133,7 @@ export default function CoachProfile() {
               <div className="aspect-square rounded-2xl overflow-hidden border border-border shadow-2xl">
                 <img
                   src={coachImageSrc}
-                  alt={coach.id === "trench-academy-iq" ? "Trench IQ logo" : coach.name}
+                  alt={coach.id === "trench-iq" ? "Trench IQ logo" : coach.name}
                   className={`w-full h-full ${isLogoImage ? "object-contain p-8 bg-background" : "object-cover object-top"}`}
                 />
               </div>
@@ -142,7 +142,7 @@ export default function CoachProfile() {
         </div>
       </section>
 
-      {coach.id === "trench-academy-iq" && (
+      {coach.id === "trench-iq" && (
         <section className="py-12 bg-background">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-hidden rounded-2xl border border-border">
