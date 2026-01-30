@@ -99,6 +99,9 @@ export function BookingModal({ open, onOpenChange, coach }: BookingModalProps) {
       }
     }
 
+    // Open blank tab immediately (before async) to avoid popup blockers
+    const checkoutWindow = window.open('about:blank', '_blank');
+    
     setLoading(true);
 
     try {
@@ -119,21 +122,20 @@ export function BookingModal({ open, onOpenChange, coach }: BookingModalProps) {
 
       if (error) throw error;
 
-      if (data?.url) {
-        // Create a link and click it to bypass popup blockers
-        const link = document.createElement('a');
-        link.href = data.url;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+      if (data?.url && checkoutWindow) {
+        // Redirect the already-opened window to the checkout URL
+        checkoutWindow.location.href = data.url;
         onOpenChange(false);
+      } else if (data?.url) {
+        // Fallback if window didn't open
+        window.location.href = data.url;
       }
     } catch (error: any) {
       console.error("Booking error:", error);
+      // Close the blank window if there was an error
+      checkoutWindow?.close();
       toast({
-        title: isSubscription ? "Subscription Failed" : "Booking Failed",
+        title: isSubscription ? "Registration Failed" : "Booking Failed",
         description: error.message || "Unable to process. Please try again.",
         variant: "destructive",
       });
