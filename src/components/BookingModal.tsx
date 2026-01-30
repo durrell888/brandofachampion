@@ -120,8 +120,14 @@ export function BookingModal({ open, onOpenChange, coach }: BookingModalProps) {
       if (error) throw error;
 
       if (data?.url) {
-        // Open in new tab to avoid issues with iframe preview
-        window.open(data.url, "_blank");
+        // Create a link and click it to bypass popup blockers
+        const link = document.createElement('a');
+        link.href = data.url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
         onOpenChange(false);
       }
     } catch (error: any) {
