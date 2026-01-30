@@ -1,15 +1,22 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const logStep = (step: string, details?: any) => {
+const logStep = (step: string, details?: unknown) => {
   const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
   console.log(`[CREATE-STRENGTH-CHECKOUT] ${step}${detailsStr}`);
 };
+
+// Input validation schema
+const subscriptionSchema = z.object({
+  athleteName: z.string().min(1, "Athlete name is required").max(100, "Athlete name too long").trim(),
+  parentEmail: z.string().email("Please enter a valid email address").max(255, "Email too long").trim(),
+});
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -23,18 +30,22 @@ serve(async (req) => {
     if (!stripeKey) throw new Error("STRIPE_SECRET_KEY is not set");
     logStep("Stripe key verified");
 
-    const { athleteName, parentEmail } = await req.json();
-    logStep("Received subscription request", { athleteName, parentEmail });
+    const rawBody = await req.json();
+    logStep("Received subscription request");
 
-    if (!athleteName || !parentEmail) {
-      throw new Error("Missing required information: athlete name and parent email");
+    // Validate input using zod schema
+    const validationResult = subscriptionSchema.safeParse(rawBody);
+    if (!validationResult.success) {
+      const errorMessage = validationResult.error.errors[0].message;
+      logStep("Validation failed", { error: errorMessage });
+      return new Response(JSON.stringify({ error: errorMessage }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 400,
+      });
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(parentEmail)) {
-      throw new Error("Please enter a valid email address");
-    }
+    const { athleteName, parentEmail } = validationResult.data;
+    logStep("Validated subscription data", { athleteName: athleteName.substring(0, 20), parentEmail });
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
 
