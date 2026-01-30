@@ -120,8 +120,9 @@ export function BookingModal({ open, onOpenChange, coach }: BookingModalProps) {
       if (error) throw error;
 
       if (data?.url) {
-        // Redirect in same window to avoid popup blockers
-        window.location.href = data.url;
+        // Open in new tab to avoid issues with iframe preview
+        window.open(data.url, "_blank");
+        onOpenChange(false);
       }
     } catch (error: any) {
       console.error("Booking error:", error);
