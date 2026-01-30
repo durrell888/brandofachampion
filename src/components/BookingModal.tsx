@@ -59,12 +59,23 @@ export function BookingModal({ open, onOpenChange, coach }: BookingModalProps) {
   const isSubscription = coach?.isSubscription === true;
 
   const handleBookSession = async () => {
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
     // For subscriptions, only require athlete name and email
     if (isSubscription) {
       if (!athleteName || !parentEmail) {
         toast({
           title: "Missing Information",
-          description: "Please fill in all fields to start your subscription.",
+          description: "Please fill in all fields to register.",
+          variant: "destructive",
+        });
+        return;
+      }
+      if (!emailRegex.test(parentEmail)) {
+        toast({
+          title: "Invalid Email",
+          description: "Please enter a valid email address.",
           variant: "destructive",
         });
         return;
@@ -74,6 +85,14 @@ export function BookingModal({ open, onOpenChange, coach }: BookingModalProps) {
         toast({
           title: "Missing Information",
           description: "Please fill in all fields to book your session.",
+          variant: "destructive",
+        });
+        return;
+      }
+      if (!emailRegex.test(parentEmail)) {
+        toast({
+          title: "Invalid Email",
+          description: "Please enter a valid email address.",
           variant: "destructive",
         });
         return;

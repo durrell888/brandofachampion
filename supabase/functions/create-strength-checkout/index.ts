@@ -30,6 +30,12 @@ serve(async (req) => {
       throw new Error("Missing required information: athlete name and parent email");
     }
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(parentEmail)) {
+      throw new Error("Please enter a valid email address");
+    }
+
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
 
     // Check if customer already exists
