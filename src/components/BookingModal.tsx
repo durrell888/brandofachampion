@@ -101,14 +101,8 @@ export function BookingModal({ open, onOpenChange, coach }: BookingModalProps) {
       if (error) throw error;
 
       if (data?.url) {
-        window.open(data.url, "_blank");
-        onOpenChange(false);
-        toast({
-          title: "Redirecting to Payment",
-          description: isSubscription
-            ? "Complete your payment to start your monthly subscription."
-            : "Complete your payment to confirm your booking.",
-        });
+        // Redirect in same window to avoid popup blockers
+        window.location.href = data.url;
       }
     } catch (error: any) {
       console.error("Booking error:", error);
