@@ -243,15 +243,15 @@ export function BookingModal({ open, onOpenChange, coach }: BookingModalProps) {
             className="w-full"
             size="lg"
           >
-            {loading ? (
-              "Processing..."
-            ) : (
-              <>
-                <CreditCard className="mr-2 h-5 w-5" />
-                {isSubscription ? "Subscribe Now" : "Proceed to Payment"}
-              </>
-            )}
-          </Button>
+          {loading ? (
+            "Processing..."
+          ) : (
+            <>
+              <CreditCard className="mr-2 h-5 w-5" />
+              {isSubscription ? "Register" : "Proceed to Payment"}
+            </>
+          )}
+        </Button>
         </div>
       </DialogContent>
     </Dialog>
