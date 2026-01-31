@@ -127,6 +127,10 @@ export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrati
       return;
     }
 
+    // Popup-safe flow: open a tab synchronously (during the user click) and redirect it later.
+    // This avoids popup blockers that often block window.open() after an async call.
+    const checkoutWindow = window.open("about:blank", "_blank");
+
     setIsLoading(true);
     
     try {
@@ -145,7 +149,12 @@ export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrati
       if (error) throw error;
       
       if (data?.url) {
-        window.open(data.url, "_blank");
+        // Prefer redirecting the already-opened tab; fallback to same-tab navigation.
+        if (checkoutWindow && !checkoutWindow.closed) {
+          checkoutWindow.location.href = data.url;
+        } else {
+          window.location.href = data.url;
+        }
         toast.success("Redirecting to checkout...");
         onOpenChange(false);
         setFormData({
@@ -159,9 +168,14 @@ export const ParentRegistrationModal = ({ open, onOpenChange }: ParentRegistrati
           goals: "",
         });
         setSelectedTier("basic");
+      } else {
+        throw new Error("Missing checkout URL");
       }
     } catch (error) {
       console.error("Registration error:", error);
+      if (checkoutWindow && !checkoutWindow.closed) {
+        checkoutWindow.close();
+      }
       toast.error("Failed to process registration. Please try again.");
     } finally {
       setIsLoading(false);
