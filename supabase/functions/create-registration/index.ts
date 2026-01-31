@@ -9,7 +9,7 @@ const corsHeaders = {
 
 const TIER_PRICES = {
   basic: "price_1SaXIxJCEhoZof7cVAHwQfwm", // $4.99/month
-  pro: "price_1ScNJmJCEhoZof7cWvOCcXtE", // $14.99/month
+  pro: "price_1SampeJCEhoZof7c94qEo7fv", // $14.99/month
 };
 
 // Input validation schema

@@ -77,7 +77,7 @@ const TIERS = {
   pro: {
     name: "Pro",
     price: 14.99,
-    priceId: "price_1ScNJmJCEhoZof7cWvOCcXtE",
+    priceId: "price_1SampeJCEhoZof7c94qEo7fv",
     icon: Crown,
     features: [
       "Everything in Basic, plus:",
