@@ -69,28 +69,61 @@ const BodyMetricsGraphic = ({
   onWeightChange: (val: number | null) => void;
   onHeightChange: (val: number | null) => void;
 }) => {
+  const feet = heightInches ? Math.floor(heightInches / 12) : null;
+  const inches = heightInches ? heightInches % 12 : null;
+
+  const handleFeetChange = (newFeet: number | null) => {
+    const currentInches = inches ?? 0;
+    if (newFeet === null) {
+      onHeightChange(currentInches > 0 ? currentInches : null);
+    } else {
+      onHeightChange(newFeet * 12 + currentInches);
+    }
+  };
+
+  const handleInchesChange = (newInches: number | null) => {
+    const currentFeet = feet ?? 0;
+    if (newInches === null) {
+      onHeightChange(currentFeet > 0 ? currentFeet * 12 : null);
+    } else {
+      onHeightChange(currentFeet * 12 + newInches);
+    }
+  };
+
   if (isEditing) {
     return (
       <div className="flex items-center gap-2">
         <div className="flex flex-col items-center">
-          <span className="text-[10px] text-muted-foreground mb-1">Height</span>
+          <span className="text-[10px] text-muted-foreground mb-1">Ft</span>
           <Input
             type="number"
-            min="48"
-            max="96"
-            className="w-16 h-8 text-xs text-center"
-            placeholder="in"
-            value={heightInches ?? ""}
-            onChange={(e) => onHeightChange(e.target.value ? Number(e.target.value) : null)}
+            min="4"
+            max="7"
+            className="w-12 h-8 text-xs text-center"
+            placeholder="ft"
+            value={feet ?? ""}
+            onChange={(e) => handleFeetChange(e.target.value ? Number(e.target.value) : null)}
           />
         </div>
         <div className="flex flex-col items-center">
-          <span className="text-[10px] text-muted-foreground mb-1">Weight</span>
+          <span className="text-[10px] text-muted-foreground mb-1">In</span>
+          <Input
+            type="number"
+            min="0"
+            max="11"
+            className="w-12 h-8 text-xs text-center"
+            placeholder="in"
+            value={inches ?? ""}
+            onChange={(e) => handleInchesChange(e.target.value ? Number(e.target.value) : null)}
+          />
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="text-[10px] text-muted-foreground mb-1">Lbs</span>
           <Input
             type="number"
             min="80"
             max="400"
-            className="w-16 h-8 text-xs text-center"
+            className="w-14 h-8 text-xs text-center"
             placeholder="lbs"
             value={weight ?? ""}
             onChange={(e) => onWeightChange(e.target.value ? Number(e.target.value) : null)}
