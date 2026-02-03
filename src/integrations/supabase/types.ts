@@ -724,7 +724,39 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      subscription_status_safe: {
+        Row: {
+          created_at: string | null
+          current_period_end: string | null
+          current_period_start: string | null
+          id: string | null
+          product_id: string | null
+          status: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string | null
+          product_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string | null
+          product_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       check_coach_access_rate_limit: {
@@ -742,6 +774,10 @@ export type Database = {
       has_school_interest: {
         Args: { _school_id: string; _user_id: string }
         Returns: boolean
+      }
+      increment_poll_vote: {
+        Args: { _option: string; _poll_id: string; _voter_id: string }
+        Returns: Json
       }
     }
     Enums: {
