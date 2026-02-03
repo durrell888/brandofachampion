@@ -1,6 +1,6 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Calendar, CheckCircle, PlayCircle, Award, BookOpen, Target, Video, Users, Film, ExternalLink } from "lucide-react";
+import { ArrowLeft, Calendar, CheckCircle, PlayCircle, Award, BookOpen, Target, Video, Users, Film, ExternalLink, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -110,6 +110,21 @@ export default function CoachProfile() {
                       </div>
                     </div>
                   )}
+                </div>
+              )}
+
+              {coach.id === "strength-coach" && (
+                <div className="bg-card border border-border rounded-lg p-4 space-y-3">
+                  <h4 className="font-semibold text-foreground flex items-center gap-2">
+                    <GraduationCap className="h-4 w-4 text-accent" />
+                    High School Training Partnerships
+                  </h4>
+                  <Link to="/dchs-training">
+                    <Button variant="outline" className="w-full gap-2 hover:bg-accent hover:text-accent-foreground">
+                      <Users className="h-4 w-4" />
+                      Douglas County Football
+                    </Button>
+                  </Link>
                 </div>
               )}
 
