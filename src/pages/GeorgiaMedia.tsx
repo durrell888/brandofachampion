@@ -253,35 +253,38 @@ const GeorgiaMedia = () => {
     }
   };
 
-  // Vote on poll
+  // Vote on poll using atomic increment function
   const handlePollVote = async (pollId: string, option: 'a' | 'b') => {
     if (votedPolls.has(pollId)) {
       toast.error("You've already voted on this poll!");
       return;
     }
     
-    const poll = polls.find(p => p.id === pollId);
-    if (!poll) return;
-    
-    await supabase
-      .from('georgia_poll_votes')
-      .insert({
-        poll_id: pollId,
-        voter_id: visitorId,
-        chosen_option: option
+    try {
+      const { data, error } = await supabase.rpc('increment_poll_vote', {
+        _poll_id: pollId,
+        _voter_id: visitorId,
+        _option: option
       });
-    
-    const updateField = option === 'a' ? 'votes_a' : 'votes_b';
-    const newCount = option === 'a' ? poll.votes_a + 1 : poll.votes_b + 1;
-    
-    await supabase
-      .from('georgia_daily_polls')
-      .update({ [updateField]: newCount })
-      .eq('id', pollId);
-    
-    setVotedPolls(prev => new Set([...prev, pollId]));
-    toast.success("Vote recorded!");
-    fetchPolls();
+      
+      if (error) {
+        if (error.message.includes('Already voted')) {
+          toast.error("You've already voted on this poll!");
+          setVotedPolls(prev => new Set([...prev, pollId]));
+        } else {
+          toast.error("Failed to submit vote. Please try again.");
+          console.error("Poll vote error:", error);
+        }
+        return;
+      }
+      
+      setVotedPolls(prev => new Set([...prev, pollId]));
+      toast.success("Vote recorded!");
+      fetchPolls();
+    } catch (err) {
+      toast.error("Failed to submit vote. Please try again.");
+      console.error("Poll vote error:", err);
+    }
   };
 
   useEffect(() => {
