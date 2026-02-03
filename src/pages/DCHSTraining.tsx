@@ -412,14 +412,14 @@ const DCHSTraining = () => {
                           <TableCell>
                             {isEditing ? (
                               <Select
-                                value={editForm.position || ""}
-                                onValueChange={(v) => setEditForm({ ...editForm, position: v })}
+                                value={editForm.position || "none"}
+                                onValueChange={(v) => setEditForm({ ...editForm, position: v === "none" ? "" : v })}
                               >
                                 <SelectTrigger className="w-24">
                                   <SelectValue placeholder="—" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  <SelectItem value="">None</SelectItem>
+                                  <SelectItem value="none">None</SelectItem>
                                   {positionOptions.map((pos) => (
                                     <SelectItem key={pos} value={pos}>{pos}</SelectItem>
                                   ))}
