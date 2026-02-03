@@ -77,6 +77,45 @@ export type Database = {
         }
         Relationships: []
       }
+      dchs_participants: {
+        Row: {
+          created_at: string
+          forty_yard: number | null
+          grade: number
+          hundred_meter: number | null
+          id: string
+          name: string
+          position: string | null
+          status: string
+          updated_at: string
+          vertical: number | null
+        }
+        Insert: {
+          created_at?: string
+          forty_yard?: number | null
+          grade: number
+          hundred_meter?: number | null
+          id?: string
+          name: string
+          position?: string | null
+          status?: string
+          updated_at?: string
+          vertical?: number | null
+        }
+        Update: {
+          created_at?: string
+          forty_yard?: number | null
+          grade?: number
+          hundred_meter?: number | null
+          id?: string
+          name?: string
+          position?: string | null
+          status?: string
+          updated_at?: string
+          vertical?: number | null
+        }
+        Relationships: []
+      }
       georgia_daily_polls: {
         Row: {
           created_at: string
