@@ -42,8 +42,103 @@ interface Participant {
   vertical: number | null;
   forty_yard: number | null;
   hundred_meter: number | null;
+  weight: number | null;
+  height_inches: number | null;
   status: string;
 }
+
+// Helper to format height in feet and inches
+const formatHeight = (inches: number | null): string => {
+  if (!inches) return "—";
+  const feet = Math.floor(inches / 12);
+  const remaining = inches % 12;
+  return `${feet}'${remaining}"`;
+};
+
+// Height/Weight graphic component
+const BodyMetricsGraphic = ({
+  weight,
+  heightInches,
+  isEditing,
+  onWeightChange,
+  onHeightChange,
+}: {
+  weight: number | null;
+  heightInches: number | null;
+  isEditing: boolean;
+  onWeightChange: (val: number | null) => void;
+  onHeightChange: (val: number | null) => void;
+}) => {
+  if (isEditing) {
+    return (
+      <div className="flex items-center gap-2">
+        <div className="flex flex-col items-center">
+          <span className="text-[10px] text-muted-foreground mb-1">Height</span>
+          <Input
+            type="number"
+            min="48"
+            max="96"
+            className="w-16 h-8 text-xs text-center"
+            placeholder="in"
+            value={heightInches ?? ""}
+            onChange={(e) => onHeightChange(e.target.value ? Number(e.target.value) : null)}
+          />
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="text-[10px] text-muted-foreground mb-1">Weight</span>
+          <Input
+            type="number"
+            min="80"
+            max="400"
+            className="w-16 h-8 text-xs text-center"
+            placeholder="lbs"
+            value={weight ?? ""}
+            onChange={(e) => onWeightChange(e.target.value ? Number(e.target.value) : null)}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  const hasData = weight || heightInches;
+  
+  return (
+    <div className="flex items-end gap-3">
+      {/* Simple body silhouette */}
+      <div className="relative flex flex-col items-center">
+        <svg
+          width="28"
+          height="48"
+          viewBox="0 0 28 48"
+          className="text-accent/60"
+          fill="currentColor"
+        >
+          {/* Head */}
+          <circle cx="14" cy="6" r="5" />
+          {/* Body */}
+          <ellipse cx="14" cy="20" rx="8" ry="10" />
+          {/* Left leg */}
+          <rect x="7" y="28" width="5" height="18" rx="2" />
+          {/* Right leg */}
+          <rect x="16" y="28" width="5" height="18" rx="2" />
+          {/* Left arm */}
+          <rect x="1" y="14" width="4" height="14" rx="2" />
+          {/* Right arm */}
+          <rect x="23" y="14" width="4" height="14" rx="2" />
+        </svg>
+      </div>
+      {/* Metrics display */}
+      <div className="flex flex-col text-xs leading-tight">
+        <span className={heightInches ? "text-foreground font-medium" : "text-muted-foreground"}>
+          {formatHeight(heightInches)}
+        </span>
+        <span className={weight ? "text-foreground font-medium" : "text-muted-foreground"}>
+          {weight ? `${weight} lbs` : "— lbs"}
+        </span>
+      </div>
+    </div>
+  );
+};
 
 const statusConfig: Record<string, { bg: string; text: string; label: string }> = {
   active: { bg: "bg-green-500/20", text: "text-green-400", label: "Active" },
@@ -102,6 +197,8 @@ const DCHSTraining = () => {
       vertical: participant.vertical,
       forty_yard: participant.forty_yard,
       hundred_meter: participant.hundred_meter,
+      weight: participant.weight,
+      height_inches: participant.height_inches,
       status: participant.status,
     });
   };
@@ -119,6 +216,8 @@ const DCHSTraining = () => {
         vertical: editForm.vertical || null,
         forty_yard: editForm.forty_yard || null,
         hundred_meter: editForm.hundred_meter || null,
+        weight: editForm.weight || null,
+        height_inches: editForm.height_inches || null,
         status: editForm.status,
       })
       .eq("id", id);
@@ -388,6 +487,7 @@ const DCHSTraining = () => {
                     <TableRow className="bg-muted/50">
                       <TableHead className="font-bold">Athlete</TableHead>
                       <TableHead className="font-bold">Grade</TableHead>
+                      <TableHead className="font-bold">Size</TableHead>
                       <TableHead className="font-bold">Position</TableHead>
                       <TableHead className="font-bold">Vertical</TableHead>
                       <TableHead className="font-bold">40-Yard</TableHead>
@@ -408,6 +508,15 @@ const DCHSTraining = () => {
                             <Badge variant="secondary" className="font-mono">
                               {participant.grade}th
                             </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <BodyMetricsGraphic
+                              weight={isEditing ? (editForm.weight ?? null) : participant.weight}
+                              heightInches={isEditing ? (editForm.height_inches ?? null) : participant.height_inches}
+                              isEditing={isEditing}
+                              onWeightChange={(val) => setEditForm({ ...editForm, weight: val })}
+                              onHeightChange={(val) => setEditForm({ ...editForm, height_inches: val })}
+                            />
                           </TableCell>
                           <TableCell>
                             {isEditing ? (
