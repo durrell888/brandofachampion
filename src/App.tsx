@@ -26,6 +26,7 @@ import TrenchAcademy from "./pages/TrenchAcademy";
 import OurProgram from "./pages/OurProgram";
 import GeorgiaMedia from "./pages/GeorgiaMedia";
 import MediaDevelopment from "./pages/MediaDevelopment";
+import DCHSTraining from "./pages/DCHSTraining";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -57,6 +58,7 @@ const App = () => (
               <Route path="/our-program" element={<OurProgram />} />
               <Route path="/georgia-media" element={<GeorgiaMedia />} />
               <Route path="/media-development" element={<MediaDevelopment />} />
+              <Route path="/dchs-training" element={<DCHSTraining />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/account" element={<Account />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
