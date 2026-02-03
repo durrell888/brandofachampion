@@ -82,6 +82,7 @@ export type Database = {
           created_at: string
           forty_yard: number | null
           grade: number
+          height_inches: number | null
           hundred_meter: number | null
           id: string
           name: string
@@ -89,11 +90,13 @@ export type Database = {
           status: string
           updated_at: string
           vertical: number | null
+          weight: number | null
         }
         Insert: {
           created_at?: string
           forty_yard?: number | null
           grade: number
+          height_inches?: number | null
           hundred_meter?: number | null
           id?: string
           name: string
@@ -101,11 +104,13 @@ export type Database = {
           status?: string
           updated_at?: string
           vertical?: number | null
+          weight?: number | null
         }
         Update: {
           created_at?: string
           forty_yard?: number | null
           grade?: number
+          height_inches?: number | null
           hundred_meter?: number | null
           id?: string
           name?: string
@@ -113,6 +118,7 @@ export type Database = {
           status?: string
           updated_at?: string
           vertical?: number | null
+          weight?: number | null
         }
         Relationships: []
       }
