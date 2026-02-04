@@ -120,8 +120,20 @@ export default function CoachProfile() {
                     High School Training Partnerships
                   </h4>
                   <Link to="/dchs-training">
-                    <Button variant="outline" className="w-full gap-2 hover:bg-accent hover:text-accent-foreground">
-                      <Users className="h-4 w-4" />
+                    <Button 
+                      variant="outline" 
+                      className="w-full gap-3 border-2 hover:opacity-90 transition-opacity font-bold"
+                      style={{
+                        backgroundColor: '#1a2b4a',
+                        borderColor: '#c9a227',
+                        color: '#c9a227'
+                      }}
+                    >
+                      <img 
+                        src="/images/schools/douglas-county-logo.png" 
+                        alt="Douglas County Tigers" 
+                        className="h-6 w-6 object-contain rounded"
+                      />
                       Douglas County Football
                     </Button>
                   </Link>
