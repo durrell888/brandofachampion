@@ -130,9 +130,9 @@ export default function CoachProfile() {
                       }}
                     >
                       <img 
-                        src="/images/schools/douglas-county-logo.png" 
+                        src="/images/schools/douglas-county-logo.png?v=2" 
                         alt="Douglas County Tigers" 
-                        className="h-6 w-6 object-contain rounded"
+                        className="h-7 w-7 object-contain"
                       />
                       Douglas County Football
                     </Button>
