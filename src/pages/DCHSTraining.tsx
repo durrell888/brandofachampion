@@ -213,7 +213,6 @@ const DCHSTraining = () => {
     const { data, error } = await supabase
       .from("dchs_participants")
       .select("*")
-      .order("grade", { ascending: true })
       .order("name", { ascending: true });
 
     if (error) {
