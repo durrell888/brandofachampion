@@ -42,6 +42,7 @@ interface Participant {
   vertical: number | null;
   forty_yard: number | null;
   hundred_meter: number | null;
+  flying_ten: number | null;
   weight: number | null;
   height_inches: number | null;
   status: string;
@@ -230,6 +231,7 @@ const DCHSTraining = () => {
       vertical: participant.vertical,
       forty_yard: participant.forty_yard,
       hundred_meter: participant.hundred_meter,
+      flying_ten: participant.flying_ten,
       weight: participant.weight,
       height_inches: participant.height_inches,
       status: participant.status,
@@ -249,6 +251,7 @@ const DCHSTraining = () => {
         vertical: editForm.vertical || null,
         forty_yard: editForm.forty_yard || null,
         hundred_meter: editForm.hundred_meter || null,
+        flying_ten: editForm.flying_ten || null,
         weight: editForm.weight || null,
         height_inches: editForm.height_inches || null,
         status: editForm.status,
@@ -525,6 +528,7 @@ const DCHSTraining = () => {
                       <TableHead className="font-bold">Vertical</TableHead>
                       <TableHead className="font-bold">40-Yard</TableHead>
                       <TableHead className="font-bold">100m</TableHead>
+                      <TableHead className="font-bold">Flying 10</TableHead>
                       <TableHead className="font-bold">Status</TableHead>
                       {isAuthenticated && <TableHead className="font-bold w-24">Actions</TableHead>}
                     </TableRow>
@@ -616,6 +620,22 @@ const DCHSTraining = () => {
                             ) : (
                               <span className="font-mono text-muted-foreground">
                                 {participant.hundred_meter ? `${participant.hundred_meter}s` : "—"}
+                              </span>
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {isEditing ? (
+                              <Input
+                                type="number"
+                                step="0.01"
+                                className="w-20"
+                                value={editForm.flying_ten ?? ""}
+                                onChange={(e) => setEditForm({ ...editForm, flying_ten: e.target.value ? Number(e.target.value) : null })}
+                                placeholder="—"
+                              />
+                            ) : (
+                              <span className="font-mono text-muted-foreground">
+                                {participant.flying_ten ? `${participant.flying_ten}s` : "—"}
                               </span>
                             )}
                           </TableCell>
