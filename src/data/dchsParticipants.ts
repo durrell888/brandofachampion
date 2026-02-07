@@ -21,7 +21,7 @@ export const dchsParticipants: DCHSParticipant[] = [
   { id: "faraji-tucker", name: "Faraji Tucker", grade: 10, status: "inactive" },
   { id: "steven-mclendon", name: "Steven Mclendon", grade: 10, status: "active" },
   { id: "joshua-sam-epelle", name: "Joshua Sam Epelle", grade: 11, status: "active" },
-  { id: "zay", name: "Zay", grade: 10, status: "no-show" },
+  { id: "zaydrean-jackson", name: "Zaydrean Jackson", grade: 10, status: "no-show" },
   { id: "terrence-brandon", name: "Terrence Brandon", grade: 10, status: "inactive" },
   { id: "ezra-jackson", name: "Ezra Jackson", grade: 11, status: "active" },
   { id: "caleb-gilbert", name: "Caleb Gilbert", grade: 11, status: "active" },
