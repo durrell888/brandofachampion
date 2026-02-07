@@ -80,6 +80,7 @@ export type Database = {
       dchs_participants: {
         Row: {
           created_at: string
+          flying_ten: number | null
           forty_yard: number | null
           grade: number
           height_inches: number | null
@@ -94,6 +95,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          flying_ten?: number | null
           forty_yard?: number | null
           grade: number
           height_inches?: number | null
@@ -108,6 +110,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          flying_ten?: number | null
           forty_yard?: number | null
           grade?: number
           height_inches?: number | null

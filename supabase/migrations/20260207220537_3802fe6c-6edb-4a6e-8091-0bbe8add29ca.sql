@@ -1,0 +1,1 @@
+ALTER TABLE public.dchs_participants ADD COLUMN flying_ten numeric NULL;

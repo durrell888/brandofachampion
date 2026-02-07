@@ -5,6 +5,7 @@ export interface DCHSParticipant {
   position?: string;
   vertical?: number;
   fortyYard?: number;
+  flyingTen?: number;
   hundredMeter?: number;
   status: "active" | "inactive" | "no-show";
 }
