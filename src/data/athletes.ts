@@ -272,7 +272,7 @@ export const mockAthletes: Athlete[] = [
     position: "Defensive Line",
     location: "Douglasville, Georgia",
     avatar: "/images/athletes/steven-mclendon.jpeg",
-    achievements: ["Second Team All-Region"],
+    achievements: ["Second Team All-Region", "9 Division 1 College Offers"],
     supportNeeded: ["Career", "Education"],
     yearsActive: "2024-2028",
     status: "active",
