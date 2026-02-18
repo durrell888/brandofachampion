@@ -55,6 +55,7 @@ const App = () => (
               <Route path="/training" element={<FootballTraining />} />
               <Route path="/coach/:coachId" element={<CoachProfile />} />
               <Route path="/trench-iq" element={<TrenchAcademy />} />
+              <Route path="/defensive-line-specialist" element={<TrenchAcademy />} />
               <Route path="/our-program" element={<OurProgram />} />
               <Route path="/georgia-media" element={<GeorgiaMedia />} />
               <Route path="/media-development" element={<MediaDevelopment />} />
