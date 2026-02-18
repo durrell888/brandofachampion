@@ -98,14 +98,14 @@ export const coaches: Coach[] = [
     ]
   },
   {
-    id: "trench-iq",
-    name: "Trench IQ",
-    position: "Position Specialists",
-    positionGroup: "Trenches & Skill Positions",
-    image: "/images/partners/trench-iq-logo.png",
-    bio: "The nation's premier position training program with 30+ years of elite coaching experience. Specializing in linebacker, offensive line, defensive line, and running back development with comprehensive film evaluation from multiple angles.",
+    id: "dline-specialist",
+    name: "SOLI",
+    position: "DLine Specialist",
+    positionGroup: "Defensive Line & Linebackers",
+    image: "/images/partners/soli-dline-specialist.png",
+    bio: "The nation's premier defensive line and linebacker position training program with 30+ years of elite coaching experience. Specializing in defensive line, linebacker development, and comprehensive multi-angle film evaluation.",
     experience: "30+ years coaching",
-    specialties: ["Linebacker Training", "Offensive Line", "Defensive Line", "Running Backs", "Film Evaluation"],
+    specialties: ["Defensive Line", "Linebacker Training", "Film Evaluation", "Pass Rush"],
     curriculum: [
       { title: "Position-Specific Mastery", topics: ["Stance & alignment", "Technique fundamentals", "Situational awareness"] },
       { title: "Multi-Angle Film Breakdown", topics: ["7-angle analysis", "Technical assessment", "Cognitive evaluation"] },

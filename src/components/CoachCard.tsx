@@ -14,8 +14,7 @@ export function CoachCard({ coach, onBook }: CoachCardProps) {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    // Trench IQ has a dedicated page, other coaches use the generic profile
-    if (coach.id === "trench-iq") {
+    if (coach.id === "dline-specialist") {
       navigate("/trench-iq");
     } else {
       navigate(`/coach/${coach.id}`);
@@ -25,14 +24,18 @@ export function CoachCard({ coach, onBook }: CoachCardProps) {
   const handleBookClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (coach.externalLink) {
-      window.open(coach.externalLink, '_blank');
+      if (coach.externalLink.startsWith('/')) {
+        navigate(coach.externalLink);
+      } else {
+        window.open(coach.externalLink, '_blank');
+      }
     } else {
       onBook(coach);
     }
   };
 
-  const isLogoImage = coach.id === "trench-iq" || coach.image.includes("trench-iq-logo");
-  const coachImageSrc = isLogoImage ? `${coach.image}?v=trench-iq-1` : coach.image;
+  const isLogoImage = coach.id === "dline-specialist" || coach.image.includes("soli-dline");
+  const coachImageSrc = coach.image;
 
   return (
     <motion.div
@@ -46,8 +49,8 @@ export function CoachCard({ coach, onBook }: CoachCardProps) {
       <div className="relative h-64 overflow-hidden">
         <img
           src={coachImageSrc}
-          alt={coach.id === "trench-iq" ? "Trench IQ logo" : coach.name}
-          className={`w-full h-full ${isLogoImage ? "object-contain p-6 bg-background" : "object-cover object-top"} group-hover:scale-105 transition-transform duration-500`}
+          alt={coach.name}
+          className={`w-full h-full ${isLogoImage ? "object-contain p-4 bg-[#1a0800]" : "object-cover object-top"} group-hover:scale-105 transition-transform duration-500`}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
         <div className="absolute bottom-4 left-4 right-4">
