@@ -3,6 +3,7 @@ import {
   Shield, Target, Zap, Brain, Video, Users, Award, 
   TrendingUp, Dumbbell, ChevronRight, CheckCircle,
   Calendar, ArrowRight, ExternalLink, DollarSign,
+  MapPin, Clock,
 } from "lucide-react";
 import soliLogo from "@/assets/soli-logo.png";
 import { useState } from "react";
@@ -171,6 +172,73 @@ export default function TrenchAcademy() {
           className="w-full object-cover max-h-[500px] object-top"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+      </section>
+
+      {/* Training Schedule Section */}
+      <section className="py-14 bg-[#1a0a00]">
+        <div className="container px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-10"
+          >
+            <Badge className="mb-4 bg-[#c8a850] text-[#1a0a00] font-semibold">Training Schedule</Badge>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-3">
+              On-Field Training Sessions
+            </h2>
+            <p className="text-white/70 text-lg">Join us on the field at Douglas County High School</p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+            className="max-w-2xl mx-auto"
+          >
+            <div className="bg-black/30 border border-[#c8a850]/30 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(200,168,80,0.1)]">
+              {/* Location Header */}
+              <div className="bg-[#c8a850]/15 border-b border-[#c8a850]/20 px-8 py-5 flex items-center gap-3">
+                <MapPin className="h-5 w-5 text-[#c8a850] shrink-0" />
+                <div>
+                  <p className="text-white font-semibold">Douglas County High School</p>
+                  <p className="text-white/60 text-sm">Douglasville, GA</p>
+                </div>
+              </div>
+
+              {/* Schedule Days */}
+              <div className="divide-y divide-[#c8a850]/10">
+                {[
+                  { day: "Monday", active: true },
+                  { day: "Wednesday", active: true },
+                ].map(({ day, active }) => (
+                  <div key={day} className="flex items-center justify-between px-8 py-5">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-2.5 h-2.5 rounded-full ${active ? "bg-[#c8a850] shadow-[0_0_8px_rgba(200,168,80,0.8)]" : "bg-white/20"}`} />
+                      <span className="text-white font-display font-bold text-xl">{day}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-[#c8a850] font-semibold">
+                      <Clock className="h-4 w-4" />
+                      <span>4:40 PM – 6:00 PM</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <div className="px-8 py-6 bg-black/20">
+                <Button
+                  className="w-full bg-[#c8a850] hover:bg-[#e0bf60] text-[#1a0a00] font-bold shadow-[0_0_20px_rgba(200,168,80,0.3)]"
+                  onClick={handleBookSession}
+                >
+                  <DollarSign className="mr-2 h-4 w-4" />
+                  Cash App $brandofachampion
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       {/* Video Grid Section - only O-Line, D-Line, and Linebacker */}
