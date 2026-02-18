@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { 
-  Shield, Target, Zap, Brain, Eye, Video, Users, Award, 
-  TrendingUp, Dumbbell, ChevronRight, Play, CheckCircle,
-  Star, Calendar, ArrowRight, ExternalLink, DollarSign,
+  Shield, Target, Zap, Brain, Video, Users, Award, 
+  TrendingUp, Dumbbell, ChevronRight, CheckCircle,
+  Calendar, ArrowRight, ExternalLink, DollarSign,
   Phone, Mail, Instagram
 } from "lucide-react";
 import soliLogo from "@/assets/soli-logo.png";
@@ -26,7 +26,6 @@ import {
 import { 
   trenchAcademyInfo, 
   positionCurriculums, 
-  filmEvaluationProcess,
   PositionCurriculum 
 } from "@/data/trenchAcademy";
 
@@ -35,7 +34,6 @@ const iconMap: Record<string, React.ElementType> = {
   Target,
   Zap,
   Brain,
-  Eye,
   Video,
   Users,
   Award,
@@ -297,87 +295,7 @@ export default function TrenchAcademy() {
         </div>
       </section>
 
-      {/* Film Evaluation Process */}
-      <section className="py-20 bg-background">
-        <div className="container px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <Badge variant="outline" className="mb-4">Film Breakdown Process</Badge>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
-              Multi-Angle Film Evaluation
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Our coaches break down your film from 7+ camera angles, analyzing every rep to identify 
-              strengths, areas for improvement, and create a personalized development plan.
-            </p>
-          </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {filmEvaluationProcess.map((step, index) => {
-              const Icon = iconMap[step.icon] || CheckCircle;
-              return (
-                <motion.div
-                  key={step.step}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Card className="h-full border-border/50 relative overflow-hidden">
-                    <div className="absolute top-4 right-4 text-6xl font-display font-black text-muted/20">
-                      {step.step}
-                    </div>
-                    <CardContent className="p-6 relative z-10">
-                      <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
-                        <Icon className="h-5 w-5 text-accent" />
-                      </div>
-                      <h3 className="text-lg font-semibold text-foreground mb-2">
-                        {step.title}
-                      </h3>
-                      <p className="text-muted-foreground text-sm">
-                        {step.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              );
-            })}
-          </div>
-
-          {/* Video Review CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto"
-          >
-            <Card className="bg-gradient-to-r from-[#1a0800] to-[#3d1500] border border-[#c8a850]/30 text-white shadow-[0_0_40px_rgba(200,168,80,0.15)]">
-              <CardContent className="p-8 text-center">
-                <Video className="h-12 w-12 mx-auto mb-4 text-[#c8a850]" />
-                <h3 className="text-2xl font-display font-bold mb-4">
-                  Virtual Film Review Sessions
-                </h3>
-                <p className="text-white/80 mb-6">
-                  Connect with our coaches online for personalized film breakdown sessions. 
-                  Share your screen, review plays together, and get real-time feedback on your technique.
-                </p>
-                <Button 
-                  size="lg" 
-                  className="bg-[#c8a850] hover:bg-[#e0bf60] text-[#1a0800] font-bold"
-                  onClick={handleVideoReview}
-                >
-                  <ExternalLink className="mr-2 h-5 w-5" />
-                  Join Virtual Review Room
-                </Button>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
-      </section>
 
       {/* Position Curriculum Section - LB, O-Line, D-Line only */}
       <section id="positions" className="py-20 bg-muted/30">
@@ -450,89 +368,47 @@ export default function TrenchAcademy() {
                       </CardContent>
                     </Card>
 
-                    <div className="grid lg:grid-cols-3 gap-8">
-                      {/* Curriculum Modules */}
-                      <div className="lg:col-span-2">
-                        <h4 className="text-lg font-semibold text-foreground mb-4 flex items-center">
-                          <Target className="mr-2 h-5 w-5 text-accent" />
-                          Training Modules
-                        </h4>
-                        <Accordion type="single" collapsible className="space-y-3">
-                          {pos.modules.map((module, idx) => (
-                            <AccordionItem
-                              key={idx}
-                              value={`module-${idx}`}
-                              className="border border-border/50 rounded-lg px-4 bg-card"
-                            >
-                              <AccordionTrigger className="hover:no-underline">
-                                <div className="flex items-center gap-4">
-                                  <Badge variant="outline" className="shrink-0">
-                                    {module.duration}
-                                  </Badge>
-                                  <span className="font-medium text-left">
-                                    {module.title}
-                                  </span>
-                                </div>
-                              </AccordionTrigger>
-                              <AccordionContent>
-                                <ul className="space-y-2 py-2">
-                                  {module.topics.map((topic, topicIdx) => (
-                                    <li 
-                                      key={topicIdx}
-                                      className="flex items-start gap-2 text-muted-foreground"
-                                    >
-                                      <CheckCircle className="h-4 w-4 text-accent shrink-0 mt-0.5" />
-                                      <span className="text-sm">{topic}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </AccordionContent>
-                            </AccordionItem>
-                          ))}
-                        </Accordion>
-                      </div>
-
-                      {/* Film Evaluation Metrics */}
-                      <div>
-                        <h4 className="text-lg font-semibold text-foreground mb-4 flex items-center">
-                          <Eye className="mr-2 h-5 w-5 text-accent" />
-                          Film Evaluation
-                        </h4>
-                        <Card className="border-border/50">
-                          <CardContent className="p-6 space-y-6">
-                            <div>
-                              <h5 className="text-sm font-medium text-foreground mb-3">
-                                Camera Angles Analyzed
-                              </h5>
-                              <div className="flex flex-wrap gap-2">
-                                {pos.filmEvaluation.angles.map((angle) => (
-                                  <Badge key={angle} variant="secondary" className="text-xs">
-                                    {angle}
-                                  </Badge>
-                                ))}
+                    <div>
+                      <h4 className="text-lg font-semibold text-foreground mb-4 flex items-center">
+                        <Target className="mr-2 h-5 w-5 text-accent" />
+                        Training Modules
+                      </h4>
+                      <Accordion type="single" collapsible className="space-y-3">
+                        {pos.modules.map((module, idx) => (
+                          <AccordionItem
+                            key={idx}
+                            value={`module-${idx}`}
+                            className="border border-border/50 rounded-lg px-4 bg-card"
+                          >
+                            <AccordionTrigger className="hover:no-underline">
+                              <div className="flex items-center gap-4">
+                                <Badge variant="outline" className="shrink-0">
+                                  {module.duration}
+                                </Badge>
+                                <span className="font-medium text-left">
+                                  {module.title}
+                                </span>
                               </div>
-                            </div>
-                            <div>
-                              <h5 className="text-sm font-medium text-foreground mb-3">
-                                Performance Metrics
-                              </h5>
-                              <ul className="space-y-2">
-                                {pos.filmEvaluation.metrics.map((metric, idx) => (
+                            </AccordionTrigger>
+                            <AccordionContent>
+                              <ul className="space-y-2 py-2">
+                                {module.topics.map((topic, topicIdx) => (
                                   <li 
-                                    key={idx}
-                                    className="flex items-center gap-2 text-sm text-muted-foreground"
+                                    key={topicIdx}
+                                    className="flex items-start gap-2 text-muted-foreground"
                                   >
-                                    <Star className="h-3 w-3 text-accent" />
-                                    {metric}
+                                    <CheckCircle className="h-4 w-4 text-accent shrink-0 mt-0.5" />
+                                    <span className="text-sm">{topic}</span>
                                   </li>
                                 ))}
                               </ul>
-                            </div>
-                          </CardContent>
-                        </Card>
+                            </AccordionContent>
+                          </AccordionItem>
+                        ))}
+                      </Accordion>
 
+                      <div className="flex flex-wrap gap-3 mt-6">
                         <Button 
-                          className="w-full mt-4"
                           variant="hero"
                           onClick={handleBookSession}
                         >
@@ -540,7 +416,6 @@ export default function TrenchAcademy() {
                           Book Session - $40
                         </Button>
                         <Button 
-                          className="w-full mt-2"
                           variant="outline"
                           onClick={handleVideoReview}
                         >
