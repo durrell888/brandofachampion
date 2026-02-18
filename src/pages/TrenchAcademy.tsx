@@ -193,7 +193,7 @@ export default function TrenchAcademy() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
             <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
               <VideoBackgroundTile videoSrc={`${dlineDrill}?v=1`} label="D-LINE" />
