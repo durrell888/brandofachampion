@@ -374,7 +374,7 @@ const DCHSTraining = () => {
                 <span className="text-gradient">PERFORMANCE PROGRAM</span>
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
-                Training the next generation of elite athletes with Coach Scott Lashley.
+                Training the next generation of elite athletes with Brand of a Champion Strength and Speed Performance.
                 Track progress and compare performance to college and professional benchmarks.
               </p>
             </motion.div>
@@ -907,7 +907,7 @@ const DCHSTraining = () => {
                 Ready to <span className="text-accent">Train?</span>
               </h2>
               <p className="text-muted-foreground mb-6">
-                Join Coach Scott Lashley's Strength and Speed Performance program
+                Join Brand of a Champion's Strength and Speed Performance program
                 at Douglas County High School.
               </p>
               <Link to="/coach/strength-coach">

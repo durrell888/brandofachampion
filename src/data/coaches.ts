@@ -60,10 +60,10 @@ export const coaches: Coach[] = [
   },
   {
     id: "strength-coach",
-    name: "Scott Lashley",
+    name: "Brand of a Champion Strength and Speed Performance",
     position: "Strength and Speed Performance",
     positionGroup: "Strength & Speed Performance",
-    image: "/images/team/scott-lashley.png",
+    image: "/images/team/strength-speed-performance.png",
     bio: "Elite strength and speed performance coach specializing in explosive power development, sprint mechanics, and athletic performance. Training includes agility ladder drills, resistance band work, plyometric exercises, and sprint technique coaching.",
     experience: "10+ years coaching",
     specialties: ["Explosive Power Development", "Speed Mechanics", "Agility Drills", "Plyometrics"],
