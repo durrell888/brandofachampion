@@ -53,7 +53,7 @@ export default function TrenchAcademy() {
   };
 
   const handleBookSession = () => {
-    window.open('https://cash.app/$TrenchIQ/40', '_blank');
+    window.open('https://cash.app/$brandofachampion', '_blank');
   };
 
   return (
@@ -114,7 +114,7 @@ export default function TrenchAcademy() {
                 onClick={handleBookSession}
               >
                 <DollarSign className="mr-2 h-5 w-5" />
-                Book Session - $40
+                Cash App $brandofachampion
               </Button>
               <Button 
                 size="lg" 
@@ -375,7 +375,7 @@ export default function TrenchAcademy() {
                           onClick={handleBookSession}
                         >
                           <DollarSign className="mr-2 h-4 w-4" />
-                          Book Session - $40
+                          Cash App $brandofachampion
                         </Button>
                         <Button 
                           variant="outline"
