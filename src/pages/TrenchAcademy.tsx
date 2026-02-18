@@ -5,6 +5,7 @@ import {
   Star, Calendar, ArrowRight, ExternalLink, DollarSign,
   Phone, Mail, Instagram
 } from "lucide-react";
+import soliLogo from "@/assets/soli-logo.png";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -77,8 +78,8 @@ export default function TrenchAcademy() {
             className="w-full h-full object-cover object-center"
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/90 via-[#1a365d]/75 to-[#0a1628]/60" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1a0a00]/92 via-[#3d1500]/80 to-[#1a0a00]/65" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0d0500] via-transparent to-transparent" />
         </div>
 
         <div className="container relative z-10 px-4">
@@ -94,15 +95,23 @@ export default function TrenchAcademy() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mb-6"
             >
+              <div className="inline-flex items-center justify-center w-28 h-28 rounded-full bg-black/30 backdrop-blur-sm border-2 border-[#c8a850]/50 mb-4 shadow-[0_0_30px_rgba(200,168,80,0.3)]">
+                <img
+                  src={soliLogo}
+                  alt="SOLI - Defensive Line Specialist"
+                  className="h-24 w-24 object-contain rounded-full"
+                  loading="eager"
+                />
+              </div>
             </motion.div>
 
-            <Badge className="mb-6 bg-[#4ade80] text-[#1a365d] font-semibold px-4 py-2 text-sm">
+            <Badge className="mb-6 bg-[#c8a850] text-[#1a0a00] font-semibold px-4 py-2 text-sm">
               {trenchAcademyInfo.experience}
             </Badge>
 
             <h1 className="text-5xl md:text-7xl font-display font-black text-white mb-4 tracking-tight leading-none">
               DEFENSIVE LINE
-              <span className="block text-[#4ade80]">SPECIALIST</span>
+              <span className="block text-[#c8a850]">SPECIALIST</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-2xl font-light">
@@ -112,7 +121,7 @@ export default function TrenchAcademy() {
             <div className="flex flex-wrap gap-4 mb-10">
               <Button 
                 size="lg" 
-                className="bg-[#4ade80] hover:bg-[#22c55e] text-[#1a365d] font-bold px-8"
+                className="bg-[#c8a850] hover:bg-[#e0bf60] text-[#1a0a00] font-bold px-8 shadow-[0_0_20px_rgba(200,168,80,0.4)]"
                 onClick={handleBookSession}
               >
                 <DollarSign className="mr-2 h-5 w-5" />
@@ -120,7 +129,7 @@ export default function TrenchAcademy() {
               </Button>
               <Button 
                 size="lg" 
-                className="bg-white/10 hover:bg-white/20 text-white font-bold px-8 border border-white/30 backdrop-blur-sm"
+                className="bg-white/10 hover:bg-white/20 text-white font-bold px-8 border border-[#c8a850]/40 backdrop-blur-sm"
                 onClick={() => document.getElementById('positions')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Explore Curriculum
@@ -129,7 +138,7 @@ export default function TrenchAcademy() {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-white/30 text-white hover:bg-white/10"
+                className="border-[#c8a850]/40 text-white hover:bg-white/10"
                 onClick={handleVideoReview}
               >
                 <Video className="mr-2 h-5 w-5" />
@@ -146,14 +155,14 @@ export default function TrenchAcademy() {
             >
               <a 
                 href="tel:4048673278" 
-                className="flex items-center gap-2 text-white/90 hover:text-[#4ade80] transition-colors"
+                className="flex items-center gap-2 text-white/90 hover:text-[#c8a850] transition-colors"
               >
                 <Phone className="h-5 w-5" />
                 <span>(404) 867-3278</span>
               </a>
               <a 
                 href="mailto:kqtrenchiq@gmail.com" 
-                className="flex items-center gap-2 text-white/90 hover:text-[#4ade80] transition-colors"
+                className="flex items-center gap-2 text-white/90 hover:text-[#c8a850] transition-colors"
               >
                 <Mail className="h-5 w-5" />
                 <span>kqtrenchiq@gmail.com</span>
@@ -162,7 +171,7 @@ export default function TrenchAcademy() {
                 href="https://www.instagram.com/trenchiq_/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-white/90 hover:text-[#4ade80] transition-colors"
+                className="flex items-center gap-2 text-white/90 hover:text-[#c8a850] transition-colors"
               >
                 <Instagram className="h-5 w-5" />
                 <span>@trenchiq_</span>
@@ -183,9 +192,9 @@ export default function TrenchAcademy() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                className="text-center backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10"
+                className="text-center backdrop-blur-sm bg-black/20 rounded-xl p-4 border border-[#c8a850]/20"
               >
-                <div className="text-3xl md:text-4xl font-display font-black text-[#4ade80] mb-1">
+                <div className="text-3xl md:text-4xl font-display font-black text-[#c8a850] mb-1">
                   {stat.value}
                 </div>
                 <div className="text-xs text-white/70">{stat.label}</div>
@@ -350,9 +359,9 @@ export default function TrenchAcademy() {
             viewport={{ once: true }}
             className="max-w-3xl mx-auto"
           >
-            <Card className="bg-gradient-to-r from-[#1a365d] to-[#2d5a3c] border-0 text-white">
+            <Card className="bg-gradient-to-r from-[#1a0800] to-[#3d1500] border border-[#c8a850]/30 text-white shadow-[0_0_40px_rgba(200,168,80,0.15)]">
               <CardContent className="p-8 text-center">
-                <Video className="h-12 w-12 mx-auto mb-4 text-[#4ade80]" />
+                <Video className="h-12 w-12 mx-auto mb-4 text-[#c8a850]" />
                 <h3 className="text-2xl font-display font-bold mb-4">
                   Virtual Film Review Sessions
                 </h3>
@@ -362,7 +371,7 @@ export default function TrenchAcademy() {
                 </p>
                 <Button 
                   size="lg" 
-                  className="bg-[#4ade80] hover:bg-[#22c55e] text-[#1a365d] font-bold"
+                  className="bg-[#c8a850] hover:bg-[#e0bf60] text-[#1a0800] font-bold"
                   onClick={handleVideoReview}
                 >
                   <ExternalLink className="mr-2 h-5 w-5" />
@@ -619,7 +628,7 @@ export default function TrenchAcademy() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 bg-gradient-to-r from-[#1a365d] via-[#234e70] to-[#2d5a3c]">
+      <section className="py-20 bg-gradient-to-r from-[#0d0500] via-[#3d1500] to-[#0d0500] border-t border-[#c8a850]/20">
         <div className="container px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -627,8 +636,12 @@ export default function TrenchAcademy() {
             viewport={{ once: true }}
             className="max-w-3xl mx-auto text-center"
           >
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/10 backdrop-blur-sm border border-[#4ade80]/50 mb-6">
-              <span className="text-3xl font-display font-black text-white">KQ</span>
+            <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-black/40 backdrop-blur-sm border-2 border-[#c8a850]/50 mb-6 shadow-[0_0_30px_rgba(200,168,80,0.3)]">
+              <img
+                src={soliLogo}
+                alt="SOLI"
+                className="h-20 w-20 object-contain rounded-full"
+              />
             </div>
             <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">
               Ready to Dominate the Trenches?
@@ -640,7 +653,7 @@ export default function TrenchAcademy() {
             <div className="flex flex-wrap justify-center gap-4">
               <Button 
                 size="lg" 
-                className="bg-[#4ade80] hover:bg-[#22c55e] text-[#1a365d] font-bold px-8"
+                className="bg-[#c8a850] hover:bg-[#e0bf60] text-[#1a0800] font-bold px-8 shadow-[0_0_20px_rgba(200,168,80,0.4)]"
                 onClick={handleBookSession}
               >
                 <DollarSign className="mr-2 h-5 w-5" />
@@ -649,7 +662,7 @@ export default function TrenchAcademy() {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-white/30 text-white hover:bg-white/10"
+                className="border-[#c8a850]/40 text-white hover:bg-white/10"
                 onClick={() => document.getElementById('positions')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 View Training Programs
@@ -658,7 +671,7 @@ export default function TrenchAcademy() {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-white/30 text-white hover:bg-white/10"
+                className="border-[#c8a850]/40 text-white hover:bg-white/10"
                 onClick={handleVideoReview}
               >
                 <Video className="mr-2 h-5 w-5" />
