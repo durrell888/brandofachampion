@@ -11,7 +11,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { VideoBackgroundTile } from "@/components/VideoBackgroundTile";
-import olineDrill from "@/assets/videos/oline-drill.mp4";
 import dlineDrill from "@/assets/videos/dline-drill.mp4";
 import linebackerDrill from "@/assets/videos/linebacker-drill.mp4";
 import { Button } from "@/components/ui/button";
@@ -44,9 +43,9 @@ const iconMap: Record<string, React.ElementType> = {
   Dumbbell
 };
 
-// Only linebacker and line positions
+// Only defensive positions
 const filteredCurriculums = positionCurriculums.filter(p => 
-  p.id === "linebacker" || p.id === "offensive-line" || p.id === "defensive-line"
+  p.id === "linebacker" || p.id === "defensive-line"
 );
 
 export default function TrenchAcademy() {
@@ -234,11 +233,8 @@ export default function TrenchAcademy() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto"
           >
-            <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
-              <VideoBackgroundTile videoSrc={`${olineDrill}?v=1`} label="O-LINE" />
-            </div>
             <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
               <VideoBackgroundTile videoSrc={`${dlineDrill}?v=1`} label="D-LINE" />
             </div>
