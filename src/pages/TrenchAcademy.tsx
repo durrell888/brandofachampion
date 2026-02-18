@@ -62,7 +62,7 @@ export default function TrenchAcademy() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Trench IQ | Defensive Line Specialist"
+        title="Defensive Line Specialist | Elite Position Training"
         description="The nation's premier defensive line and linebacker training program. 30+ years of elite coaching experience developing elite front-seven players."
       />
       <Navbar />
@@ -94,14 +94,6 @@ export default function TrenchAcademy() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mb-6"
             >
-              <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-white/10 backdrop-blur-sm border-2 border-[#4ade80]/50 mb-4">
-                <img
-                  src="/images/partners/trench-iq-logo.png?v=trench-iq-1"
-                  alt="Trench IQ logo"
-                  className="h-16 w-auto object-contain"
-                  loading="eager"
-                />
-              </div>
             </motion.div>
 
             <Badge className="mb-6 bg-[#4ade80] text-[#1a365d] font-semibold px-4 py-2 text-sm">
@@ -109,10 +101,8 @@ export default function TrenchAcademy() {
             </Badge>
 
             <h1 className="text-5xl md:text-7xl font-display font-black text-white mb-4 tracking-tight leading-none">
-              TRENCH IQ
-              <span className="block text-[#4ade80] text-3xl md:text-4xl mt-2 font-bold tracking-wider">
-                DEFENSIVE LINE SPECIALIST
-              </span>
+              DEFENSIVE LINE
+              <span className="block text-[#4ade80]">SPECIALIST</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-2xl font-light">
@@ -209,7 +199,7 @@ export default function TrenchAcademy() {
       <section className="relative">
         <img
           src="/images/trench-iq-page.png"
-          alt="Defensive Line Specialist - Trench IQ"
+          alt="Defensive Line Specialist"
           className="w-full object-cover max-h-[500px] object-top"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
@@ -259,12 +249,12 @@ export default function TrenchAcademy() {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto text-center mb-16"
           >
-            <Badge variant="outline" className="mb-4">Why Trench IQ</Badge>
+            <Badge variant="outline" className="mb-4">Why Choose Us</Badge>
             <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-6">
               The Nation's Premier Defensive Line & Linebacker Training
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Trench IQ stands as the premier destination for elite defensive line and linebacker training in the United States. With over three decades of combined coaching experience at the highest levels of the sport, our staff has developed, trained, and mentored athletes who have gone on to dominate at the collegiate and professional levels.
+              The premier destination for elite defensive line and linebacker training in the United States. With over three decades of combined coaching experience at the highest levels of the sport, our staff has developed, trained, and mentored athletes who have gone on to dominate at the collegiate and professional levels.
               {"\n\n"}
               Our methodology sets us apart from elite programs like IMG Academy, Excel Sports, and nationally recognized position camps. We don't just train athletes—we engineer complete players through an intensive curriculum that combines on-field technique work with comprehensive film study and cognitive development.
             </p>
@@ -577,7 +567,7 @@ export default function TrenchAcademy() {
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               While programs like IMG Academy, Excel Sports, and regional elite camps offer quality training, 
-              Trench IQ provides an unmatched focus on defensive line and linebacker mastery.
+              we provide an unmatched focus on defensive line and linebacker mastery.
             </p>
           </motion.div>
 
@@ -645,7 +635,7 @@ export default function TrenchAcademy() {
             </h2>
             <p className="text-lg text-white/80 mb-8">
               Join the elite defensive linemen and linebackers who have transformed their game through 
-              Trench IQ's position-specific training and film evaluation.
+              our position-specific training and film evaluation.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button 
