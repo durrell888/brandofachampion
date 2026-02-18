@@ -25,12 +25,12 @@ export interface FilmEvaluationProcess {
 }
 
 export const trenchAcademyInfo = {
-  name: "Trench IQ",
+  name: "Defensive Line Specialist",
   tagline: "Elite Position Training for the Next Generation of Champions",
   experience: "30+ Years of Elite Coaching Experience",
-  description: `Trench IQ stands as the premier destination for elite football position training in the United States. With over three decades of combined coaching experience at the highest levels of the sport, our staff has developed, trained, and mentored athletes who have gone on to dominate at the collegiate and professional levels.
+  description: `The nation's premier destination for elite defensive line and linebacker training in the United States. With over three decades of combined coaching experience at the highest levels of the sport, our staff has developed, trained, and mentored athletes who have gone on to dominate at the collegiate and professional levels.
 
-Unlike traditional camps that offer generalized instruction, Trench IQ specializes in position-specific mastery. We dissect every aspect of linebacker, offensive line, defensive line, and running back play—from fundamental stance and start mechanics to advanced scheme recognition and situational awareness.
+Unlike traditional camps that offer generalized instruction, we specialize in position-specific mastery. We dissect every aspect of linebacker, defensive line, and running back play—from fundamental stance and start mechanics to advanced scheme recognition and situational awareness.
 
 Our methodology sets us apart from elite programs like IMG Academy, Excel Sports, and nationally recognized position camps. We don't just train athletes—we engineer complete players through an intensive curriculum that combines on-field technique work with comprehensive film study and cognitive development.`,
   

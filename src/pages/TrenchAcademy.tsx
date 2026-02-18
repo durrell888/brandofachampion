@@ -62,7 +62,7 @@ export default function TrenchAcademy() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Defensive Line Specialist | Elite Position Training"
+        title="Defensive Line Specialist"
         description="The nation's premier defensive line and linebacker training program. 30+ years of elite coaching experience developing elite front-seven players."
       />
       <Navbar />
