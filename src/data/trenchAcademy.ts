@@ -27,7 +27,7 @@ export interface FilmEvaluationProcess {
 export const trenchAcademyInfo = {
   name: "Defensive Line Specialist",
   tagline: "Elite Position Training for the Next Generation of Champions",
-  experience: "30+ Years of Elite Coaching Experience",
+  experience: "10+ Years of Elite Coaching Experience",
   description: `The nation's premier destination for elite defensive line and linebacker training in the United States. With over three decades of combined coaching experience at the highest levels of the sport, our staff has developed, trained, and mentored athletes who have gone on to dominate at the collegiate and professional levels.
 
 Unlike traditional camps that offer generalized instruction, we specialize in position-specific mastery. We dissect every aspect of linebacker, defensive line, and running back play—from fundamental stance and start mechanics to advanced scheme recognition and situational awareness.
@@ -68,10 +68,10 @@ Our methodology sets us apart from elite programs like IMG Academy, Excel Sports
   ],
 
   stats: [
-    { value: "30+", label: "Years Experience" },
-    { value: "500+", label: "Athletes Trained" },
-    { value: "150+", label: "College Commits" },
-    { value: "25+", label: "NFL Players Developed" }
+    { value: "10+", label: "Years Experience" },
+    { value: "250+", label: "Athletes Trained" },
+    { value: "50+", label: "College Commits" },
+    { value: "25+", label: "NFL Players Trained" }
   ],
 
   videoReviewLink: "https://meet.jit.si/TrenchAcademyIQ-FilmReview"
