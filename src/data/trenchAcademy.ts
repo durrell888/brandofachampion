@@ -74,7 +74,7 @@ Our methodology sets us apart from elite programs like IMG Academy, Excel Sports
     { value: "25+", label: "NFL Players Trained" }
   ],
 
-  videoReviewLink: "https://meet.jit.si/TrenchAcademyIQ-FilmReview"
+  videoReviewLink: "https://meet.jit.si/DefensiveLineSpecialist-FilmReview"
 };
 
 export const filmEvaluationProcess: FilmEvaluationProcess[] = [

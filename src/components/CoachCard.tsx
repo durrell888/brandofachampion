@@ -16,7 +16,7 @@ export function CoachCard({ coach, onBook }: CoachCardProps) {
 
   const handleCardClick = () => {
     if (coach.id === "dline-specialist") {
-      navigate("/trench-iq");
+      navigate("/defensive-line-specialist");
     } else {
       navigate(`/coach/${coach.id}`);
     }
