@@ -13,7 +13,6 @@ import { VideoBackgroundTile } from "@/components/VideoBackgroundTile";
 import olineDrill from "@/assets/videos/oline-drill.mp4";
 import dlineDrill from "@/assets/videos/dline-drill.mp4";
 import linebackerDrill from "@/assets/videos/linebacker-drill.mp4";
-import rbDrill from "@/assets/videos/rb-drill.mp4";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -44,49 +43,63 @@ const iconMap: Record<string, React.ElementType> = {
   Dumbbell
 };
 
+// Only linebacker and line positions
+const filteredCurriculums = positionCurriculums.filter(p => 
+  p.id === "linebacker" || p.id === "offensive-line" || p.id === "defensive-line"
+);
+
 export default function TrenchAcademy() {
-  const [selectedPosition, setSelectedPosition] = useState<PositionCurriculum>(positionCurriculums[0]);
+  const [selectedPosition, setSelectedPosition] = useState<PositionCurriculum>(filteredCurriculums[0]);
 
   const handleVideoReview = () => {
     window.open(trenchAcademyInfo.videoReviewLink, '_blank');
   };
 
   const handleBookSession = () => {
-    // Redirect to Cash App with $TrenchIQ cashtag and $40 amount
     window.open('https://cash.app/$TrenchIQ/40', '_blank');
   };
 
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Trench IQ | Elite Position Training"
-        description="The nation's premier football position training program. 30+ years of elite coaching experience in linebacker, offensive line, defensive line, and running back development."
+        title="Trench IQ | Defensive Line Specialist"
+        description="The nation's premier defensive line and linebacker training program. 30+ years of elite coaching experience developing elite front-seven players."
       />
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-[#1a365d] via-[#234e70] to-[#2d5a3c] pt-24 pb-12">
+      {/* Hero Section - with front image */}
+      <section className="relative min-h-[85vh] flex items-center pt-20">
+        {/* Background Hero Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/images/trench-iq-hero.jpg"
+            alt="Defensive Line Training"
+            className="w-full h-full object-cover object-center"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/90 via-[#1a365d]/75 to-[#0a1628]/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628] via-transparent to-transparent" />
+        </div>
+
         <div className="container relative z-10 px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-5xl mx-auto text-center"
+            className="max-w-3xl"
           >
-            {/* Logo/Brand Mark */}
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="mb-8"
+              className="mb-6"
             >
-              <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-white/10 backdrop-blur-sm border-2 border-[#4ade80]/50 mb-6">
+              <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-white/10 backdrop-blur-sm border-2 border-[#4ade80]/50 mb-4">
                 <img
                   src="/images/partners/trench-iq-logo.png?v=trench-iq-1"
                   alt="Trench IQ logo"
-                  className="h-24 w-auto object-contain"
+                  className="h-16 w-auto object-contain"
                   loading="eager"
-                  decoding="async"
                 />
               </div>
             </motion.div>
@@ -95,16 +108,18 @@ export default function TrenchAcademy() {
               {trenchAcademyInfo.experience}
             </Badge>
 
-            <h1 className="text-5xl md:text-7xl font-display font-black text-white mb-6 tracking-tight">
-              TRENCH
-              <span className="block text-[#4ade80]">IQ</span>
+            <h1 className="text-5xl md:text-7xl font-display font-black text-white mb-4 tracking-tight leading-none">
+              TRENCH IQ
+              <span className="block text-[#4ade80] text-3xl md:text-4xl mt-2 font-bold tracking-wider">
+                DEFENSIVE LINE SPECIALIST
+              </span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-3xl mx-auto font-light">
-              {trenchAcademyInfo.tagline}
+            <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-2xl font-light">
+              Elite front-seven training for linebackers and linemen ready to dominate at the next level.
             </p>
 
-            <div className="flex flex-wrap justify-center gap-4 mb-12">
+            <div className="flex flex-wrap gap-4 mb-10">
               <Button 
                 size="lg" 
                 className="bg-[#4ade80] hover:bg-[#22c55e] text-[#1a365d] font-bold px-8"
@@ -115,7 +130,7 @@ export default function TrenchAcademy() {
               </Button>
               <Button 
                 size="lg" 
-                className="bg-[#1a365d] hover:bg-[#0f2940] text-white font-bold px-8 border border-white/20"
+                className="bg-white/10 hover:bg-white/20 text-white font-bold px-8 border border-white/30 backdrop-blur-sm"
                 onClick={() => document.getElementById('positions')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Explore Curriculum
@@ -137,7 +152,7 @@ export default function TrenchAcademy() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-wrap justify-center gap-6 mb-10"
+              className="flex flex-wrap gap-6"
             >
               <a 
                 href="tel:4048673278" 
@@ -163,29 +178,44 @@ export default function TrenchAcademy() {
                 <span>@trenchiq_</span>
               </a>
             </motion.div>
+          </motion.div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {trenchAcademyInfo.stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                  className="text-center"
-                >
-                  <div className="text-4xl md:text-5xl font-display font-black text-[#4ade80] mb-2">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-white/70">{stat.label}</div>
-                </motion.div>
-              ))}
-            </div>
+          {/* Stats Grid - bottom of hero */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 max-w-3xl"
+          >
+            {trenchAcademyInfo.stats.map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                className="text-center backdrop-blur-sm bg-white/5 rounded-xl p-4 border border-white/10"
+              >
+                <div className="text-3xl md:text-4xl font-display font-black text-[#4ade80] mb-1">
+                  {stat.value}
+                </div>
+                <div className="text-xs text-white/70">{stat.label}</div>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </section>
 
-      {/* Video Grid Section */}
+      {/* Page Image Section - full-width Mataio Soli graphic */}
+      <section className="relative">
+        <img
+          src="/images/trench-iq-page.png"
+          alt="Defensive Line Specialist - Trench IQ"
+          className="w-full object-cover max-h-[500px] object-top"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+      </section>
+
+      {/* Video Grid Section - only O-Line, D-Line, and Linebacker */}
       <section className="py-12 bg-background">
         <div className="container px-4">
           <motion.div
@@ -205,7 +235,7 @@ export default function TrenchAcademy() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto"
           >
             <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
               <VideoBackgroundTile videoSrc={`${olineDrill}?v=1`} label="O-LINE" />
@@ -215,9 +245,6 @@ export default function TrenchAcademy() {
             </div>
             <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
               <VideoBackgroundTile videoSrc={`${linebackerDrill}?v=1`} label="LINEBACKER" />
-            </div>
-            <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
-              <VideoBackgroundTile videoSrc={`${rbDrill}?v=2`} label="RUNNING BACK" />
             </div>
           </motion.div>
         </div>
@@ -234,10 +261,12 @@ export default function TrenchAcademy() {
           >
             <Badge variant="outline" className="mb-4">Why Trench IQ</Badge>
             <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-6">
-              The Nation's Premier Position Training Program
+              The Nation's Premier Defensive Line & Linebacker Training
             </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
-              {trenchAcademyInfo.description}
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Trench IQ stands as the premier destination for elite defensive line and linebacker training in the United States. With over three decades of combined coaching experience at the highest levels of the sport, our staff has developed, trained, and mentored athletes who have gone on to dominate at the collegiate and professional levels.
+              {"\n\n"}
+              Our methodology sets us apart from elite programs like IMG Academy, Excel Sports, and nationally recognized position camps. We don't just train athletes—we engineer complete players through an intensive curriculum that combines on-field technique work with comprehensive film study and cognitive development.
             </p>
           </motion.div>
 
@@ -355,7 +384,7 @@ export default function TrenchAcademy() {
         </div>
       </section>
 
-      {/* Position Curriculum Section */}
+      {/* Position Curriculum Section - LB, O-Line, D-Line only */}
       <section id="positions" className="py-20 bg-muted/30">
         <div className="container px-4">
           <motion.div
@@ -375,15 +404,15 @@ export default function TrenchAcademy() {
           </motion.div>
 
           <Tabs 
-            defaultValue={positionCurriculums[0].id} 
+            defaultValue={filteredCurriculums[0].id} 
             className="w-full"
             onValueChange={(value) => {
-              const position = positionCurriculums.find(p => p.id === value);
+              const position = filteredCurriculums.find(p => p.id === value);
               if (position) setSelectedPosition(position);
             }}
           >
             <TabsList className="w-full flex flex-wrap justify-center gap-2 bg-transparent mb-8">
-              {positionCurriculums.map((pos) => {
+              {filteredCurriculums.map((pos) => {
                 const Icon = iconMap[pos.icon] || Shield;
                 return (
                   <TabsTrigger
@@ -398,7 +427,7 @@ export default function TrenchAcademy() {
               })}
             </TabsList>
 
-            {positionCurriculums.map((pos) => {
+            {filteredCurriculums.map((pos) => {
               const Icon = iconMap[pos.icon] || Shield;
               return (
                 <TabsContent key={pos.id} value={pos.id}>
@@ -507,7 +536,6 @@ export default function TrenchAcademy() {
                           </CardContent>
                         </Card>
 
-                        {/* Quick Actions */}
                         <Button 
                           className="w-full mt-4"
                           variant="hero"
@@ -549,7 +577,7 @@ export default function TrenchAcademy() {
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               While programs like IMG Academy, Excel Sports, and regional elite camps offer quality training, 
-              Trench IQ provides an unmatched focus on position-specific mastery.
+              Trench IQ provides an unmatched focus on defensive line and linebacker mastery.
             </p>
           </motion.div>
 
@@ -557,7 +585,7 @@ export default function TrenchAcademy() {
             {[
               { 
                 title: "Position Depth", 
-                description: "While others offer broad training, we dive deep into every nuance of your specific position",
+                description: "While others offer broad training, we dive deep into every nuance of defensive line and linebacker play",
                 highlight: true
               },
               { 
@@ -613,11 +641,11 @@ export default function TrenchAcademy() {
               <span className="text-3xl font-display font-black text-white">KQ</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">
-              Ready to Dominate Your Position?
+              Ready to Dominate the Trenches?
             </h2>
             <p className="text-lg text-white/80 mb-8">
-              Join the elite athletes who have transformed their game through Trench IQ's 
-              position-specific training and film evaluation.
+              Join the elite defensive linemen and linebackers who have transformed their game through 
+              Trench IQ's position-specific training and film evaluation.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button 
