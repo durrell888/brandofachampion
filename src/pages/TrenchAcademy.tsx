@@ -67,15 +67,8 @@ export default function TrenchAcademy() {
 
       {/* Hero Section - with front image */}
       <section className="relative min-h-[85vh] flex items-center pt-20">
-        {/* Background Hero Image */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="/images/trench-iq-hero.jpg"
-            alt="Defensive Line Training"
-            className="w-full h-full object-cover object-center"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1a0a00]/92 via-[#3d1500]/80 to-[#1a0a00]/65" />
+        {/* Dark Background */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#1a0a00] via-[#3d1500] to-[#1a0a00]">
           <div className="absolute inset-0 bg-gradient-to-t from-[#0d0500] via-transparent to-transparent" />
         </div>
 
