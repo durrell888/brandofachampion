@@ -60,7 +60,7 @@ export const coaches: Coach[] = [
   },
   {
     id: "strength-coach",
-    name: "Brand of a Champion Strength and Speed Performance",
+    name: "Elliot Berry",
     position: "Strength and Speed Performance",
     positionGroup: "Strength & Speed Performance",
     image: "/images/team/strength-speed-performance.png",
