@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Coach } from "@/data/coaches";
 import { useNavigate } from "react-router-dom";
+import soliDlineImg from "@/assets/soli-dline-specialist.png";
 
 interface CoachCardProps {
   coach: Coach;
@@ -35,7 +36,7 @@ export function CoachCard({ coach, onBook }: CoachCardProps) {
   };
 
   const isLogoImage = coach.id === "dline-specialist" || coach.image.includes("soli-dline");
-  const coachImageSrc = coach.image;
+  const coachImageSrc = coach.id === "dline-specialist" ? soliDlineImg : coach.image;
 
   return (
     <motion.div
