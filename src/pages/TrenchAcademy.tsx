@@ -5,7 +5,7 @@ import {
   Calendar, ArrowRight, ExternalLink, DollarSign,
   MapPin, Clock,
 } from "lucide-react";
-import soliLogo from "@/assets/soli-logo.png";
+import soliLogo from "@/assets/soli-performance-systems-logo.jpg";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";

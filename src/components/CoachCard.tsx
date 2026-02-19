@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Coach } from "@/data/coaches";
 import { useNavigate } from "react-router-dom";
-import soliDlineImg from "@/assets/soli-dline-specialist.png";
+import soliDlineImg from "@/assets/soli-performance-systems-logo.jpg";
 
 interface CoachCardProps {
   coach: Coach;
