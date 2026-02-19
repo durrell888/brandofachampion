@@ -164,6 +164,23 @@ export default function TrenchAcademy() {
         </div>
       </section>
 
+      {/* Logo Section - above the photo */}
+      <section className="bg-[#1a0a00] py-10 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="flex items-center justify-center"
+        >
+          <img
+            src={soliLogo}
+            alt="SOLI Performance Systems"
+            className="w-72 md:w-96 lg:w-[480px] object-contain invert brightness-200"
+          />
+        </motion.div>
+      </section>
+
       {/* Page Image Section - full-width Mataio Soli graphic */}
       <section className="relative">
         <img
