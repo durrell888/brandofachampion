@@ -80,19 +80,17 @@ export default function TrenchAcademy() {
             className="max-w-3xl"
           >
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
               className="mb-6"
             >
-              <div className="inline-flex items-center justify-center w-28 h-28 rounded-full bg-black/30 backdrop-blur-sm border-2 border-[#c8a850]/50 mb-4 shadow-[0_0_30px_rgba(200,168,80,0.3)]">
-                <img
-                  src={soliLogo}
-                  alt="SOLI - Defensive Line Specialist"
-                  className="h-24 w-24 object-contain rounded-full"
-                  loading="eager"
-                />
-              </div>
+              <img
+                src={soliLogo}
+                alt="SOLI Performance Systems"
+                className="w-64 md:w-80 object-contain invert brightness-200"
+                loading="eager"
+              />
             </motion.div>
 
             <Badge className="mb-6 bg-[#c8a850] text-[#1a0a00] font-semibold px-4 py-2 text-sm">
@@ -162,23 +160,6 @@ export default function TrenchAcademy() {
             ))}
           </motion.div>
         </div>
-      </section>
-
-      {/* Logo Section - above the photo */}
-      <section className="bg-[#1a0a00] py-10 flex items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex items-center justify-center"
-        >
-          <img
-            src={soliLogo}
-            alt="SOLI Performance Systems"
-            className="w-72 md:w-96 lg:w-[480px] object-contain invert brightness-200"
-          />
-        </motion.div>
       </section>
 
       {/* Page Image Section - full-width Mataio Soli graphic */}
