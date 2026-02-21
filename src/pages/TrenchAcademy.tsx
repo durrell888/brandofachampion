@@ -209,7 +209,7 @@ export default function TrenchAcademy() {
               <div className="divide-y divide-[#c8a850]/10">
                 {[
                   { day: "Monday", active: true },
-                  { day: "Wednesday", active: true },
+                  { day: "Thursday", active: true },
                 ].map(({ day, active }) => (
                   <div key={day} className="flex items-center justify-between px-8 py-5">
                     <div className="flex items-center gap-3">
