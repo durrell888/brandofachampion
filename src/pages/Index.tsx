@@ -235,7 +235,7 @@ const Index = () => {
               </div>
               <div className="p-6 text-center">
                 <h3 className="text-xl font-extrabold text-foreground mb-1">Sanya Richards-Ross</h3>
-                <p className="text-accent font-bold mb-3">Athlete Marketing</p>
+                <p className="text-accent font-bold mb-3">Athlete Marketing & Mindset Training</p>
                 <p className="text-muted-foreground text-sm mb-4">
                   6x Olympic Gold Medalist, Nike Ambassador, NBC Sports Host, and Philanthropist.
                 </p>
