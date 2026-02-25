@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   TrendingUp, Users, Eye, Award, Handshake, ArrowRight, 
   Car, UtensilsCrossed, Shirt, Building2, Send, CheckCircle2,
-  Play, X, Star, BarChart3, Target, Megaphone
+  Play, X, Star, BarChart3, Target, Megaphone, ChevronDown
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -77,24 +77,60 @@ const industryFit = [
     title: "Auto Dealerships",
     description: "Reach families actively purchasing vehicles for new college-bound athletes. Your brand becomes synonymous with achievement.",
     examples: ["Event Vehicle Sponsor", "Athlete of the Month Award", "Test Drive at Camp Days"],
+    expandedDetails: {
+      headline: "Why Auto Dealerships Win With Us",
+      points: [
+        "Our athletes' families are in the market for reliable vehicles — from daily drivers to college move-in SUVs. Your dealership gets in front of them at the exact right time.",
+        "Feature your vehicles at our showcase events where 200+ families attend, giving you direct face time with motivated buyers.",
+        "Co-branded 'Athlete of the Month' campaigns drive monthly social engagement, putting your dealership name in front of 500K+ impressions.",
+        "Exclusive on-site activations like 'Test Drive at Camp' create memorable brand experiences that translate to showroom visits.",
+      ],
+    },
   },
   {
     icon: UtensilsCrossed,
     title: "Food & Beverage",
     description: "Fuel the next generation of champions. Perfect alignment for nutrition, hydration, and restaurant brands.",
     examples: ["Camp Nutrition Sponsor", "Post-Game Meal Partner", "Branded Hydration Stations"],
+    expandedDetails: {
+      headline: "Feed Champions, Grow Your Brand",
+      points: [
+        "Athletes and their families are passionate about nutrition — your brand becomes the trusted fuel behind their performance.",
+        "Branded hydration stations at every event put your product directly in the hands of hundreds of athletes and spectators.",
+        "Post-game meal partnerships create repeat customers — families associate your restaurant with celebration and community.",
+        "Our cinematic content team creates professional product-integration videos that showcase your brand authentically across social media.",
+      ],
+    },
   },
   {
     icon: Shirt,
     title: "Apparel & Sportswear",
     description: "Outfit our athletes and get your brand seen on fields, social media, and highlight reels across the nation.",
     examples: ["Team Outfitting Partner", "Athlete Endorsement Deals", "Branded Camp Gear"],
+    expandedDetails: {
+      headline: "Your Brand On Every Field",
+      points: [
+        "Our athletes are seen by college coaches, scouts, and recruiters nationwide — your logo travels with them to every showcase and combine.",
+        "Athlete endorsement content featuring your gear gets shared organically by families, coaches, and recruiting platforms.",
+        "Branded camp gear (shirts, bags, accessories) turns every participant into a walking billboard in their community.",
+        "Our highlight reels and training videos rack up thousands of views — your apparel is front and center in every frame.",
+      ],
+    },
   },
   {
     icon: Building2,
     title: "Financial & Professional Services",
     description: "Build trust with families planning for their athlete's future. Education, insurance, and wealth management.",
     examples: ["Scholarship Fund Sponsor", "Financial Literacy Workshops", "Parent Seminar Presenter"],
+    expandedDetails: {
+      headline: "Build Trust With Families Who Need You",
+      points: [
+        "Parents of student-athletes are actively planning for college costs, insurance, and financial futures — you solve real problems they face right now.",
+        "Sponsoring our scholarship fund positions your firm as a community leader committed to education and opportunity.",
+        "Host financial literacy workshops at our events to establish your expertise directly with an engaged, motivated audience.",
+        "Parent seminars on NIL, college planning, and wealth management give you a captive audience of decision-makers ready to take action.",
+      ],
+    },
   },
 ];
 
@@ -144,6 +180,7 @@ const ProgramPartnerships = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [showQCollarVideo, setShowQCollarVideo] = useState(false);
+  const [expandedIndustry, setExpandedIndustry] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     company: "",
@@ -353,34 +390,82 @@ const ProgramPartnerships = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {industryFit.map((industry, i) => (
-              <motion.div
-                key={industry.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-card border border-border rounded-xl p-8 hover:border-accent/50 transition-all"
-              >
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center shrink-0">
-                    <industry.icon className="w-6 h-6 text-accent" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-extrabold text-foreground mb-1">{industry.title}</h3>
-                    <p className="text-muted-foreground text-sm">{industry.description}</p>
-                  </div>
-                </div>
-                <div className="space-y-2 pl-16">
-                  {industry.examples.map((ex) => (
-                    <div key={ex} className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-accent shrink-0" />
-                      <span className="text-sm text-foreground font-medium">{ex}</span>
+            {industryFit.map((industry, i) => {
+              const isExpanded = expandedIndustry === industry.title;
+              return (
+                <motion.div
+                  key={industry.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className={`bg-card border rounded-xl p-8 cursor-pointer transition-all duration-300 ${
+                    isExpanded ? "border-accent shadow-lg shadow-accent/10" : "border-border hover:border-accent/50"
+                  }`}
+                  onClick={() => setExpandedIndustry(isExpanded ? null : industry.title)}
+                >
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center shrink-0">
+                      <industry.icon className="w-6 h-6 text-accent" />
                     </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-xl font-extrabold text-foreground mb-1">{industry.title}</h3>
+                        <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`} />
+                      </div>
+                      <p className="text-muted-foreground text-sm">{industry.description}</p>
+                    </div>
+                  </div>
+                  <div className="space-y-2 pl-16">
+                    {industry.examples.map((ex) => (
+                      <div key={ex} className="flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-accent shrink-0" />
+                        <span className="text-sm text-foreground font-medium">{ex}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <AnimatePresence>
+                    {isExpanded && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="mt-6 pt-6 border-t border-border">
+                          <h4 className="text-lg font-extrabold text-accent mb-4">
+                            {industry.expandedDetails.headline}
+                          </h4>
+                          <div className="space-y-3">
+                            {industry.expandedDetails.points.map((point, idx) => (
+                              <div key={idx} className="flex items-start gap-3">
+                                <ArrowRight className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                                <p className="text-sm text-muted-foreground leading-relaxed">{point}</p>
+                              </div>
+                            ))}
+                          </div>
+                          <Button
+                            variant="hero"
+                            size="lg"
+                            className="mt-6 group"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              document.getElementById('partner-inquiry')?.scrollIntoView({ behavior: 'smooth' });
+                            }}
+                          >
+                            <Send className="w-4 h-4" />
+                            Partner With Us
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          </Button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
