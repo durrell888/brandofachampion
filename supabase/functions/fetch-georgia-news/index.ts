@@ -32,7 +32,7 @@ const fallbackArticles: NewsArticle[] = [
     description: "The Class of 2027 is stacked with quarterback talent across the Peach State. Multiple prospects already hold double-digit Power 4 offers heading into spring.",
     source: "MaxPreps",
     url: "https://maxpreps.com",
-    imageUrl: "https://images.unsplash.com/photo-1461896836934-bd45ba8c4e42?w=600",
+    imageUrl: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600",
     publishedAt: new Date().toISOString(),
     category: "Recruiting",
   },
