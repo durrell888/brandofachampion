@@ -73,6 +73,8 @@ const sourceColors: Record<string, string> = {
   "Georgia Sports": "text-red-500",
   "Hudl": "text-orange-400",
   "PrepGameday": "text-blue-400",
+  "GPB Sports": "text-cyan-400",
+  "AJC": "text-amber-400",
 };
 
 function getTimeAgo(dateString: string): string {
