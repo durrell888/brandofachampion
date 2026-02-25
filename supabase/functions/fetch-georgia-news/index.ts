@@ -90,6 +90,24 @@ const fallbackArticles: NewsArticle[] = [
     publishedAt: new Date().toISOString(),
     category: "High School",
   },
+  {
+    title: "GPB Sports: Top 10 Georgia High School Football Teams for 2026",
+    description: "Georgia Public Broadcasting ranks the state's top programs heading into the 2026 season, with several surprise entries cracking the list.",
+    source: "GPB Sports",
+    url: "https://www.gpb.org/sports",
+    imageUrl: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600",
+    publishedAt: new Date().toISOString(),
+    category: "High School",
+  },
+  {
+    title: "AJC Super 11: Georgia's Most Recruited Players for the Class of 2027",
+    description: "The Atlanta Journal-Constitution unveils its annual Super 11 list, spotlighting the most sought-after high school football recruits across the Peach State.",
+    source: "AJC",
+    url: "https://www.ajc.com/sports/high-school",
+    imageUrl: "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=600",
+    publishedAt: new Date().toISOString(),
+    category: "Recruiting",
+  },
 ];
 
 serve(async (req) => {
@@ -165,6 +183,8 @@ serve(async (req) => {
         if (url.includes('espn.com')) source = 'ESPN';
         else if (url.includes('maxpreps.com')) source = 'MaxPreps';
         else if (url.includes('ghsa.net')) source = 'GHSA';
+        else if (url.includes('gpb.org') || url.includes('gpbsports.org')) source = 'GPB Sports';
+        else if (url.includes('ajc.com')) source = 'AJC';
         else {
           try {
             const urlObj = new URL(url);
