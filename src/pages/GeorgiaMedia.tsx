@@ -66,14 +66,13 @@ interface CommunityArticle {
 }
 
 const sourceColors: Record<string, string> = {
-  "247Sports": "text-blue-400",
-  "On3": "text-emerald-400",
-  "Rivals": "text-orange-400",
   "MaxPreps": "text-purple-400",
   "ESPN": "text-red-400",
   "GHSA": "text-yellow-400",
   "Georgia Sports Now": "text-red-500",
   "Georgia Sports": "text-red-500",
+  "Hudl": "text-orange-400",
+  "PrepGameday": "text-blue-400",
 };
 
 function getTimeAgo(dateString: string): string {
@@ -694,53 +693,47 @@ const GeorgiaMedia = () => {
                       </h3>
                     </div>
                     <div className="p-4">
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
+                     <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
                         <Calendar className="w-3 h-3" />
-                        <span>January 24, 2026</span>
+                        <span>February 25, 2026</span>
                       </div>
                       
-                      {/* Joey King Story */}
+                      {/* Buford vs Milton Rivalry Story */}
                       <div className="space-y-4">
                         <img 
-                          src="/images/joey-king-carrollton.jpg" 
-                          alt="Joey King - Carrollton Trojans Head Coach" 
+                          src="https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=600" 
+                          alt="Georgia high school football rivalry" 
                           className="w-full rounded-lg object-cover aspect-square"
                         />
                         
                         <h4 className="font-bold text-foreground text-lg leading-tight">
-                          Is Joey King Overrated? A Fair Question Emerging in Georgia High School Football
+                          Buford vs. Milton: The Rivalry That's Defining Georgia High School Football in 2026
                         </h4>
                         
                         <div className="text-sm text-muted-foreground space-y-3 max-h-[400px] overflow-y-auto pr-2">
                           <p>
-                            In Georgia high school football circles, few names spark as much conversation as Joey King. As the head coach of the Carrollton Trojans, King sits at the center of one of the most talent-rich programs in the state—and one of the most scrutinized.
+                            When the conversation turns to Georgia high school football supremacy, two programs keep rising to the top: the Buford Wolves and the Milton Eagles. What was once an occasional playoff matchup has evolved into the state's most compelling rivalry.
                           </p>
                           <p>
-                            Carrollton has become a destination job. Elite facilities, a massive community following, and a roster that routinely features Power Five–level prospects. Most notably, King has coached Julian Lewis, widely regarded as the No. 1 quarterback in the nation during his high school career, along with a host of other blue-chip recruits year after year.
+                            Buford, with its blue-collar identity and championship pedigree, has long been the gold standard in Georgia. Under a tradition of elite coaching, the Wolves have stacked state titles and consistently sent players to Power Five programs. Their formula—discipline, physicality, and next-man-up mentality—hasn't changed, even as the talent landscape shifts.
                           </p>
                           <p>
-                            King is also reportedly the highest-paid high school football coach in the state of Georgia, a reflection of expectations that come with the job. And that's where the debate begins.
+                            Milton, meanwhile, has emerged as a recruiting powerhouse. With a North Fulton County zip code that attracts top-tier talent and a coaching staff that knows how to develop it, the Eagles have become must-watch football every Friday night. Their roster reads like a college depth chart, and the national attention follows.
                           </p>
                           <p>
-                            Despite deep playoff runs and consistent national attention, <strong>a state championship has remained elusive at Carrollton</strong> during King's tenure. For a program built to win it all, "almost" has started to feel like a lingering headline.
+                            <strong>The 2025 season only fueled the fire.</strong> Both programs made deep playoff runs, and their head-to-head matchup delivered one of the most electric atmospheres in recent Georgia high school history. Scouts from every major conference packed the stands, and social media lit up with highlight clips.
                           </p>
                           <p className="font-medium text-foreground">
-                            That reality has fueled a growing question among fans, parents, and high school football analysts alike: Is Joey King overrated—or is the criticism unfair?
+                            Heading into 2026, the question isn't whether these two will meet again—it's whether anyone else can break through.
                           </p>
                           <p>
-                            Supporters of King point to his résumé. Before Carrollton, he led Cartersville to multiple state championships, establishing himself as one of the premier coaches in Georgia. His teams are disciplined, his quarterbacks are well-developed, and his programs are consistently competitive on the biggest stages.
+                            Spring practices are already underway, and both programs are reloading. Buford returns key pieces on the defensive line that dominated last fall, while Milton welcomes a transfer quarterback who's already generating early-season Heisman-level hype at the high school level.
                           </p>
                           <p>
-                            Critics, however, argue that elite talent demands elite results. With rosters stacked with Division I prospects—especially at quarterback—the absence of a state title stands out. In their view, when resources, pay, and personnel are at the very top, championships are the measuring stick, not playoff appearances.
-                          </p>
-                          <p>
-                            Others fall somewhere in the middle, noting that Georgia high school football is arguably the most competitive in the country. One or two plays can swing a season. Injuries, matchups, and timing matter. Winning a state title is never guaranteed.
+                            For Georgia football fans, this rivalry represents the best of what the state has to offer: elite talent, passionate communities, and games that feel like they matter beyond the scoreboard.
                           </p>
                           <p className="font-medium text-foreground italic">
-                            So, is Joey King overrated? Or is he a proven winner navigating one of the toughest competitive landscapes in high school sports, where expectations may be higher than reality allows?
-                          </p>
-                          <p>
-                            The answer likely depends on perspective. What's undeniable is this: as long as Carrollton continues to attract elite talent and fall just short of a championship, the question won't go away. And in Georgia high school football, few questions are louder—or more debated—than this one.
+                            Buford vs. Milton isn't just a game—it's the heartbeat of Georgia high school football. And in 2026, the stakes have never been higher.
                           </p>
                         </div>
                       </div>
