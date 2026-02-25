@@ -731,6 +731,51 @@ export type Database = {
           },
         ]
       }
+      user_submitted_news: {
+        Row: {
+          category: string
+          content: string | null
+          created_at: string
+          description: string
+          external_url: string | null
+          id: string
+          image_url: string | null
+          source: string | null
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          content?: string | null
+          created_at?: string
+          description: string
+          external_url?: string | null
+          id?: string
+          image_url?: string | null
+          source?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          content?: string | null
+          created_at?: string
+          description?: string
+          external_url?: string | null
+          id?: string
+          image_url?: string | null
+          source?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       subscription_status_safe: {
