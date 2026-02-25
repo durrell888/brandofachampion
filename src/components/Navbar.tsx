@@ -165,13 +165,6 @@ const Navbar = () => {
             >
               GA Media
             </Link>
-            <Link
-              to="/apparel"
-              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent ${isActive("/apparel") ? "text-accent" : ""}`}
-              style={{ animationDelay: "2.5s" }}
-            >
-              Apparel
-            </Link>
             
             {/* Donate Dropdown */}
             <div 
@@ -298,9 +291,6 @@ const Navbar = () => {
               </div>
               <Link to="/georgia-media" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 GA Media
-              </Link>
-              <Link to="/apparel" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
-                Apparel
               </Link>
               
               {/* Mobile Donate Accordion */}

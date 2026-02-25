@@ -37,15 +37,6 @@ const fallbackArticles: NewsArticle[] = [
     category: "Recruiting",
   },
   {
-    title: "DJ Bordeaux Continues to Dominate: Carrollton's Star DL Adds to Offer Sheet",
-    description: "Carrollton defensive lineman DJ Bordeaux picked up three more Power 4 offers this week, bringing his total to over 20. Georgia, Alabama, and Clemson are all in the mix.",
-    source: "GPB Sports",
-    url: "https://www.gpb.org/sports",
-    imageUrl: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600",
-    publishedAt: new Date().toISOString(),
-    category: "Recruiting",
-  },
-  {
     title: "GHSA Reclassification Shakes Up 2026 Landscape",
     description: "The latest GHSA reclassification has moved several programs into new regions, creating potential blockbuster matchups for the upcoming season.",
     source: "GHSA",
@@ -80,15 +71,6 @@ const fallbackArticles: NewsArticle[] = [
     imageUrl: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=600",
     publishedAt: new Date().toISOString(),
     category: "Recruiting",
-  },
-  {
-    title: "Douglas County Standouts Shine at Winter Showcase",
-    description: "Multiple Douglas County athletes posted elite testing numbers at the latest winter showcase event, drawing attention from D1 programs nationwide.",
-    source: "Georgia Sports Now",
-    url: "https://georgiasportsnow.com",
-    imageUrl: "https://images.unsplash.com/photo-1461896836934-bd45ba8c4e42?w=600",
-    publishedAt: new Date().toISOString(),
-    category: "High School",
   },
   {
     title: "GPB Sports: Top 10 Georgia High School Football Teams for 2026",
