@@ -80,6 +80,7 @@ const industryFit = [
     expandedDetails: {
       headline: "Why Auto Dealerships Win With Us",
       points: [
+        "Our 2026 freshman class alone projects over $2 million in college collective earnings — your dealership aligns with athletes whose value is already proven at the highest level.",
         "Our athletes' families are in the market for reliable vehicles — from daily drivers to college move-in SUVs. Your dealership gets in front of them at the exact right time.",
         "Feature your vehicles at our showcase events where 200+ families attend, giving you direct face time with motivated buyers.",
         "Co-branded 'Athlete of the Month' campaigns drive monthly social engagement, putting your dealership name in front of 500K+ impressions.",
