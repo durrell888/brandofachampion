@@ -16,13 +16,13 @@ interface NewsArticle {
   category?: string;
 }
 
-// Fallback articles focused on Georgia high school football (excluding On3)
+// Fallback articles focused on Georgia high school football
 const fallbackArticles: NewsArticle[] = [
   {
     title: "Spring Practice Preview: Georgia's Top Programs Gear Up for 2026",
     description: "With spring practice underway across the state, powerhouses like Milton, Buford, and Grayson are already building momentum for the fall. Here's what to watch.",
     source: "Georgia Sports Now",
-    url: "https://247sports.com",
+    url: "https://georgiasportsnow.com",
     imageUrl: "https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=600",
     publishedAt: new Date().toISOString(),
     category: "High School",
@@ -30,8 +30,8 @@ const fallbackArticles: NewsArticle[] = [
   {
     title: "2027 QB Rankings: Georgia's Next Wave of Signal Callers",
     description: "The Class of 2027 is stacked with quarterback talent across the Peach State. Multiple prospects already hold double-digit Power 4 offers heading into spring.",
-    source: "247Sports",
-    url: "https://247sports.com",
+    source: "MaxPreps",
+    url: "https://maxpreps.com",
     imageUrl: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600",
     publishedAt: new Date().toISOString(),
     category: "Recruiting",
@@ -39,8 +39,8 @@ const fallbackArticles: NewsArticle[] = [
   {
     title: "Carrollton's DJ Bordeaux Named to All-American Watch List",
     description: "The elite defensive lineman continues to rack up accolades as he enters his final high school season. Multiple SEC programs remain in hot pursuit.",
-    source: "Rivals",
-    url: "https://rivals.com",
+    source: "ESPN",
+    url: "https://espn.com",
     imageUrl: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600",
     publishedAt: new Date().toISOString(),
     category: "Recruiting",
@@ -57,8 +57,8 @@ const fallbackArticles: NewsArticle[] = [
   {
     title: "Georgia's 2026 Signing Day Recap: Where the Top Prospects Landed",
     description: "National Signing Day brought fireworks as Georgia's top seniors made their college commitments official. UGA, Auburn, and Tennessee were the biggest winners.",
-    source: "247Sports",
-    url: "https://247sports.com",
+    source: "ESPN",
+    url: "https://espn.com",
     imageUrl: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=600",
     publishedAt: new Date().toISOString(),
     category: "Recruiting",
@@ -84,8 +84,8 @@ const fallbackArticles: NewsArticle[] = [
   {
     title: "Douglas County Standouts Shine at Winter Showcase",
     description: "Multiple Douglas County athletes posted elite testing numbers at the latest winter showcase event, drawing attention from D1 programs nationwide.",
-    source: "Rivals",
-    url: "https://rivals.com",
+    source: "Georgia Sports Now",
+    url: "https://georgiasportsnow.com",
     imageUrl: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600",
     publishedAt: new Date().toISOString(),
     category: "High School",
@@ -155,16 +155,14 @@ serve(async (req) => {
       for (const result of searchData.data) {
         const url = result.url || '';
         
-        // Skip On3 articles
-        if (url.includes('on3.com')) {
-          console.log('Skipping On3 article:', result.title);
+        // Skip On3, 247Sports, and Rivals articles
+        if (url.includes('on3.com') || url.includes('247sports.com') || url.includes('rivals.com')) {
+          console.log('Skipping filtered source:', result.title);
           continue;
         }
 
         let source = 'Georgia Sports';
-        if (url.includes('247sports.com')) source = '247Sports';
-        else if (url.includes('rivals.com')) source = 'Rivals';
-        else if (url.includes('espn.com')) source = 'ESPN';
+        if (url.includes('espn.com')) source = 'ESPN';
         else if (url.includes('maxpreps.com')) source = 'MaxPreps';
         else if (url.includes('ghsa.net')) source = 'GHSA';
         else {
