@@ -11,10 +11,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { 
   Flame, TrendingUp, Users, Vote, Play, 
   Star, Zap, Newspaper, RefreshCw, ChevronRight,
-  Calendar, MessageSquare
+  Calendar, MessageSquare, PenSquare
 } from "lucide-react";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
+import SubmitNewsModal from "@/components/SubmitNewsModal";
 
 interface NewsArticle {
   id: string;
@@ -50,6 +51,18 @@ interface MediaVideo {
   youtube_id: string | null;
   category: string | null;
   is_featured: boolean;
+}
+
+interface CommunityArticle {
+  id: string;
+  title: string;
+  description: string;
+  content: string | null;
+  image_url: string | null;
+  category: string;
+  source: string;
+  created_at: string;
+  status: string;
 }
 
 const sourceColors: Record<string, string> = {
@@ -95,8 +108,11 @@ const GeorgiaMedia = () => {
   const [polls, setPolls] = useState<DailyPoll[]>([]);
   const [streak, setStreak] = useState<VisitorStreak | null>(null);
   const [videos, setVideos] = useState<MediaVideo[]>([]);
+  const [communityArticles, setCommunityArticles] = useState<CommunityArticle[]>([]);
+  const [mySubmissions, setMySubmissions] = useState<CommunityArticle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("all");
+  const [showMySubmissions, setShowMySubmissions] = useState(false);
   
   // Poll voting
   const [votedPolls, setVotedPolls] = useState<Set<string>>(new Set());
@@ -164,6 +180,36 @@ const GeorgiaMedia = () => {
     
     if (!error && data) {
       setVideos(data as MediaVideo[]);
+    }
+  };
+
+  // Fetch community-submitted approved articles
+  const fetchCommunityNews = async () => {
+    const { data, error } = await supabase
+      .from('user_submitted_news')
+      .select('*')
+      .eq('status', 'approved')
+      .order('created_at', { ascending: false })
+      .limit(20);
+    
+    if (!error && data) {
+      setCommunityArticles(data as CommunityArticle[]);
+    }
+  };
+
+  // Fetch user's own submissions
+  const fetchMySubmissions = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    
+    const { data, error } = await supabase
+      .from('user_submitted_news')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false });
+    
+    if (!error && data) {
+      setMySubmissions(data as CommunityArticle[]);
     }
   };
 
@@ -294,6 +340,8 @@ const GeorgiaMedia = () => {
         fetchNews(),
         fetchPolls(),
         fetchVideos(),
+        fetchCommunityNews(),
+        fetchMySubmissions(),
         trackVisitorStreak()
       ]);
       setIsLoading(false);
@@ -400,7 +448,7 @@ const GeorgiaMedia = () => {
             <div className="flex items-center gap-4 overflow-x-auto pb-2">
               <span className="text-primary font-bold whitespace-nowrap">GA Football</span>
               <div className="h-6 w-px bg-border" />
-              {["All", "High School", "Recruiting"].map((cat) => (
+              {["All", "High School", "Recruiting", "Community"].map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat.toLowerCase())}
@@ -413,7 +461,18 @@ const GeorgiaMedia = () => {
                   {cat}
                 </button>
               ))}
-              <div className="ml-auto">
+              <button
+                onClick={() => setShowMySubmissions(!showMySubmissions)}
+                className={`text-sm whitespace-nowrap transition-colors px-3 py-1 rounded-full ${
+                  showMySubmissions
+                    ? "bg-primary text-primary-foreground" 
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                }`}
+              >
+                My Posts
+              </button>
+              <div className="ml-auto flex items-center gap-2">
+                <SubmitNewsModal onSubmitted={() => { fetchCommunityNews(); fetchMySubmissions(); }} />
                 <Button 
                   variant="ghost" 
                   size="sm" 
@@ -541,6 +600,83 @@ const GeorgiaMedia = () => {
                             </a>
                           ))}
                         </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Community Submitted Articles */}
+                {!showMySubmissions && communityArticles.length > 0 && (
+                  <div className="space-y-4 mt-8">
+                    <h3 className="font-bold text-foreground flex items-center gap-2">
+                      <PenSquare className="w-4 h-4 text-primary" /> Community Stories
+                    </h3>
+                    <div className="space-y-3">
+                      {communityArticles
+                        .filter(a => activeCategory === "all" || a.category.toLowerCase() === activeCategory)
+                        .map((article) => (
+                        <article key={article.id} className="bg-card rounded-lg p-4 border border-border hover:border-primary/50 transition-colors">
+                          <div className="flex gap-4">
+                            {article.image_url && (
+                              <div className="w-24 h-16 flex-shrink-0 rounded overflow-hidden">
+                                <img src={article.image_url} alt={article.title} className="w-full h-full object-cover" />
+                              </div>
+                            )}
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-semibold text-foreground text-sm line-clamp-2">{article.title}</h4>
+                              <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{article.description}</p>
+                              <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2">
+                                <Badge variant="outline" className="text-xs">{article.category}</Badge>
+                                <span>•</span>
+                                <span>Community</span>
+                                <span>•</span>
+                                <span>{getTimeAgo(article.created_at)}</span>
+                              </div>
+                            </div>
+                          </div>
+                          {article.content && (
+                            <p className="text-sm text-muted-foreground mt-3 line-clamp-3">{article.content}</p>
+                          )}
+                        </article>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* My Submissions View */}
+                {showMySubmissions && (
+                  <div className="space-y-4 mt-4">
+                    <h3 className="font-bold text-foreground flex items-center gap-2">
+                      <PenSquare className="w-4 h-4 text-primary" /> My Submissions
+                    </h3>
+                    {mySubmissions.length === 0 ? (
+                      <Card className="p-8 text-center">
+                        <PenSquare className="w-10 h-10 text-muted-foreground mx-auto mb-3 opacity-50" />
+                        <p className="text-muted-foreground text-sm">You haven't submitted any articles yet.</p>
+                      </Card>
+                    ) : (
+                      <div className="space-y-3">
+                        {mySubmissions.map((article) => (
+                          <article key={article.id} className="bg-card rounded-lg p-4 border border-border">
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="flex-1 min-w-0">
+                                <h4 className="font-semibold text-foreground text-sm">{article.title}</h4>
+                                <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{article.description}</p>
+                              </div>
+                              <Badge 
+                                variant={article.status === 'approved' ? 'default' : article.status === 'rejected' ? 'destructive' : 'secondary'}
+                                className="flex-shrink-0"
+                              >
+                                {article.status}
+                              </Badge>
+                            </div>
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2">
+                              <Badge variant="outline" className="text-xs">{article.category}</Badge>
+                              <span>•</span>
+                              <span>{getTimeAgo(article.created_at)}</span>
+                            </div>
+                          </article>
+                        ))}
                       </div>
                     )}
                   </div>
