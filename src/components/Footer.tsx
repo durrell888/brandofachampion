@@ -93,7 +93,7 @@ const Footer = () => {
               <li><Link to="/athletes" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Find Athletes</Link></li>
               <li><Link to="/#services" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Our Services</Link></li>
               <li><Link to="/stories" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Success Stories</Link></li>
-              <li><Link to="/#partner-form" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Partner With Us</Link></li>
+              <li><Link to="/athlete-partnerships" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Partner With Us</Link></li>
               <li><Link to="/donate" className="text-primary-foreground/60 hover:text-accent text-sm font-medium transition-colors">Donate</Link></li>
             </ul>
           </div>

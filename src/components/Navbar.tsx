@@ -86,7 +86,7 @@ const Navbar = () => {
                       to="/athlete-partnerships"
                       className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/athlete-partnerships") ? "text-accent" : "text-foreground"}`}
                     >
-                      Athlete Partnerships
+                      Program Partnerships
                     </Link>
                   </div>
                 </div>
@@ -249,7 +249,7 @@ const Navbar = () => {
                       All Athletes
                     </Link>
                     <Link to="/athlete-partnerships" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
-                      Athlete Partnerships
+                      Program Partnerships
                     </Link>
                   </div>
                 )}

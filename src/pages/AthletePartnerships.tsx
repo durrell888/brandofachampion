@@ -1,387 +1,503 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { Play, ExternalLink, X, Sparkles, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { 
+  TrendingUp, Users, Eye, Award, Handshake, ArrowRight, 
+  Car, UtensilsCrossed, Shirt, Building2, Send, CheckCircle2,
+  Play, X, Star, BarChart3, Target, Megaphone
+} from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { partners } from "@/data/partners";
+import { useToast } from "@/hooks/use-toast";
+import athletesCollage from "@/assets/athletes-collage.jpg";
 
-interface PartnerVideo {
-  id: string;
-  youtubeId: string;
-  title: string;
-  partner: string;
-  description: string;
-  featured?: boolean;
-}
+const roiStats = [
+  { label: "Athletes Developed", value: "50+", icon: Users, description: "High school & college athletes in our program" },
+  { label: "Social Media Reach", value: "500K+", icon: Eye, description: "Combined social impressions across platforms" },
+  { label: "College Commitments", value: "15+", icon: Award, description: "Athletes committed to D1 programs" },
+  { label: "Community Events", value: "30+", icon: Target, description: "Annual events, camps, and showcases" },
+];
 
-const partnerVideos: PartnerVideo[] = [
+const partnerBenefits = [
   {
-    id: "1",
-    youtubeId: "R0bhVY6Nu4Y",
-    title: "Brand of a Champion x Partner Showcase",
-    partner: "Brand of a Champion",
-    description: "Watch our athletes in action with our amazing partners.",
-    featured: true,
+    icon: Megaphone,
+    title: "Brand Visibility at Events",
+    description: "Your logo and brand featured at all camps, showcases, and community events reaching thousands of families.",
+  },
+  {
+    icon: BarChart3,
+    title: "Digital & Social Exposure",
+    description: "Featured across our social channels, website, and video content with 500K+ combined impressions.",
+  },
+  {
+    icon: Users,
+    title: "Direct Access to Athletes & Families",
+    description: "Engage directly with our athlete community and their families — a highly engaged, loyal audience.",
+  },
+  {
+    icon: Star,
+    title: "Co-Branded Content",
+    description: "Professional video production and photography featuring your brand alongside our athletes.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Community Goodwill & Tax Benefits",
+    description: "As a 501(c)(3), your partnership is a tax-deductible investment in community impact.",
+  },
+  {
+    icon: Handshake,
+    title: "Exclusive Naming Rights",
+    description: "Naming opportunities for training camps, scholarship funds, and signature events.",
   },
 ];
 
-const AthletePartnerships = () => {
+const industryFit = [
+  {
+    icon: Car,
+    title: "Auto Dealerships",
+    description: "Reach families actively purchasing vehicles for new college-bound athletes. Your brand becomes synonymous with achievement.",
+    examples: ["Event Vehicle Sponsor", "Athlete of the Month Award", "Test Drive at Camp Days"],
+  },
+  {
+    icon: UtensilsCrossed,
+    title: "Food & Beverage",
+    description: "Fuel the next generation of champions. Perfect alignment for nutrition, hydration, and restaurant brands.",
+    examples: ["Camp Nutrition Sponsor", "Post-Game Meal Partner", "Branded Hydration Stations"],
+  },
+  {
+    icon: Shirt,
+    title: "Apparel & Sportswear",
+    description: "Outfit our athletes and get your brand seen on fields, social media, and highlight reels across the nation.",
+    examples: ["Team Outfitting Partner", "Athlete Endorsement Deals", "Branded Camp Gear"],
+  },
+  {
+    icon: Building2,
+    title: "Financial & Professional Services",
+    description: "Build trust with families planning for their athlete's future. Education, insurance, and wealth management.",
+    examples: ["Scholarship Fund Sponsor", "Financial Literacy Workshops", "Parent Seminar Presenter"],
+  },
+];
+
+const partnerTiers = [
+  {
+    name: "Champion",
+    price: "$25,000+",
+    color: "from-yellow-500 to-amber-600",
+    features: [
+      "Title sponsor of annual showcase events",
+      "Logo on all athlete apparel & gear",
+      "Dedicated social media campaign (12 posts/year)",
+      "Co-branded video content series",
+      "VIP access to all events",
+      "Exclusive naming rights opportunity",
+      "Quarterly impact reports",
+    ],
+  },
+  {
+    name: "All-Star",
+    price: "$10,000",
+    color: "from-slate-400 to-slate-500",
+    features: [
+      "Logo featured at 4+ events per year",
+      "Monthly social media shoutouts",
+      "Featured on website partner page",
+      "2 co-branded content pieces",
+      "Event booth/activation space",
+      "Bi-annual impact reports",
+    ],
+  },
+  {
+    name: "Rookie",
+    price: "$2,500",
+    color: "from-amber-700 to-amber-800",
+    features: [
+      "Logo on website partner page",
+      "Quarterly social media features",
+      "Event recognition & signage",
+      "Annual impact report",
+      "Community newsletter feature",
+    ],
+  },
+];
+
+const ProgramPartnerships = () => {
   const navigate = useNavigate();
-  const [activeVideo, setActiveVideo] = useState<PartnerVideo | null>(null);
-  const [hoveredPartner, setHoveredPartner] = useState<string | null>(null);
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const { toast } = useToast();
+  const [formData, setFormData] = useState({
+    name: "",
+    company: "",
+    email: "",
+    message: "",
+  });
 
-  const featuredVideo = partnerVideos.find(v => v.featured) || partnerVideos[0];
-
-  const handleBecomePartner = () => {
-    navigate('/');
-    setTimeout(() => {
-      const partnerForm = document.getElementById('partner-form');
-      if (partnerForm) {
-        partnerForm.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 100);
-  };
-
-  const nextVideo = () => {
-    setCurrentVideoIndex((prev) => (prev + 1) % partnerVideos.length);
-  };
-
-  const prevVideo = () => {
-    setCurrentVideoIndex((prev) => (prev - 1 + partnerVideos.length) % partnerVideos.length);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const subject = encodeURIComponent(`Partnership Inquiry from ${formData.company}`);
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\nCompany: ${formData.company}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+    );
+    window.location.href = `mailto:Durrell@brandofachampion.com?subject=${subject}&body=${body}`;
+    toast({
+      title: "Opening email client",
+      description: "Your partnership inquiry is ready to send!",
+    });
+    setFormData({ name: "", company: "", email: "", message: "" });
   };
 
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Athlete Partnerships | Brand of a Champion"
-        description="Discover our athlete partnerships, brand collaborations, and exclusive content showcasing our athletes with top partners."
+        title="Program Partnerships | Brand of a Champion"
+        description="Partner with Brand of a Champion and reach 500K+ engaged families. See our ROI data, partnership tiers, and how your brand can make an impact."
       />
       <Navbar />
 
-      {/* Hero Section with Cinematic Video Feature */}
-      <section className="relative pt-24 pb-16 overflow-hidden">
-        {/* Animated background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-primary/20 rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                opacity: [0.2, 0.8, 0.2],
-                scale: [1, 1.5, 1],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
+      {/* Hero with Athlete Collage */}
+      <section className="relative pt-24 pb-20 overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={athletesCollage} alt="Brand of a Champion athletes" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/80 to-background" />
         </div>
 
-        <div className="container relative z-10">
+        <div className="container relative z-10 pt-12">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-12"
+            className="max-w-4xl mx-auto text-center"
           >
-            <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-6">
-              <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-primary">Exclusive Partner Content</span>
+            <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-full px-4 py-2 mb-6">
+              <Handshake className="w-4 h-4 text-accent" />
+              <span className="text-sm font-bold text-accent uppercase tracking-wider">Partnership Opportunity</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-display font-bold mb-4">
-              Athlete <span className="text-primary">Partnerships</span>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-extrabold mb-6 text-foreground tracking-tight">
+              INVEST IN THE NEXT <span className="text-accent">GENERATION</span>
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Experience our athletes in action with world-class brands and partners
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+              Partner with a 501(c)(3) nonprofit reaching <strong className="text-foreground">500K+ families</strong> and developing{" "}
+              <strong className="text-foreground">50+ elite athletes</strong> committed to top college programs nationwide.
             </p>
-          </motion.div>
-
-          {/* Cinematic Featured Video Showcase */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative max-w-5xl mx-auto"
-          >
-            {/* Glowing border effect */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl blur-lg opacity-30 animate-pulse" />
-            
-            <div className="relative bg-card rounded-2xl overflow-hidden border border-border shadow-2xl">
-              {/* Video Container */}
-              <div className="relative aspect-video group cursor-pointer" onClick={() => setActiveVideo(featuredVideo)}>
-                <img
-                  src={`https://img.youtube.com/vi/${featuredVideo.youtubeId}/maxresdefault.jpg`}
-                  alt={featuredVideo.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                
-                {/* Play Button with Pulse */}
-                <motion.div
-                  className="absolute inset-0 flex items-center justify-center"
-                  whileHover={{ scale: 1.1 }}
-                >
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-primary/30 rounded-full animate-ping" />
-                    <div className="relative w-20 h-20 md:w-24 md:h-24 bg-primary rounded-full flex items-center justify-center shadow-2xl">
-                      <Play className="w-8 h-8 md:w-10 md:h-10 text-primary-foreground ml-1" fill="currentColor" />
-                    </div>
-                  </div>
-                </motion.div>
-
-                {/* Video Info Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Star className="w-4 h-4 text-yellow-500" fill="currentColor" />
-                    <span className="text-sm font-medium text-yellow-500">Featured</span>
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-white mb-2">{featuredVideo.title}</h3>
-                  <p className="text-white/70 text-sm md:text-base">{featuredVideo.description}</p>
-                </div>
-              </div>
-
-              {/* Navigation for multiple videos */}
-              {partnerVideos.length > 1 && (
-                <div className="absolute top-1/2 -translate-y-1/2 left-4 right-4 flex justify-between pointer-events-none">
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    className="pointer-events-auto opacity-80 hover:opacity-100"
-                    onClick={(e) => { e.stopPropagation(); prevVideo(); }}
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    className="pointer-events-auto opacity-80 hover:opacity-100"
-                    onClick={(e) => { e.stopPropagation(); nextVideo(); }}
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </Button>
-                </div>
-              )}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button variant="hero" size="xl" className="group" onClick={() => document.getElementById('partner-inquiry')?.scrollIntoView({ behavior: 'smooth' })}>
+                <Send className="w-5 h-5" />
+                Request Partnership Info
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Button>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Partner Brands Section - Hexagon Grid */}
-      <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/30 to-background" />
-        
-        <div className="container relative z-10">
+      {/* ROI Stats */}
+      <section className="py-16 border-b border-border">
+        <div className="container">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {roiStats.map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="text-center p-6"
+              >
+                <stat.icon className="w-8 h-8 text-accent mx-auto mb-3" />
+                <div className="text-4xl md:text-5xl font-extrabold text-foreground mb-1">{stat.value}</div>
+                <div className="text-sm font-bold text-accent uppercase tracking-wider mb-1">{stat.label}</div>
+                <div className="text-xs text-muted-foreground">{stat.description}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Partner */}
+      <section className="py-20">
+        <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Our <span className="text-primary">Partners</span>
+            <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-4 text-foreground tracking-tight">
+              WHY <span className="text-accent">PARTNER</span> WITH US
             </h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">
-              World-class brands supporting our athletes' journey to greatness
+            <p className="text-muted-foreground max-w-xl mx-auto text-lg">
+              Your brand gets more than a logo placement — you get a movement.
             </p>
           </motion.div>
 
-          {/* Unique Floating Partner Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {partners.map((partner, index) => (
-              <motion.a
-                key={partner.id}
-                href={partner.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 30 }}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {partnerBenefits.map((benefit, i) => (
+              <motion.div
+                key={benefit.title}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                onMouseEnter={() => setHoveredPartner(partner.id)}
-                onMouseLeave={() => setHoveredPartner(null)}
-                className="group relative"
+                transition={{ delay: i * 0.08 }}
+                className="bg-card border border-border rounded-xl p-8 hover:border-accent/50 transition-all duration-300"
               >
-                {/* Card */}
-                <motion.div
-                  className="relative bg-card border border-border rounded-2xl p-6 h-40 flex flex-col items-center justify-center overflow-hidden transition-all duration-500"
-                  whileHover={{ 
-                    y: -8,
-                    boxShadow: "0 20px 40px -15px rgba(0,0,0,0.3)"
-                  }}
-                >
-                  {/* Animated background on hover */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: hoveredPartner === partner.id ? 1 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  
-                  {/* Glow effect */}
-                  <motion.div
-                    className="absolute -inset-px bg-gradient-to-r from-primary to-accent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10"
-                  />
-
-                  {/* Logo */}
-                  {partner.logo ? (
-                    <img
-                      src={partner.logo}
-                      alt={partner.name}
-                      className="max-h-16 max-w-[120px] object-contain transition-transform duration-500 group-hover:scale-110 relative z-10"
-                    />
-                  ) : (
-                    <span className="text-lg font-bold text-foreground relative z-10">{partner.name}</span>
-                  )}
-
-                  {/* Partner name */}
-                  <motion.span
-                    className="absolute bottom-4 text-sm font-medium text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  >
-                    {partner.name}
-                  </motion.span>
-
-                  {/* External link icon */}
-                  <motion.div
-                    className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  >
-                    <ExternalLink className="w-4 h-4 text-primary" />
-                  </motion.div>
-                </motion.div>
-              </motion.a>
+                <benefit.icon className="w-10 h-10 text-accent mb-4" />
+                <h3 className="text-lg font-extrabold text-foreground mb-2">{benefit.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{benefit.description}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Video Gallery Section - Masonry Style */}
-      {partnerVideos.length > 1 && (
-        <section className="py-20">
-          <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-                Partner <span className="text-primary">Highlights</span>
-              </h2>
-              <p className="text-muted-foreground">
-                Watch all our partnership videos and brand collaborations
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {partnerVideos.map((video, index) => (
-                <motion.div
-                  key={video.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="group cursor-pointer"
-                  onClick={() => setActiveVideo(video)}
-                >
-                  <div className="relative aspect-video rounded-xl overflow-hidden bg-card border border-border">
-                    <img
-                      src={`https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`}
-                      alt={video.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <motion.div
-                        className="w-14 h-14 bg-primary/90 rounded-full flex items-center justify-center"
-                        whileHover={{ scale: 1.1 }}
-                      >
-                        <Play className="w-6 h-6 text-primary-foreground ml-0.5" fill="currentColor" />
-                      </motion.div>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                      <h4 className="text-white font-semibold text-sm line-clamp-1">{video.title}</h4>
-                      <p className="text-white/60 text-xs">{video.partner}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* CTA Section */}
-      <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-accent/10" />
-        <div className="container relative z-10 text-center">
+      {/* Industry Fit */}
+      <section className="py-20 bg-secondary/30">
+        <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Interested in <span className="text-primary">Partnering?</span>
+            <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-4 text-foreground tracking-tight">
+              PERFECT FOR <span className="text-accent">YOUR INDUSTRY</span>
             </h2>
-            <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-              Join our roster of world-class partners and help support the next generation of champions
+            <p className="text-muted-foreground max-w-xl mx-auto text-lg">
+              No matter your business, we create partnership packages that deliver real ROI.
             </p>
-            <Button variant="hero" size="lg" onClick={handleBecomePartner}>
-              Become a Partner
-            </Button>
           </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {industryFit.map((industry, i) => (
+              <motion.div
+                key={industry.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-card border border-border rounded-xl p-8 hover:border-accent/50 transition-all"
+              >
+                <div className="flex items-start gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center shrink-0">
+                    <industry.icon className="w-6 h-6 text-accent" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-extrabold text-foreground mb-1">{industry.title}</h3>
+                    <p className="text-muted-foreground text-sm">{industry.description}</p>
+                  </div>
+                </div>
+                <div className="space-y-2 pl-16">
+                  {industry.examples.map((ex) => (
+                    <div key={ex} className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-accent shrink-0" />
+                      <span className="text-sm text-foreground font-medium">{ex}</span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Partnership Tiers */}
+      <section className="py-20">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-5xl font-display font-extrabold mb-4 text-foreground tracking-tight">
+              PARTNERSHIP <span className="text-accent">TIERS</span>
+            </h2>
+            <p className="text-muted-foreground max-w-xl mx-auto text-lg">
+              Flexible packages designed to match your goals and budget.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {partnerTiers.map((tier, i) => (
+              <motion.div
+                key={tier.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.15 }}
+                className={`relative bg-card border rounded-2xl p-8 ${i === 0 ? 'border-accent shadow-xl shadow-accent/10 scale-105' : 'border-border'}`}
+              >
+                {i === 0 && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">
+                    Most Popular
+                  </div>
+                )}
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tier.color} flex items-center justify-center mb-4`}>
+                  <Star className="w-6 h-6 text-white" fill="currentColor" />
+                </div>
+                <h3 className="text-2xl font-extrabold text-foreground mb-1">{tier.name}</h3>
+                <p className="text-3xl font-extrabold text-accent mb-6">{tier.price}</p>
+                <ul className="space-y-3">
+                  {tier.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                      <span className="text-sm text-muted-foreground">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Button
+                  variant={i === 0 ? "hero" : "outline"}
+                  className="w-full mt-8"
+                  onClick={() => document.getElementById('partner-inquiry')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  Get Started
+                </Button>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Current Partners */}
+      <section className="py-16 bg-secondary/30">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-2xl md:text-3xl font-display font-extrabold mb-2 text-foreground">
+              TRUSTED BY <span className="text-accent">LEADING BRANDS</span>
+            </h2>
+            <p className="text-muted-foreground">Join these organizations already making an impact</p>
+          </motion.div>
+
+          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+            {partners.map((partner) => (
+              <a
+                key={partner.id}
+                href={partner.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group"
+              >
+                {partner.logo ? (
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="max-h-12 md:max-h-16 object-contain grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100 transition-all duration-300"
+                  />
+                ) : (
+                  <span className="text-lg font-bold text-muted-foreground group-hover:text-accent transition-colors">{partner.name}</span>
+                )}
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Partnership Inquiry Form */}
+      <section id="partner-inquiry" className="py-20">
+        <div className="container">
+          <div className="relative overflow-hidden rounded-2xl hero-gradient">
+            <div className="absolute inset-0">
+              <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-accent/10 blur-3xl" />
+            </div>
+
+            <div className="relative z-10 p-8 md:p-16">
+              <div className="max-w-2xl mx-auto">
+                <div className="text-center mb-10">
+                  <span className="inline-block px-4 py-1.5 rounded-full bg-accent/20 text-accent text-sm font-bold uppercase tracking-wider mb-6">
+                    Let's Talk
+                  </span>
+                  <h2 className="text-3xl md:text-4xl font-extrabold text-primary-foreground mb-4 tracking-tight">
+                    Ready to Partner?
+                  </h2>
+                  <p className="text-primary-foreground/70 text-lg">
+                    Tell us about your brand and we'll create a custom partnership package.
+                  </p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-bold text-primary-foreground/80 mb-2 uppercase tracking-wider">
+                        Your Name
+                      </label>
+                      <Input
+                        id="name"
+                        type="text"
+                        required
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="John Smith"
+                        className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/40 focus:border-accent"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="company" className="block text-sm font-bold text-primary-foreground/80 mb-2 uppercase tracking-wider">
+                        Company
+                      </label>
+                      <Input
+                        id="company"
+                        type="text"
+                        required
+                        value={formData.company}
+                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                        placeholder="Your Company"
+                        className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/40 focus:border-accent"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-bold text-primary-foreground/80 mb-2 uppercase tracking-wider">
+                      Email Address
+                    </label>
+                    <Input
+                      id="email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="john@company.com"
+                      className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/40 focus:border-accent"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-bold text-primary-foreground/80 mb-2 uppercase tracking-wider">
+                      Tell Us About Your Partnership Goals
+                    </label>
+                    <Textarea
+                      id="message"
+                      required
+                      rows={4}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      placeholder="What industry are you in? What are your marketing goals? Which tier interests you?"
+                      className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/40 focus:border-accent resize-none"
+                    />
+                  </div>
+
+                  <Button type="submit" variant="hero" size="xl" className="w-full md:w-auto group">
+                    <Send className="w-5 h-5" />
+                    Send Partnership Inquiry
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       <Footer />
-
-      {/* Video Modal */}
-      <AnimatePresence>
-        {activeVideo && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
-            onClick={() => setActiveVideo(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="relative w-full max-w-5xl aspect-video"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={() => setActiveVideo(null)}
-                className="absolute -top-12 right-0 text-white/80 hover:text-white transition-colors"
-              >
-                <X className="w-8 h-8" />
-              </button>
-              <iframe
-                src={`https://www.youtube.com/embed/${activeVideo.youtubeId}?autoplay=1`}
-                title={activeVideo.title}
-                className="w-full h-full rounded-xl"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };
 
-export default AthletePartnerships;
+export default ProgramPartnerships;
