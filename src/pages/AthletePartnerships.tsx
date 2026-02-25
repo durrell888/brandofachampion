@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   TrendingUp, Users, Eye, Award, Handshake, ArrowRight, 
   Car, UtensilsCrossed, Shirt, Building2, Send, CheckCircle2,
@@ -14,7 +14,22 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { partners } from "@/data/partners";
 import { useToast } from "@/hooks/use-toast";
-import athletesCollage from "@/assets/athletes-collage.jpg";
+const athletePhotos = [
+  "/images/athletes/dj-bordeaux-2026.webp",
+  "/images/athletes/lasiah-jackson.jpg",
+  "/images/athletes/rodney-colton-jr.jpg",
+  "/images/athletes/jamier-brown.jpg",
+  "/images/athletes/aaron-gregory.jpg",
+  "/images/athletes/jordan-carter.webp",
+  "/images/athletes/nick-burden.jpg",
+  "/images/athletes/jamar-owens.jpg",
+  "/images/athletes/adryan-cole-photo.jpg",
+  "/images/athletes/kennedy-green.jpg",
+  "/images/athletes/trey-byrd.jpg",
+  "/images/athletes/kj-howard.jpeg",
+  "/images/athletes/steven-mclendon.jpeg",
+  "/images/joshua-same-epelle.jpg",
+];
 
 const roiStats = [
   { label: "Athletes Developed", value: "50+", icon: Users, description: "High school & college athletes in our program" },
@@ -128,6 +143,7 @@ const partnerTiers = [
 const ProgramPartnerships = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [showQCollarVideo, setShowQCollarVideo] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     company: "",
@@ -157,11 +173,21 @@ const ProgramPartnerships = () => {
       />
       <Navbar />
 
-      {/* Hero with Athlete Collage */}
+      {/* Hero with Real Athlete Photo Grid */}
       <section className="relative pt-24 pb-20 overflow-hidden">
         <div className="absolute inset-0">
-          <img src={athletesCollage} alt="Brand of a Champion athletes" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/80 to-background" />
+          <div className="grid grid-cols-4 md:grid-cols-7 h-full">
+            {athletePhotos.map((photo, i) => (
+              <div key={i} className="relative overflow-hidden">
+                <img
+                  src={photo}
+                  alt="BOAC Athlete"
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/70 to-background" />
         </div>
 
         <div className="container relative z-10 pt-12">
@@ -212,6 +238,63 @@ const ProgramPartnerships = () => {
                 <div className="text-xs text-muted-foreground">{stat.description}</div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Proof of Concept - Q Collar Video */}
+      <section className="py-16">
+        <div className="container">
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="flex flex-col md:flex-row gap-8 items-center"
+            >
+              <div className="w-full md:w-1/2">
+                <div className="relative aspect-video rounded-xl overflow-hidden border border-border shadow-xl group cursor-pointer"
+                  onClick={() => setShowQCollarVideo(true)}
+                >
+                  <img
+                    src="https://img.youtube.com/vi/R0bhVY6Nu4Y/maxresdefault.jpg"
+                    alt="Q Collar x Brand of a Champion"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-14 h-14 bg-accent rounded-full flex items-center justify-center shadow-xl">
+                      <Play className="w-6 h-6 text-accent-foreground ml-0.5" fill="currentColor" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full md:w-1/2">
+                <span className="inline-block px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-bold uppercase tracking-wider mb-3">
+                  Proof of Concept
+                </span>
+                <h3 className="text-2xl font-extrabold text-foreground mb-3">
+                  Professional Partner Content
+                </h3>
+                <p className="text-muted-foreground mb-4 leading-relaxed">
+                  See how we showcased Q Collar with our athletes — cinematic production, authentic storytelling, and real engagement. This is the level of content your brand receives as a partner.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <div className="flex items-center gap-1.5 text-sm text-foreground font-medium">
+                    <CheckCircle2 className="w-4 h-4 text-accent" />
+                    Cinematic Production
+                  </div>
+                  <div className="flex items-center gap-1.5 text-sm text-foreground font-medium">
+                    <CheckCircle2 className="w-4 h-4 text-accent" />
+                    Athlete Integration
+                  </div>
+                  <div className="flex items-center gap-1.5 text-sm text-foreground font-medium">
+                    <CheckCircle2 className="w-4 h-4 text-accent" />
+                    Multi-Platform Distribution
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -494,6 +577,41 @@ const ProgramPartnerships = () => {
           </div>
         </div>
       </section>
+
+      {/* Q Collar Video Modal */}
+      <AnimatePresence>
+        {showQCollarVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
+            onClick={() => setShowQCollarVideo(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative w-full max-w-4xl aspect-video"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setShowQCollarVideo(false)}
+                className="absolute -top-12 right-0 text-white/80 hover:text-white transition-colors"
+              >
+                <X className="w-8 h-8" />
+              </button>
+              <iframe
+                src="https://www.youtube.com/embed/R0bhVY6Nu4Y?autoplay=1"
+                title="Q Collar x Brand of a Champion"
+                className="w-full h-full rounded-xl"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <Footer />
     </div>
