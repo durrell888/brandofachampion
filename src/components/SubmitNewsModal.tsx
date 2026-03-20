@@ -226,6 +226,7 @@ export default function SubmitNewsModal({ onSubmitted }: SubmitNewsModalProps) {
             <p className="text-xs text-muted-foreground">Comma-separated keywords to help your article get found in search</p>
           </div>
 
+          <div className="space-y-2">
             <Label>Cover Image (optional)</Label>
             <div className="border-2 border-dashed border-border rounded-lg p-4 text-center cursor-pointer hover:border-primary/50 transition-colors"
               onClick={() => document.getElementById('news-image-input')?.click()}
