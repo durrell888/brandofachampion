@@ -608,41 +608,60 @@ const GeorgiaMedia = () => {
                   </div>
                 )}
 
-                {/* Community Submitted Articles */}
+                {/* BOAC / Community Articles */}
                 {!showMySubmissions && communityArticles.length > 0 && (
                   <div className="space-y-4 mt-8">
                     <h3 className="font-bold text-foreground flex items-center gap-2">
-                      <PenSquare className="w-4 h-4 text-primary" /> Community Stories
+                      <PenSquare className="w-4 h-4 text-primary" /> BOAC Stories
                     </h3>
                     <div className="space-y-3">
                       {communityArticles
                         .filter(a => activeCategory === "all" || a.category.toLowerCase() === activeCategory)
-                        .map((article) => (
+                        .map((article, idx) => (
                         <Link 
                           key={article.id} 
                           to={`/georgia-media/article/${article.slug || article.id}`}
-                          className="block"
+                          className="block group"
                         >
-                          <article className="bg-card rounded-lg p-4 border border-border hover:border-primary/50 transition-colors">
-                          <div className="flex gap-4">
-                            {article.image_url && (
-                              <div className="w-24 h-16 flex-shrink-0 rounded overflow-hidden">
-                                <img src={article.image_url} alt={article.title} className="w-full h-full object-cover" />
+                          {idx === 0 && article.image_url ? (
+                            <article className="relative rounded-lg overflow-hidden border border-border hover:border-primary/50 transition-colors">
+                              <div className="relative aspect-[16/9]">
+                                <img src={article.image_url} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                                <div className="absolute bottom-0 left-0 right-0 p-6">
+                                  <Badge className="bg-primary text-primary-foreground border-0 mb-2">{article.category}</Badge>
+                                  <h2 className="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors line-clamp-3">{article.title}</h2>
+                                  <p className="text-gray-300 text-sm line-clamp-2 mb-2">{article.description}</p>
+                                  <div className="flex items-center gap-2 text-xs text-gray-400">
+                                    <span className="text-primary font-medium">{article.source || 'Brand of a Champion'}</span>
+                                    <span>•</span>
+                                    <span>{getTimeAgo(article.created_at)}</span>
+                                  </div>
+                                </div>
                               </div>
-                            )}
-                            <div className="flex-1 min-w-0">
-                              <h4 className="font-semibold text-foreground text-sm line-clamp-2 group-hover:text-primary transition-colors">{article.title}</h4>
-                              <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{article.description}</p>
-                              <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2">
-                                <Badge variant="outline" className="text-xs">{article.category}</Badge>
-                                <span>•</span>
-                                <span>Community</span>
-                                <span>•</span>
-                                <span>{getTimeAgo(article.created_at)}</span>
+                            </article>
+                          ) : (
+                            <article className="bg-card rounded-lg p-4 border border-border hover:border-primary/50 transition-colors">
+                              <div className="flex gap-4">
+                                {article.image_url && (
+                                  <div className="w-24 h-16 flex-shrink-0 rounded overflow-hidden">
+                                    <img src={article.image_url} alt={article.title} className="w-full h-full object-cover" />
+                                  </div>
+                                )}
+                                <div className="flex-1 min-w-0">
+                                  <h4 className="font-semibold text-foreground text-sm line-clamp-2 group-hover:text-primary transition-colors">{article.title}</h4>
+                                  <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{article.description}</p>
+                                  <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2">
+                                    <Badge variant="outline" className="text-xs">{article.category}</Badge>
+                                    <span>•</span>
+                                    <span>{article.source || 'Community'}</span>
+                                    <span>•</span>
+                                    <span>{getTimeAgo(article.created_at)}</span>
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                        </article>
+                            </article>
+                          )}
                         </Link>
                       ))}
                     </div>
