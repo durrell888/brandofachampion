@@ -206,6 +206,11 @@ const Navbar = () => {
                 Football Training
               </Button>
             </Link>
+            <Link to="/auth">
+              <Button variant={scrolled ? "ghost" : "heroOutline"} size="sm">
+                Member Login
+              </Button>
+            </Link>
             <Button variant="hero" size="sm" onClick={handleGetStarted}>
               Get Started
             </Button>
@@ -314,13 +319,20 @@ const Navbar = () => {
                 )}
               </div>
               
-              <div className="flex gap-3 pt-4 border-t border-border">
-                <Link to="/training" className="flex-1" onClick={() => setIsOpen(false)}>
-                  <Button variant="outline" size="sm" className="w-full">
-                    Football Training
-                  </Button>
-                </Link>
-                <Button variant="hero" size="sm" className="flex-1" onClick={handleGetStarted}>
+              <div className="flex flex-col gap-3 pt-4 border-t border-border">
+                <div className="flex gap-3">
+                  <Link to="/training" className="flex-1" onClick={() => setIsOpen(false)}>
+                    <Button variant="outline" size="sm" className="w-full">
+                      Football Training
+                    </Button>
+                  </Link>
+                  <Link to="/auth" className="flex-1" onClick={() => setIsOpen(false)}>
+                    <Button variant="outline" size="sm" className="w-full">
+                      Member Login
+                    </Button>
+                  </Link>
+                </div>
+                <Button variant="hero" size="sm" className="w-full" onClick={handleGetStarted}>
                   Get Started
                 </Button>
               </div>
