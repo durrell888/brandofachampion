@@ -712,59 +712,48 @@ const GeorgiaMedia = () => {
               <aside className="lg:col-span-4">
                 <div className="sticky top-24 space-y-6">
                   {/* Weekly Story Box */}
-                  <Card className="overflow-hidden border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-background">
-                    <div className="bg-primary px-4 py-3">
-                      <h3 className="font-bold text-primary-foreground flex items-center gap-2">
-                        <MessageSquare className="w-4 h-4" /> Weekly Story
-                      </h3>
-                    </div>
-                    <div className="p-4">
-                     <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
-                        <Calendar className="w-3 h-3" />
-                        <span>February 25, 2026</span>
+                  <Link to="/georgia-media/article/kj-green-4-star-safety-douglas-county-2026" className="block group">
+                    <Card className="overflow-hidden border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-background">
+                      <div className="bg-primary px-4 py-3">
+                        <h3 className="font-bold text-primary-foreground flex items-center gap-2">
+                          <MessageSquare className="w-4 h-4" /> Weekly Story
+                        </h3>
                       </div>
-                      
-                      {/* Buford vs Milton Rivalry Story */}
-                      <div className="space-y-4">
-                        <img 
-                          src="https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=600" 
-                          alt="Georgia high school football rivalry" 
-                          className="w-full rounded-lg object-cover aspect-square"
-                        />
+                      <div className="p-4">
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
+                          <Calendar className="w-3 h-3" />
+                          <span>March 20, 2026</span>
+                        </div>
                         
-                        <h4 className="font-bold text-foreground text-lg leading-tight">
-                          Buford vs. Milton: The Rivalry That's Defining Georgia High School Football in 2026
-                        </h4>
-                        
-                        <div className="text-sm text-muted-foreground space-y-3 max-h-[400px] overflow-y-auto pr-2">
-                          <p>
-                            When the conversation turns to Georgia high school football supremacy, two programs keep rising to the top: the Buford Wolves and the Milton Eagles. What was once an occasional playoff matchup has evolved into the state's most compelling rivalry.
-                          </p>
-                          <p>
-                            Buford, with its blue-collar identity and championship pedigree, has long been the gold standard in Georgia. Under a tradition of elite coaching, the Wolves have stacked state titles and consistently sent players to Power Five programs. Their formula—discipline, physicality, and next-man-up mentality—hasn't changed, even as the talent landscape shifts.
-                          </p>
-                          <p>
-                            Milton, meanwhile, has emerged as a recruiting powerhouse. With a North Fulton County zip code that attracts top-tier talent and a coaching staff that knows how to develop it, the Eagles have become must-watch football every Friday night. Their roster reads like a college depth chart, and the national attention follows.
-                          </p>
-                          <p>
-                            <strong>The 2025 season only fueled the fire.</strong> Both programs made deep playoff runs, and their head-to-head matchup delivered one of the most electric atmospheres in recent Georgia high school history. Scouts from every major conference packed the stands, and social media lit up with highlight clips.
-                          </p>
-                          <p className="font-medium text-foreground">
-                            Heading into 2026, the question isn't whether these two will meet again—it's whether anyone else can break through.
-                          </p>
-                          <p>
-                            Spring practices are already underway, and both programs are reloading. Buford returns key pieces on the defensive line that dominated last fall, while Milton welcomes a transfer quarterback who's already generating early-season Heisman-level hype at the high school level.
-                          </p>
-                          <p>
-                            For Georgia football fans, this rivalry represents the best of what the state has to offer: elite talent, passionate communities, and games that feel like they matter beyond the scoreboard.
-                          </p>
-                          <p className="font-medium text-foreground italic">
-                            Buford vs. Milton isn't just a game—it's the heartbeat of Georgia high school football. And in 2026, the stakes have never been higher.
-                          </p>
+                        <div className="space-y-4">
+                          <img 
+                            src="https://froozixzptdjlnixnacd.supabase.co/storage/v1/object/public/news-images/kj-green%2Fkj-green-field.jpeg" 
+                            alt="KJ Green - Douglas County Tigers safety" 
+                            className="w-full rounded-lg object-cover aspect-square"
+                          />
+                          
+                          <h4 className="font-bold text-foreground text-lg leading-tight group-hover:text-primary transition-colors">
+                            Kennedy "KJ" Green: The 4-Star Safety Ready to Lead Douglas County's Secondary in 2026
+                          </h4>
+                          
+                          <div className="text-sm text-muted-foreground space-y-3 max-h-[400px] overflow-y-auto pr-2">
+                            <p>
+                              The 6-foot-2, 195-pound safety at Douglas County High School isn't just filling a roster spot — he's stepping into a leadership role vacated by three Brand of a Champion athletes who earned Division I scholarships: Jamar Owens (Indiana), Nick Burden (Memphis), and Aaron Gregory (Texas A&M).
+                            </p>
+                            <p>
+                              Green's 2025 campaign was nothing short of electric. He recorded <strong>4 interceptions</strong> and earned <strong>1st Team All-Region</strong> honors — credentials that solidified his four-star status and put college programs on notice.
+                            </p>
+                            <p>
+                              He's been locked in with his DB trainer Coach Ford and IDareU training, sharpening every aspect of his game. Plus, he's competing with Hustle Inc's 7v7 team to keep his edge sharp.
+                            </p>
+                            <p className="font-medium text-primary">
+                              Read the full story →
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Card>
+                    </Card>
+                  </Link>
 
                   <Card className="overflow-hidden">
                     <div className="bg-primary/10 px-4 py-3 border-b border-border">
