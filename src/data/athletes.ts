@@ -14,6 +14,30 @@ const aaronRoss = {
 
 export const mockAthletes: Athlete[] = [
   {
+    id: "22",
+    name: "Justin Weeks",
+    sport: "Football",
+    position: "Defensive Line",
+    location: "Douglasville, Georgia",
+    avatar: "/images/athletes/justin-weeks.webp",
+    achievements: ["4-Star Ranking", "3X All-Region", "Under Armour All-American"],
+    supportNeeded: ["Career", "Education"],
+    yearsActive: "2024-2027",
+    status: "active",
+    classYear: "2027",
+    school: "Douglas County High School",
+    gpa: 3.0,
+    height: "6'6\"",
+    weight: "260 lbs",
+    hudlLink: "http://www.hudl.com/v/2T8esi",
+    tier: "pro",
+    proAnalysis: {
+      rating: 91,
+      analysis: "Justin Weeks is a rare defensive line prospect who combines elite size with surprising athleticism. At 6'6\" and 260 lbs, he towers over offensive linemen and uses his length to create havoc in the backfield. What makes Justin truly special is his movement skills—he's surprisingly fluid and agile for a player his size, displaying a repertoire of refined pass-rush moves that are advanced well beyond his years. His 3X All-Region honors and Under Armour All-American selection validate his status as one of the top defensive line prospects in the 2027 class. Justin's combination of height, power, and technique gives him an exceptionally high ceiling. He projects as a dominant edge rusher at the next level with the tools to develop into a future NFL prospect.",
+      assessor: durrellSteen,
+    },
+  },
+  {
     id: "19",
     name: "DJ Bordeaux",
     sport: "Football",
