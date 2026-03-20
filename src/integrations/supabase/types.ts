@@ -740,6 +740,10 @@ export type Database = {
           external_url: string | null
           id: string
           image_url: string | null
+          keywords: string[] | null
+          meta_description: string | null
+          meta_title: string | null
+          slug: string | null
           source: string | null
           status: string
           title: string
@@ -754,6 +758,10 @@ export type Database = {
           external_url?: string | null
           id?: string
           image_url?: string | null
+          keywords?: string[] | null
+          meta_description?: string | null
+          meta_title?: string | null
+          slug?: string | null
           source?: string | null
           status?: string
           title: string
@@ -768,6 +776,10 @@ export type Database = {
           external_url?: string | null
           id?: string
           image_url?: string | null
+          keywords?: string[] | null
+          meta_description?: string | null
+          meta_title?: string | null
+          slug?: string | null
           source?: string | null
           status?: string
           title?: string
