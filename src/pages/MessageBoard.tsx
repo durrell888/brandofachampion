@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import ThreadList from "@/components/messageboard/ThreadList";
 import CreateThreadModal from "@/components/messageboard/CreateThreadModal";
 
 const MessageBoard = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [showCreateThread, setShowCreateThread] = useState(false);
@@ -17,18 +19,26 @@ const MessageBoard = () => {
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (session) setUser(session.user);
+      if (!session) {
+        navigate("/auth");
+        return;
+      }
+      setUser(session.user);
       setLoading(false);
     };
 
     checkAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user ?? null);
+      if (!session) {
+        navigate("/auth");
+        return;
+      }
+      setUser(session.user);
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [navigate]);
 
   if (loading) {
     return (
