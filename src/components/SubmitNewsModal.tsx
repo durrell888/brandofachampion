@@ -216,6 +216,16 @@ export default function SubmitNewsModal({ onSubmitted }: SubmitNewsModalProps) {
           </div>
 
           <div className="space-y-2">
+            <Label htmlFor="keywords">SEO Keywords (optional)</Label>
+            <Input
+              id="keywords"
+              placeholder="e.g. Georgia football, recruiting, Class of 2027"
+              value={keywords}
+              onChange={(e) => setKeywords(e.target.value)}
+            />
+            <p className="text-xs text-muted-foreground">Comma-separated keywords to help your article get found in search</p>
+          </div>
+
             <Label>Cover Image (optional)</Label>
             <div className="border-2 border-dashed border-border rounded-lg p-4 text-center cursor-pointer hover:border-primary/50 transition-colors"
               onClick={() => document.getElementById('news-image-input')?.click()}
