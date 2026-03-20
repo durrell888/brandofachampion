@@ -618,7 +618,12 @@ const GeorgiaMedia = () => {
                       {communityArticles
                         .filter(a => activeCategory === "all" || a.category.toLowerCase() === activeCategory)
                         .map((article) => (
-                        <article key={article.id} className="bg-card rounded-lg p-4 border border-border hover:border-primary/50 transition-colors">
+                        <Link 
+                          key={article.id} 
+                          to={`/georgia-media/article/${article.slug || article.id}`}
+                          className="block"
+                        >
+                          <article className="bg-card rounded-lg p-4 border border-border hover:border-primary/50 transition-colors">
                           <div className="flex gap-4">
                             {article.image_url && (
                               <div className="w-24 h-16 flex-shrink-0 rounded overflow-hidden">
@@ -626,7 +631,7 @@ const GeorgiaMedia = () => {
                               </div>
                             )}
                             <div className="flex-1 min-w-0">
-                              <h4 className="font-semibold text-foreground text-sm line-clamp-2">{article.title}</h4>
+                              <h4 className="font-semibold text-foreground text-sm line-clamp-2 group-hover:text-primary transition-colors">{article.title}</h4>
                               <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{article.description}</p>
                               <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2">
                                 <Badge variant="outline" className="text-xs">{article.category}</Badge>
@@ -637,10 +642,8 @@ const GeorgiaMedia = () => {
                               </div>
                             </div>
                           </div>
-                          {article.content && (
-                            <p className="text-sm text-muted-foreground mt-3 line-clamp-3">{article.content}</p>
-                          )}
                         </article>
+                        </Link>
                       ))}
                     </div>
                   </div>
