@@ -12,5 +12,7 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /auth
+Disallow: /account
 
 Sitemap: https://brandofachampion.org/sitemap.xml
