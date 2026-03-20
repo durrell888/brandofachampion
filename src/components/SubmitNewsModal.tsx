@@ -13,6 +13,17 @@ interface SubmitNewsModalProps {
   onSubmitted?: () => void;
 }
 
+const generateSlug = (text: string): string => {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .substring(0, 80)
+    .replace(/^-|-$/g, '')
+    + '-' + Date.now().toString(36);
+};
+
 export default function SubmitNewsModal({ onSubmitted }: SubmitNewsModalProps) {
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,6 +31,7 @@ export default function SubmitNewsModal({ onSubmitted }: SubmitNewsModalProps) {
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("High School");
+  const [keywords, setKeywords] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -40,6 +52,7 @@ export default function SubmitNewsModal({ onSubmitted }: SubmitNewsModalProps) {
     setDescription("");
     setContent("");
     setCategory("High School");
+    setKeywords("");
     setImageFile(null);
     setImagePreview(null);
   };
@@ -94,6 +107,10 @@ export default function SubmitNewsModal({ onSubmitted }: SubmitNewsModalProps) {
         imageUrl = urlData.publicUrl;
       }
 
+      const keywordsArray = keywords.trim()
+        ? keywords.split(',').map(k => k.trim()).filter(Boolean)
+        : null;
+
       const { error } = await supabase
         .from('user_submitted_news')
         .insert({
@@ -105,6 +122,10 @@ export default function SubmitNewsModal({ onSubmitted }: SubmitNewsModalProps) {
           image_url: imageUrl,
           source: 'Community',
           status: 'pending',
+          slug: generateSlug(title),
+          meta_title: title.trim().substring(0, 60),
+          meta_description: description.trim().substring(0, 160),
+          keywords: keywordsArray,
         });
 
       if (error) throw error;
