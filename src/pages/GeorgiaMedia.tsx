@@ -64,6 +64,7 @@ interface CommunityArticle {
   source: string;
   created_at: string;
   status: string;
+  slug: string | null;
 }
 
 const sourceColors: Record<string, string> = {
