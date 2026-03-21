@@ -380,82 +380,54 @@ const GeorgiaMedia = () => {
       />
       <Navbar />
       
-      {/* Hero Section - KJ Green Featured Story */}
-      <section className="relative text-white overflow-hidden">
-        {(() => {
-          const kjArticle = communityArticles.find(a => a.slug === 'kj-green-4-star-safety-douglas-county-2026');
-          if (kjArticle) {
-            return (
-              <Link to={`/georgia-media/article/${kjArticle.slug}`} className="block group relative">
-                <div className="relative h-[500px] md:h-[600px]">
-                  <img 
-                    src={kjArticle.image_url || 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=1200'} 
-                    alt={kjArticle.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
-                  <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
-                    <div className="container mx-auto">
-                      <Badge className="bg-primary text-primary-foreground border-0 mb-4 text-sm">{kjArticle.category}</Badge>
-                      <h1 className="text-3xl md:text-5xl font-black mb-3 group-hover:text-primary transition-colors leading-tight max-w-3xl">
-                        {kjArticle.title}
-                      </h1>
-                      <p className="text-gray-300 text-lg max-w-2xl line-clamp-2 mb-4">{kjArticle.description}</p>
-                      <div className="flex items-center gap-3 text-sm text-gray-400">
-                        <span className="text-primary font-semibold">{kjArticle.source || 'Brand of a Champion'}</span>
-                        <span>•</span>
-                        <span>{getTimeAgo(kjArticle.created_at)}</span>
-                        <span>•</span>
-                        <span className="group-hover:text-primary transition-colors">Read Full Story →</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            );
-          }
-          return (
-            <div className="relative bg-gradient-to-br from-red-900 via-black to-red-950 py-16">
-              <div className="container mx-auto px-4 text-center">
-                <div className="flex items-center justify-center gap-3 mb-4">
-                  <span className="text-5xl">🍑</span>
-                  <h1 className="text-4xl md:text-6xl font-black tracking-tight">
-                    GEORGIA <span className="text-red-500">MEDIA</span>
-                  </h1>
-                </div>
-                <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                  Your source for Georgia high school football news, recruiting, and hot takes.
-                </p>
-              </div>
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-br from-red-900 via-black to-red-950 text-white py-16 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/images/community-impact.jpg')] opacity-10 bg-cover bg-center" />
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center"
+          >
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="text-5xl">🍑</span>
+              <h1 className="text-4xl md:text-6xl font-black tracking-tight">
+                GEORGIA <span className="text-red-500">MEDIA</span>
+              </h1>
             </div>
-          );
-        })()}
-        {/* Streak Display */}
-        {streak && (
-          <div className="bg-background border-b border-border">
-            <div className="container mx-auto px-4 py-3">
-              <div className="flex items-center justify-center gap-6">
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+              Your source for Georgia high school football news, recruiting, and hot takes.
+            </p>
+            
+            {/* Streak Display */}
+            {streak && (
+              <motion.div 
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="mt-6 inline-flex items-center gap-4 bg-black/50 backdrop-blur-sm px-6 py-3 rounded-full border border-red-500/30"
+              >
                 <div className="flex items-center gap-2">
-                  <Flame className={`w-5 h-5 ${streak.current_streak >= 3 ? 'text-orange-500 animate-pulse' : 'text-muted-foreground'}`} />
-                  <span className="font-bold text-lg text-foreground">{streak.current_streak}</span>
-                  <span className="text-sm text-muted-foreground">Day Streak</span>
+                  <Flame className={`w-6 h-6 ${streak.current_streak >= 3 ? 'text-orange-500 animate-pulse' : 'text-gray-400'}`} />
+                  <span className="font-bold text-2xl">{streak.current_streak}</span>
+                  <span className="text-sm text-gray-400">Day Streak</span>
                 </div>
-                <div className="w-px h-6 bg-border" />
+                <div className="w-px h-8 bg-gray-600" />
                 <div className="flex items-center gap-2">
-                  <Star className="w-4 h-4 text-yellow-500" />
-                  <span className="font-bold text-foreground">{streak.longest_streak}</span>
-                  <span className="text-sm text-muted-foreground">Best</span>
+                  <Star className="w-5 h-5 text-yellow-500" />
+                  <span className="font-bold">{streak.longest_streak}</span>
+                  <span className="text-sm text-gray-400">Best</span>
                 </div>
-                <div className="w-px h-6 bg-border" />
+                <div className="w-px h-8 bg-gray-600" />
                 <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4 text-blue-400" />
-                  <span className="font-bold text-foreground">{streak.total_visits}</span>
-                  <span className="text-sm text-muted-foreground">Visits</span>
+                  <Users className="w-5 h-5 text-blue-400" />
+                  <span className="font-bold">{streak.total_visits}</span>
+                  <span className="text-sm text-gray-400">Visits</span>
                 </div>
-              </div>
-            </div>
-          </div>
-        )}
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
       </section>
 
       <main className="container mx-auto px-4 py-12">
