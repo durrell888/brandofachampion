@@ -367,6 +367,7 @@ const GeorgiaMedia = () => {
     ? articles 
     : articles.filter(a => a.category.toLowerCase() === activeCategory.toLowerCase());
 
+  const kjArticle = communityArticles.find(a => a.slug === 'kj-green-4-star-safety-douglas-county-2026');
   const featuredArticle = filteredArticles[0];
   const secondaryArticles = filteredArticles.slice(1, 3);
   const remainingArticles = filteredArticles.slice(3);
