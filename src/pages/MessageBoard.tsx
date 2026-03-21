@@ -19,7 +19,7 @@ const MessageBoard = () => {
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
+      if (!session || !session.user.email_confirmed_at) {
         navigate("/auth");
         return;
       }
@@ -30,7 +30,7 @@ const MessageBoard = () => {
     checkAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (!session) {
+      if (!session || !session.user.email_confirmed_at) {
         navigate("/auth");
         return;
       }

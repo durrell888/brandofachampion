@@ -92,7 +92,7 @@ export default function Auth() {
         toast.error(error.message);
       }
     } else {
-      toast.success("Account created! You can now log in.");
+      toast.success("Check your email for a confirmation link before logging in.");
       setActiveTab("login");
     }
     setIsLoading(false);
