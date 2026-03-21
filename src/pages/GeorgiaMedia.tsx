@@ -367,6 +367,7 @@ const GeorgiaMedia = () => {
     ? articles 
     : articles.filter(a => a.category.toLowerCase() === activeCategory.toLowerCase());
 
+  const kjArticle = communityArticles.find(a => a.slug === 'kj-green-4-star-safety-douglas-county-2026');
   const featuredArticle = filteredArticles[0];
   const secondaryArticles = filteredArticles.slice(1, 3);
   const remainingArticles = filteredArticles.slice(3);
@@ -505,8 +506,39 @@ const GeorgiaMedia = () => {
                 ) : (
                   <div className="space-y-6">
 
-                    {/* Featured News Article */}
-                    {featuredArticle && (
+                    {/* Featured News Article - KJ Green pinned or first news article */}
+                    {kjArticle ? (
+                      <Link to={`/georgia-media/article/${kjArticle.slug || kjArticle.id}`} className="block group">
+                        <article className="relative rounded-lg overflow-hidden bg-card">
+                          {kjArticle.image_url ? (
+                            <div className="relative aspect-[16/9]">
+                              <img 
+                                src={kjArticle.image_url} 
+                                alt={kjArticle.title} 
+                                className="w-full h-full object-cover" 
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                              <div className="absolute bottom-0 left-0 right-0 p-6">
+                                <Badge className="bg-primary text-primary-foreground border-0 mb-3">{kjArticle.category}</Badge>
+                                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-primary transition-colors line-clamp-3">{kjArticle.title}</h2>
+                                <p className="text-gray-300 text-sm line-clamp-2 mb-3">{kjArticle.description}</p>
+                                <div className="flex items-center gap-3 text-xs text-gray-400">
+                                  <span className="text-primary font-medium">{kjArticle.source || 'Brand of a Champion'}</span>
+                                  <span>•</span>
+                                  <span>{getTimeAgo(kjArticle.created_at)}</span>
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="p-6">
+                              <Badge className="bg-primary text-primary-foreground border-0 mb-3">{kjArticle.category}</Badge>
+                              <h2 className="text-2xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{kjArticle.title}</h2>
+                              <p className="text-muted-foreground text-sm">{kjArticle.description}</p>
+                            </div>
+                          )}
+                        </article>
+                      </Link>
+                    ) : featuredArticle && (
                       <a href={featuredArticle.url} target="_blank" rel="noopener noreferrer" className="block group">
                         <article className="relative rounded-lg overflow-hidden bg-card">
                           {featuredArticle.imageUrl ? (
@@ -616,6 +648,7 @@ const GeorgiaMedia = () => {
                     </h3>
                     <div className="space-y-3">
                       {communityArticles
+                        .filter(a => a.slug !== 'kj-green-4-star-safety-douglas-county-2026')
                         .filter(a => activeCategory === "all" || a.category.toLowerCase() === activeCategory)
                         .map((article, idx) => (
                         <Link 
