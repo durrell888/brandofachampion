@@ -19,24 +19,6 @@ interface NewsArticle {
 // Fallback articles focused on Georgia high school football
 const fallbackArticles: NewsArticle[] = [
   {
-    title: "Spring Practice Preview: Georgia's Top Programs Gear Up for 2026",
-    description: "With spring practice underway across the state, powerhouses like Milton, Buford, and Grayson are already building momentum for the fall. Here's what to watch.",
-    source: "Georgia Sports Now",
-    url: "https://georgiasportsnow.com",
-    imageUrl: "https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=600",
-    publishedAt: new Date().toISOString(),
-    category: "High School",
-  },
-  {
-    title: "2027 QB Rankings: Georgia's Next Wave of Signal Callers",
-    description: "The Class of 2027 is stacked with quarterback talent across the Peach State. Multiple prospects already hold double-digit Power 4 offers heading into spring.",
-    source: "MaxPreps",
-    url: "https://maxpreps.com",
-    imageUrl: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=600&h=400&fit=crop",
-    publishedAt: new Date().toISOString(),
-    category: "Recruiting",
-  },
-  {
     title: "GHSA Reclassification Shakes Up 2026 Landscape",
     description: "The latest GHSA reclassification has moved several programs into new regions, creating potential blockbuster matchups for the upcoming season.",
     source: "GHSA",
@@ -62,15 +44,6 @@ const fallbackArticles: NewsArticle[] = [
     imageUrl: "https://images.unsplash.com/photo-1587280501635-68a0e82cd5ff?w=600",
     publishedAt: new Date().toISOString(),
     category: "High School",
-  },
-  {
-    title: "NIL and Collective Impact: How Georgia HS Stars Are Preparing",
-    description: "With college collectives offering more than ever, Georgia's top high school players are building their brands early. Programs like Brand of a Champion are leading the way.",
-    source: "Georgia Sports Now",
-    url: "https://brandofachampion.lovable.app",
-    imageUrl: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=600",
-    publishedAt: new Date().toISOString(),
-    category: "Recruiting",
   },
   {
     title: "GPB Sports: Top 10 Georgia High School Football Teams for 2026",
@@ -155,8 +128,8 @@ serve(async (req) => {
       for (const result of searchData.data) {
         const url = result.url || '';
         
-        // Skip On3, 247Sports, and Rivals articles
-        if (url.includes('on3.com') || url.includes('247sports.com') || url.includes('rivals.com')) {
+        // Skip On3, 247Sports, Rivals, and Georgia Sports Now articles
+        if (url.includes('on3.com') || url.includes('247sports.com') || url.includes('rivals.com') || url.includes('georgiasportsnow.com')) {
           console.log('Skipping filtered source:', result.title);
           continue;
         }
