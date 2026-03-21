@@ -738,7 +738,7 @@ const GeorgiaMedia = () => {
               <aside className="lg:col-span-4">
                 <div className="sticky top-24 space-y-6">
                   {/* Weekly Story Box */}
-                  <Link to="/georgia-media/article/kj-green-4-star-safety-douglas-county-2026" className="block group">
+                  <Link to="/georgia-media/article/born-to-compete-building-champions-georgia-communities" className="block group">
                     <Card className="overflow-hidden border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-background">
                       <div className="bg-primary px-4 py-3">
                         <h3 className="font-bold text-primary-foreground flex items-center gap-2">
@@ -753,24 +753,24 @@ const GeorgiaMedia = () => {
                         
                         <div className="space-y-4">
                           <img 
-                            src="https://froozixzptdjlnixnacd.supabase.co/storage/v1/object/public/news-images/kj-green%2Fkj-green-field.jpeg" 
-                            alt="KJ Green - Douglas County Tigers safety" 
-                            className="w-full rounded-lg object-cover aspect-square"
+                            src="https://froozixzptdjlnixnacd.supabase.co/storage/v1/object/public/news-images/born-2-compete%2Fb2c-logo.png" 
+                            alt="Born to Compete (B2C) logo" 
+                            className="w-full rounded-lg object-contain aspect-video bg-white p-4"
                           />
                           
                           <h4 className="font-bold text-foreground text-lg leading-tight group-hover:text-primary transition-colors">
-                            Kennedy "KJ" Green: The 4-Star Safety Ready to Lead Douglas County's Secondary in 2026
+                            Born to Compete: Building Champions and Strengthening Communities Across Georgia
                           </h4>
                           
                           <div className="text-sm text-muted-foreground space-y-3 max-h-[400px] overflow-y-auto pr-2">
                             <p>
-                              The 6-foot-2, 195-pound safety at Douglas County High School isn't just filling a roster spot — he's stepping into a leadership role vacated by three Brand of a Champion athletes who earned Division I scholarships: Jamar Owens (Indiana), Nick Burden (Memphis), and Aaron Gregory (Texas A&M).
+                              Few organizations have made as lasting an impact on Georgia youth sports as <strong>Born to Compete (B2C)</strong>. From showcase camps at Stockbridge and Lowndes High Schools to the annual Awards Gala at the Georgia Aquarium, B2C gives young athletes ages 6-14 a stage to be seen and celebrated.
                             </p>
                             <p>
-                              Green's 2025 campaign was nothing short of electric. He recorded <strong>4 interceptions</strong> and earned <strong>1st Team All-Region</strong> honors — credentials that solidified his four-star status and put college programs on notice.
+                              The 2026 <strong>B2C All-American Game</strong> at Milton High School will bring together the top rising 7th and 8th graders from across the region — nominated by coaches, parents, and community members.
                             </p>
                             <p>
-                              He's been locked in with his DB trainer Coach Ford and IDareU training, sharpening every aspect of his game. Plus, he's competing with Hustle Inc's 7v7 team to keep his edge sharp.
+                              B2C levels the playing field for underserved communities by providing professional-quality game film through BTC TV and free exposure opportunities that would otherwise be out of reach.
                             </p>
                             <p className="font-medium text-primary">
                               Read the full story →
