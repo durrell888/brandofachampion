@@ -71,7 +71,6 @@ const sourceColors: Record<string, string> = {
   "MaxPreps": "text-purple-400",
   "ESPN": "text-red-400",
   "GHSA": "text-yellow-400",
-  "Georgia Sports Now": "text-red-500",
   "Georgia Sports": "text-red-500",
   "Hudl": "text-orange-400",
   "PrepGameday": "text-blue-400",
