@@ -28,13 +28,13 @@ const fallbackArticles: NewsArticle[] = [
     category: "High School",
   },
   {
-    title: "AJC Breaks Down Georgia's Top Signing Day Winners and Losers",
-    description: "The Atlanta Journal-Constitution recaps National Signing Day, highlighting which Georgia programs landed the biggest recruits and who missed out.",
-    source: "AJC",
-    url: "https://www.ajc.com/sports/high-school",
+    title: "GHSA Announces Updated Playoff Format for 2026 Football Season",
+    description: "The Georgia High School Association reveals changes to the state playoff brackets, impacting programs across all classifications.",
+    source: "GHSA",
+    url: "https://www.ghsa.net",
     imageUrl: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=600",
     publishedAt: new Date().toISOString(),
-    category: "Recruiting",
+    category: "High School",
   },
   {
     title: "7-on-7 Season Heats Up Across Metro Atlanta",
@@ -55,13 +55,13 @@ const fallbackArticles: NewsArticle[] = [
     category: "High School",
   },
   {
-    title: "AJC Super 11: Georgia's Most Recruited Players for the Class of 2027",
-    description: "The Atlanta Journal-Constitution unveils its annual Super 11 list, spotlighting the most sought-after high school football recruits across the Peach State.",
-    source: "AJC",
-    url: "https://www.ajc.com/sports/high-school",
+    title: "GHSA Region Realignment: Key Matchups to Watch in 2026",
+    description: "New region assignments create exciting rivalries and championship contenders across Georgia high school football.",
+    source: "GHSA",
+    url: "https://www.ghsa.net",
     imageUrl: "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=600",
     publishedAt: new Date().toISOString(),
-    category: "Recruiting",
+    category: "High School",
   },
 ];
 
@@ -129,7 +129,7 @@ serve(async (req) => {
         const url = result.url || '';
         
         // Skip On3, 247Sports, Rivals, and Georgia Sports Now articles
-        if (url.includes('on3.com') || url.includes('247sports.com') || url.includes('rivals.com') || url.includes('georgiasportsnow.com')) {
+        if (url.includes('on3.com') || url.includes('247sports.com') || url.includes('rivals.com') || url.includes('georgiasportsnow.com') || url.includes('ajc.com')) {
           console.log('Skipping filtered source:', result.title);
           continue;
         }
@@ -139,7 +139,6 @@ serve(async (req) => {
         else if (url.includes('maxpreps.com')) source = 'MaxPreps';
         else if (url.includes('ghsa.net')) source = 'GHSA';
         else if (url.includes('gpb.org') || url.includes('gpbsports.org')) source = 'GPB Sports';
-        else if (url.includes('ajc.com')) source = 'AJC';
         else {
           try {
             const urlObj = new URL(url);

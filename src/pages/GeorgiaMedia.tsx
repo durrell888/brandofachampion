@@ -75,7 +75,7 @@ const sourceColors: Record<string, string> = {
   "Hudl": "text-orange-400",
   "PrepGameday": "text-blue-400",
   "GPB Sports": "text-cyan-400",
-  "AJC": "text-amber-400",
+  
 };
 
 function getTimeAgo(dateString: string): string {
@@ -504,34 +504,6 @@ const GeorgiaMedia = () => {
                   </Card>
                 ) : (
                   <div className="space-y-6">
-                    {/* BOAC Featured Article - KJ Green */}
-                    {communityArticles.length > 0 && !showMySubmissions && (() => {
-                      const kjArticle = communityArticles.find(a => a.slug === 'kj-green-4-star-safety-douglas-county-2026') || communityArticles[0];
-                      return (
-                        <Link to={`/georgia-media/article/${kjArticle.slug || kjArticle.id}`} className="block group">
-                          <article className="relative rounded-lg overflow-hidden bg-card">
-                            <div className="relative aspect-[16/9]">
-                              <img 
-                                src={kjArticle.image_url || 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=800'} 
-                                alt={kjArticle.title} 
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
-                              />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-                              <div className="absolute bottom-0 left-0 right-0 p-6">
-                                <Badge className="bg-primary text-primary-foreground border-0 mb-3">{kjArticle.category}</Badge>
-                                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-primary transition-colors line-clamp-3">{kjArticle.title}</h2>
-                                <p className="text-gray-300 text-sm line-clamp-2 mb-3">{kjArticle.description}</p>
-                                <div className="flex items-center gap-3 text-xs text-gray-400">
-                                  <span className="text-primary font-medium">{kjArticle.source || 'Brand of a Champion'}</span>
-                                  <span>•</span>
-                                  <span>{getTimeAgo(kjArticle.created_at)}</span>
-                                </div>
-                              </div>
-                            </div>
-                          </article>
-                        </Link>
-                      );
-                    })()}
 
                     {/* Featured News Article */}
                     {featuredArticle && (
