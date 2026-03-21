@@ -648,6 +648,7 @@ const GeorgiaMedia = () => {
                     </h3>
                     <div className="space-y-3">
                       {communityArticles
+                        .filter(a => a.slug !== 'kj-green-4-star-safety-douglas-county-2026')
                         .filter(a => activeCategory === "all" || a.category.toLowerCase() === activeCategory)
                         .map((article, idx) => (
                         <Link 
