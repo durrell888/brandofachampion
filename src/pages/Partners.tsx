@@ -41,11 +41,11 @@ const Partners = () => {
       <SEO 
         title="Our Partners"
         description="We're proud to partner with organizations that share our commitment to empowering athletes. Learn about our sponsors and partnership opportunities."
-        canonical="https://brandofachampion.org/partners"
+        canonical="https://brandofachampion.com/partners"
         structuredData={createWebPageSchema(
           "Our Partners",
           "Partner organizations supporting Brand of a Champion.",
-          "https://brandofachampion.org/partners"
+          "https://brandofachampion.com/partners"
         )}
       />
       <Navbar />

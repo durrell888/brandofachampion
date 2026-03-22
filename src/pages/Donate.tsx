@@ -147,11 +147,11 @@ const Donate = () => {
       <SEO 
         title="Donate"
         description="Support young athletes with your tax-deductible donation. Every dollar empowers athletes to succeed beyond the game."
-        canonical="https://brandofachampion.org/donate"
+        canonical="https://brandofachampion.com/donate"
         structuredData={createWebPageSchema(
           "Donate to Brand of a Champion",
           "Support young athletes with your tax-deductible donation.",
-          "https://brandofachampion.org/donate"
+          "https://brandofachampion.com/donate"
         )}
       />
       <Navbar />

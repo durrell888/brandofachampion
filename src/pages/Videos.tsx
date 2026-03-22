@@ -34,11 +34,11 @@ const Videos = () => {
       <SEO 
         title="Stories of Champions"
         description="Watch inspiring stories of athletes building their legacy beyond the game. Discover how Brand of a Champion is making an impact."
-        canonical="https://brandofachampion.org/stories"
+        canonical="https://brandofachampion.com/stories"
         structuredData={createWebPageSchema(
           "Stories of Champions",
           "Watch inspiring stories of athletes building their legacy beyond the game.",
-          "https://brandofachampion.org/stories"
+          "https://brandofachampion.com/stories"
         )}
       />
       <Navbar />

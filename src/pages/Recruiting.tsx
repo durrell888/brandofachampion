@@ -560,11 +560,11 @@ export default function Recruiting() {
       <SEO 
         title="College Recruiting Database"
         description="Explore NCAA Division I FBS football programs. Search schools, filter by conference, and access coaching staff contact information."
-        canonical="https://brandofachampion.org/recruiting"
+        canonical="https://brandofachampion.com/recruiting"
         structuredData={createWebPageSchema(
           "College Recruiting Database",
           "Explore NCAA Division I FBS football programs and coaching staff.",
-          "https://brandofachampion.org/recruiting"
+          "https://brandofachampion.com/recruiting"
         )}
       />
       <Navbar />

@@ -232,11 +232,11 @@ const MediaDevelopment = () => {
       <SEO 
         title="Media Development Program"
         description="Join the Brand of a Champion production team. Learn videography, video production, and help create inspiring content for our shows like Behind the Brand."
-        canonical="https://brandofachampion.org/media-development"
+        canonical="https://brandofachampion.com/media-development"
         structuredData={createWebPageSchema(
           "Media Development Program",
           "Join our production team and learn professional videography and video production.",
-          "https://brandofachampion.org/media-development"
+          "https://brandofachampion.com/media-development"
         )}
       />
       <Navbar />

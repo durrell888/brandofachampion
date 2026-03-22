@@ -37,12 +37,12 @@ const Apparel = () => {
       <SEO 
         title="BOAC Collection Apparel"
         description="Shop the Brand of a Champion collection. Every purchase supports our mission to empower athletes beyond the game."
-        canonical="https://brandofachampion.org/apparel"
+        canonical="https://brandofachampion.com/apparel"
         type="product"
         structuredData={createWebPageSchema(
           "BOAC Apparel Collection",
           "Shop the official Brand of a Champion merchandise collection.",
-          "https://brandofachampion.org/apparel"
+          "https://brandofachampion.com/apparel"
         )}
       />
       <Navbar />

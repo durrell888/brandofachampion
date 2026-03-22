@@ -47,11 +47,11 @@ const Athletes = () => {
       <SEO 
         title="Athletes"
         description="Discover athletes who need support and connect them with resources. Brand of a Champion helps young athletes reach their full potential."
-        canonical="https://brandofachampion.org/athletes"
+        canonical="https://brandofachampion.com/athletes"
         structuredData={createWebPageSchema(
           "Athletes Directory",
           "Discover athletes who need support and connect them with resources.",
-          "https://brandofachampion.org/athletes"
+          "https://brandofachampion.com/athletes"
         )}
       />
       <Navbar />

@@ -322,11 +322,11 @@ const Scholarships = () => {
       <SEO 
         title="Scholarships for Student Athletes"
         description="Search thousands of scholarships tailored for student-athletes. Filter by grade, state, and category to find the perfect opportunities."
-        canonical="https://brandofachampion.org/scholarships"
+        canonical="https://brandofachampion.com/scholarships"
         structuredData={createWebPageSchema(
           "Scholarship Database",
           "Search thousands of scholarships for student-athletes.",
-          "https://brandofachampion.org/scholarships"
+          "https://brandofachampion.com/scholarships"
         )}
       />
       <Navbar />

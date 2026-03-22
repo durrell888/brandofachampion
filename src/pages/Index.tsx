@@ -47,7 +47,7 @@ const Index = () => {
   return (
     <main className="min-h-screen bg-background">
       <SEO 
-        canonical="https://brandofachampion.org/"
+        canonical="https://brandofachampion.com/"
         structuredData={organizationSchema}
       />
       <EmailCapturePopup />

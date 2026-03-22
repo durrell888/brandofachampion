@@ -11,10 +11,10 @@ interface SEOProps {
 }
 
 const defaultMeta = {
-  title: 'Brand of a Champion - Empowering Athletes Beyond the Game',
-  description: 'Brand of a Champion is a nonprofit helping professional athletes succeed in every aspect of life beyond sports through media relations, marketing, and personal development.',
-  image: 'https://lovable.dev/opengraph-image-p98pqg.png',
-  url: 'https://brandofachampion.org',
+  title: 'Brand of a Champion | High School Football Recruiting & Athlete Development',
+  description: 'Brand of a Champion is a nonprofit empowering high school football athletes through coaching, recruiting exposure, and personal development. Home to D1-bound talent at Texas A&M, UCLA, Tennessee, Florida State & more.',
+  image: 'https://brandofachampion.com/images/og-image.png',
+  url: 'https://brandofachampion.com',
 };
 
 export const SEO = ({
@@ -66,21 +66,36 @@ export const SEO = ({
 // Organization Schema - use on homepage
 export const organizationSchema = {
   '@context': 'https://schema.org',
-  '@type': 'NonProfit',
+  '@type': ['NonprofitOrganization', 'SportsOrganization'],
+  '@id': 'https://brandofachampion.com/#organization',
   name: 'Brand of a Champion',
-  description: 'A nonprofit helping professional athletes succeed in every aspect of life beyond sports through media relations, marketing, and personal development.',
-  url: 'https://brandofachampion.org',
-  logo: 'https://brandofachampion.org/favicon.ico',
+  alternateName: 'BOAC',
+  description: 'Nonprofit organization empowering high school football athletes through coaching, recruiting exposure, and personal development. Producers of D1 talent at Texas A&M, UCLA, Tennessee, Florida State, and more.',
+  url: 'https://brandofachampion.com',
+  logo: 'https://brandofachampion.com/images/og-image.png',
+  areaServed: { '@type': 'Country', name: 'United States' },
+  address: { '@type': 'PostalAddress', addressRegion: 'GA', addressCountry: 'US' },
+  sport: 'American Football',
   sameAs: [
-    'https://facebook.com/brandofachampion',
-    'https://twitter.com/brandofachamp',
-    'https://instagram.com/brandofachampion',
+    'https://www.instagram.com/brandofachampion/',
+    'https://x.com/brandofachamp',
+    'https://www.youtube.com/@BrandofachampionTV',
   ],
-  contactPoint: {
-    '@type': 'ContactPoint',
-    telephone: '+1-960-657-1001',
-    contactType: 'customer service',
-    email: 'info@brandofachamp.org',
+  knowsAbout: [
+    'High School Football Recruiting',
+    'Athlete Development',
+    'College Football Scholarships',
+    'Youth Sports Mentorship',
+    'D1 Football Recruiting',
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'BOAC Subscription Plans',
+    itemListElement: [
+      { '@type': 'Offer', name: 'Basic Membership', price: '4.99', priceCurrency: 'USD', description: 'Access to coaching and platform resources' },
+      { '@type': 'Offer', name: 'Premium Membership', price: '14.99', priceCurrency: 'USD', description: 'Enhanced coaching, exposure, and training' },
+      { '@type': 'Offer', name: 'Recruiting Package', price: '19.99', priceCurrency: 'USD', description: 'Full recruiting services with college coach exposure' },
+    ],
   },
 };
 
@@ -94,7 +109,7 @@ export const createWebPageSchema = (name: string, description: string, url: stri
   isPartOf: {
     '@type': 'WebSite',
     name: 'Brand of a Champion',
-    url: 'https://brandofachampion.org',
+    url: 'https://brandofachampion.com',
   },
 });
 
@@ -135,7 +150,7 @@ export const createArticleSchema = (
     name: 'Brand of a Champion',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://brandofachampion.org/favicon.ico',
+      url: 'https://brandofachampion.com/images/og-image.png',
     },
   },
 });
