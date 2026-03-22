@@ -165,20 +165,27 @@ const ArticleDetail = () => {
             </p>
 
             {article.content && (
-              <div className="text-base leading-relaxed">
-                {article.content.split('\n').map((line, i) => {
-                  const imageMatch = line.match(/^\[IMAGE:(.*?)\|(.*?)\]$/);
-                  if (imageMatch) {
-                    return (
-                      <div key={i} className="rounded-xl overflow-hidden my-8">
-                        <img src={imageMatch[1]} alt={imageMatch[2]} className="w-full h-auto object-cover" loading="lazy" />
-                      </div>
-                    );
-                  }
-                  if (line.trim() === '') return <br key={i} />;
-                  return <p key={i} className="mb-4">{line}</p>;
-                })}
-              </div>
+              article.content.trim().startsWith('<') ? (
+                <div
+                  className="text-base leading-relaxed [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&>p]:mb-4"
+                  dangerouslySetInnerHTML={{ __html: article.content }}
+                />
+              ) : (
+                <div className="text-base leading-relaxed">
+                  {article.content.split('\n').map((line, i) => {
+                    const imageMatch = line.match(/^\[IMAGE:(.*?)\|(.*?)\]$/);
+                    if (imageMatch) {
+                      return (
+                        <div key={i} className="rounded-xl overflow-hidden my-8">
+                          <img src={imageMatch[1]} alt={imageMatch[2]} className="w-full h-auto object-cover" loading="lazy" />
+                        </div>
+                      );
+                    }
+                    if (line.trim() === '') return <br key={i} />;
+                    return <p key={i} className="mb-4">{line}</p>;
+                  })}
+                </div>
+              )
             )}
           </div>
 
