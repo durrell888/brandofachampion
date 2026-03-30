@@ -161,9 +161,9 @@ const Index = () => {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto overflow-visible">
             {/* Durrell Steen */}
-            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in transition-transform duration-300 hover:scale-105 hover:z-10 cursor-pointer">
+            <div className="bg-card rounded-2xl border border-border card-shadow animate-fade-in transition-all duration-300 hover:scale-110 hover:z-10 hover:shadow-2xl cursor-pointer relative">
               <div className="h-40 hero-gradient relative">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
