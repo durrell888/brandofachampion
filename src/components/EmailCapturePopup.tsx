@@ -57,6 +57,10 @@ const EmailCapturePopup = () => {
           throw error;
         }
       } else {
+        // Sync to Brevo (fire and forget)
+        supabase.functions.invoke('sync-brevo', {
+          body: { email: email.toLowerCase().trim() },
+        }).catch(err => console.error('Brevo sync error:', err));
         toast.success("Thanks for subscribing!");
       }
       handleClose();
