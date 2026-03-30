@@ -163,7 +163,7 @@ const Index = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {/* Durrell Steen */}
-            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in">
+            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in transition-transform duration-300 hover:scale-105 hover:z-10 cursor-pointer">
               <div className="h-40 hero-gradient relative">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
@@ -199,7 +199,7 @@ const Index = () => {
             </div>
 
             {/* Aaron Ross */}
-            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in [animation-delay:100ms] opacity-0">
+            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in [animation-delay:100ms] opacity-0 transition-transform duration-300 hover:scale-105 hover:z-10 cursor-pointer">
               <div className="h-40 hero-gradient relative">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
@@ -223,7 +223,7 @@ const Index = () => {
             </div>
 
             {/* Sanya Richards-Ross */}
-            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in [animation-delay:200ms] opacity-0">
+            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in [animation-delay:200ms] opacity-0 transition-transform duration-300 hover:scale-105 hover:z-10 cursor-pointer">
               <div className="h-40 hero-gradient relative">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
@@ -249,7 +249,7 @@ const Index = () => {
             </div>
 
             {/* Kiana Williams */}
-            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in [animation-delay:300ms] opacity-0">
+            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in [animation-delay:300ms] opacity-0 transition-transform duration-300 hover:scale-105 hover:z-10 cursor-pointer">
               <div className="h-40 hero-gradient relative">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
@@ -275,7 +275,7 @@ const Index = () => {
             </div>
 
             {/* Andrew Chen */}
-            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in [animation-delay:400ms] opacity-0">
+            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in [animation-delay:400ms] opacity-0 transition-transform duration-300 hover:scale-105 hover:z-10 cursor-pointer">
               <div className="h-40 hero-gradient relative">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
@@ -301,7 +301,7 @@ const Index = () => {
             </div>
 
             {/* Everett Levy */}
-            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in [animation-delay:500ms] opacity-0">
+            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in [animation-delay:500ms] opacity-0 transition-transform duration-300 hover:scale-105 hover:z-10 cursor-pointer">
               <div className="h-40 hero-gradient relative">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
@@ -327,7 +327,7 @@ const Index = () => {
             </div>
 
             {/* Dameon Hagler */}
-            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in [animation-delay:600ms] opacity-0">
+            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in [animation-delay:600ms] opacity-0 transition-transform duration-300 hover:scale-105 hover:z-10 cursor-pointer">
               <div className="h-40 hero-gradient relative">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
