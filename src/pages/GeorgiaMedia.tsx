@@ -511,11 +511,11 @@ const GeorgiaMedia = () => {
                       <Link to={`/georgia-media/article/${kjArticle.slug || kjArticle.id}`} className="block group">
                         <article className="relative rounded-lg overflow-hidden bg-card">
                           {kjArticle.image_url ? (
-                            <div className="relative aspect-[16/9]">
+                            <div className="relative aspect-[16/9] max-h-[400px]">
                               <img 
                                 src={kjArticle.image_url} 
                                 alt={kjArticle.title} 
-                                className="w-full h-full object-cover" 
+                                className="w-full h-full object-cover object-top" 
                               />
                               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                               <div className="absolute bottom-0 left-0 right-0 p-6">
