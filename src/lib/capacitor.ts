@@ -1,20 +1,21 @@
 export const initializeApp = async () => {
-  // Capacitor native platform initialization
-  // Only runs when native plugins are available
+  // Capacitor native platform initialization - only runs in native builds
   try {
-    const { Capacitor } = await import('@capacitor/core');
-    if (Capacitor.isNativePlatform()) {
+    // @ts-ignore - Capacitor packages only available in native builds
+    const core = await import(/* @vite-ignore */ '@capacitor/core');
+    if (core.Capacitor.isNativePlatform()) {
       try {
-        const { StatusBar, Style } = await import('@capacitor/status-bar');
-        await StatusBar.setStyle({ style: Style.Dark });
-        await StatusBar.setBackgroundColor({ color: '#000000' });
+        // @ts-ignore
+        const statusBar = await import(/* @vite-ignore */ '@capacitor/status-bar');
+        await statusBar.StatusBar.setStyle({ style: statusBar.Style.Dark });
+        await statusBar.StatusBar.setBackgroundColor({ color: '#000000' });
       } catch (e) {
         // StatusBar plugin not available
       }
-
       try {
-        const { SplashScreen } = await import('@capacitor/splash-screen');
-        await SplashScreen.hide();
+        // @ts-ignore
+        const splash = await import(/* @vite-ignore */ '@capacitor/splash-screen');
+        await splash.SplashScreen.hide();
       } catch (e) {
         // SplashScreen plugin not available
       }
@@ -24,13 +25,5 @@ export const initializeApp = async () => {
   }
 };
 
-export const isNative = () => {
-  try {
-    // Dynamic check without static import
-    return false;
-  } catch {
-    return false;
-  }
-};
-
+export const isNative = () => false;
 export const getPlatform = () => 'web';
