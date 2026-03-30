@@ -325,6 +325,32 @@ const Index = () => {
                 </div>
               </div>
             </div>
+
+            {/* Dameon Hagler */}
+            <div className="bg-card rounded-2xl border border-border overflow-hidden card-shadow animate-fade-in [animation-delay:600ms] opacity-0">
+              <div className="h-40 hero-gradient relative">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <img 
+                    src="/images/team/dameon-hagler.png" 
+                    alt="Dameon Hagler"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20"
+                  />
+                </div>
+              </div>
+              <div className="p-6 text-center">
+                <h3 className="text-xl font-extrabold text-foreground mb-1">Dameon Hagler</h3>
+                <p className="text-accent font-bold mb-3">Player Relations</p>
+                <p className="text-muted-foreground text-sm mb-4">
+                  Military veteran and mentor with a Master's in Network and Communication with a concentration in Project Management.
+                </p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary text-xs font-medium text-foreground">
+                    <Trophy className="w-3 h-3 text-accent" />
+                    Military Veteran
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

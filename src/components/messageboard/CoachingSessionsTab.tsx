@@ -29,6 +29,7 @@ interface CoachingSessionsTabProps {
 const teamMembers = [
   { id: "durrell-steen", name: "Durrell Steen", role: "Executive Director" },
   { id: "aaron-ross", name: "Aaron Ross", role: "Athlete Advisor (Former NFL)" },
+  { id: "dameon-hagler", name: "Dameon Hagler", role: "Player Relations" },
   { id: "sanya-richards-ross", name: "Sanya Richards-Ross", role: "Athlete Marketing & Mindset Training" },
   { id: "kiana-williams", name: "Kiana Williams", role: "Women's Athlete Advisor" },
   { id: "andrew-chen", name: "Andrew Chen", role: "Financial Advisor" },
