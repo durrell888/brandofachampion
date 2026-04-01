@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Heart, Shield, Star, Users, MapPin, Bus, Hotel, UtensilsCrossed, Target, Search, ArrowRight, CheckCircle, DollarSign, GraduationCap } from "lucide-react";
+import { Heart, Shield, Star, Users, MapPin, Bus, Hotel, UtensilsCrossed, Target, Search, ArrowRight, CheckCircle, DollarSign, GraduationCap, Play } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -56,6 +56,17 @@ const programDetails = [
     label: "Campus Tours",
     description: "Guided visits to college facilities, meeting coaches, and exploring opportunities",
   },
+];
+
+const impactAthletes = [
+  { name: "Aaron Gregory", college: "Texas A&M", note: "All-American" },
+  { name: "Devin Carter", college: "Florida State", note: "All-American" },
+  { name: "Jordan Carter", college: "Tennessee", note: "All-American" },
+  { name: "Joshua Sam-Epelle", college: "D1 Prospect", note: "All-American" },
+  { name: "DJ Bordeaux", college: "UCLA", note: "Quarterback" },
+  { name: "Lasiah Jackson", college: "Stanford", note: "Committed" },
+  { name: "Mike Johnson", college: "Utah", note: "Athlete" },
+  { name: "Jamar Owens", college: "Indiana", note: "Athlete" },
 ];
 
 const DonateUSAA = () => {
@@ -285,6 +296,94 @@ const DonateUSAA = () => {
               <span className="font-bold">Your donations cover everything</span> — travel, room and board, and meals — so these young athletes can focus entirely on the experience. Many of these students have never left their hometown. Your generosity through USAA makes these life-changing trips possible.
             </p>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Program Impact Video & Athletes */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-5 py-2.5 mb-6">
+              <Star className="w-5 h-5 text-primary" />
+              <span className="text-sm font-semibold text-primary">Proven Results</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Lives Changed Through This Program</h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              See the impact firsthand. These athletes came through Brand of a Champion and earned scholarships to top D1 programs across the country.
+            </p>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-10 max-w-6xl mx-auto items-start">
+            {/* Video */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="rounded-2xl overflow-hidden shadow-2xl border border-border"
+            >
+              <video
+                src="/videos/boac-impact.mov"
+                controls
+                playsInline
+                preload="metadata"
+                className="w-full aspect-video object-cover"
+                poster=""
+              />
+              <div className="p-4 bg-card">
+                <p className="text-sm text-muted-foreground">
+                  Brand of a Champion — changing lives beyond the game through Experience & Exposure.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Athletes List */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <h3 className="text-2xl font-bold mb-6">Athletes We've Impacted</h3>
+              <div className="space-y-3">
+                {impactAthletes.map((athlete, index) => (
+                  <motion.div
+                    key={athlete.name}
+                    initial={{ opacity: 0, x: 10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.08 }}
+                    viewport={{ once: true }}
+                    className="flex items-center justify-between bg-card border border-border rounded-xl p-4 hover:border-primary/40 transition-all"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                        <GraduationCap className="w-5 h-5 text-primary" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-foreground">{athlete.name}</p>
+                        <p className="text-sm text-muted-foreground">{athlete.note}</p>
+                      </div>
+                    </div>
+                    <span className="text-sm font-bold text-primary bg-primary/10 px-3 py-1 rounded-full">
+                      {athlete.college}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="mt-6 p-4 bg-gradient-to-br from-accent/10 to-primary/10 border border-accent/20 rounded-xl">
+                <p className="text-sm text-foreground leading-relaxed">
+                  <span className="font-bold">30+ scholarships</span> earned in just 3 years. 4 All-Americans produced. These results are possible because of donors like you.
+                </p>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
