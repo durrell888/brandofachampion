@@ -16,6 +16,7 @@ import Account from "./pages/Account";
 import Scholarships from "./pages/Scholarships";
 import MessageBoard from "./pages/MessageBoard";
 import Donate from "./pages/Donate";
+import DonateUSAA from "./pages/DonateUSAA";
 import FootballTraining from "./pages/FootballTraining";
 import CoachProfile from "./pages/CoachProfile";
 import TrenchAcademy from "./pages/TrenchAcademy";
@@ -46,6 +47,7 @@ const App = () => (
             <Route path="/scholarships" element={<Scholarships />} />
             <Route path="/community" element={<MessageBoard />} />
             <Route path="/donate" element={<Donate />} />
+            <Route path="/donate/usaa" element={<DonateUSAA />} />
             <Route path="/training" element={<FootballTraining />} />
             <Route path="/coach/:coachId" element={<CoachProfile />} />
             <Route path="/trench-iq" element={<TrenchAcademy />} />
