@@ -173,7 +173,7 @@ const Navbar = () => {
               onMouseLeave={() => setDonateDropdownOpen(false)}
             >
               <button
-                className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-primary hover:text-accent flex items-center gap-1 ${isActive("/donate") || isActive("/community") ? "text-accent" : ""}`}
+                className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-primary hover:text-accent flex items-center gap-1 ${isActive("/donate") || isActive("/donate/usaa") || isActive("/community") ? "text-accent" : ""}`}
                 style={{ animationDelay: "2.5s" }}
               >
                 Donate
@@ -187,6 +187,12 @@ const Navbar = () => {
                       className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/donate") ? "text-accent" : "text-foreground"}`}
                     >
                       Make a Donation
+                    </Link>
+                    <Link
+                      to="/donate/usaa"
+                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/donate/usaa") ? "text-accent" : "text-foreground"}`}
+                    >
+                      USAA Partnership
                     </Link>
                     <Link
                       to="/community"
@@ -301,7 +307,7 @@ const Navbar = () => {
               {/* Mobile Donate Accordion */}
               <div>
                 <button 
-                  className={`flex items-center justify-between w-full text-primary hover:text-accent transition-colors font-semibold py-2 ${isActive("/donate") || isActive("/community") ? "text-accent" : ""}`}
+                  className={`flex items-center justify-between w-full text-primary hover:text-accent transition-colors font-semibold py-2 ${isActive("/donate") || isActive("/donate/usaa") || isActive("/community") ? "text-accent" : ""}`}
                   onClick={() => setMobileDonateOpen(!mobileDonateOpen)}
                 >
                   Donate
@@ -311,6 +317,9 @@ const Navbar = () => {
                   <div className="pl-4 space-y-1 pt-1">
                     <Link to="/donate" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
                       Make a Donation
+                    </Link>
+                    <Link to="/donate/usaa" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
+                      USAA Partnership
                     </Link>
                     <Link to="/community" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
                       Community Chat
