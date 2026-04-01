@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Heart, Shield, Star, Users, MapPin, Bus, Hotel, UtensilsCrossed, Target, Search, ArrowRight, CheckCircle, DollarSign, GraduationCap } from "lucide-react";
+import { Heart, Shield, Star, Users, MapPin, Bus, Hotel, UtensilsCrossed, Target, Search, ArrowRight, CheckCircle, DollarSign, GraduationCap, Play } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
