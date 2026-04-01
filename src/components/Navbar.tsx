@@ -189,6 +189,12 @@ const Navbar = () => {
                       Make a Donation
                     </Link>
                     <Link
+                      to="/donate/usaa"
+                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/donate/usaa") ? "text-accent" : "text-foreground"}`}
+                    >
+                      USAA Partnership
+                    </Link>
+                    <Link
                       to="/community"
                       className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/community") ? "text-accent" : "text-foreground"}`}
                     >
