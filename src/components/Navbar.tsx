@@ -173,7 +173,7 @@ const Navbar = () => {
               onMouseLeave={() => setDonateDropdownOpen(false)}
             >
               <button
-                className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-primary hover:text-accent flex items-center gap-1 ${isActive("/donate") || isActive("/community") ? "text-accent" : ""}`}
+                className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-primary hover:text-accent flex items-center gap-1 ${isActive("/donate") || isActive("/donate/usaa") || isActive("/community") ? "text-accent" : ""}`}
                 style={{ animationDelay: "2.5s" }}
               >
                 Donate
