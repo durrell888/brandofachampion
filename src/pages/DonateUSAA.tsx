@@ -333,7 +333,7 @@ const DonateUSAA = () => {
                 controls
                 playsInline
                 preload="metadata"
-                className="w-full aspect-video object-cover"
+                className="w-full aspect-video object-contain bg-black"
                 poster=""
               />
               <div className="p-4 bg-card">
