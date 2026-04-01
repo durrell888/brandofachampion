@@ -16,6 +16,7 @@ import Account from "./pages/Account";
 import Scholarships from "./pages/Scholarships";
 import MessageBoard from "./pages/MessageBoard";
 import Donate from "./pages/Donate";
+import DonateUSAA from "./pages/DonateUSAA";
 import FootballTraining from "./pages/FootballTraining";
 import CoachProfile from "./pages/CoachProfile";
 import TrenchAcademy from "./pages/TrenchAcademy";
