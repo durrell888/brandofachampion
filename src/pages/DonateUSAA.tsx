@@ -58,6 +58,17 @@ const programDetails = [
   },
 ];
 
+const impactAthletes = [
+  { name: "Aaron Gregory", college: "Texas A&M", note: "All-American" },
+  { name: "Devin Carter", college: "Florida State", note: "All-American" },
+  { name: "Jordan Carter", college: "Tennessee", note: "All-American" },
+  { name: "Joshua Sam-Epelle", college: "D1 Prospect", note: "All-American" },
+  { name: "DJ Bordeaux", college: "UCLA", note: "Quarterback" },
+  { name: "Lasiah Jackson", college: "Stanford", note: "Committed" },
+  { name: "Mike Johnson", college: "Utah", note: "Athlete" },
+  { name: "Jamar Owens", college: "Indiana", note: "Athlete" },
+];
+
 const DonateUSAA = () => {
   const [amount, setAmount] = useState<number>(100);
   const [customAmount, setCustomAmount] = useState("");
