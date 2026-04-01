@@ -241,15 +241,13 @@ const GeorgiaMedia = () => {
         const newStreak = existing.current_streak + 1;
         const newLongest = Math.max(newStreak, existing.longest_streak);
         
-        await supabase
-          .from('georgia_visitor_streaks')
-          .update({
-            current_streak: newStreak,
-            longest_streak: newLongest,
-            total_visits: existing.total_visits + 1,
-            last_visit_date: today
-          })
-          .eq('visitor_id', visitorId);
+        await supabase.rpc('update_visitor_streak', {
+            _visitor_id: visitorId,
+            _current_streak: newStreak,
+            _longest_streak: newLongest,
+            _total_visits: existing.total_visits + 1,
+            _last_visit_date: today
+          });
         
         setStreak({
           current_streak: newStreak,
@@ -263,14 +261,13 @@ const GeorgiaMedia = () => {
           });
         }
       } else {
-        await supabase
-          .from('georgia_visitor_streaks')
-          .update({
-            current_streak: 1,
-            total_visits: existing.total_visits + 1,
-            last_visit_date: today
-          })
-          .eq('visitor_id', visitorId);
+        await supabase.rpc('update_visitor_streak', {
+            _visitor_id: visitorId,
+            _current_streak: 1,
+            _longest_streak: existing.longest_streak,
+            _total_visits: existing.total_visits + 1,
+            _last_visit_date: today
+          });
         
         setStreak({
           current_streak: 1,

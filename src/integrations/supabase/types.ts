@@ -870,6 +870,16 @@ export type Database = {
         Args: { _option: string; _poll_id: string; _voter_id: string }
         Returns: Json
       }
+      update_visitor_streak: {
+        Args: {
+          _current_streak: number
+          _last_visit_date: string
+          _longest_streak: number
+          _total_visits: number
+          _visitor_id: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
