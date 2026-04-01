@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Heart, Shield, Star, Users, Award, Flag, ArrowRight, CheckCircle } from "lucide-react";
+import { Heart, Shield, Star, Users, MapPin, Bus, Hotel, UtensilsCrossed, Target, Search, ArrowRight, CheckCircle, DollarSign, GraduationCap } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -12,36 +12,50 @@ import { SEO, createWebPageSchema } from "@/components/SEO";
 
 const PRESET_AMOUNTS = [25, 50, 100, 250, 500, 1000];
 
-const partnershipHighlights = [
+const howToDonate = [
   {
-    icon: Shield,
-    title: "Approved Donor Organization",
-    description: "Brand of a Champion is a USAA-approved charitable organization, meeting rigorous standards of accountability and transparency.",
+    icon: Search,
+    title: "Find Us on USAA",
+    description: 'Log into your USAA account, navigate to the charitable giving section, and search for "Brand of a Champion" in the approved donor directory.',
   },
   {
-    icon: Flag,
-    title: "Serving Those Who Serve",
-    description: "USAA is dedicated to current and former members of the U.S. military and their families. Together, we extend that service to the next generation of leaders.",
+    icon: DollarSign,
+    title: "Payroll Deduction",
+    description: "Set up a recurring payroll deduction through USAA's giving portal. Even small monthly contributions add up to big impact over a year.",
   },
   {
-    icon: Award,
-    title: "Fortune 500 Partnership",
-    description: "Backed by one of the nation's most trusted Fortune 500 companies, our partnership ensures your donation creates maximum impact.",
+    icon: Heart,
+    title: "One-Time Gift",
+    description: "Make a one-time donation directly through USAA's charitable giving platform or right here on this page using our secure checkout.",
   },
   {
     icon: Users,
-    title: "Military Family Athletes",
-    description: "Many of the young athletes we serve come from military families who sacrifice daily. Your donation directly supports their dreams.",
+    title: "Team Giving",
+    description: "Rally your department or team to collectively support Brand of a Champion. Group giving campaigns amplify your impact.",
   },
 ];
 
-const usaaValues = [
-  "100% of donations go directly to athlete development programs",
-  "Tax-deductible contributions with full receipt documentation",
-  "USAA-verified nonprofit meeting the highest standards of integrity",
-  "Transparent reporting on how every dollar is used",
-  "Supporting children of active duty, veterans, and military families",
-  "Building discipline, leadership, and character—values shared with the military community",
+const programDetails = [
+  {
+    icon: Bus,
+    label: "Travel",
+    description: "Round-trip transportation to college campuses across multiple states",
+  },
+  {
+    icon: Hotel,
+    label: "Room & Board",
+    description: "Safe, comfortable lodging throughout the entire campus visit experience",
+  },
+  {
+    icon: UtensilsCrossed,
+    label: "Meals",
+    description: "All meals covered so athletes can focus on the experience, not expenses",
+  },
+  {
+    icon: GraduationCap,
+    label: "Campus Tours",
+    description: "Guided visits to college facilities, meeting coaches, and exploring opportunities",
+  },
 ];
 
 const DonateUSAA = () => {
@@ -87,21 +101,25 @@ const DonateUSAA = () => {
     }
   };
 
+  const goalProgress = 42000; // example current progress
+  const goalTarget = 150000;
+  const goalPercent = Math.min((goalProgress / goalTarget) * 100, 100);
+
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="USAA Partnership | Donate"
-        description="Brand of a Champion is a USAA-approved donor organization. Support young athletes from military families through our Fortune 500 partnership."
+        title="USAA Employees | Donate to Brand of a Champion"
+        description="USAA employees: support Brand of a Champion as an approved USAA donor organization. Help underprivileged youth visit colleges through our Experience & Exposure program."
         canonical="https://brandofachampion.com/donate/usaa"
         structuredData={createWebPageSchema(
-          "USAA Partnership - Donate to Brand of a Champion",
-          "Brand of a Champion is a USAA-approved donor organization supporting military family athletes.",
+          "USAA Employees - Donate to Brand of a Champion",
+          "USAA employees can donate through USAA's approved donor program to support underprivileged youth college visits.",
           "https://brandofachampion.com/donate/usaa"
         )}
       />
       <Navbar />
 
-      {/* Hero Section */}
+      {/* Hero */}
       <section className="relative pt-24 pb-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[hsl(220,60%,15%)] via-background to-[hsl(220,40%,20%)]" />
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/15 rounded-full blur-3xl animate-pulse" />
@@ -116,31 +134,72 @@ const DonateUSAA = () => {
           >
             <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-5 py-2.5 mb-6">
               <Shield className="w-5 h-5 text-primary" />
-              <span className="text-sm font-semibold text-primary">USAA Approved Donor Organization</span>
+              <span className="text-sm font-semibold text-primary">For USAA Employees</span>
             </div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-              <span className="text-foreground">Proud Partners with</span>
+              <span className="text-foreground">Welcome,</span>
               <br />
               <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                USAA
+                USAA Team
               </span>
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-4 leading-relaxed">
-              Supporting young athletes from military families through our partnership with one of America's most trusted
-              <span className="text-foreground font-semibold"> Fortune 500 companies</span>.
+              Brand of a Champion is a{" "}
+              <span className="text-foreground font-semibold">USAA-approved donor organization</span>.
+              You can find us directly in your USAA charitable giving portal.
             </p>
 
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              USAA is dedicated to serving the financial needs of current and former members of the U.S. military and their families. Brand of a Champion is honored to be an approved charitable partner.
+              Your donations change lives by giving underprivileged youth the chance to visit college campuses they'd never see otherwise.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Partnership Highlights */}
-      <section className="py-20 bg-muted/30">
+      {/* Annual Goal Tracker */}
+      <section className="py-16 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="max-w-3xl mx-auto text-center"
+          >
+            <div className="inline-flex items-center gap-2 mb-4">
+              <Target className="w-6 h-6 text-primary" />
+              <h2 className="text-3xl md:text-4xl font-bold">Our USAA Annual Goal</h2>
+            </div>
+            <p className="text-lg text-muted-foreground mb-8">
+              Together, USAA employees can help us reach <span className="text-foreground font-bold">$150,000</span> this year to fund college campus visits for underprivileged youth.
+            </p>
+
+            <div className="bg-card border border-border rounded-2xl p-8">
+              <div className="flex justify-between items-end mb-3">
+                <span className="text-3xl font-bold text-primary">${goalProgress.toLocaleString()}</span>
+                <span className="text-lg text-muted-foreground font-semibold">${goalTarget.toLocaleString()} goal</span>
+              </div>
+              <div className="w-full h-4 bg-muted rounded-full overflow-hidden mb-3">
+                <motion.div
+                  initial={{ width: 0 }}
+                  whileInView={{ width: `${goalPercent}%` }}
+                  transition={{ duration: 1.2, ease: "easeOut" }}
+                  viewport={{ once: true }}
+                  className="h-full bg-gradient-to-r from-primary to-accent rounded-full"
+                />
+              </div>
+              <p className="text-sm text-muted-foreground">
+                {goalPercent.toFixed(0)}% of our annual goal — every dollar counts!
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* How to Donate Through USAA */}
+      <section className="py-20">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -149,14 +208,14 @@ const DonateUSAA = () => {
             viewport={{ once: true }}
             className="text-center mb-14"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why This Partnership Matters</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">How to Donate Through USAA</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Our USAA partnership represents a shared commitment to service, integrity, and empowering the next generation.
+              Search for <span className="text-foreground font-semibold">"Brand of a Champion"</span> in the USAA approved donor directory, or use one of these methods:
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {partnershipHighlights.map((item, index) => (
+            {howToDonate.map((item, index) => (
               <motion.div
                 key={item.title}
                 initial={{ opacity: 0, y: 20 }}
@@ -176,11 +235,64 @@ const DonateUSAA = () => {
         </div>
       </section>
 
-      {/* Values & Donation Form Side by Side */}
+      {/* Experience & Exposure Program */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-6"
+          >
+            <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-full px-5 py-2.5 mb-6">
+              <MapPin className="w-5 h-5 text-accent" />
+              <span className="text-sm font-semibold text-accent">Funded by USAA Donations</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Experience & Exposure Program</h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              One of the key programs your USAA donations support. We take underprivileged youth out of their communities to visit college campuses in different states — opening their eyes to opportunities they never knew existed.
+            </p>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto mt-12">
+            {programDetails.map((item, index) => (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-card border border-border rounded-xl p-6 text-center"
+              >
+                <div className="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <item.icon className="w-7 h-7 text-accent" />
+                </div>
+                <h3 className="text-lg font-bold mb-2">{item.label}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="max-w-3xl mx-auto mt-12 bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20 rounded-xl p-8 text-center"
+          >
+            <p className="text-lg text-foreground leading-relaxed">
+              <span className="font-bold">Your donations cover everything</span> — travel, room and board, and meals — so these young athletes can focus entirely on the experience. Many of these students have never left their hometown. Your generosity through USAA makes these life-changing trips possible.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Donation Form */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto items-start">
-            {/* Values List */}
+            {/* Why It Matters */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -188,14 +300,21 @@ const DonateUSAA = () => {
               viewport={{ once: true }}
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Your Donation, <span className="text-primary">Our Promise</span>
+                Your Impact as a <span className="text-primary">USAA Employee</span>
               </h2>
               <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                As a USAA-approved donor organization, we uphold the same values of honor, service, and accountability that define the military community.
+                As a USAA-approved donor organization, Brand of a Champion meets the highest standards of accountability and transparency that USAA demands.
               </p>
 
               <div className="space-y-4">
-                {usaaValues.map((value, index) => (
+                {[
+                  "Search 'Brand of a Champion' in the USAA approved donor directory",
+                  "100% of donations fund youth development programs",
+                  "Tax-deductible with full receipt documentation",
+                  "Supports the Experience & Exposure college visit program",
+                  "Covers travel, room & board, and meals for underprivileged youth",
+                  "Helps us reach our $150,000 annual USAA goal",
+                ].map((value, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, x: -10 }}
@@ -216,12 +335,12 @@ const DonateUSAA = () => {
                   <h3 className="text-lg font-bold">501(c)(3) Nonprofit</h3>
                 </div>
                 <p className="text-muted-foreground text-sm leading-relaxed">
-                  Brand of a Champion is a registered 501(c)(3) nonprofit organization. All donations are tax-deductible to the fullest extent allowed by law. Your generosity directly fuels programs that empower young athletes from military families to succeed beyond the game.
+                  Brand of a Champion is a registered 501(c)(3) nonprofit organization. All donations are tax-deductible to the fullest extent allowed by law.
                 </p>
               </div>
             </motion.div>
 
-            {/* Donation Form */}
+            {/* Form */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -233,11 +352,10 @@ const DonateUSAA = () => {
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Heart className="w-8 h-8 text-primary" />
                 </div>
-                <h2 className="text-2xl font-bold mb-2">Support Military Family Athletes</h2>
-                <p className="text-muted-foreground">Make a tax-deductible donation today</p>
+                <h2 className="text-2xl font-bold mb-2">Donate Now</h2>
+                <p className="text-muted-foreground">Quick donate or give through USAA's portal</p>
               </div>
 
-              {/* Preset Amounts */}
               <div className="grid grid-cols-3 gap-3 mb-6">
                 {PRESET_AMOUNTS.map((preset) => (
                   <Button
@@ -251,7 +369,6 @@ const DonateUSAA = () => {
                 ))}
               </div>
 
-              {/* Custom Amount */}
               <div className="mb-6">
                 <Label htmlFor="custom-amount" className="text-sm text-muted-foreground mb-2 block">
                   Or enter a custom amount
@@ -270,7 +387,6 @@ const DonateUSAA = () => {
                 </div>
               </div>
 
-              {/* Email */}
               <div className="mb-8">
                 <Label htmlFor="email" className="text-sm text-muted-foreground mb-2 block">
                   Email (optional, for receipt)
@@ -278,14 +394,13 @@ const DonateUSAA = () => {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="your@email.com"
+                  placeholder="your@usaa.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="h-12"
                 />
               </div>
 
-              {/* Donate Button */}
               <Button
                 onClick={handleDonate}
                 disabled={isLoading || amount < 1}
@@ -306,50 +421,10 @@ const DonateUSAA = () => {
               </Button>
 
               <p className="text-center text-sm text-muted-foreground mt-4">
-                Your donation is tax-deductible. You'll receive a receipt via email.
+                Tax-deductible • You'll receive a receipt via email
               </p>
             </motion.div>
           </div>
-        </div>
-      </section>
-
-      {/* Military Connection CTA */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border rounded-2xl p-8 md:p-12 text-center"
-          >
-            <Flag className="w-14 h-14 text-primary mx-auto mb-6" />
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Service Runs in Their Blood
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-4 leading-relaxed">
-              The values of the U.S. military—discipline, perseverance, teamwork, and sacrifice—are the same values we instill in every athlete we serve. Many of our young athletes are the children of service members who have given everything for this country.
-            </p>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed">
-              Through our USAA partnership, we ensure that these military families have access to world-class athletic development, mentorship, and scholarship opportunities. Together, we're building the next generation of champions who carry forward the legacy of service.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                size="lg"
-                className="bg-gradient-to-r from-primary to-accent hover:opacity-90 text-lg px-8 py-6"
-              >
-                <Heart className="w-5 h-5 mr-2" />
-                Donate Now
-              </Button>
-              <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 group">
-                <a href="/donate">
-                  View General Donations
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </Button>
-            </div>
-          </motion.div>
         </div>
       </section>
 
