@@ -307,7 +307,7 @@ const Navbar = () => {
               {/* Mobile Donate Accordion */}
               <div>
                 <button 
-                  className={`flex items-center justify-between w-full text-primary hover:text-accent transition-colors font-semibold py-2 ${isActive("/donate") || isActive("/community") ? "text-accent" : ""}`}
+                  className={`flex items-center justify-between w-full text-primary hover:text-accent transition-colors font-semibold py-2 ${isActive("/donate") || isActive("/donate/usaa") || isActive("/community") ? "text-accent" : ""}`}
                   onClick={() => setMobileDonateOpen(!mobileDonateOpen)}
                 >
                   Donate
@@ -317,6 +317,9 @@ const Navbar = () => {
                   <div className="pl-4 space-y-1 pt-1">
                     <Link to="/donate" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
                       Make a Donation
+                    </Link>
+                    <Link to="/donate/usaa" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
+                      USAA Partnership
                     </Link>
                     <Link to="/community" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
                       Community Chat
