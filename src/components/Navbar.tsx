@@ -313,7 +313,7 @@ const Navbar = () => {
               {/* Mobile Donate Accordion */}
               <div>
                 <button 
-                  className={`flex items-center justify-between w-full text-primary hover:text-accent transition-colors font-semibold py-2 ${isActive("/donate") || isActive("/donate/usaa") || isActive("/community") ? "text-accent" : ""}`}
+                  className={`flex items-center justify-between w-full text-primary hover:text-accent transition-colors font-semibold py-2 ${isActive("/donate") || isActive("/donate/usaa") || isActive("/community") || isActive("/volunteer") ? "text-accent" : ""}`}
                   onClick={() => setMobileDonateOpen(!mobileDonateOpen)}
                 >
                   Donate
