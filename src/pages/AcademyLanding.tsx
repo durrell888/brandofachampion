@@ -151,7 +151,7 @@ export default function AcademyLanding() {
         </section>
 
         {/* CTA */}
-        <section className="py-20 bg-[var(--hero-gradient)]">
+        <section className="py-20 bg-[#0a0a14]">
           <div className="container text-center">
             <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">
               Ready to Become a <span className="text-yellow-400">Champion</span>?
