@@ -299,11 +299,8 @@ export default function AcademyDashboard() {
 
           {/* Quick Actions */}
           <div className="flex flex-col sm:flex-row gap-4 mt-8">
-            <Button onClick={() => navigate("/academy/missions")} size="lg" className="bg-gradient-to-r from-yellow-500 to-amber-500 text-black font-bold">
-              <Target className="mr-2 h-5 w-5" /> Browse Missions
-            </Button>
-            <Button onClick={() => navigate("/academy/leaderboard")} variant="outline" size="lg">
-              <Trophy className="mr-2 h-5 w-5" /> Leaderboard
+            <Button onClick={() => navigate("/academy/leaderboard")} size="lg" className="bg-gradient-to-r from-yellow-500 to-amber-500 text-black font-bold">
+              <Trophy className="mr-2 h-5 w-5" /> Leaderboard Tracker
             </Button>
           </div>
         </div>
