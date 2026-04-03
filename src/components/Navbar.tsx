@@ -316,6 +316,9 @@ const Navbar = () => {
               <Link to="/georgia-media" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 GA Media
               </Link>
+              <Link to="/academy" className="block text-yellow-500 hover:text-yellow-400 transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
+                🏆 Champion Academy
+              </Link>
               
               {/* Mobile Donate Accordion */}
               <div>
