@@ -231,7 +231,7 @@ export function useLeaderboard() {
     queryKey: ["academy-leaderboard"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("academy_leaderboard_view" as any)
+        .from("academy_profiles")
         .select("name, total_hours, total_points, rank, school")
         .order("total_points", { ascending: false })
         .limit(50);
