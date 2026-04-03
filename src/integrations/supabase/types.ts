@@ -1058,6 +1058,48 @@ export type Database = {
       }
     }
     Views: {
+      academy_leaderboard_view: {
+        Row: {
+          current_streak: number | null
+          id: string | null
+          longest_streak: number | null
+          name: string | null
+          position: string | null
+          rank: string | null
+          school: string | null
+          sport: string | null
+          total_hours: number | null
+          total_points: number | null
+          user_id: string | null
+        }
+        Insert: {
+          current_streak?: number | null
+          id?: string | null
+          longest_streak?: number | null
+          name?: string | null
+          position?: string | null
+          rank?: string | null
+          school?: string | null
+          sport?: string | null
+          total_hours?: number | null
+          total_points?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          current_streak?: number | null
+          id?: string | null
+          longest_streak?: number | null
+          name?: string | null
+          position?: string | null
+          rank?: string | null
+          school?: string | null
+          sport?: string | null
+          total_hours?: number | null
+          total_points?: number | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       subscription_status_safe: {
         Row: {
           created_at: string | null
