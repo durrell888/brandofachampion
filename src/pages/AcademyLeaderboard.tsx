@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
-import { Trophy, Medal, Clock, Zap, Star } from "lucide-react";
+import { Trophy, Clock, Zap, User } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { SEO } from "@/components/SEO";
-import { useLeaderboard } from "@/hooks/useAcademy";
+import { useLeaderboard, useAcademyProfile, useAuth } from "@/hooks/useAcademy";
 
 const rankColors: Record<string, string> = {
   Rookie: "text-zinc-400",
@@ -15,43 +15,56 @@ const rankColors: Record<string, string> = {
 
 export default function AcademyLeaderboard() {
   const { data: leaderboard, isLoading } = useLeaderboard();
+  const { data: profile } = useAcademyProfile();
+  const { user } = useAuth();
 
   const byPoints = [...(leaderboard || [])].sort((a, b) => b.total_points - a.total_points);
   const byHours = [...(leaderboard || [])].sort((a, b) => Number(b.total_hours) - Number(a.total_hours));
 
-  const renderRow = (entry: any, index: number) => (
-    <motion.div
-      key={index}
-      initial={{ opacity: 0, x: -10 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: index * 0.02 }}
-      className={`flex items-center gap-4 p-4 rounded-xl ${
-        index === 0 ? "bg-yellow-500/10 border border-yellow-500/30" :
-        index === 1 ? "bg-zinc-400/10 border border-zinc-400/20" :
-        index === 2 ? "bg-amber-700/10 border border-amber-700/20" :
-        "bg-card border border-border"
-      }`}
-    >
-      <div className="w-10 text-center font-bold text-lg">
-        {index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `#${index + 1}`}
-      </div>
-      <div className="flex-1">
-        <p className="font-bold text-foreground">{entry.name}</p>
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <span className={rankColors[entry.rank] || "text-muted-foreground"}>{entry.rank}</span>
-          {entry.school && <span>• {entry.school}</span>}
+  // Find current user's position
+  const myPointsRank = profile ? byPoints.findIndex(e => e.name === profile.name) + 1 : 0;
+  const myHoursRank = profile ? byHours.findIndex(e => e.name === profile.name) + 1 : 0;
+
+  const renderRow = (entry: any, index: number) => {
+    const isMe = profile && entry.name === profile.name;
+    return (
+      <motion.div
+        key={index}
+        initial={{ opacity: 0, x: -10 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: index * 0.02 }}
+        className={`flex items-center gap-4 p-4 rounded-xl ${
+          isMe ? "bg-primary/10 border-2 border-primary ring-2 ring-primary/20" :
+          index === 0 ? "bg-yellow-500/10 border border-yellow-500/30" :
+          index === 1 ? "bg-zinc-400/10 border border-zinc-400/20" :
+          index === 2 ? "bg-amber-700/10 border border-amber-700/20" :
+          "bg-card border border-border"
+        }`}
+      >
+        <div className="w-10 text-center font-bold text-lg">
+          {index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `#${index + 1}`}
         </div>
-      </div>
-      <div className="text-right">
-        <div className="flex items-center gap-1 font-bold text-yellow-500">
-          <Zap className="h-4 w-4" /> {entry.total_points}
+        <div className="flex-1">
+          <p className="font-bold text-foreground flex items-center gap-2">
+            {entry.name}
+            {isMe && <span className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full">You</span>}
+          </p>
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <span className={rankColors[entry.rank] || "text-muted-foreground"}>{entry.rank}</span>
+            {entry.school && <span>• {entry.school}</span>}
+          </div>
         </div>
-        <div className="flex items-center gap-1 text-xs text-blue-400">
-          <Clock className="h-3 w-3" /> {Number(entry.total_hours).toFixed(1)}h
+        <div className="text-right">
+          <div className="flex items-center gap-1 font-bold text-yellow-500">
+            <Zap className="h-4 w-4" /> {entry.total_points}
+          </div>
+          <div className="flex items-center gap-1 text-xs text-blue-400">
+            <Clock className="h-3 w-3" /> {Number(entry.total_hours).toFixed(1)}h
+          </div>
         </div>
-      </div>
-    </motion.div>
-  );
+      </motion.div>
+    );
+  };
 
   return (
     <>
@@ -64,6 +77,45 @@ export default function AcademyLeaderboard() {
             <h1 className="text-3xl md:text-4xl font-display font-bold">Leaderboard</h1>
             <p className="text-muted-foreground mt-1">Top 50 Champion Academy leaders</p>
           </motion.div>
+
+          {/* Current user's progress card */}
+          {profile && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6 p-5 rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
+                  <User className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <p className="font-bold text-foreground">{profile.name}</p>
+                  <p className={`text-sm ${rankColors[profile.rank] || "text-muted-foreground"}`}>{profile.rank}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <div className="flex items-center justify-center gap-1 font-bold text-yellow-500">
+                    <Zap className="h-4 w-4" /> {profile.total_points}
+                  </div>
+                  <p className="text-xs text-muted-foreground">Points</p>
+                </div>
+                <div>
+                  <div className="flex items-center justify-center gap-1 font-bold text-blue-400">
+                    <Clock className="h-4 w-4" /> {Number(profile.total_hours).toFixed(1)}h
+                  </div>
+                  <p className="text-xs text-muted-foreground">Hours</p>
+                </div>
+                <div>
+                  <div className="font-bold text-foreground">
+                    #{myPointsRank || "—"}
+                  </div>
+                  <p className="text-xs text-muted-foreground">Rank</p>
+                </div>
+              </div>
+            </motion.div>
+          )}
 
           <Tabs defaultValue="points">
             <TabsList className="w-full mb-6">
