@@ -123,8 +123,8 @@ const Volunteer = () => {
               <Button onClick={() => navigate("/academy/dashboard")} variant="hero" size="lg" className="text-lg px-8 py-6 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-black font-bold">
                 <Zap className="mr-2 h-5 w-5" /> Get Started Free
               </Button>
-              <Button onClick={() => navigate("/academy/missions")} variant="outline" size="lg" className="text-lg px-8 py-6 border-white/20 text-white hover:bg-white/10">
-                Browse Missions
+              <Button onClick={() => navigate("/academy/leaderboard")} variant="outline" size="lg" className="text-lg px-8 py-6 border-white/20 text-white hover:bg-white/10">
+                <Trophy className="mr-2 h-5 w-5" /> Leaderboard Tracker
               </Button>
             </div>
           </motion.div>
