@@ -100,7 +100,7 @@ const Volunteer = () => {
 
       {/* Hero Section — Academy Style */}
       <section className="relative pt-32 pb-24 overflow-hidden">
-        <div className="absolute inset-0 bg-[#0a0a14]" />
+        <div className="absolute inset-0 bg-[#1a1a2e]" />
         <div className="absolute top-20 left-10 w-72 h-72 bg-yellow-500/10 rounded-full blur-3xl" />
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl" />
 
@@ -123,7 +123,7 @@ const Volunteer = () => {
               <Button onClick={() => navigate("/academy/dashboard")} variant="hero" size="lg" className="text-lg px-8 py-6 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-black font-bold">
                 <Zap className="mr-2 h-5 w-5" /> Get Started Free
               </Button>
-              <Button onClick={() => navigate("/academy/leaderboard")} variant="outline" size="lg" className="text-lg px-8 py-6 border-white/20 text-white hover:bg-white/10">
+              <Button onClick={() => navigate("/academy/leaderboard")} variant="outline" size="lg" className="text-lg px-8 py-6 border-yellow-500/40 text-yellow-400 hover:bg-yellow-500/10 hover:border-yellow-400/60">
                 <Trophy className="mr-2 h-5 w-5" /> Leaderboard Tracker
               </Button>
             </div>
