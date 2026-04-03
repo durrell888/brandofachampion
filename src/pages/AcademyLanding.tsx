@@ -36,9 +36,9 @@ export default function AcademyLanding() {
 
         {/* Hero */}
         <section className="relative pt-32 pb-24 overflow-hidden">
-          <div className="absolute inset-0 bg-[var(--hero-gradient)]" />
-          <div className="absolute top-20 left-10 w-72 h-72 bg-accent/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl" />
+          <div className="absolute inset-0 bg-[#0a0a14]" />
+          <div className="absolute top-20 left-10 w-72 h-72 bg-yellow-500/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl" />
 
           <div className="container relative z-10 text-center">
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
@@ -151,7 +151,7 @@ export default function AcademyLanding() {
         </section>
 
         {/* CTA */}
-        <section className="py-20 bg-[var(--hero-gradient)]">
+        <section className="py-20 bg-[#0a0a14]">
           <div className="container text-center">
             <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">
               Ready to Become a <span className="text-yellow-400">Champion</span>?
