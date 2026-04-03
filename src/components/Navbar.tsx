@@ -330,6 +330,9 @@ const Navbar = () => {
                     <Link to="/community" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
                       Community Chat
                     </Link>
+                    <Link to="/volunteer" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
+                      Volunteer
+                    </Link>
                   </div>
                 )}
               </div>
