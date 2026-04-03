@@ -48,7 +48,8 @@ export default function AcademyMissionDetail() {
   }
 
   const alreadyCompleted = submissions?.some(s => s.mission_id === mission.id && (s.status === "approved" || s.status === "pending"));
-  const quiz = mission.quiz_data?.questions as Array<{ question: string; options: string[]; correct: number }> | undefined;
+  const rawQuiz = mission.quiz_data;
+  const quiz = (Array.isArray(rawQuiz) ? rawQuiz : rawQuiz?.questions) as Array<{ question: string; options: string[]; correct: number }> | undefined;
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
