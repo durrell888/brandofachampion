@@ -26,6 +26,12 @@ import MediaDevelopment from "./pages/MediaDevelopment";
 import DCHSTraining from "./pages/DCHSTraining";
 import ArticleDetail from "./pages/ArticleDetail";
 import Volunteer from "./pages/Volunteer";
+import AcademyLanding from "./pages/AcademyLanding";
+import AcademyDashboard from "./pages/AcademyDashboard";
+import AcademyMissions from "./pages/AcademyMissions";
+import AcademyMissionDetail from "./pages/AcademyMissionDetail";
+import AcademyLeaderboard from "./pages/AcademyLeaderboard";
+import AcademyAdmin from "./pages/AcademyAdmin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

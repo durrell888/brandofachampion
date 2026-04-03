@@ -165,6 +165,13 @@ const Navbar = () => {
             >
               GA Media
             </Link>
+            <Link
+              to="/academy"
+              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-yellow-500 hover:text-yellow-400 ${isActive("/academy") ? "text-yellow-400" : ""}`}
+              style={{ animationDelay: "2.25s" }}
+            >
+              🏆 Academy
+            </Link>
             
             {/* Donate Dropdown */}
             <div 
