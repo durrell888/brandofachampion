@@ -189,6 +189,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          media_url: string | null
           mission_id: string
           response_text: string | null
           reviewed_at: string | null
@@ -201,6 +202,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          media_url?: string | null
           mission_id: string
           response_text?: string | null
           reviewed_at?: string | null
@@ -213,6 +215,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          media_url?: string | null
           mission_id?: string
           response_text?: string | null
           reviewed_at?: string | null
