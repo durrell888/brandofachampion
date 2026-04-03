@@ -196,12 +196,6 @@ const Navbar = () => {
                       USAA Partnership
                     </Link>
                      <Link
-                      to="/community"
-                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/community") ? "text-accent" : "text-foreground"}`}
-                    >
-                      Community Chat
-                    </Link>
-                    <Link
                       to="/volunteer"
                       className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary text-yellow-500 hover:text-yellow-400 ${isActive("/volunteer") ? "text-yellow-400" : ""}`}
                     >
@@ -328,9 +322,6 @@ const Navbar = () => {
                     </Link>
                     <Link to="/donate/usaa" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
                       USAA Partnership
-                    </Link>
-                    <Link to="/community" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
-                      Community Chat
                     </Link>
                     <Link to="/volunteer" className="block text-yellow-500 hover:text-yellow-400 transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
                       🏆 Champion Academy
