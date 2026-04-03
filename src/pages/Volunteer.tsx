@@ -320,7 +320,7 @@ const Volunteer = () => {
             <Button variant="outline" onClick={() => handleShare("facebook")}>Share on Facebook</Button>
             <Button variant="outline" onClick={() => handleShare("linkedin")}>Share on LinkedIn</Button>
             <Button variant="outline" asChild>
-              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.facebook.com/Brandofachampioninc" target="_blank" rel="noopener noreferrer">
                 Follow us on Facebook
               </a>
             </Button>
