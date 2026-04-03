@@ -194,11 +194,17 @@ const Navbar = () => {
                     >
                       USAA Partnership
                     </Link>
-                    <Link
+                     <Link
                       to="/community"
                       className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/community") ? "text-accent" : "text-foreground"}`}
                     >
                       Community Chat
+                    </Link>
+                    <Link
+                      to="/volunteer"
+                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/volunteer") ? "text-accent" : "text-foreground"}`}
+                    >
+                      Volunteer
                     </Link>
                   </div>
                 </div>
