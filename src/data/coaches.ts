@@ -59,27 +59,6 @@ export const coaches: Coach[] = [
     externalLink: "https://linktr.ee/routekingtraining?utm_source=ig&utm_medium=social&utm_content=link_in_bio"
   },
   {
-    id: "strength-coach",
-    name: "Elliot Berry",
-    position: "Strength and Speed Performance",
-    positionGroup: "Strength & Speed Performance",
-    image: "/images/team/strength-speed-performance.png",
-    bio: "Elite strength and speed performance coach specializing in explosive power development, sprint mechanics, and athletic performance. Training includes agility ladder drills, resistance band work, plyometric exercises, and sprint technique coaching.",
-    experience: "10+ years coaching",
-    specialties: ["Explosive Power Development", "Speed Mechanics", "Agility Drills", "Plyometrics"],
-    curriculum: [
-      { title: "Explosive Power Development", topics: ["Olympic lifts", "Power cleans", "Box jumps", "Medicine ball throws"] },
-      { title: "Speed Mechanics Training", topics: ["Sprint technique", "Arm drive", "Stride length optimization", "Acceleration patterns"] },
-      { title: "Agility Ladder Drills", topics: ["Footwork patterns", "Quick feet drills", "Coordination exercises", "Reaction training"] },
-      { title: "Resistance Band Work", topics: ["Band-resisted sprints", "Lateral band walks", "Explosive band exercises", "Hip activation"] },
-      { title: "Plyometric Exercises", topics: ["Depth jumps", "Bounding drills", "Single-leg hops", "Reactive agility"] },
-      { title: "Sprint Technique Coaching", topics: ["Start mechanics", "Drive phase", "Top-end speed", "Deceleration technique"] }
-    ],
-    isSubscription: true,
-    subscriptionPriceId: "price_1SsoXGJCEhoZof7crlYkUj9r",
-    subscriptionPrice: 150
-  },
-  {
     id: "ol-coach",
     name: "Kevin McAlmont",
     position: "Offensive Line Coach",
