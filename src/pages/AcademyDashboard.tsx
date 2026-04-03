@@ -154,33 +154,40 @@ export default function AcademyDashboard() {
 
     ctx.fillStyle = "#ffffff";
     ctx.font = "bold 42px Inter, sans-serif";
-    ctx.fillText("Leadership & Community", 550, 180);
-    ctx.fillText("Development Certification", 550, 230);
+    ctx.fillText("Leadership & Community", 550, 170);
+    ctx.fillText("Development Certification", 550, 220);
+
+    ctx.fillStyle = "#a1a1aa";
+    ctx.font = "italic 16px Inter, sans-serif";
+    ctx.fillText("Valid for Volunteer Hour Verification", 550, 260);
 
     ctx.fillStyle = "#a1a1aa";
     ctx.font = "20px Inter, sans-serif";
-    ctx.fillText("This certifies that", 550, 310);
+    ctx.fillText("This certifies that", 550, 320);
 
     ctx.fillStyle = "#f59e0b";
     ctx.font = "bold 36px Inter, sans-serif";
-    ctx.fillText(profile.name, 550, 370);
+    ctx.fillText(profile.name, 550, 380);
 
     ctx.fillStyle = "#ffffff";
     ctx.font = "20px Inter, sans-serif";
-    ctx.fillText(`has successfully completed ${milestone} Leadership Hours`, 550, 430);
-    ctx.fillText("through the Champion Academy program", 550, 460);
+    ctx.fillText(`has successfully completed ${milestone} Leadership & Volunteer Hours`, 550, 440);
+    ctx.fillText("through the Champion Academy program by Brand of a Champion", 550, 470);
 
     ctx.fillStyle = "#a1a1aa";
     ctx.font = "16px Inter, sans-serif";
-    ctx.fillText(`Date: ${new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}`, 550, 540);
+    ctx.fillText("These hours may be applied toward community service and volunteer requirements.", 550, 520);
+    const dateStr = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+    ctx.fillText(`Date Issued: ${dateStr}`, 550, 560);
 
     ctx.fillStyle = "#f59e0b";
     ctx.font = "bold 60px serif";
-    ctx.fillText("🏆", 550, 650);
+    ctx.fillText("🏆", 550, 670);
 
     ctx.fillStyle = "#71717a";
     ctx.font = "14px Inter, sans-serif";
     ctx.fillText("Champion Academy by Brand of a Champion • brandofachampion.com", 550, 780);
+    ctx.fillText("This certificate verifies participation in leadership, education, and community development activities.", 550, 800);
 
     const link = document.createElement("a");
     link.download = `champion-academy-${milestone}hr-certificate.png`;
