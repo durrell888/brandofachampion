@@ -64,7 +64,7 @@ const App = () => (
             <Route path="/georgia-media/article/:slug" element={<ArticleDetail />} />
             <Route path="/media-development" element={<MediaDevelopment />} />
             <Route path="/dchs-training" element={<DCHSTraining />} />
-            <Route path="/academy" element={<AcademyLanding />} />
+            <Route path="/academy" element={<Volunteer />} />
             <Route path="/academy/dashboard" element={<AcademyDashboard />} />
             <Route path="/academy/missions" element={<AcademyMissions />} />
             <Route path="/academy/mission/:id" element={<AcademyMissionDetail />} />

@@ -165,13 +165,7 @@ const Navbar = () => {
             >
               GA Media
             </Link>
-            <Link
-              to="/academy"
-              className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-yellow-500 hover:text-yellow-400 ${isActive("/academy") ? "text-yellow-400" : ""}`}
-              style={{ animationDelay: "2.25s" }}
-            >
-              🏆 Academy
-            </Link>
+            
             
             {/* Donate Dropdown */}
             <div 
@@ -209,9 +203,9 @@ const Navbar = () => {
                     </Link>
                     <Link
                       to="/volunteer"
-                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/volunteer") ? "text-accent" : "text-foreground"}`}
+                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary text-yellow-500 hover:text-yellow-400 ${isActive("/volunteer") ? "text-yellow-400" : ""}`}
                     >
-                      Volunteer
+                      🏆 Champion Academy
                     </Link>
                   </div>
                 </div>
@@ -316,9 +310,7 @@ const Navbar = () => {
               <Link to="/georgia-media" className="block text-foreground hover:text-accent transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
                 GA Media
               </Link>
-              <Link to="/academy" className="block text-yellow-500 hover:text-yellow-400 transition-colors font-semibold py-2" onClick={() => setIsOpen(false)}>
-                🏆 Champion Academy
-              </Link>
+              
               
               {/* Mobile Donate Accordion */}
               <div>
@@ -340,8 +332,8 @@ const Navbar = () => {
                     <Link to="/community" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
                       Community Chat
                     </Link>
-                    <Link to="/volunteer" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
-                      Volunteer
+                    <Link to="/volunteer" className="block text-yellow-500 hover:text-yellow-400 transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
+                      🏆 Champion Academy
                     </Link>
                   </div>
                 )}
