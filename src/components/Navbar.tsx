@@ -203,9 +203,9 @@ const Navbar = () => {
                     </Link>
                     <Link
                       to="/volunteer"
-                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/volunteer") ? "text-accent" : "text-foreground"}`}
+                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary text-yellow-500 hover:text-yellow-400 ${isActive("/volunteer") ? "text-yellow-400" : ""}`}
                     >
-                      Volunteer
+                      🏆 Champion Academy
                     </Link>
                   </div>
                 </div>
