@@ -180,6 +180,7 @@ export function useSubmitMission() {
       status: string;
       response_text?: string;
       score?: number;
+      media_url?: string;
       points_earned: number;
       hours_earned: number;
     }) => {
@@ -193,7 +194,8 @@ export function useSubmitMission() {
         status: submission.status,
         response_text: submission.response_text || null,
         score: submission.score || null,
-      });
+        media_url: submission.media_url || null,
+      } as any);
       if (subError) throw subError;
 
       // Update profile points/hours if approved
