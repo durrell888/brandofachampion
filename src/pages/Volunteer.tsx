@@ -315,10 +315,15 @@ const Volunteer = () => {
           <p className="text-muted-foreground text-lg mb-6 max-w-xl mx-auto">
             Spread the word and inspire others! Use <span className="text-yellow-500 font-bold">#ChampionFromYourChair</span> when sharing your milestones.
           </p>
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             <Button variant="outline" onClick={() => handleShare("twitter")}>Share on X</Button>
             <Button variant="outline" onClick={() => handleShare("facebook")}>Share on Facebook</Button>
             <Button variant="outline" onClick={() => handleShare("linkedin")}>Share on LinkedIn</Button>
+            <Button variant="outline" asChild>
+              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+                Follow us on Facebook
+              </a>
+            </Button>
           </div>
         </div>
       </section>
