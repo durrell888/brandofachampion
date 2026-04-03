@@ -58,6 +58,7 @@ const App = () => (
             <Route path="/georgia-media/article/:slug" element={<ArticleDetail />} />
             <Route path="/media-development" element={<MediaDevelopment />} />
             <Route path="/dchs-training" element={<DCHSTraining />} />
+            <Route path="/volunteer" element={<Volunteer />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/account" element={<Account />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
