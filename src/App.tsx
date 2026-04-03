@@ -25,6 +25,7 @@ import GeorgiaMedia from "./pages/GeorgiaMedia";
 import MediaDevelopment from "./pages/MediaDevelopment";
 import DCHSTraining from "./pages/DCHSTraining";
 import ArticleDetail from "./pages/ArticleDetail";
+import Volunteer from "./pages/Volunteer";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
