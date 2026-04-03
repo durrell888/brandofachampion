@@ -14,6 +14,253 @@ export type Database = {
   }
   public: {
     Tables: {
+      academy_badges: {
+        Row: {
+          created_at: string
+          description: string
+          icon: string
+          id: string
+          name: string
+          requirement_type: string
+          requirement_value: number
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          icon?: string
+          id?: string
+          name: string
+          requirement_type: string
+          requirement_value?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          icon?: string
+          id?: string
+          name?: string
+          requirement_type?: string
+          requirement_value?: number
+        }
+        Relationships: []
+      }
+      academy_certificates: {
+        Row: {
+          generated_at: string
+          hours_milestone: number
+          id: string
+          user_id: string
+        }
+        Insert: {
+          generated_at?: string
+          hours_milestone: number
+          id?: string
+          user_id: string
+        }
+        Update: {
+          generated_at?: string
+          hours_milestone?: number
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      academy_missions: {
+        Row: {
+          category: string
+          content_url: string | null
+          created_at: string
+          description: string
+          hours_reward: number
+          id: string
+          is_active: boolean
+          is_locked: boolean
+          min_word_count: number | null
+          mission_type: string
+          passing_score: number | null
+          points_reward: number
+          quiz_data: Json | null
+          requires_admin_review: boolean
+          sort_order: number
+          title: string
+          unlock_hours: number | null
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          content_url?: string | null
+          created_at?: string
+          description: string
+          hours_reward?: number
+          id?: string
+          is_active?: boolean
+          is_locked?: boolean
+          min_word_count?: number | null
+          mission_type: string
+          passing_score?: number | null
+          points_reward?: number
+          quiz_data?: Json | null
+          requires_admin_review?: boolean
+          sort_order?: number
+          title: string
+          unlock_hours?: number | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          content_url?: string | null
+          created_at?: string
+          description?: string
+          hours_reward?: number
+          id?: string
+          is_active?: boolean
+          is_locked?: boolean
+          min_word_count?: number | null
+          mission_type?: string
+          passing_score?: number | null
+          points_reward?: number
+          quiz_data?: Json | null
+          requires_admin_review?: boolean
+          sort_order?: number
+          title?: string
+          unlock_hours?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      academy_profiles: {
+        Row: {
+          age: number | null
+          created_at: string
+          current_streak: number
+          email: string
+          id: string
+          last_login_date: string | null
+          longest_streak: number
+          name: string
+          position: string | null
+          rank: string
+          school: string | null
+          sport: string | null
+          total_hours: number
+          total_points: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          age?: number | null
+          created_at?: string
+          current_streak?: number
+          email: string
+          id?: string
+          last_login_date?: string | null
+          longest_streak?: number
+          name: string
+          position?: string | null
+          rank?: string
+          school?: string | null
+          sport?: string | null
+          total_hours?: number
+          total_points?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          age?: number | null
+          created_at?: string
+          current_streak?: number
+          email?: string
+          id?: string
+          last_login_date?: string | null
+          longest_streak?: number
+          name?: string
+          position?: string | null
+          rank?: string
+          school?: string | null
+          sport?: string | null
+          total_hours?: number
+          total_points?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      academy_submissions: {
+        Row: {
+          created_at: string
+          id: string
+          mission_id: string
+          response_text: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          score: number | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          mission_id: string
+          response_text?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          score?: number | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          mission_id?: string
+          response_text?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          score?: number | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "academy_submissions_mission_id_fkey"
+            columns: ["mission_id"]
+            isOneToOne: false
+            referencedRelation: "academy_missions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      academy_user_badges: {
+        Row: {
+          badge_id: string
+          earned_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          badge_id: string
+          earned_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          badge_id?: string
+          earned_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "academy_user_badges_badge_id_fkey"
+            columns: ["badge_id"]
+            isOneToOne: false
+            referencedRelation: "academy_badges"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       coach_access_logs: {
         Row: {
           access_type: string

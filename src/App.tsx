@@ -26,6 +26,12 @@ import MediaDevelopment from "./pages/MediaDevelopment";
 import DCHSTraining from "./pages/DCHSTraining";
 import ArticleDetail from "./pages/ArticleDetail";
 import Volunteer from "./pages/Volunteer";
+import AcademyLanding from "./pages/AcademyLanding";
+import AcademyDashboard from "./pages/AcademyDashboard";
+import AcademyMissions from "./pages/AcademyMissions";
+import AcademyMissionDetail from "./pages/AcademyMissionDetail";
+import AcademyLeaderboard from "./pages/AcademyLeaderboard";
+import AcademyAdmin from "./pages/AcademyAdmin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -58,6 +64,12 @@ const App = () => (
             <Route path="/georgia-media/article/:slug" element={<ArticleDetail />} />
             <Route path="/media-development" element={<MediaDevelopment />} />
             <Route path="/dchs-training" element={<DCHSTraining />} />
+            <Route path="/academy" element={<AcademyLanding />} />
+            <Route path="/academy/dashboard" element={<AcademyDashboard />} />
+            <Route path="/academy/missions" element={<AcademyMissions />} />
+            <Route path="/academy/mission/:id" element={<AcademyMissionDetail />} />
+            <Route path="/academy/leaderboard" element={<AcademyLeaderboard />} />
+            <Route path="/academy/admin" element={<AcademyAdmin />} />
             <Route path="/volunteer" element={<Volunteer />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/account" element={<Account />} />
