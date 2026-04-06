@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import AffiliateProducts from "@/components/AffiliateProducts";
+
 import { mockAthletes } from "@/data/athletes";
 
 const getRatingColor = (rating: number) => {
@@ -275,15 +275,6 @@ const AthleteProfile = () => {
           </div>
         )}
 
-        {/* Affiliate Products Section */}
-        <div className="mt-16">
-          <AffiliateProducts 
-            title="Gear Up Like the Pros"
-            subtitle="Equipment and training gear trusted by elite athletes"
-            maxProducts={4}
-            showFeaturedOnly={true}
-          />
-        </div>
       </main>
 
       <Footer />
