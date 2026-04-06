@@ -12,10 +12,12 @@ const Navbar = () => {
   const [donateDropdownOpen, setDonateDropdownOpen] = useState(false);
   const [athletesDropdownOpen, setAthletesDropdownOpen] = useState(false);
   const [storiesDropdownOpen, setStoriesDropdownOpen] = useState(false);
+  const [volunteerDropdownOpen, setVolunteerDropdownOpen] = useState(false);
   const [mobileRecruitingOpen, setMobileRecruitingOpen] = useState(false);
   const [mobileDonateOpen, setMobileDonateOpen] = useState(false);
   const [mobileAthletesOpen, setMobileAthletesOpen] = useState(false);
   const [mobileStoriesOpen, setMobileStoriesOpen] = useState(false);
+  const [mobileVolunteerOpen, setMobileVolunteerOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -167,6 +169,33 @@ const Navbar = () => {
             </Link>
             
             
+            {/* Volunteer Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setVolunteerDropdownOpen(true)}
+              onMouseLeave={() => setVolunteerDropdownOpen(false)}
+            >
+              <button
+                className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent flex items-center gap-1 ${isActive("/volunteer") || isActive("/academy") ? "text-accent" : ""}`}
+                style={{ animationDelay: "2.5s" }}
+              >
+                Volunteer
+                <ChevronDown className={`w-4 h-4 transition-transform ${volunteerDropdownOpen ? "rotate-180" : ""}`} />
+              </button>
+              {volunteerDropdownOpen && (
+                <div className="absolute top-full right-0 pt-2 w-48">
+                  <div className="bg-background border border-border rounded-lg shadow-xl py-2 animate-fade-in">
+                    <Link
+                      to="/volunteer"
+                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary text-yellow-500 hover:text-yellow-400 ${isActive("/volunteer") ? "text-yellow-400" : ""}`}
+                    >
+                      🏆 Champion Academy
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+
             {/* Donate Dropdown */}
             <div 
               className="relative"
@@ -174,8 +203,8 @@ const Navbar = () => {
               onMouseLeave={() => setDonateDropdownOpen(false)}
             >
               <button
-                className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-primary hover:text-accent flex items-center gap-1 ${isActive("/donate") || isActive("/donate/usaa") || isActive("/community") || isActive("/volunteer") ? "text-accent" : ""}`}
-                style={{ animationDelay: "2.5s" }}
+                className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-primary hover:text-accent flex items-center gap-1 ${isActive("/donate") || isActive("/donate/usaa") ? "text-accent" : ""}`}
+                style={{ animationDelay: "3s" }}
               >
                 Donate
                 <ChevronDown className={`w-4 h-4 transition-transform ${donateDropdownOpen ? "rotate-180" : ""}`} />
@@ -194,12 +223,6 @@ const Navbar = () => {
                       className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/donate/usaa") ? "text-accent" : "text-foreground"}`}
                     >
                       USAA Partnership
-                    </Link>
-                     <Link
-                      to="/volunteer"
-                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary text-yellow-500 hover:text-yellow-400 ${isActive("/volunteer") ? "text-yellow-400" : ""}`}
-                    >
-                      🏆 Champion Academy
                     </Link>
                   </div>
                 </div>
@@ -306,10 +329,28 @@ const Navbar = () => {
               </Link>
               
               
+              {/* Mobile Volunteer Accordion */}
+              <div>
+                <button 
+                  className={`flex items-center justify-between w-full text-foreground hover:text-accent transition-colors font-semibold py-2 ${isActive("/volunteer") || isActive("/academy") ? "text-accent" : ""}`}
+                  onClick={() => setMobileVolunteerOpen(!mobileVolunteerOpen)}
+                >
+                  Volunteer
+                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileVolunteerOpen ? "rotate-180" : ""}`} />
+                </button>
+                {mobileVolunteerOpen && (
+                  <div className="pl-4 space-y-1 pt-1">
+                    <Link to="/volunteer" className="block text-yellow-500 hover:text-yellow-400 transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
+                      🏆 Champion Academy
+                    </Link>
+                  </div>
+                )}
+              </div>
+
               {/* Mobile Donate Accordion */}
               <div>
                 <button 
-                  className={`flex items-center justify-between w-full text-primary hover:text-accent transition-colors font-semibold py-2 ${isActive("/donate") || isActive("/donate/usaa") || isActive("/community") || isActive("/volunteer") ? "text-accent" : ""}`}
+                  className={`flex items-center justify-between w-full text-primary hover:text-accent transition-colors font-semibold py-2 ${isActive("/donate") || isActive("/donate/usaa") ? "text-accent" : ""}`}
                   onClick={() => setMobileDonateOpen(!mobileDonateOpen)}
                 >
                   Donate
@@ -322,9 +363,6 @@ const Navbar = () => {
                     </Link>
                     <Link to="/donate/usaa" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
                       USAA Partnership
-                    </Link>
-                    <Link to="/volunteer" className="block text-yellow-500 hover:text-yellow-400 transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
-                      🏆 Champion Academy
                     </Link>
                   </div>
                 )}
