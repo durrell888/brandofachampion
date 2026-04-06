@@ -4,7 +4,7 @@ import Hero from "@/components/Hero";
 import SupportCategories from "@/components/SupportCategories";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import EmailCapturePopup from "@/components/EmailCapturePopup";
-import AffiliateProducts from "@/components/AffiliateProducts";
+
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -511,16 +511,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Affiliate Products Section */}
-      <section className="py-16 bg-muted/30">
-        <div className="container">
-          <AffiliateProducts 
-            title="Recommended Gear"
-            subtitle="Top picks from our partners to help athletes perform at their best"
-            maxProducts={8}
-          />
-        </div>
-      </section>
 
       {/* CTA Section */}
       <section className="py-24 bg-background">
