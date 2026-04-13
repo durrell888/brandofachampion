@@ -325,7 +325,7 @@ export default function AcademyMissionDetail() {
 
                 {/* Engagement - Now requires photo/video proof */}
                 {mission.mission_type === "engagement" && (
-                  <div className="space-y-6">
+                  <div className={`space-y-6 ${mission.content_url && !videoWatched ? "opacity-40 pointer-events-none" : ""}`}>
                     {!engagementDone ? (
                       <>
                         <div className="p-6 bg-card border border-border rounded-xl space-y-5">
