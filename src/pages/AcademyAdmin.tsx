@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Shield, Plus, Users, FileText, Trash2, Edit, Check, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Shield, Plus, Users, FileText, Trash2, Edit, Check, X, ChevronDown, ChevronUp, Trophy, Clock, Award, Eye, Image } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,11 +18,155 @@ import { useAuth } from "@/hooks/useAcademy";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
+function UserDetailPanel({ userId, missions }: { userId: string; missions: any[] }) {
+  const { data: submissions, isLoading: subsLoading } = useQuery({
+    queryKey: ["admin-user-submissions", userId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("academy_submissions")
+        .select("*, academy_missions(title, category, points_reward, hours_reward)")
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const { data: badges } = useQuery({
+    queryKey: ["admin-user-badges", userId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("academy_user_badges")
+        .select("*, academy_badges(name, description, icon)")
+        .eq("user_id", userId);
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const { data: certificates } = useQuery({
+    queryKey: ["admin-user-certs", userId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("academy_certificates")
+        .select("*")
+        .eq("user_id", userId)
+        .order("generated_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const statusColor = (s: string) => {
+    if (s === "approved") return "bg-green-500/20 text-green-400 border-green-500/30";
+    if (s === "rejected") return "bg-red-500/20 text-red-400 border-red-500/30";
+    return "bg-yellow-500/20 text-yellow-400 border-yellow-500/30";
+  };
+
+  return (
+    <motion.div
+      initial={{ height: 0, opacity: 0 }}
+      animate={{ height: "auto", opacity: 1 }}
+      exit={{ height: 0, opacity: 0 }}
+      className="overflow-hidden"
+    >
+      <div className="pt-4 pb-2 space-y-4">
+        {/* Stats Row */}
+        <div className="grid grid-cols-3 gap-3">
+          <div className="bg-muted/30 rounded-lg p-3 text-center">
+            <FileText className="h-4 w-4 mx-auto mb-1 text-blue-400" />
+            <p className="text-lg font-bold text-foreground">{submissions?.length || 0}</p>
+            <p className="text-xs text-muted-foreground">Total Submissions</p>
+          </div>
+          <div className="bg-muted/30 rounded-lg p-3 text-center">
+            <Trophy className="h-4 w-4 mx-auto mb-1 text-yellow-500" />
+            <p className="text-lg font-bold text-foreground">{badges?.length || 0}</p>
+            <p className="text-xs text-muted-foreground">Badges Earned</p>
+          </div>
+          <div className="bg-muted/30 rounded-lg p-3 text-center">
+            <Award className="h-4 w-4 mx-auto mb-1 text-purple-400" />
+            <p className="text-lg font-bold text-foreground">{certificates?.length || 0}</p>
+            <p className="text-xs text-muted-foreground">Certificates</p>
+          </div>
+        </div>
+
+        {/* Badges */}
+        {(badges?.length || 0) > 0 && (
+          <div>
+            <p className="text-sm font-semibold text-muted-foreground mb-2">🏆 Badges</p>
+            <div className="flex flex-wrap gap-2">
+              {badges?.map((b: any) => (
+                <span key={b.id} className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/10 border border-yellow-500/30 rounded-full text-xs text-yellow-400">
+                  {b.academy_badges?.icon} {b.academy_badges?.name}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Certificates */}
+        {(certificates?.length || 0) > 0 && (
+          <div>
+            <p className="text-sm font-semibold text-muted-foreground mb-2">📜 Certificates</p>
+            <div className="flex flex-wrap gap-2">
+              {certificates?.map((c: any) => (
+                <span key={c.id} className="inline-flex items-center gap-1 px-2 py-1 bg-purple-500/10 border border-purple-500/30 rounded-full text-xs text-purple-400">
+                  {c.hours_milestone}h Milestone — {new Date(c.generated_at).toLocaleDateString()}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Submissions History */}
+        <div>
+          <p className="text-sm font-semibold text-muted-foreground mb-2">📋 Mission Submissions</p>
+          {subsLoading ? (
+            <p className="text-xs text-muted-foreground">Loading...</p>
+          ) : (submissions?.length || 0) === 0 ? (
+            <p className="text-xs text-muted-foreground">No submissions yet</p>
+          ) : (
+            <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
+              {submissions?.map((sub: any) => (
+                <div key={sub.id} className="p-3 bg-muted/20 border border-border rounded-lg">
+                  <div className="flex items-center justify-between mb-1">
+                    <p className="text-sm font-medium text-foreground">{sub.academy_missions?.title || "Unknown Mission"}</p>
+                    <Badge variant="outline" className={`text-xs ${statusColor(sub.status)}`}>
+                      {sub.status}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                    <span>{new Date(sub.created_at).toLocaleDateString()}</span>
+                    {sub.academy_missions?.category && <span>• {sub.academy_missions.category}</span>}
+                    {sub.score != null && <span>• Score: {sub.score}%</span>}
+                    {sub.academy_missions && (
+                      <span className="text-yellow-500">+{sub.academy_missions.points_reward}pts / {sub.academy_missions.hours_reward}h</span>
+                    )}
+                  </div>
+                  {sub.response_text && (
+                    <p className="text-xs text-muted-foreground mt-2 bg-background/50 p-2 rounded line-clamp-3">{sub.response_text}</p>
+                  )}
+                  {sub.media_url && (
+                    <a href={sub.media_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-blue-400 mt-1 hover:underline">
+                      <Image className="h-3 w-3" /> View Media
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function AcademyAdmin() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [createOpen, setCreateOpen] = useState(false);
+  const [expandedUser, setExpandedUser] = useState<string | null>(null);
   const [newMission, setNewMission] = useState({
     title: "", description: "", category: "Mindset", mission_type: "video_quiz",
     points_reward: 50, hours_reward: 1, content_url: "", requires_admin_review: false,
@@ -171,7 +315,7 @@ export default function AcademyAdmin() {
               <h1 className="text-3xl font-display font-bold flex items-center gap-2">
                 <Shield className="h-8 w-8 text-yellow-500" /> Admin Panel
               </h1>
-              <p className="text-muted-foreground">Manage missions, review submissions, and adjust user data</p>
+              <p className="text-muted-foreground">Manage missions, review submissions, and view full user data</p>
             </div>
           </div>
 
@@ -271,25 +415,58 @@ export default function AcademyAdmin() {
                       {sub.response_text && (
                         <p className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-lg mt-2">{sub.response_text}</p>
                       )}
+                      {sub.media_url && (
+                        <a href={sub.media_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-blue-400 mt-2 hover:underline">
+                          <Image className="h-3 w-3" /> View Attached Media
+                        </a>
+                      )}
                     </div>
                   ))}
                 </div>
               )}
             </TabsContent>
 
-            {/* Users Tab */}
+            {/* Users Tab - Enhanced with expandable detail */}
             <TabsContent value="users">
+              <p className="text-sm text-muted-foreground mb-4">Click on a user to view their full activity history, submissions, badges, and certificates.</p>
               <div className="space-y-3">
                 {(profiles || []).map((p: any) => (
-                  <div key={p.id} className="flex items-center justify-between p-4 bg-card border border-border rounded-xl">
-                    <div>
-                      <p className="font-semibold text-foreground">{p.name}</p>
-                      <p className="text-xs text-muted-foreground">{p.email} • {p.rank}</p>
-                    </div>
-                    <div className="text-right text-sm">
-                      <p className="text-yellow-500 font-semibold">{p.total_points} pts</p>
-                      <p className="text-blue-400">{Number(p.total_hours).toFixed(1)}h</p>
-                    </div>
+                  <div key={p.id} className="bg-card border border-border rounded-xl overflow-hidden">
+                    <button
+                      onClick={() => setExpandedUser(expandedUser === p.user_id ? null : p.user_id)}
+                      className="w-full flex items-center justify-between p-4 text-left hover:bg-muted/20 transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-500 font-bold text-sm">
+                          {p.name?.charAt(0)?.toUpperCase() || "?"}
+                        </div>
+                        <div>
+                          <p className="font-semibold text-foreground">{p.name}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {p.email} • {p.rank} • Streak: {p.current_streak}d
+                            {p.school && ` • ${p.school}`}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="text-right text-sm">
+                          <p className="text-yellow-500 font-semibold">{p.total_points} pts</p>
+                          <p className="text-blue-400">{Number(p.total_hours).toFixed(1)}h</p>
+                        </div>
+                        {expandedUser === p.user_id ? (
+                          <ChevronUp className="h-5 w-5 text-muted-foreground" />
+                        ) : (
+                          <ChevronDown className="h-5 w-5 text-muted-foreground" />
+                        )}
+                      </div>
+                    </button>
+                    <AnimatePresence>
+                      {expandedUser === p.user_id && (
+                        <div className="px-4 pb-4 border-t border-border">
+                          <UserDetailPanel userId={p.user_id} missions={missions || []} />
+                        </div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 ))}
               </div>
