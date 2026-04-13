@@ -362,6 +362,7 @@ const Index = () => {
                 bio: "Elite quarterback developer with extensive experience training athletes at all levels. Expert in quarterback mechanics, decision-making, and leadership development.",
                 experience: "15+ years coaching",
                 delay: "700ms",
+                link: "/coach/qb-coach",
               },
               {
                 id: "wr-coach",
@@ -371,6 +372,7 @@ const Index = () => {
                 bio: "Former professional wide receiver with exceptional route-running expertise. Develops elite separation and catching skills.",
                 experience: "11+ years coaching",
                 delay: "800ms",
+                link: "/coach/wr-coach",
               },
               {
                 id: "ol-coach",
