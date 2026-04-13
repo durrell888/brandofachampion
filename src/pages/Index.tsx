@@ -380,11 +380,22 @@ const Index = () => {
                 bio: "Expert offensive line coach with deep knowledge of blocking schemes, leverage, and trench warfare.",
                 experience: "12+ years coaching",
                 delay: "900ms",
+                link: "/coach/ol-coach",
+              },
+              {
+                id: "dline-specialist",
+                name: "SOLI",
+                position: "DLine Specialist",
+                image: "/images/partners/soli-dline-specialist.png",
+                bio: "The nation's premier defensive line and linebacker position training program with 30+ years of elite coaching experience.",
+                experience: "30+ years coaching",
+                delay: "1000ms",
+                link: "/defensive-line-specialist",
               },
             ].map((coach) => (
               <Link
                 key={coach.id}
-                to={`/coach/${coach.id}`}
+                to={coach.link}
                 className={`group bg-card rounded-2xl border border-border card-shadow animate-fade-in [animation-delay:${coach.delay}] opacity-0 transition-all duration-300 hover:scale-105 hover:z-50 hover:shadow-2xl cursor-pointer relative block`}
               >
                 <div className="h-40 hero-gradient relative overflow-visible">
