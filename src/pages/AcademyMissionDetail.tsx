@@ -296,7 +296,6 @@ export default function AcademyMissionDetail() {
                 {mission.mission_type === "text_submission" && (
                   <div className={`space-y-4 ${mission.content_url && !videoWatched ? "opacity-40 pointer-events-none" : ""}`}>
                     <h3 className="text-lg font-bold">{mission.content_url ? "Step 2: Write Your Response" : "Write Your Response"}</h3>
-                    <h3 className="text-lg font-bold">Write Your Response</h3>
                     <Textarea
                       value={textResponse}
                       onChange={(e) => setTextResponse(e.target.value)}
