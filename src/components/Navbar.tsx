@@ -365,11 +365,6 @@ const Navbar = () => {
               
               <div className="flex flex-col gap-3 pt-4 border-t border-border">
                 <div className="flex gap-3">
-                  <Link to="/training" className="flex-1" onClick={() => setIsOpen(false)}>
-                    <Button variant="outline" size="sm" className="w-full">
-                      Football Training
-                    </Button>
-                  </Link>
                   <Link to="/auth" className="flex-1" onClick={() => setIsOpen(false)}>
                     <Button variant="outline" size="sm" className="w-full">
                       Member Login
