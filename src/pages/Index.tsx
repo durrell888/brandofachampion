@@ -163,13 +163,13 @@ const Index = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto overflow-visible">
             {/* Durrell Steen */}
-            <div className="group bg-card rounded-2xl border border-border card-shadow animate-fade-in transition-all duration-300 hover:scale-150 hover:z-50 hover:shadow-2xl cursor-pointer relative">
+            <div className="group bg-card rounded-2xl border border-border card-shadow animate-fade-in transition-all duration-300 hover:scale-105 hover:z-50 hover:shadow-2xl cursor-pointer relative">
               <div className="h-40 hero-gradient relative overflow-visible">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
                     src="/images/team/durrell-steen.jpg" 
                     alt="Durrell Steen"
-                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20 transition-transform duration-300 group-hover:scale-150 group-hover:z-20"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20 transition-transform duration-300 group-hover:scale-110 group-hover:z-20"
                   />
                 </div>
               </div>
@@ -199,13 +199,13 @@ const Index = () => {
             </div>
 
             {/* Aaron Ross */}
-            <div className="group bg-card rounded-2xl border border-border card-shadow animate-fade-in [animation-delay:100ms] opacity-0 transition-all duration-300 hover:scale-150 hover:z-50 hover:shadow-2xl cursor-pointer relative">
+            <div className="group bg-card rounded-2xl border border-border card-shadow animate-fade-in [animation-delay:100ms] opacity-0 transition-all duration-300 hover:scale-105 hover:z-50 hover:shadow-2xl cursor-pointer relative">
               <div className="h-40 hero-gradient relative overflow-visible">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
                     src="/images/team/aaron-ross.avif" 
                     alt="Aaron Ross"
-                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20 transition-transform duration-300 group-hover:scale-150 group-hover:z-20"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20 transition-transform duration-300 group-hover:scale-110 group-hover:z-20"
                   />
                 </div>
               </div>
@@ -223,13 +223,13 @@ const Index = () => {
             </div>
 
             {/* Sanya Richards-Ross */}
-            <div className="group bg-card rounded-2xl border border-border card-shadow animate-fade-in [animation-delay:200ms] opacity-0 transition-all duration-300 hover:scale-150 hover:z-50 hover:shadow-2xl cursor-pointer relative">
+            <div className="group bg-card rounded-2xl border border-border card-shadow animate-fade-in [animation-delay:200ms] opacity-0 transition-all duration-300 hover:scale-105 hover:z-50 hover:shadow-2xl cursor-pointer relative">
               <div className="h-40 hero-gradient relative overflow-visible">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
                     src="/images/team/sanya-richards-ross.jpg" 
                     alt="Sanya Richards-Ross"
-                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20 transition-transform duration-300 group-hover:scale-150 group-hover:z-20"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20 transition-transform duration-300 group-hover:scale-110 group-hover:z-20"
                   />
                 </div>
               </div>
@@ -249,13 +249,13 @@ const Index = () => {
             </div>
 
             {/* Kiana Williams */}
-            <div className="group bg-card rounded-2xl border border-border card-shadow animate-fade-in [animation-delay:300ms] opacity-0 transition-all duration-300 hover:scale-150 hover:z-50 hover:shadow-2xl cursor-pointer relative">
+            <div className="group bg-card rounded-2xl border border-border card-shadow animate-fade-in [animation-delay:300ms] opacity-0 transition-all duration-300 hover:scale-105 hover:z-50 hover:shadow-2xl cursor-pointer relative">
               <div className="h-40 hero-gradient relative overflow-visible">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
                     src="/images/team/kiana-williams.webp" 
                     alt="Kiana Williams"
-                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20 transition-transform duration-300 group-hover:scale-150 group-hover:z-20"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20 transition-transform duration-300 group-hover:scale-110 group-hover:z-20"
                   />
                 </div>
               </div>
@@ -275,13 +275,13 @@ const Index = () => {
             </div>
 
             {/* Andrew Chen */}
-            <div className="group bg-card rounded-2xl border border-border card-shadow animate-fade-in [animation-delay:400ms] opacity-0 transition-all duration-300 hover:scale-150 hover:z-50 hover:shadow-2xl cursor-pointer relative">
+            <div className="group bg-card rounded-2xl border border-border card-shadow animate-fade-in [animation-delay:400ms] opacity-0 transition-all duration-300 hover:scale-105 hover:z-50 hover:shadow-2xl cursor-pointer relative">
               <div className="h-40 hero-gradient relative overflow-visible">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
                     src="/images/team/andrew-chen.jpg" 
                     alt="Andrew Chen"
-                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20 transition-transform duration-300 group-hover:scale-150 group-hover:z-20"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20 transition-transform duration-300 group-hover:scale-110 group-hover:z-20"
                   />
                 </div>
               </div>
@@ -301,13 +301,13 @@ const Index = () => {
             </div>
 
             {/* Everett Levy */}
-            <div className="group bg-card rounded-2xl border border-border card-shadow animate-fade-in [animation-delay:500ms] opacity-0 transition-all duration-300 hover:scale-150 hover:z-50 hover:shadow-2xl cursor-pointer relative">
+            <div className="group bg-card rounded-2xl border border-border card-shadow animate-fade-in [animation-delay:500ms] opacity-0 transition-all duration-300 hover:scale-105 hover:z-50 hover:shadow-2xl cursor-pointer relative">
               <div className="h-40 hero-gradient relative overflow-visible">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
                     src="/images/team/everett-levy.jpeg" 
                     alt="Everett Levy"
-                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20 transition-transform duration-300 group-hover:scale-150 group-hover:z-20"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20 transition-transform duration-300 group-hover:scale-110 group-hover:z-20"
                   />
                 </div>
               </div>
@@ -327,13 +327,13 @@ const Index = () => {
             </div>
 
             {/* Dameon Hagler */}
-            <div className="group bg-card rounded-2xl border border-border card-shadow animate-fade-in [animation-delay:600ms] opacity-0 transition-all duration-300 hover:scale-150 hover:z-50 hover:shadow-2xl cursor-pointer relative">
+            <div className="group bg-card rounded-2xl border border-border card-shadow animate-fade-in [animation-delay:600ms] opacity-0 transition-all duration-300 hover:scale-105 hover:z-50 hover:shadow-2xl cursor-pointer relative">
               <div className="h-40 hero-gradient relative overflow-visible">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
                     src="/images/team/dameon-hagler.png" 
                     alt="Dameon Hagler"
-                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20 transition-transform duration-300 group-hover:scale-150 group-hover:z-20"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20 transition-transform duration-300 group-hover:scale-110 group-hover:z-20"
                   />
                 </div>
               </div>
@@ -351,6 +351,65 @@ const Index = () => {
                 </div>
               </div>
             </div>
+
+            {/* Training Staff - Coaches with clickable bios */}
+            {[
+              {
+                id: "qb-coach",
+                name: "Ron Veal",
+                position: "Quarterbacks Coach",
+                image: "/images/team/ron-veal.jpg",
+                bio: "Elite quarterback developer with extensive experience training athletes at all levels. Expert in quarterback mechanics, decision-making, and leadership development.",
+                experience: "15+ years coaching",
+                delay: "700ms",
+              },
+              {
+                id: "wr-coach",
+                name: "Hilton Alexander",
+                position: "Wide Receivers Coach",
+                image: "/images/team/hilton-alexander.jpg",
+                bio: "Former professional wide receiver with exceptional route-running expertise. Develops elite separation and catching skills.",
+                experience: "11+ years coaching",
+                delay: "800ms",
+              },
+              {
+                id: "ol-coach",
+                name: "Kevin McAlmont",
+                position: "Offensive Line Coach",
+                image: "/images/team/kevin-mcalmont.jpg",
+                bio: "Expert offensive line coach with deep knowledge of blocking schemes, leverage, and trench warfare.",
+                experience: "12+ years coaching",
+                delay: "900ms",
+              },
+            ].map((coach) => (
+              <Link
+                key={coach.id}
+                to={`/coach/${coach.id}`}
+                className={`group bg-card rounded-2xl border border-border card-shadow animate-fade-in [animation-delay:${coach.delay}] opacity-0 transition-all duration-300 hover:scale-105 hover:z-50 hover:shadow-2xl cursor-pointer relative block`}
+              >
+                <div className="h-40 hero-gradient relative overflow-visible">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <img 
+                      src={coach.image} 
+                      alt={coach.name}
+                      className="w-24 h-24 rounded-full object-cover border-4 border-primary-foreground/20 transition-transform duration-300 group-hover:scale-110 group-hover:z-20"
+                    />
+                  </div>
+                </div>
+                <div className="p-6 text-center">
+                  <h3 className="text-xl font-extrabold text-foreground mb-1">{coach.name}</h3>
+                  <p className="text-accent font-bold mb-3">{coach.position}</p>
+                  <p className="text-muted-foreground text-sm mb-4">{coach.bio}</p>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary text-xs font-medium text-foreground">
+                      <Trophy className="w-3 h-3 text-accent" />
+                      {coach.experience}
+                    </div>
+                  </div>
+                  <p className="text-accent text-xs font-semibold mt-3 group-hover:underline">View Full Bio →</p>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

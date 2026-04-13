@@ -231,11 +231,6 @@ const Navbar = () => {
           </div>
 
           <div className="hidden lg:flex items-center gap-3">
-            <Link to="/training">
-              <Button variant={scrolled ? "ghost" : "heroOutline"} size="sm">
-                Football Training
-              </Button>
-            </Link>
             <Link to="/auth">
               <Button variant={scrolled ? "ghost" : "heroOutline"} size="sm">
                 Member Login
