@@ -19,17 +19,6 @@ import {
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
-const volunteerTasks = [
-  { id: 1, title: "Social Media Content Creation", description: "Create engaging posts for Instagram, Twitter, and Facebook to promote our programs.", time: "2-3 hrs/week", icon: Megaphone, category: "Marketing" },
-  { id: 2, title: "Athlete Profile Writing", description: "Write compelling bios and stories about our athletes' journeys to college.", time: "1-2 hrs/task", icon: FileText, category: "Content" },
-  { id: 3, title: "Graphic Design Support", description: "Design flyers, social media graphics, and promotional materials.", time: "3-4 hrs/week", icon: Palette, category: "Design" },
-  { id: 4, title: "Data Entry & Research", description: "Help maintain our database of college programs, scholarships, and recruiting contacts.", time: "2-3 hrs/week", icon: BarChart3, category: "Research" },
-  { id: 5, title: "Email Newsletter Drafting", description: "Draft weekly newsletters highlighting athlete achievements and program updates.", time: "1-2 hrs/week", icon: Mail, category: "Marketing" },
-  { id: 6, title: "Virtual Mentoring", description: "Provide guidance and mentorship to young athletes navigating the recruiting process.", time: "1 hr/week", icon: GraduationCap, category: "Mentoring" },
-  { id: 7, title: "Video Editing Assistance", description: "Help edit highlight reels and promotional videos for athletes.", time: "3-5 hrs/task", icon: Laptop, category: "Media" },
-  { id: 8, title: "Community Forum Moderation", description: "Monitor and moderate community discussions to maintain a positive environment.", time: "1-2 hrs/week", icon: MessageSquare, category: "Community" },
-];
-
 const ranks = [
   { name: "Rookie", hours: "0–10", color: "from-zinc-500 to-zinc-600" },
   { name: "Prospect", hours: "10–25", color: "from-blue-500 to-blue-600" },
@@ -227,39 +216,6 @@ const Volunteer = () => {
         </div>
       </section>
 
-      {/* Volunteer Tasks */}
-      <section className="py-16 bg-secondary/30">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-foreground">Volunteer <span className="text-yellow-500">Tasks</span></h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Want to contribute beyond missions? Choose tasks that match your skills — every hour counts!</p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-4 max-w-5xl mx-auto">
-            {volunteerTasks.map((task, i) => (
-              <motion.div key={task.id} initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
-                <Card className="h-full hover:border-yellow-500/30 transition-all hover:shadow-md">
-                  <CardContent className="p-5 flex gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center shrink-0">
-                      <task.icon className="w-6 h-6 text-yellow-500" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-start justify-between gap-2 mb-1">
-                        <h3 className="font-bold text-foreground">{task.title}</h3>
-                        <Badge variant="secondary" className="text-xs shrink-0">{task.category}</Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-2">{task.description}</p>
-                      <div className="flex items-center gap-1 text-xs text-yellow-500 font-medium">
-                        <Clock className="w-3 h-3" />
-                        {task.time}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Rank System */}
       <section className="py-20">
