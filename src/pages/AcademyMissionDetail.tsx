@@ -222,8 +222,8 @@ export default function AcademyMissionDetail() {
               </div>
             ) : (
               <div className="space-y-6">
-                {/* Video Player */}
-                {mission.content_url && (mission.mission_type === "video_quiz" || mission.mission_type === "interactive") && (
+                {/* Video Player - shown for ANY mission type that has a content_url */}
+                {mission.content_url && (
                   <div className="space-y-4">
                     <h3 className="text-lg font-bold">Step 1: Watch the Video</h3>
                     <div className="aspect-video rounded-xl overflow-hidden bg-black">
