@@ -222,8 +222,8 @@ export default function AcademyMissionDetail() {
               </div>
             ) : (
               <div className="space-y-6">
-                {/* Video Player */}
-                {mission.content_url && (mission.mission_type === "video_quiz" || mission.mission_type === "interactive") && (
+                {/* Video Player - shown for ANY mission type that has a content_url */}
+                {mission.content_url && (
                   <div className="space-y-4">
                     <h3 className="text-lg font-bold">Step 1: Watch the Video</h3>
                     <div className="aspect-video rounded-xl overflow-hidden bg-black">
@@ -294,8 +294,8 @@ export default function AcademyMissionDetail() {
 
                 {/* Text Submission */}
                 {mission.mission_type === "text_submission" && (
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-bold">Write Your Response</h3>
+                  <div className={`space-y-4 ${mission.content_url && !videoWatched ? "opacity-40 pointer-events-none" : ""}`}>
+                    <h3 className="text-lg font-bold">{mission.content_url ? "Step 2: Write Your Response" : "Write Your Response"}</h3>
                     <Textarea
                       value={textResponse}
                       onChange={(e) => setTextResponse(e.target.value)}
@@ -325,7 +325,7 @@ export default function AcademyMissionDetail() {
 
                 {/* Engagement - Now requires photo/video proof */}
                 {mission.mission_type === "engagement" && (
-                  <div className="space-y-6">
+                  <div className={`space-y-6 ${mission.content_url && !videoWatched ? "opacity-40 pointer-events-none" : ""}`}>
                     {!engagementDone ? (
                       <>
                         <div className="p-6 bg-card border border-border rounded-xl space-y-5">
