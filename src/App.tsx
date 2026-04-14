@@ -26,6 +26,7 @@ import MediaDevelopment from "./pages/MediaDevelopment";
 import DCHSTraining from "./pages/DCHSTraining";
 import ArticleDetail from "./pages/ArticleDetail";
 import Volunteer from "./pages/Volunteer";
+import HealthcarePartnership from "./pages/HealthcarePartnership";
 import AcademyLanding from "./pages/AcademyLanding";
 import AcademyDashboard from "./pages/AcademyDashboard";
 import AcademyMissions from "./pages/AcademyMissions";
@@ -73,6 +74,7 @@ const App = () => (
             <Route path="/academy/leaderboard" element={<AcademyLeaderboard />} />
             <Route path="/academy/admin" element={<AcademyAdmin />} />
             <Route path="/volunteer" element={<Volunteer />} />
+            <Route path="/healthcare-partnership" element={<HealthcarePartnership />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/account" element={<Account />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
