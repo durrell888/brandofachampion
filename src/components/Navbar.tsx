@@ -189,7 +189,13 @@ const Navbar = () => {
                       to="/volunteer"
                       className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary text-yellow-500 hover:text-yellow-400 ${isActive("/volunteer") ? "text-yellow-400" : ""}`}
                     >
-                      🏆 Champion Academy
+                      🏆 Athletes Partner
+                    </Link>
+                    <Link
+                      to="/healthcare-partnership"
+                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/healthcare-partnership") ? "text-accent" : "text-foreground"}`}
+                    >
+                      ❤️ Health Partner
                     </Link>
                   </div>
                 </div>
@@ -336,7 +342,10 @@ const Navbar = () => {
                 {mobileVolunteerOpen && (
                   <div className="pl-4 space-y-1 pt-1">
                     <Link to="/volunteer" className="block text-yellow-500 hover:text-yellow-400 transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
-                      🏆 Champion Academy
+                      🏆 Athletes Partner
+                    </Link>
+                    <Link to="/healthcare-partnership" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
+                      ❤️ Health Partner
                     </Link>
                   </div>
                 )}
