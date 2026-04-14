@@ -179,11 +179,11 @@ const Navbar = () => {
                 className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent flex items-center gap-1 ${isActive("/volunteer") || isActive("/academy") ? "text-accent" : ""}`}
                 style={{ animationDelay: "2.5s" }}
               >
-                Volunteer
+                Champion From Your Chair
                 <ChevronDown className={`w-4 h-4 transition-transform ${volunteerDropdownOpen ? "rotate-180" : ""}`} />
               </button>
               {volunteerDropdownOpen && (
-                <div className="absolute top-full right-0 pt-2 w-48">
+                <div className="absolute top-full right-0 pt-2 w-56">
                   <div className="bg-background border border-border rounded-lg shadow-xl py-2 animate-fade-in">
                     <Link
                       to="/volunteer"
@@ -330,7 +330,7 @@ const Navbar = () => {
                   className={`flex items-center justify-between w-full text-foreground hover:text-accent transition-colors font-semibold py-2 ${isActive("/volunteer") || isActive("/academy") ? "text-accent" : ""}`}
                   onClick={() => setMobileVolunteerOpen(!mobileVolunteerOpen)}
                 >
-                  Volunteer
+                  Champion From Your Chair
                   <ChevronDown className={`w-4 h-4 transition-transform ${mobileVolunteerOpen ? "rotate-180" : ""}`} />
                 </button>
                 {mobileVolunteerOpen && (
