@@ -200,12 +200,27 @@ export function useSubmitMission() {
 
       // Update profile points/hours if approved
       if (submission.status === "approved") {
-        const { data: profile } = await supabase
+        let { data: profile } = await supabase
           .from("academy_profiles")
           .select("*")
           .eq("user_id", user.id)
-          .single();
+          .maybeSingle();
         
+        // Auto-create profile if missing
+        if (!profile) {
+          const { data: newProfile, error: createErr } = await supabase
+            .from("academy_profiles")
+            .insert({
+              user_id: user.id,
+              name: user.user_metadata?.full_name || user.email?.split("@")[0] || "Academy User",
+              email: user.email || "",
+            })
+            .select()
+            .single();
+          if (createErr) throw createErr;
+          profile = newProfile;
+        }
+
         if (profile) {
           const newHours = Number(profile.total_hours) + submission.hours_earned;
           const newPoints = profile.total_points + submission.points_earned;
