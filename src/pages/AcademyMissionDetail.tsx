@@ -229,6 +229,18 @@ export default function AcademyMissionDetail() {
               </div>
             ) : (
               <div className="space-y-6">
+                {/* Previous attempts info */}
+                {lastAttempt && lastAttempt.status === "rejected" && !quizSubmitted && (
+                  <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-start gap-3">
+                    <AlertCircle className="h-5 w-5 text-amber-400 mt-0.5 shrink-0" />
+                    <div>
+                      <p className="font-semibold text-foreground">Previous attempt: {lastAttempt.score}%</p>
+                      <p className="text-sm text-muted-foreground">
+                        You've attempted this {previousAttempts.length} time{previousAttempts.length > 1 ? "s" : ""}. Need {mission.passing_score || 70}% to pass — give it another try!
+                      </p>
+                    </div>
+                  </div>
+                )}
                 {/* Video Player - shown for ANY mission type that has a content_url */}
                 {mission.content_url && (
                   <div className="space-y-4">
