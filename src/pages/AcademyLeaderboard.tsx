@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Trophy, Clock, Zap, User } from "lucide-react";
+import { Trophy, Clock, Zap, User, CheckCircle2, XCircle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
