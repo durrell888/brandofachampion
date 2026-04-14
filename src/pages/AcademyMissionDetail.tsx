@@ -296,6 +296,34 @@ export default function AcademyMissionDetail() {
                         Submit Answers
                       </Button>
                     )}
+                    {quizSubmitted && (() => {
+                      const correct = quiz.reduce((acc, q, i) => acc + (quizAnswers[i] === q.correct ? 1 : 0), 0);
+                      const score = Math.round((correct / quiz.length) * 100);
+                      const passed = score >= (mission.passing_score || 70);
+                      return (
+                        <div className={`p-5 rounded-xl border ${passed ? "bg-green-500/10 border-green-500/30" : "bg-red-500/10 border-red-500/30"}`}>
+                          <div className="flex items-center gap-3 mb-3">
+                            {passed ? <CheckCircle2 className="h-8 w-8 text-green-500" /> : <AlertCircle className="h-8 w-8 text-red-500" />}
+                            <div>
+                              <h4 className="text-lg font-bold text-foreground">{passed ? "🎉 Quiz Passed!" : "❌ Quiz Failed"}</h4>
+                              <p className="text-sm text-muted-foreground">
+                                {correct} / {quiz.length} correct — {score}% {!passed && `(need ${mission.passing_score || 70}%)`}
+                              </p>
+                            </div>
+                          </div>
+                          {passed ? (
+                            <p className="text-green-400 text-sm">+{mission.points_reward} points, +{mission.hours_reward} hours earned!</p>
+                          ) : (
+                            <div className="space-y-3">
+                              <p className="text-sm text-muted-foreground">Review the correct answers highlighted in green above, then try again.</p>
+                              <Button onClick={handleRetryQuiz} className="bg-yellow-500 text-black hover:bg-yellow-400 font-bold">
+                                🔄 Retry Quiz
+                              </Button>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })()}
                   </div>
                 )}
 
