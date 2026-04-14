@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Trophy, Clock, Zap, User } from "lucide-react";
+import { Trophy, Clock, Zap, User, CheckCircle2, XCircle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -60,6 +60,16 @@ export default function AcademyLeaderboard() {
           </div>
           <div className="flex items-center gap-1 text-xs text-blue-400">
             <Clock className="h-3 w-3" /> {Number(entry.total_hours).toFixed(1)}h
+          </div>
+          <div className="flex items-center gap-1 text-xs mt-0.5">
+            <span className="flex items-center gap-0.5 text-green-400">
+              <CheckCircle2 className="h-3 w-3" /> {entry.missions_approved}
+            </span>
+            {entry.missions_failed > 0 && (
+              <span className="flex items-center gap-0.5 text-red-400">
+                <XCircle className="h-3 w-3" /> {entry.missions_failed}
+              </span>
+            )}
           </div>
         </div>
       </motion.div>
