@@ -119,10 +119,6 @@ export default function AcademyMissionDetail() {
     }
   };
 
-  const handleRetryQuiz = () => {
-    setQuizAnswers([]);
-    setQuizSubmitted(false);
-  };
 
   const handleTextSubmit = async () => {
     const wordCount = textResponse.trim().split(/\s+/).length;
@@ -326,12 +322,7 @@ export default function AcademyMissionDetail() {
                           {passed ? (
                             <p className="text-green-400 text-sm">+{mission.points_reward} points, +{mission.hours_reward} hours earned!</p>
                           ) : (
-                            <div className="space-y-3">
-                              <p className="text-sm text-muted-foreground">Review the correct answers highlighted in green above, then try again.</p>
-                              <Button onClick={handleRetryQuiz} className="bg-yellow-500 text-black hover:bg-yellow-400 font-bold">
-                                🔄 Retry Quiz
-                              </Button>
-                            </div>
+                            <p className="text-sm text-muted-foreground">Review the correct answers highlighted in green above.</p>
                           )}
                         </div>
                       );
