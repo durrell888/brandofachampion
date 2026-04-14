@@ -127,20 +127,15 @@ export default function AcademyMissionDetail() {
       return;
     }
     try {
-      const status = mission.requires_admin_review ? "pending" : "approved";
       await submitMission.mutateAsync({
         mission_id: mission.id,
-        status,
+        status: "approved",
         response_text: textResponse,
-        points_earned: status === "approved" ? mission.points_reward : 0,
-        hours_earned: status === "approved" ? mission.hours_reward : 0,
+        points_earned: mission.points_reward,
+        hours_earned: mission.hours_reward,
       });
-      if (status === "approved") {
-        toast.success(`🎉 Completed! +${mission.points_reward} pts, +${mission.hours_reward}h`);
-        checkBadges.mutate();
-      } else {
-        toast.success("Submitted for review! You'll earn points once approved.");
-      }
+      toast.success(`🎉 Completed! +${mission.points_reward} pts, +${mission.hours_reward}h`);
+      checkBadges.mutate();
     } catch (err: any) {
       toast.error(err.message);
     }
@@ -163,14 +158,14 @@ export default function AcademyMissionDetail() {
       
       await submitMission.mutateAsync({
         mission_id: mission.id,
-        status: "pending",
+        status: "approved",
         response_text: engagementText,
         media_url: mediaUrl || undefined,
-        points_earned: 0,
-        hours_earned: 0,
+        points_earned: mission.points_reward,
+        hours_earned: mission.hours_reward,
       });
       setEngagementDone(true);
-      toast.success("📸 Proof submitted for review! You'll earn points once approved.");
+      toast.success(`🎉 Completed! +${mission.points_reward} pts, +${mission.hours_reward}h`);
       checkBadges.mutate();
     } catch (err: any) {
       toast.error(err.message);
