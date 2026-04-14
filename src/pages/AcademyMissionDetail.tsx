@@ -48,6 +48,8 @@ export default function AcademyMissionDetail() {
   }
 
   const alreadyCompleted = submissions?.some(s => s.mission_id === mission.id && (s.status === "approved" || s.status === "pending"));
+  const previousAttempts = submissions?.filter(s => s.mission_id === mission.id) || [];
+  const lastAttempt = previousAttempts.length > 0 ? previousAttempts.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0] : null;
   const rawQuiz = mission.quiz_data;
   const quiz = (Array.isArray(rawQuiz) ? rawQuiz : rawQuiz?.questions) as Array<{ question: string; options: string[]; correct: number }> | undefined;
 
@@ -110,11 +112,16 @@ export default function AcademyMissionDetail() {
         toast.success(`🎉 Passed with ${score}%! +${mission.points_reward} pts, +${mission.hours_reward}h`);
         checkBadges.mutate();
       } else {
-        toast.error(`Score: ${score}%. Need ${mission.passing_score}% to pass. Try again!`);
+        toast.error(`❌ You got ${correct} out of ${quiz.length} correct (${score}%). You need ${mission.passing_score || 70}% to pass. Review the answers below and try again!`, { duration: 6000 });
       }
     } catch (err: any) {
       toast.error(err.message);
     }
+  };
+
+  const handleRetryQuiz = () => {
+    setQuizAnswers([]);
+    setQuizSubmitted(false);
   };
 
   const handleTextSubmit = async () => {
@@ -222,6 +229,18 @@ export default function AcademyMissionDetail() {
               </div>
             ) : (
               <div className="space-y-6">
+                {/* Previous attempts info */}
+                {lastAttempt && lastAttempt.status === "rejected" && !quizSubmitted && (
+                  <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-start gap-3">
+                    <AlertCircle className="h-5 w-5 text-amber-400 mt-0.5 shrink-0" />
+                    <div>
+                      <p className="font-semibold text-foreground">Previous attempt: {lastAttempt.score}%</p>
+                      <p className="text-sm text-muted-foreground">
+                        You've attempted this {previousAttempts.length} time{previousAttempts.length > 1 ? "s" : ""}. Need {mission.passing_score || 70}% to pass — give it another try!
+                      </p>
+                    </div>
+                  </div>
+                )}
                 {/* Video Player - shown for ANY mission type that has a content_url */}
                 {mission.content_url && (
                   <div className="space-y-4">
@@ -289,6 +308,34 @@ export default function AcademyMissionDetail() {
                         Submit Answers
                       </Button>
                     )}
+                    {quizSubmitted && (() => {
+                      const correct = quiz.reduce((acc, q, i) => acc + (quizAnswers[i] === q.correct ? 1 : 0), 0);
+                      const score = Math.round((correct / quiz.length) * 100);
+                      const passed = score >= (mission.passing_score || 70);
+                      return (
+                        <div className={`p-5 rounded-xl border ${passed ? "bg-green-500/10 border-green-500/30" : "bg-red-500/10 border-red-500/30"}`}>
+                          <div className="flex items-center gap-3 mb-3">
+                            {passed ? <CheckCircle2 className="h-8 w-8 text-green-500" /> : <AlertCircle className="h-8 w-8 text-red-500" />}
+                            <div>
+                              <h4 className="text-lg font-bold text-foreground">{passed ? "🎉 Quiz Passed!" : "❌ Quiz Failed"}</h4>
+                              <p className="text-sm text-muted-foreground">
+                                {correct} / {quiz.length} correct — {score}% {!passed && `(need ${mission.passing_score || 70}%)`}
+                              </p>
+                            </div>
+                          </div>
+                          {passed ? (
+                            <p className="text-green-400 text-sm">+{mission.points_reward} points, +{mission.hours_reward} hours earned!</p>
+                          ) : (
+                            <div className="space-y-3">
+                              <p className="text-sm text-muted-foreground">Review the correct answers highlighted in green above, then try again.</p>
+                              <Button onClick={handleRetryQuiz} className="bg-yellow-500 text-black hover:bg-yellow-400 font-bold">
+                                🔄 Retry Quiz
+                              </Button>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })()}
                   </div>
                 )}
 
