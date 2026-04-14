@@ -112,11 +112,16 @@ export default function AcademyMissionDetail() {
         toast.success(`🎉 Passed with ${score}%! +${mission.points_reward} pts, +${mission.hours_reward}h`);
         checkBadges.mutate();
       } else {
-        toast.error(`Score: ${score}%. Need ${mission.passing_score}% to pass. Try again!`);
+        toast.error(`❌ You got ${correct} out of ${quiz.length} correct (${score}%). You need ${mission.passing_score || 70}% to pass. Review the answers below and try again!`, { duration: 6000 });
       }
     } catch (err: any) {
       toast.error(err.message);
     }
+  };
+
+  const handleRetryQuiz = () => {
+    setQuizAnswers([]);
+    setQuizSubmitted(false);
   };
 
   const handleTextSubmit = async () => {
