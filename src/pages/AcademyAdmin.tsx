@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Shield, Plus, Users, FileText, Trash2, Edit, Check, X, ChevronDown, ChevronUp, Trophy, Clock, Award, Eye, Image } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,26 @@ import { SEO } from "@/components/SEO";
 import { useAuth } from "@/hooks/useAcademy";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+function ExpandableText({ text }: { text: string }) {
+  const [expanded, setExpanded] = useState(false);
+  const isLong = text.length > 200;
+  return (
+    <div className="mt-2">
+      <p className={`text-xs text-muted-foreground bg-background/50 p-2 rounded whitespace-pre-wrap ${!expanded && isLong ? "line-clamp-3" : ""}`}>
+        {text}
+      </p>
+      {isLong && (
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="text-xs text-blue-400 hover:underline mt-1"
+        >
+          {expanded ? "Show less" : "Read full response"}
+        </button>
+      )}
+    </div>
+  );
+}
 
 function UserDetailPanel({ userId, missions }: { userId: string; missions: any[] }) {
   const { data: submissions, isLoading: subsLoading } = useQuery({
@@ -143,9 +163,7 @@ function UserDetailPanel({ userId, missions }: { userId: string; missions: any[]
                       <span className="text-yellow-500">+{sub.academy_missions.points_reward}pts / {sub.academy_missions.hours_reward}h</span>
                     )}
                   </div>
-                  {sub.response_text && (
-                    <p className="text-xs text-muted-foreground mt-2 bg-background/50 p-2 rounded line-clamp-3">{sub.response_text}</p>
-                  )}
+                  {sub.response_text && <ExpandableText text={sub.response_text} />}
                   {sub.media_url && (
                     <a href={sub.media_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-blue-400 mt-1 hover:underline">
                       <Image className="h-3 w-3" /> View Media
@@ -412,9 +430,7 @@ export default function AcademyAdmin() {
                             <X className="h-4 w-4 mr-1" />Reject</Button>
                         </div>
                       </div>
-                      {sub.response_text && (
-                        <p className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-lg mt-2">{sub.response_text}</p>
-                      )}
+                      {sub.response_text && <ExpandableText text={sub.response_text} />}
                       {sub.media_url && (
                         <a href={sub.media_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-blue-400 mt-2 hover:underline">
                           <Image className="h-3 w-3" /> View Attached Media
