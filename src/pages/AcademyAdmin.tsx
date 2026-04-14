@@ -18,6 +18,26 @@ import { useAuth } from "@/hooks/useAcademy";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
+function ExpandableText({ text }: { text: string }) {
+  const [expanded, setExpanded] = useState(false);
+  const isLong = text.length > 200;
+  return (
+    <div className="mt-2">
+      <p className={`text-xs text-muted-foreground bg-background/50 p-2 rounded whitespace-pre-wrap ${!expanded && isLong ? "line-clamp-3" : ""}`}>
+        {text}
+      </p>
+      {isLong && (
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="text-xs text-blue-400 hover:underline mt-1"
+        >
+          {expanded ? "Show less" : "Read full response"}
+        </button>
+      )}
+    </div>
+  );
+}
+
 function UserDetailPanel({ userId, missions }: { userId: string; missions: any[] }) {
   const { data: submissions, isLoading: subsLoading } = useQuery({
     queryKey: ["admin-user-submissions", userId],
