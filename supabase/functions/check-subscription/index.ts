@@ -17,35 +17,39 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  const supabaseClient = createClient(
-    Deno.env.get("SUPABASE_URL") ?? "",
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
-    { auth: { persistSession: false } }
-  );
-
   try {
     logStep("Function started");
-    
+
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
     if (!stripeKey) throw new Error("STRIPE_SECRET_KEY is not set");
 
     const authHeader = req.headers.get("Authorization");
     if (!authHeader?.startsWith("Bearer ")) throw new Error("No authorization header provided");
 
-    const token = authHeader.replace("Bearer ", "");
-    const { data: claimsData, error: claimsError } = await supabaseClient.auth.getClaims(token);
-    if (claimsError || !claimsData?.claims) throw new Error("Authentication failed: invalid token");
-    
-    const userId = claimsData.claims.sub as string;
-    const userEmail = claimsData.claims.email as string;
-    if (!userId || !userEmail) throw new Error("User not authenticated or email not available");
-    
-    const user = { id: userId, email: userEmail };
+    // Use anon key client with user's auth header to validate the token
+    const userClient = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
+      { global: { headers: { Authorization: authHeader } } }
+    );
+
+    const { data: userData, error: userError } = await userClient.auth.getUser();
+    if (userError || !userData.user) throw new Error("Authentication failed: " + (userError?.message || "no user"));
+
+    const user = userData.user;
+    if (!user.email) throw new Error("User email not available");
 
     logStep("User authenticated", { userId: user.id, email: user.email });
 
+    // Service role client for DB operations
+    const adminClient = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+      { auth: { persistSession: false } }
+    );
+
     // First check local subscription_status table
-    const { data: localStatus, error: localError } = await supabaseClient
+    const { data: localStatus, error: localError } = await adminClient
       .from("subscription_status")
       .select("*")
       .eq("user_id", user.id)
@@ -54,12 +58,12 @@ serve(async (req) => {
     if (!localError && localStatus && localStatus.status === "active") {
       const periodEnd = new Date(localStatus.current_period_end);
       if (periodEnd > new Date()) {
-        logStep("Found active subscription in local database", { 
+        logStep("Found active subscription in local database", {
           subscriptionId: localStatus.stripe_subscription_id,
           productId: localStatus.product_id,
           periodEnd: localStatus.current_period_end
         });
-        
+
         return new Response(JSON.stringify({
           subscribed: true,
           product_id: localStatus.product_id,
@@ -71,10 +75,10 @@ serve(async (req) => {
       }
     }
 
-    // Fallback to checking Stripe directly and sync to database
+    // Fallback to checking Stripe directly
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
-    
+
     if (customers.data.length === 0) {
       logStep("No Stripe customer found");
       return new Response(JSON.stringify({ subscribed: false }), {
@@ -91,7 +95,7 @@ serve(async (req) => {
       status: "active",
       limit: 1,
     });
-    
+
     const hasActiveSub = subscriptions.data.length > 0;
     let productId = null;
     let subscriptionEnd = null;
@@ -100,14 +104,13 @@ serve(async (req) => {
       const subscription = subscriptions.data[0];
       subscriptionEnd = new Date(subscription.current_period_end * 1000).toISOString();
       productId = subscription.items.data[0]?.price?.product as string;
-      
-      logStep("Active subscription found, syncing to database", { 
+
+      logStep("Active subscription found, syncing to database", {
         subscriptionId: subscription.id,
         productId,
-        endDate: subscriptionEnd 
+        endDate: subscriptionEnd
       });
 
-      // Sync to local database
       const subscriptionData = {
         user_id: user.id,
         stripe_customer_id: customerId,
@@ -119,7 +122,7 @@ serve(async (req) => {
         updated_at: new Date().toISOString(),
       };
 
-      const { error: upsertError } = await supabaseClient
+      const { error: upsertError } = await adminClient
         .from("subscription_status")
         .upsert(subscriptionData, { onConflict: "user_id" });
 
@@ -128,10 +131,9 @@ serve(async (req) => {
       }
     } else {
       logStep("No active subscription found");
-      
-      // Update local database to reflect inactive status
+
       if (localStatus) {
-        await supabaseClient
+        await adminClient
           .from("subscription_status")
           .update({ status: "inactive", updated_at: new Date().toISOString() })
           .eq("user_id", user.id);
