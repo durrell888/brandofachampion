@@ -1,0 +1,1 @@
+UPDATE academy_missions SET content_url = 'https://youtube.com/shorts/IPUElGMjvUY', updated_at = now() WHERE id = 'cd9e2b0d-24c3-4d93-8eeb-01cab1e20088';
