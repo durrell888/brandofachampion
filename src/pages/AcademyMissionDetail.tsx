@@ -257,7 +257,7 @@ export default function AcademyMissionDetail() {
                 )}
 
                 {/* Quiz */}
-                {quiz && (mission.mission_type === "video_quiz" || mission.mission_type === "interactive") && (
+                {quiz && (mission.mission_type === "video_quiz" || mission.mission_type === "interactive" || mission.mission_type === "quiz") && (
                   <div className={`space-y-6 ${mission.content_url && !videoWatched ? "opacity-40 pointer-events-none" : ""}`}>
                     <h3 className="text-lg font-bold">{mission.content_url ? "Step 2: Complete the Quiz" : "Complete the Challenge"}</h3>
                     {quiz.map((q, qi) => (
