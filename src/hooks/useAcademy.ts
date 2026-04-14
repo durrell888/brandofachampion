@@ -230,13 +230,36 @@ export function useLeaderboard() {
   return useQuery({
     queryKey: ["academy-leaderboard"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data: profiles, error } = await supabase
         .from("academy_profiles")
-        .select("name, total_hours, total_points, rank, school")
+        .select("name, total_hours, total_points, rank, school, user_id")
         .order("total_points", { ascending: false })
         .limit(50);
       if (error) throw error;
-      return data;
+
+      // Fetch submission stats for all leaderboard users
+      const userIds = (profiles || []).map(p => p.user_id);
+      if (userIds.length === 0) return [];
+
+      const { data: submissions } = await supabase
+        .from("academy_submissions")
+        .select("user_id, status")
+        .in("user_id", userIds);
+
+      const statsMap: Record<string, { approved: number; rejected: number; pending: number }> = {};
+      for (const sub of (submissions || [])) {
+        if (!statsMap[sub.user_id]) statsMap[sub.user_id] = { approved: 0, rejected: 0, pending: 0 };
+        if (sub.status === "approved") statsMap[sub.user_id].approved++;
+        else if (sub.status === "rejected") statsMap[sub.user_id].rejected++;
+        else if (sub.status === "pending") statsMap[sub.user_id].pending++;
+      }
+
+      return (profiles || []).map(p => ({
+        ...p,
+        missions_approved: statsMap[p.user_id]?.approved || 0,
+        missions_failed: statsMap[p.user_id]?.rejected || 0,
+        missions_pending: statsMap[p.user_id]?.pending || 0,
+      }));
     },
   });
 }
