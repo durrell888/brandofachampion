@@ -430,9 +430,7 @@ export default function AcademyAdmin() {
                             <X className="h-4 w-4 mr-1" />Reject</Button>
                         </div>
                       </div>
-                      {sub.response_text && (
-                        <p className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-lg mt-2">{sub.response_text}</p>
-                      )}
+                      {sub.response_text && <ExpandableText text={sub.response_text} />}
                       {sub.media_url && (
                         <a href={sub.media_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-blue-400 mt-2 hover:underline">
                           <Image className="h-3 w-3" /> View Attached Media
