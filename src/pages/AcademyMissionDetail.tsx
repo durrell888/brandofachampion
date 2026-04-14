@@ -48,6 +48,8 @@ export default function AcademyMissionDetail() {
   }
 
   const alreadyCompleted = submissions?.some(s => s.mission_id === mission.id && (s.status === "approved" || s.status === "pending"));
+  const previousAttempts = submissions?.filter(s => s.mission_id === mission.id) || [];
+  const lastAttempt = previousAttempts.length > 0 ? previousAttempts.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0] : null;
   const rawQuiz = mission.quiz_data;
   const quiz = (Array.isArray(rawQuiz) ? rawQuiz : rawQuiz?.questions) as Array<{ question: string; options: string[]; correct: number }> | undefined;
 
