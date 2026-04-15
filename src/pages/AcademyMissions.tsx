@@ -16,6 +16,7 @@ const categoryIcons: Record<string, string> = {
   "Community Impact": "🤝",
   Promotion: "📢",
   "Skill Challenge": "⚡",
+  "Health & Wellness": "❤️",
 };
 
 const typeIcons: Record<string, typeof Video> = {
