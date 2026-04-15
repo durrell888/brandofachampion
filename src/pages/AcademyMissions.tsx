@@ -16,6 +16,7 @@ const categoryIcons: Record<string, string> = {
   "Community Impact": "🤝",
   Promotion: "📢",
   "Skill Challenge": "⚡",
+  "Health & Wellness": "❤️",
 };
 
 const typeIcons: Record<string, typeof Video> = {
@@ -39,7 +40,7 @@ export default function AcademyMissions() {
   const { data: profile } = useAcademyProfile();
   const [activeCategory, setActiveCategory] = useState("all");
 
-  const categories = ["all", "Mindset", "Education", "Community Impact", "Promotion", "Skill Challenge"];
+  const categories = ["all", "Mindset", "Education", "Community Impact", "Promotion", "Skill Challenge", "Health & Wellness"];
   const completedIds = new Set((submissions || []).filter(s => s.status === "approved").map(s => s.mission_id));
   const pendingIds = new Set((submissions || []).filter(s => s.status === "pending").map(s => s.mission_id));
 
