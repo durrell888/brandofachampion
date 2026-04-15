@@ -127,6 +127,58 @@ const HealthcarePartnership = () => {
         </div>
       </section>
 
+      {/* HEALTH MISSIONS / QUIZZES */}
+      {healthMissions && healthMissions.length > 0 && (
+        <section className="py-20 bg-secondary/30">
+          <div className="container">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-14">
+              <motion.span variants={fadeUp} custom={0} className="inline-block px-4 py-1.5 rounded-full bg-accent/10 text-accent text-sm font-bold uppercase tracking-wider mb-6">
+                🎮 Interactive Learning
+              </motion.span>
+              <motion.h2 variants={fadeUp} custom={1} className="text-3xl md:text-5xl font-extrabold text-foreground mb-4 tracking-tight">
+                Health & Wellness <span className="text-accent">Missions</span>
+              </motion.h2>
+              <motion.p variants={fadeUp} custom={2} className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Test your knowledge and earn points &amp; badges by completing these interactive quizzes from your computer.
+              </motion.p>
+            </motion.div>
+
+            <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              {healthMissions.map((mission, i) => (
+                <motion.div
+                  key={mission.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="p-6 bg-card border border-border rounded-2xl hover:border-accent/40 transition-all group cursor-pointer"
+                  onClick={() => navigate(`/academy/mission/${mission.id}`)}
+                >
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                      <Gamepad2 className="w-6 h-6 text-accent" />
+                    </div>
+                    <div className="flex gap-2">
+                      <span className="flex items-center gap-1 text-sm font-bold text-yellow-500">
+                        <Zap className="h-4 w-4" />{mission.points_reward} pts
+                      </span>
+                      <span className="flex items-center gap-1 text-sm font-bold text-blue-500">
+                        <Clock className="h-4 w-4" />{mission.hours_reward}h
+                      </span>
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-2">{mission.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{mission.description}</p>
+                  <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 text-xs">
+                    <Gamepad2 className="w-3.5 h-3.5 mr-1" /> Start Quiz (15 Questions)
+                  </Button>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* WHY THIS MATTERS */}
       <section className="py-20">
         <div className="container">
@@ -400,67 +452,6 @@ const HealthcarePartnership = () => {
         </div>
       </section>
 
-      {/* HEALTH MISSIONS / QUIZZES */}
-      {healthMissions && healthMissions.length > 0 && (
-        <section className="py-20 bg-secondary/30">
-          <div className="container">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-14">
-              <motion.span variants={fadeUp} custom={0} className="inline-block px-4 py-1.5 rounded-full bg-accent/10 text-accent text-sm font-bold uppercase tracking-wider mb-6">
-                🎮 Interactive Learning
-              </motion.span>
-              <motion.h2 variants={fadeUp} custom={1} className="text-3xl md:text-5xl font-extrabold text-foreground mb-4 tracking-tight">
-                Health & Wellness <span className="text-accent">Missions</span>
-              </motion.h2>
-              <motion.p variants={fadeUp} custom={2} className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Test your knowledge and earn points &amp; badges by completing these interactive quizzes from your computer.
-              </motion.p>
-            </motion.div>
-
-            <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              {healthMissions.map((mission, i) => {
-                const icons: Record<string, typeof Dumbbell> = {
-                  "Physical Health": Dumbbell,
-                  "Mental Health": Brain,
-                  "Injury Prevention": Shield,
-                  "Community Health Equity": Users,
-                };
-                const MIcon = icons[mission.title.replace(" Champion", "").replace(" Awareness", "").replace(" Pro", "").replace(" Leader", "")] || Target;
-                
-                return (
-                  <motion.div
-                    key={mission.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                    className="p-6 bg-card border border-border rounded-2xl hover:border-accent/40 transition-all group cursor-pointer"
-                    onClick={() => navigate(`/academy/mission/${mission.id}`)}
-                  >
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                        <Gamepad2 className="w-6 h-6 text-accent" />
-                      </div>
-                      <div className="flex gap-2">
-                        <span className="flex items-center gap-1 text-sm font-bold text-yellow-500">
-                          <Zap className="h-4 w-4" />{mission.points_reward} pts
-                        </span>
-                        <span className="flex items-center gap-1 text-sm font-bold text-blue-500">
-                          <Clock className="h-4 w-4" />{mission.hours_reward}h
-                        </span>
-                      </div>
-                    </div>
-                    <h3 className="text-lg font-bold text-foreground mb-2">{mission.title}</h3>
-                    <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{mission.description}</p>
-                    <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 text-xs">
-                      <Gamepad2 className="w-3.5 h-3.5 mr-1" /> Start Quiz (15 Questions)
-                    </Button>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* BOTTOM CTA */}
       <section className="py-24">
