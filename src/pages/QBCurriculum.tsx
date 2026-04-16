@@ -5,20 +5,19 @@ import {
   Brain, LayoutGrid, Zap, Target, Clock, BookOpen,
   ArrowLeft, CheckCircle, XCircle, Lock, Trophy,
   PlayCircle, ChevronRight, Award, Flame, Eye,
-  Shuffle, GraduationCap, Timer
+  Shuffle, GraduationCap, Timer, Shield, ChevronDown
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import fieldCappedImg from "@/assets/field-capped.png";
 import fieldUncappedImg from "@/assets/field-uncapped.png";
-import { qbCurriculum, testYourKnowledgePlays, type CurriculumModule, type Lesson, type QuizQuestion } from "@/data/qbCurriculum";
+import { qbCurriculum, r4Foundation, testYourKnowledgePlays, type CurriculumModule, type Lesson, type QuizQuestion } from "@/data/qbCurriculum";
 
 const imageMap: Record<string, string> = {
   "/src/assets/field-capped.png": fieldCappedImg,
@@ -31,15 +30,17 @@ const iconMap: Record<string, React.ElementType> = {
 
 // Local storage helpers
 const getProgress = (): Record<string, boolean> => {
-  try {
-    return JSON.parse(localStorage.getItem("qb-curriculum-progress") || "{}");
-  } catch { return {}; }
+  try { return JSON.parse(localStorage.getItem("qb-curriculum-progress") || "{}"); } catch { return {}; }
 };
 const saveProgress = (p: Record<string, boolean>) => localStorage.setItem("qb-curriculum-progress", JSON.stringify(p));
 const getTimeSpent = (): number => {
   try { return parseInt(localStorage.getItem("qb-curriculum-time") || "0", 10); } catch { return 0; }
 };
 const saveTimeSpent = (t: number) => localStorage.setItem("qb-curriculum-time", t.toString());
+const getR4Complete = (): boolean => {
+  try { return localStorage.getItem("qb-r4-foundation-complete") === "true"; } catch { return false; }
+};
+const saveR4Complete = (v: boolean) => localStorage.setItem("qb-r4-foundation-complete", v.toString());
 
 export default function QBCurriculum() {
   const navigate = useNavigate();
@@ -55,16 +56,22 @@ export default function QBCurriculum() {
   const [testIndex, setTestIndex] = useState(0);
   const [showTestAnswer, setShowTestAnswer] = useState(false);
   const [timeSpent, setTimeSpent] = useState(getTimeSpent());
+  const [r4Complete, setR4Complete] = useState(getR4Complete());
 
-  // Track time spent
+  // R4 Foundation state
+  const [r4Expanded, setR4Expanded] = useState(true);
+  const [r4ActiveSection, setR4ActiveSection] = useState(0);
+  const [r4QuizMode, setR4QuizMode] = useState(false);
+  const [r4QuizIndex, setR4QuizIndex] = useState(0);
+  const [r4QuizAnswer, setR4QuizAnswer] = useState<number | null>(null);
+  const [r4QuizScore, setR4QuizScore] = useState(0);
+  const [r4QuizComplete, setR4QuizComplete] = useState(false);
+
+  // Track time
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeSpent(prev => {
-        const next = prev + 1;
-        saveTimeSpent(next);
-        return next;
-      });
-    }, 60000); // every minute
+      setTimeSpent(prev => { const next = prev + 1; saveTimeSpent(next); return next; });
+    }, 60000);
     return () => clearInterval(interval);
   }, []);
 
@@ -73,6 +80,7 @@ export default function QBCurriculum() {
   const overallProgress = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
 
   const isModuleUnlocked = (moduleIndex: number) => {
+    if (!r4Complete) return false; // Must complete R4 Foundation first
     if (moduleIndex === 0) return true;
     const prevModule = qbCurriculum[moduleIndex - 1];
     return prevModule.lessons.every(l => progress[l.id]);
@@ -102,7 +110,6 @@ export default function QBCurriculum() {
     setSelectedAnswer(index);
     const isCorrect = index === quiz[currentQuizIndex].correctIndex;
     if (isCorrect) setQuizScore(prev => prev + 1);
-    
     setTimeout(() => {
       if (currentQuizIndex < quiz.length - 1) {
         setCurrentQuizIndex(prev => prev + 1);
@@ -112,6 +119,27 @@ export default function QBCurriculum() {
         const passingScore = Math.ceil(quiz.length * 0.7);
         if (quizScore + (isCorrect ? 1 : 0) >= passingScore && activeLesson) {
           markComplete(activeLesson.id);
+        }
+      }
+    }, 1500);
+  };
+
+  // R4 Foundation Quiz
+  const handleR4Answer = (index: number) => {
+    setR4QuizAnswer(index);
+    const quiz = r4Foundation.quiz;
+    const isCorrect = index === quiz[r4QuizIndex].correctIndex;
+    if (isCorrect) setR4QuizScore(prev => prev + 1);
+    setTimeout(() => {
+      if (r4QuizIndex < quiz.length - 1) {
+        setR4QuizIndex(prev => prev + 1);
+        setR4QuizAnswer(null);
+      } else {
+        setR4QuizComplete(true);
+        const passingScore = Math.ceil(quiz.length * 0.7);
+        if (r4QuizScore + (isCorrect ? 1 : 0) >= passingScore) {
+          setR4Complete(true);
+          saveR4Complete(true);
         }
       }
     }, 1500);
@@ -130,12 +158,9 @@ export default function QBCurriculum() {
 
   const getBadges = () => {
     const badges: { name: string; icon: string; earned: boolean }[] = [];
+    if (r4Complete) badges.push({ name: "R4 Foundation Certified", icon: "🧠", earned: true });
     qbCurriculum.forEach(mod => {
-      badges.push({
-        name: `${mod.title} Complete`,
-        icon: "🏆",
-        earned: isModuleComplete(mod),
-      });
+      badges.push({ name: `${mod.title} Complete`, icon: "🏆", earned: isModuleComplete(mod) });
     });
     if (overallProgress === 100) badges.push({ name: "Playbook Master", icon: "👑", earned: true });
     if (timeSpent >= 60) badges.push({ name: "Film Room Warrior (1hr+)", icon: "🎬", earned: true });
@@ -151,7 +176,6 @@ export default function QBCurriculum() {
   // ---- LESSON VIEW ----
   if (activeLesson) {
     const currentQuiz = activeLesson.quiz;
-
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
@@ -161,7 +185,6 @@ export default function QBCurriculum() {
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Module
           </Button>
 
-          {/* Play Overview */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <div className="mb-8">
               <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-2">{activeLesson.title}</h1>
@@ -174,7 +197,7 @@ export default function QBCurriculum() {
               )}
             </div>
 
-            {/* Video Placeholder */}
+            {/* Video */}
             <Card className="mb-8 overflow-hidden border-border">
               <div className="aspect-video bg-muted flex items-center justify-center relative">
                 {activeLesson.hudlUrl ? (
@@ -194,34 +217,26 @@ export default function QBCurriculum() {
               <Card className="mb-8 border-border">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-foreground">
-                    <Brain className="h-5 w-5 text-accent" />
-                    Concept Breakdown
+                    <Brain className="h-5 w-5 text-accent" /> Concept Breakdown
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     {activeLesson.conceptBreakdown.map((point, i) => (
-                      <p key={i} className="text-muted-foreground leading-relaxed">
-                        {point}
-                      </p>
+                      <p key={i} className="text-muted-foreground leading-relaxed">{point}</p>
                     ))}
                   </div>
                 </CardContent>
               </Card>
             )}
 
-            {/* Field Diagrams / Images */}
+            {/* Images */}
             {activeLesson.images && activeLesson.images.length > 0 && (
               <div className={`grid gap-6 mb-8 ${activeLesson.images.length > 1 ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
                 {activeLesson.images.map((img, i) => (
                   <Card key={i} className="border-border overflow-hidden">
                     <div className="aspect-[4/3] bg-muted">
-                      <img
-                        src={imageMap[img.src] || img.src}
-                        alt={img.alt}
-                        loading="lazy"
-                        className="w-full h-full object-contain bg-[hsl(var(--muted))]"
-                      />
+                      <img src={imageMap[img.src] || img.src} alt={img.alt} loading="lazy" className="w-full h-full object-contain bg-[hsl(var(--muted))]" />
                     </div>
                     <CardContent className="pt-3 pb-4">
                       <p className="text-sm font-medium text-foreground">{img.caption}</p>
@@ -230,11 +245,12 @@ export default function QBCurriculum() {
                 ))}
               </div>
             )}
+
+            {/* Assignments */}
             <Card className="mb-6 border-border">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-foreground">
-                  <Eye className="h-5 w-5 text-accent" />
-                  Position Assignments
+                  <Eye className="h-5 w-5 text-accent" /> Position Assignments
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -249,21 +265,19 @@ export default function QBCurriculum() {
               </CardContent>
             </Card>
 
-            {/* Coaching Points */}
+            {/* Coaching Points / Mistakes */}
             <div className="grid md:grid-cols-2 gap-6 mb-6">
               <Card className="border-border">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-green-600 text-base">
-                    <CheckCircle className="h-5 w-5" />
-                    Coaching Points
+                    <CheckCircle className="h-5 w-5" /> Coaching Points
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2">
                     {activeLesson.coachingPoints.map((p, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                        <CheckCircle className="h-4 w-4 text-green-500 shrink-0 mt-0.5" />
-                        {p}
+                        <CheckCircle className="h-4 w-4 text-green-500 shrink-0 mt-0.5" />{p}
                       </li>
                     ))}
                   </ul>
@@ -272,16 +286,14 @@ export default function QBCurriculum() {
               <Card className="border-border">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-destructive text-base">
-                    <XCircle className="h-5 w-5" />
-                    Common Mistakes
+                    <XCircle className="h-5 w-5" /> Common Mistakes
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2">
                     {activeLesson.commonMistakes.map((m, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                        <XCircle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
-                        {m}
+                        <XCircle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />{m}
                       </li>
                     ))}
                   </ul>
@@ -293,8 +305,7 @@ export default function QBCurriculum() {
             <Card className="mb-8 border-border">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-foreground">
-                  <Target className="h-5 w-5 text-accent" />
-                  Execution Keys
+                  <Target className="h-5 w-5 text-accent" /> Execution Keys
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -309,12 +320,11 @@ export default function QBCurriculum() {
               </CardContent>
             </Card>
 
-            {/* Quiz Section */}
+            {/* Quiz */}
             {!quizMode && !quizComplete && (
               <div className="text-center">
                 <Button variant="hero" size="lg" onClick={() => startQuiz(activeLesson)}>
-                  <GraduationCap className="mr-2 h-5 w-5" />
-                  Take the Quiz ({currentQuiz.length} Questions)
+                  <GraduationCap className="mr-2 h-5 w-5" /> Take the Quiz ({currentQuiz.length} Questions)
                 </Button>
               </div>
             )}
@@ -340,12 +350,8 @@ export default function QBCurriculum() {
                         else if (isSelected) borderClass = "border-destructive bg-destructive/10";
                       }
                       return (
-                        <button
-                          key={i}
-                          disabled={selectedAnswer !== null}
-                          onClick={() => handleAnswer(i, currentQuiz)}
-                          className={`w-full text-left p-4 rounded-lg border-2 transition-all ${borderClass} ${selectedAnswer === null ? "cursor-pointer" : "cursor-default"}`}
-                        >
+                        <button key={i} disabled={selectedAnswer !== null} onClick={() => handleAnswer(i, currentQuiz)}
+                          className={`w-full text-left p-4 rounded-lg border-2 transition-all ${borderClass} ${selectedAnswer === null ? "cursor-pointer" : "cursor-default"}`}>
                           <span className="flex items-center gap-3">
                             <span className="w-8 h-8 rounded-full border-2 border-current flex items-center justify-center text-sm font-bold shrink-0">
                               {String.fromCharCode(65 + i)}
@@ -376,23 +382,18 @@ export default function QBCurriculum() {
                       <>
                         <XCircle className="h-16 w-16 text-destructive mx-auto mb-4" />
                         <h3 className="text-2xl font-bold text-foreground mb-2">Keep Studying</h3>
-                        <p className="text-muted-foreground">You scored {quizScore}/{currentQuiz.length} — Need {Math.ceil(currentQuiz.length * 0.7)} to pass. Review and try again!</p>
+                        <p className="text-muted-foreground">You scored {quizScore}/{currentQuiz.length} — Need {Math.ceil(currentQuiz.length * 0.7)} to pass.</p>
                       </>
                     )}
                   </div>
                   <div className="flex gap-3 justify-center">
-                    <Button variant="outline" onClick={() => { setQuizMode(false); setQuizComplete(false); }}>
-                      Review Lesson
-                    </Button>
-                    <Button variant="hero" onClick={() => startQuiz(activeLesson)}>
-                      Retry Quiz
-                    </Button>
+                    <Button variant="outline" onClick={() => { setQuizMode(false); setQuizComplete(false); }}>Review Lesson</Button>
+                    <Button variant="hero" onClick={() => startQuiz(activeLesson)}>Retry Quiz</Button>
                   </div>
                 </CardContent>
               </Card>
             )}
 
-            {/* Branding */}
             <div className="mt-12 text-center">
               <p className="text-xs text-muted-foreground">Powered by <span className="font-bold text-accent">Brand of a Champion</span></p>
               <p className="text-xs text-muted-foreground italic mt-1">"Discipline. IQ. Execution."</p>
@@ -410,7 +411,7 @@ export default function QBCurriculum() {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <SEO title="Test Your Knowledge | QB Curriculum" description="Random play identification quiz" />
+        <SEO title="Test Your Knowledge | QB Curriculum" description="Random R4 application quiz" />
         <div className="container mx-auto px-4 pt-24 pb-16 max-w-3xl">
           <Button variant="ghost" onClick={() => setTestMode(false)} className="mb-6 text-muted-foreground">
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Curriculum
@@ -420,7 +421,7 @@ export default function QBCurriculum() {
               <CardHeader className="text-center">
                 <div className="inline-flex items-center gap-2 bg-accent/10 px-4 py-2 rounded-full mb-4 mx-auto">
                   <Shuffle className="h-5 w-5 text-accent" />
-                  <span className="text-accent font-semibold">Test Your Knowledge</span>
+                  <span className="text-accent font-semibold">Test Your R4 Knowledge</span>
                 </div>
                 <Badge variant="secondary" className="text-base py-2 px-4 mx-auto">{play.formation}</Badge>
               </CardHeader>
@@ -433,9 +434,7 @@ export default function QBCurriculum() {
                       <p className="text-foreground font-medium">{play.answer}</p>
                     </motion.div>
                   ) : (
-                    <Button variant="hero" size="lg" onClick={() => setShowTestAnswer(true)}>
-                      Reveal Answer
-                    </Button>
+                    <Button variant="hero" size="lg" onClick={() => setShowTestAnswer(true)}>Reveal Answer</Button>
                   )}
                 </AnimatePresence>
                 {showTestAnswer && (
@@ -492,7 +491,9 @@ export default function QBCurriculum() {
               <Card className="border-border text-center py-12">
                 <Lock className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-xl font-bold text-foreground mb-2">Module Locked</h3>
-                <p className="text-muted-foreground">Complete Module {mod.number - 1} to unlock this module.</p>
+                <p className="text-muted-foreground">
+                  {!r4Complete ? "Complete the R4 Foundation first to unlock modules." : `Complete Module ${mod.number - 1} to unlock this module.`}
+                </p>
               </Card>
             ) : (
               <div className="space-y-4">
@@ -545,12 +546,12 @@ export default function QBCurriculum() {
       <Navbar />
       <SEO
         title="QB Offensive Curriculum | Brand of a Champion"
-        description="Interactive quarterback curriculum with progressive modules, quizzes, and film study. Master the offense and play faster."
+        description="Elite quarterback curriculum built on the R4 System. Master capped and uncapped reads, progressions, and the full offensive system."
         canonical="https://brandofachampion.com/qb-curriculum"
       />
 
       {/* Hero */}
-      <section className="relative pt-28 pb-16 overflow-hidden">
+      <section className="relative pt-28 pb-12 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-background to-primary/5" />
         <div className="absolute top-20 left-10 w-72 h-72 bg-accent/10 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
@@ -563,22 +564,21 @@ export default function QBCurriculum() {
               🏈 QUARTERBACK CURRICULUM
             </span>
             <h1 className="text-4xl md:text-6xl font-display font-black mb-4">
-              <span className="text-foreground">MASTER THE</span>
-              <br />
+              <span className="text-foreground">MASTER THE</span><br />
               <span className="text-gradient">OFFENSIVE SYSTEM</span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-              Progressive modules designed to build your football IQ, master the playbook, 
-              and execute at game speed. Powered by Brand of a Champion.
+              Built on the R4 System — the foundation of elite quarterback play. 
+              Read. Recognize. React. Release. This is how you prepare for college and the NFL.
             </p>
 
             {/* Progress Overview */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
               <Card className="bg-card/80 border-border">
                 <CardContent className="pt-4 pb-4 text-center">
-                  <Award className="h-6 w-6 text-accent mx-auto mb-1" />
-                  <p className="text-2xl font-bold text-foreground">{overallProgress}%</p>
-                  <p className="text-xs text-muted-foreground">Complete</p>
+                  <Shield className="h-6 w-6 text-accent mx-auto mb-1" />
+                  <p className="text-2xl font-bold text-foreground">{r4Complete ? "✅" : "🔓"}</p>
+                  <p className="text-xs text-muted-foreground">R4 Foundation</p>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 border-border">
@@ -607,16 +607,191 @@ export default function QBCurriculum() {
         </div>
       </section>
 
+      {/* ========== R4 FOUNDATION SECTION ========== */}
+      <section className="py-12 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-transparent pointer-events-none" />
+        <div className="container max-w-5xl relative z-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            {/* R4 Header */}
+            <div
+              className={`rounded-2xl border-2 overflow-hidden transition-all ${r4Complete ? "border-green-500/50 bg-green-500/5" : "border-accent/50 bg-accent/5"}`}
+            >
+              <button
+                onClick={() => setR4Expanded(!r4Expanded)}
+                className="w-full flex items-center gap-4 p-6 md:p-8 text-left"
+              >
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 ${r4Complete ? "bg-green-500 text-white" : "bg-accent text-accent-foreground"}`}>
+                  {r4Complete ? <CheckCircle className="h-8 w-8" /> : <Eye className="h-8 w-8" />}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Badge className={r4Complete ? "bg-green-500 text-white" : "bg-accent text-accent-foreground"}>
+                      {r4Complete ? "CERTIFIED ✅" : "START HERE"}
+                    </Badge>
+                    <Badge variant="outline">FOUNDATION</Badge>
+                  </div>
+                  <h2 className="text-2xl md:text-3xl font-display font-black text-foreground">{r4Foundation.title}</h2>
+                  <p className="text-accent font-semibold text-lg">{r4Foundation.subtitle}</p>
+                  <p className="text-sm text-muted-foreground mt-1">{r4Foundation.tagline}</p>
+                </div>
+                <ChevronDown className={`h-6 w-6 text-muted-foreground transition-transform shrink-0 ${r4Expanded ? "rotate-180" : ""}`} />
+              </button>
+
+              <AnimatePresence>
+                {r4Expanded && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 md:px-8 pb-8 space-y-8">
+                      {/* Overview */}
+                      <div className="space-y-4">
+                        {r4Foundation.overview.map((text, i) => (
+                          <p key={i} className="text-muted-foreground leading-relaxed">{text}</p>
+                        ))}
+                      </div>
+
+                      {/* Sections as Tabs */}
+                      <Tabs value={r4ActiveSection.toString()} onValueChange={(v) => setR4ActiveSection(parseInt(v))}>
+                        <TabsList className="w-full grid grid-cols-2 md:grid-cols-4 h-auto">
+                          {r4Foundation.sections.map((sec, i) => (
+                            <TabsTrigger key={i} value={i.toString()} className="text-xs md:text-sm py-2 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground">
+                              {sec.title.replace("What Is a ", "").replace("What Is an ", "").replace("R4 vs Every ", "vs ").replace("The Four Steps: ", "")}
+                            </TabsTrigger>
+                          ))}
+                        </TabsList>
+
+                        {r4Foundation.sections.map((sec, i) => (
+                          <TabsContent key={i} value={i.toString()} className="mt-6">
+                            <h3 className="text-xl font-bold text-foreground mb-4">{sec.title}</h3>
+                            <div className="space-y-4 mb-6">
+                              {sec.content.map((text, j) => (
+                                <p key={j} className="text-muted-foreground leading-relaxed">{text}</p>
+                              ))}
+                            </div>
+                            {/* Images */}
+                            {sec.images && sec.images.length > 0 && (
+                              <div className={`grid gap-6 ${sec.images.length > 1 ? 'md:grid-cols-2' : 'grid-cols-1 max-w-xl mx-auto'}`}>
+                                {sec.images.map((img, k) => (
+                                  <Card key={k} className="border-border overflow-hidden">
+                                    <div className="aspect-[4/3] bg-muted">
+                                      <img src={imageMap[img.src] || img.src} alt={img.alt} loading="lazy" className="w-full h-full object-contain bg-[hsl(var(--muted))]" />
+                                    </div>
+                                    <CardContent className="pt-3 pb-4">
+                                      <p className="text-sm font-medium text-foreground">{img.caption}</p>
+                                    </CardContent>
+                                  </Card>
+                                ))}
+                              </div>
+                            )}
+                          </TabsContent>
+                        ))}
+                      </Tabs>
+
+                      {/* R4 Foundation Quiz */}
+                      {!r4Complete && !r4QuizMode && !r4QuizComplete && (
+                        <div className="text-center pt-4 border-t border-border">
+                          <p className="text-muted-foreground mb-4">Read all 4 sections above, then prove your understanding to unlock the curriculum modules.</p>
+                          <Button variant="hero" size="lg" onClick={() => { setR4QuizMode(true); setR4QuizIndex(0); setR4QuizAnswer(null); setR4QuizScore(0); setR4QuizComplete(false); }}>
+                            <GraduationCap className="mr-2 h-5 w-5" /> Take the R4 Foundation Quiz ({r4Foundation.quiz.length} Questions)
+                          </Button>
+                        </div>
+                      )}
+
+                      {r4QuizMode && !r4QuizComplete && (
+                        <Card className="border-2 border-accent/30">
+                          <CardHeader>
+                            <div className="flex justify-between items-center">
+                              <CardTitle className="text-foreground">R4 Foundation — Question {r4QuizIndex + 1} of {r4Foundation.quiz.length}</CardTitle>
+                              <Badge variant="outline">Score: {r4QuizScore}/{r4QuizIndex + (r4QuizAnswer !== null ? 1 : 0)}</Badge>
+                            </div>
+                            <Progress value={((r4QuizIndex + 1) / r4Foundation.quiz.length) * 100} className="h-2 mt-2" />
+                          </CardHeader>
+                          <CardContent>
+                            <p className="text-lg font-semibold text-foreground mb-6">{r4Foundation.quiz[r4QuizIndex].question}</p>
+                            <div className="space-y-3">
+                              {r4Foundation.quiz[r4QuizIndex].options.map((opt, i) => {
+                                const isSelected = r4QuizAnswer === i;
+                                const isCorrect = i === r4Foundation.quiz[r4QuizIndex].correctIndex;
+                                let borderClass = "border-border hover:border-accent/50";
+                                if (r4QuizAnswer !== null) {
+                                  if (isCorrect) borderClass = "border-green-500 bg-green-500/10";
+                                  else if (isSelected) borderClass = "border-destructive bg-destructive/10";
+                                }
+                                return (
+                                  <button key={i} disabled={r4QuizAnswer !== null} onClick={() => handleR4Answer(i)}
+                                    className={`w-full text-left p-4 rounded-lg border-2 transition-all ${borderClass} ${r4QuizAnswer === null ? "cursor-pointer" : "cursor-default"}`}>
+                                    <span className="flex items-center gap-3">
+                                      <span className="w-8 h-8 rounded-full border-2 border-current flex items-center justify-center text-sm font-bold shrink-0">
+                                        {String.fromCharCode(65 + i)}
+                                      </span>
+                                      <span className="text-foreground">{opt}</span>
+                                      {r4QuizAnswer !== null && isCorrect && <CheckCircle className="h-5 w-5 text-green-500 ml-auto" />}
+                                      {r4QuizAnswer !== null && isSelected && !isCorrect && <XCircle className="h-5 w-5 text-destructive ml-auto" />}
+                                    </span>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )}
+
+                      {r4QuizComplete && (
+                        <Card className="border-2 border-accent/30 text-center">
+                          <CardContent className="pt-8 pb-8">
+                            {r4Complete ? (
+                              <>
+                                <Trophy className="h-16 w-16 text-yellow-500 mx-auto mb-4" />
+                                <h3 className="text-2xl font-bold text-foreground mb-2">🧠 R4 Foundation Certified!</h3>
+                                <p className="text-muted-foreground">You scored {r4QuizScore}/{r4Foundation.quiz.length} — You've unlocked the curriculum modules. Time to dominate.</p>
+                              </>
+                            ) : (
+                              <>
+                                <XCircle className="h-16 w-16 text-destructive mx-auto mb-4" />
+                                <h3 className="text-2xl font-bold text-foreground mb-2">Review the R4 Foundation</h3>
+                                <p className="text-muted-foreground mb-4">You scored {r4QuizScore}/{r4Foundation.quiz.length} — Need {Math.ceil(r4Foundation.quiz.length * 0.7)} to pass. Re-read the sections and try again.</p>
+                                <Button variant="hero" onClick={() => { setR4QuizMode(false); setR4QuizComplete(false); }}>Study Again</Button>
+                              </>
+                            )}
+                          </CardContent>
+                        </Card>
+                      )}
+
+                      {r4Complete && !r4QuizMode && (
+                        <div className="text-center pt-4 border-t border-border">
+                          <div className="inline-flex items-center gap-2 bg-green-500/10 px-6 py-3 rounded-full">
+                            <CheckCircle className="h-5 w-5 text-green-500" />
+                            <span className="font-bold text-green-600">R4 Foundation Complete — Modules Unlocked 🔓</span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Modules */}
-      <section className="py-16">
+      <section className="py-12">
         <div className="container max-w-5xl">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-display font-bold text-foreground">
-              Curriculum <span className="text-accent">Modules</span>
-            </h2>
-            <Button variant="outline" onClick={startTestMode} className="gap-2">
-              <Shuffle className="h-4 w-4" />
-              Test Your Knowledge
+            <div>
+              <h2 className="text-3xl font-display font-bold text-foreground">
+                Curriculum <span className="text-accent">Modules</span>
+              </h2>
+              {!r4Complete && (
+                <p className="text-sm text-muted-foreground mt-1">Complete the R4 Foundation above to unlock modules</p>
+              )}
+            </div>
+            <Button variant="outline" onClick={startTestMode} className="gap-2" disabled={!r4Complete}>
+              <Shuffle className="h-4 w-4" /> Test Your Knowledge
             </Button>
           </div>
 
@@ -628,13 +803,7 @@ export default function QBCurriculum() {
               const Icon = iconMap[mod.icon] || BookOpen;
 
               return (
-                <motion.div
-                  key={mod.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                >
+                <motion.div key={mod.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }}>
                   <Card
                     className={`border-border transition-all ${unlocked ? "cursor-pointer hover:border-accent/50 hover:shadow-lg" : "opacity-60"} ${complete ? "bg-green-500/5 border-green-500/30" : ""}`}
                     onClick={() => unlocked && setActiveModule(mod.id)}
@@ -670,7 +839,7 @@ export default function QBCurriculum() {
         </div>
       </section>
 
-      {/* Badges Section */}
+      {/* Badges */}
       <section className="py-16 bg-secondary/30">
         <div className="container max-w-5xl">
           <h2 className="text-3xl font-display font-bold text-foreground mb-8 text-center">
@@ -694,7 +863,7 @@ export default function QBCurriculum() {
         </div>
       </section>
 
-      {/* Motivational + Branding */}
+      {/* Branding */}
       <section className="py-16">
         <div className="container max-w-3xl text-center">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
@@ -704,7 +873,7 @@ export default function QBCurriculum() {
             </h2>
             <p className="text-lg text-muted-foreground mb-6">
               The best quarterbacks don't just have talent — they have preparation. 
-              Every rep in this curriculum makes you faster, smarter, and more confident on game day.
+              The R4 System is your edge. Master it, and you'll play faster, smarter, and more confident than anyone on the field.
             </p>
             <p className="text-sm text-muted-foreground">
               Powered by <span className="font-bold text-accent">Brand of a Champion</span> · Discipline · IQ · Execution
