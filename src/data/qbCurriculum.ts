@@ -36,12 +36,102 @@ export interface CurriculumModule {
   lessons: Lesson[];
 }
 
+// =====================================================
+// R4 SYSTEM FOUNDATION — The lens through which QBs see the field
+// This is NOT a module. It's the operating system for every throw.
+// =====================================================
+
+export interface R4FoundationSection {
+  id: string;
+  title: string;
+  content: string[];
+  images?: LessonImage[];
+  quiz?: QuizQuestion[];
+}
+
+export const r4Foundation = {
+  title: "The R4 System",
+  subtitle: "Read. Recognize. React. Release.",
+  tagline: "This is not a module — it is the FOUNDATION of how you see the field. Every throw you make, every read you take, starts here.",
+  overview: [
+    "The R4 System is the operating system for elite quarterback play. Before you learn a single play, you must understand HOW to process the field. Every NFL and college quarterback who plays at a high level uses this framework — whether they call it R4 or not.",
+    "At its core, the R4 System divides the field into CAPPED and UNCAPPED areas based on where the safeties are positioned. This single concept eliminates half the field before the snap and lets you play faster than every other QB on the field.",
+    "R4 stands for Read → Recognize → React → Release. These four steps happen in under 3 seconds. If you master this system, you will make decisions faster than 95% of quarterbacks you compete against.",
+  ],
+  sections: [
+    {
+      id: "r4-what-is-capped",
+      title: "What Is a Capped Side?",
+      content: [
+        "A CAPPED side of the field has a safety providing over-the-top help. Think of the safety as a 'ceiling' — there is a lid on that side of the field covering deep routes.",
+        "When you see a safety shading to one side, that side is CAPPED. Throwing deep into a capped area means your receiver is facing a 2-on-1 disadvantage — the corner AND the safety.",
+        "Against a capped side, your weapons are UNDERNEATH: slants, curls, digs, and crossing routes that stay below the safety's zone. The safety caps deep throws but creates space underneath — smart QBs exploit that void.",
+        "On 3rd and short, capped-side underneath routes are the highest-percentage throws in football. Dig routes at 12-15 yards are money throws. NEVER throw a go route into a capped side.",
+      ],
+      images: [
+        { src: "/src/assets/field-capped.png", alt: "Capped side of the field — safety providing over-the-top help", caption: "CAPPED SIDE: The safety (S) provides a ceiling over the receivers. Deep throws to this side are high-risk. Attack UNDERNEATH with curls, digs, and crossers." },
+      ],
+    },
+    {
+      id: "r4-what-is-uncapped",
+      title: "What Is an Uncapped Side?",
+      content: [
+        "An UNCAPPED side of the field has NO safety help over the top. The defense removed the ceiling — leaving receivers in 1-on-1 matchups with no help.",
+        "When you identify an uncapped side, your FIRST thought: can I take a shot? If your receiver has a favorable matchup, pull the trigger. Post routes, go routes, and corner routes are devastating here.",
+        "Play-action is the ultimate uncapped-side weapon — it freezes the linebackers and gives your receiver even more separation deep.",
+        "If the deep shot isn't there, work back to intermediate and short routes on the uncapped side. They're STILL favorable because the corner is in single coverage with no help.",
+        "Elite QBs look OFF the uncapped side first to freeze the safety, then come back to throw. This is how you create explosive plays at the college and NFL level.",
+      ],
+      images: [
+        { src: "/src/assets/field-uncapped.png", alt: "Uncapped side of the field — no safety help over the top", caption: "UNCAPPED SIDE: No safety help deep. Receivers are in 1-on-1 matchups. This is where you take your shots — go routes, posts, and corners are lethal." },
+      ],
+    },
+    {
+      id: "r4-coverage-keys",
+      title: "R4 vs Every Coverage",
+      content: [
+        "COVER 0 (No safeties deep): THE ENTIRE FIELD IS UNCAPPED. Every receiver is 1-on-1. Get the ball out fast — hot routes, slants, and fades are all lethal. This is the most aggressive look a defense can show.",
+        "COVER 1 (1 high safety): The safety sits in the deep middle. Both outside thirds are UNCAPPED — attack the boundary or field side with vertical routes. The single-high safety can't protect both halves.",
+        "COVER 2 (2 high safeties): Both deep halves are CAPPED. The MIDDLE of the field is UNCAPPED — attack with seam routes, posts, and dig routes down the middle. The two safeties create a void between them.",
+        "COVER 3 (1 high, 2 deep-third corners): The deep middle is capped. Attack the SEAMS — the holes between the three deep zone defenders. These 'hole shots' are where elite QBs live.",
+        "COVER 4 / Quarters (4 deep defenders): All four deep zones are CAPPED. The defense is giving you the short game. Take it — crossing routes, option routes, and the run game. Move the chains.",
+      ],
+    },
+    {
+      id: "r4-four-steps",
+      title: "The Four Steps: Read → Recognize → React → Release",
+      content: [
+        "STEP 1 — READ: Before the snap, identify the safety structure. How many safeties are high? Where are they shading? This tells you the coverage shell and where the cap is.",
+        "STEP 2 — RECOGNIZE: Based on the safety structure, identify which side is capped and which is uncapped. In 2-high shells, recognize the middle is open. In 1-high, find the uncapped half.",
+        "STEP 3 — REACT: Post-snap, CONFIRM your read. Did the safety rotate? Did the coverage change? If it did, adjust your progression immediately. If it didn't, trust your pre-snap plan.",
+        "STEP 4 — RELEASE: Deliver the ball. At the top of your drop, you should already know where you're going. Anticipation throws — release the ball BEFORE the receiver makes his break. This is what separates college QBs from high school QBs.",
+        "The entire R4 process takes under 3 seconds. Pre-snap (2 seconds): Read + Recognize. Post-snap (1 second): React + Release. If you're holding the ball longer than 3 seconds, you haven't mastered R4 yet.",
+      ],
+    },
+  ] as R4FoundationSection[],
+  quiz: [
+    { question: "What does R4 stand for?", options: ["Run, Rush, Route, Release", "Read, Recognize, React, Release", "Read, Run, React, Return", "Route, Read, Release, Run"], correctIndex: 1 },
+    { question: "What does 'capped' mean in the R4 System?", options: ["The QB is wearing a cap", "A safety is providing over-the-top help on that side", "The receiver is covered by a linebacker", "The side with more defenders at the line"], correctIndex: 1 },
+    { question: "Which side should you attack first?", options: ["The capped side", "The uncapped side", "Always throw left", "Wherever the best receiver is"], correctIndex: 1 },
+    { question: "In Cover 2, which area is UNCAPPED?", options: ["The deep sidelines", "The middle of the field", "Both deep halves", "The flat areas"], correctIndex: 1 },
+    { question: "In Cover 0, how much of the field is uncapped?", options: ["None", "One side", "Half the field", "The entire field — no deep safety"], correctIndex: 3 },
+    { question: "What routes work best against a CAPPED side?", options: ["Go routes and posts", "Underneath — slants, curls, digs", "Only screen passes", "Trick plays"], correctIndex: 1 },
+    { question: "How long should the entire R4 process take?", options: ["10 seconds", "5 seconds", "Under 3 seconds", "As long as you need"], correctIndex: 2 },
+    { question: "What should you do BEFORE throwing to the uncapped side?", options: ["Close your eyes", "Look off the safety first", "Audible to a run", "Pump fake three times"], correctIndex: 1 },
+  ],
+};
+
+// =====================================================
+// CURRICULUM MODULES — Ordered for elite QB development
+// Module order builds progressively: Philosophy → Eyes → Arm → Game → Mastery
+// =====================================================
+
 export const qbCurriculum: CurriculumModule[] = [
   {
     id: "offensive-philosophy",
     number: 1,
-    title: "Offensive Philosophy",
-    description: "Understand the identity, terminology, and expectations of our offense.",
+    title: "Offensive Philosophy & Expectations",
+    description: "Understand our identity, language, and the standard every QB must meet.",
     icon: "Brain",
     lessons: [
       {
@@ -52,13 +142,14 @@ export const qbCurriculum: CurriculumModule[] = [
         downAndDistance: "All situations",
         assignments: [
           { position: "QB", assignment: "Command the huddle, set tempo, deliver the ball on time" },
-          { position: "WR", assignment: "Win at the line, run precise routes, finish every play" },
-          { position: "OL", assignment: "Dominate the line of scrimmage, communicate as a unit" },
+          { position: "QB", assignment: "Understand the 'why' behind every play in the system" },
+          { position: "QB", assignment: "Be the extension of the coaching staff on the field" },
         ],
         coachingPoints: [
           "We are a tempo-driven, multiple-formation offense",
           "Every play has a built-in check to exploit the defense",
           "Execution over scheme — do your job at full speed",
+          "The R4 System is the lens through which you process every snap",
         ],
         commonMistakes: [
           "Breaking the huddle without confidence",
@@ -72,7 +163,7 @@ export const qbCurriculum: CurriculumModule[] = [
         },
         quiz: [
           { question: "What is the primary identity of our offense?", options: ["Run-heavy power", "Tempo-driven multiple formations", "Spread option only", "West Coast passing"], correctIndex: 1 },
-          { question: "What should the QB do in the huddle?", options: ["Whisper the play", "Command with confidence and clarity", "Let the center call the play", "Wait for the sideline"], correctIndex: 1 },
+          { question: "What is the foundation of how our QBs read the field?", options: ["The West Coast system", "The R4 System", "The option read", "The play call sheet"], correctIndex: 1 },
         ],
       },
       {
@@ -83,8 +174,8 @@ export const qbCurriculum: CurriculumModule[] = [
         downAndDistance: "All situations",
         assignments: [
           { position: "QB", assignment: "Know every call, tag, and audible in the system" },
-          { position: "WR", assignment: "Understand route tree numbering and concept names" },
-          { position: "OL", assignment: "Know protection calls, slide directions, and hot reads" },
+          { position: "QB", assignment: "Understand route tree numbering and concept names" },
+          { position: "QB", assignment: "Know protection calls, slide directions, and hot reads" },
         ],
         coachingPoints: [
           "Our play calls contain: Formation + Motion + Play + Tag",
@@ -104,17 +195,16 @@ export const qbCurriculum: CurriculumModule[] = [
         quiz: [
           { question: "What are the four components of a play call?", options: ["Play + Run + Pass + Kick", "Formation + Motion + Play + Tag", "Down + Distance + Hash + Play", "Route + Block + Read + Throw"], correctIndex: 1 },
           { question: "Who calls the protection?", options: ["Wide receiver", "Running back only", "QB or Center", "Defensive coordinator"], correctIndex: 2 },
-          { question: "How should you study terminology?", options: ["Only on game day", "15 minutes daily", "Once a week", "Never — just wing it"], correctIndex: 1 },
         ],
       },
       {
         id: "player-expectations",
-        title: "Player Expectations",
+        title: "The QB Standard",
         purpose: "Define the standard of preparation, effort, and accountability for every quarterback.",
         formation: "N/A",
         downAndDistance: "All situations",
         assignments: [
-          { position: "QB", assignment: "Be the hardest worker, first to arrive, last to leave" },
+          { position: "QB", assignment: "Be the hardest worker — first to arrive, last to leave" },
           { position: "QB", assignment: "Know the full playbook — not just your reads" },
           { position: "QB", assignment: "Lead by example on and off the field" },
         ],
@@ -122,6 +212,7 @@ export const qbCurriculum: CurriculumModule[] = [
           "Champions prepare when no one is watching",
           "Film study is non-negotiable — minimum 30 minutes daily",
           "Your body language sets the tone for the entire offense",
+          "Master the R4 Foundation — it's the key to playing fast",
         ],
         commonMistakes: [
           "Only studying your own position",
@@ -141,15 +232,15 @@ export const qbCurriculum: CurriculumModule[] = [
     ],
   },
   {
-    id: "formations",
+    id: "pre-snap-mastery",
     number: 2,
-    title: "Formations",
-    description: "Master base formations, alignment rules, and QB-specific responsibilities.",
-    icon: "LayoutGrid",
+    title: "Pre-Snap Mastery & Formations",
+    description: "Train your eyes before the ball is snapped — formations, alignments, and defensive recognition using R4 principles.",
+    icon: "Eye",
     lessons: [
       {
         id: "base-formations",
-        title: "Base Formations",
+        title: "Base Formations & Personnel",
         purpose: "Learn the core formations we operate from and how they stress the defense.",
         formation: "11, 12, 21, 10 Personnel",
         downAndDistance: "All downs",
@@ -161,7 +252,7 @@ export const qbCurriculum: CurriculumModule[] = [
         coachingPoints: [
           "11 personnel (1 RB, 1 TE) is our base — creates mismatches in space",
           "12 personnel gives us extra blocker and play-action power",
-          "Empty formations force the defense to declare coverage",
+          "Empty formations force the defense to declare coverage — making R4 reads easier",
         ],
         commonMistakes: [
           "Not checking the personnel grouping before the snap",
@@ -175,48 +266,190 @@ export const qbCurriculum: CurriculumModule[] = [
         },
         quiz: [
           { question: "What does '11 personnel' mean?", options: ["1 QB, 1 RB", "1 RB, 1 TE", "1 WR, 1 TE", "1 RB, 1 FB"], correctIndex: 1 },
-          { question: "Why do we use empty formations?", options: ["To confuse our own team", "To force defense to declare coverage", "Because we have no running back", "For trick plays only"], correctIndex: 1 },
-          { question: "What is the QB's first job after the huddle?", options: ["Throw the ball", "Identify the Mike and set protection", "Audible immediately", "Motion a receiver"], correctIndex: 1 },
+          { question: "Why do empty formations help with R4 reads?", options: ["They confuse our own team", "They force the defense to declare coverage", "Because we have no running back", "For trick plays only"], correctIndex: 1 },
         ],
       },
       {
-        id: "alignment-rules",
-        title: "Alignment Rules & Pre-Snap Reads",
-        purpose: "Understand exact alignment rules and what to look for before the snap.",
+        id: "alignment-reads",
+        title: "Pre-Snap Reads: Applying R4",
+        purpose: "Use the R4 System pre-snap to identify coverage, find the cap, and set your plan.",
         formation: "All formations",
         downAndDistance: "All situations",
+        conceptBreakdown: [
+          "This is where the R4 Foundation comes to life. Before every snap, you execute Steps 1 and 2: READ the safeties, RECOGNIZE capped vs uncapped.",
+          "Count the box first: 6 or fewer in the box = the defense is in coverage and you have a passing advantage. 7+ in the box = they're loading up to stop the run.",
+          "Then read the safeties: 1-high means one side is uncapped — find it. 2-high means the middle is your target. 0-high (Cover 0) means everything is uncapped — be aggressive.",
+          "Use motion to confirm: if a defender follows the motion man, it's man coverage. If the zone shifts, it's zone. Motion is your cheat code for confirming R4 reads.",
+        ],
         assignments: [
           { position: "QB", assignment: "Count the box — 6 in the box means pass advantage" },
-          { position: "QB", assignment: "Identify high/low safety structure (Cover 1, 2, 3, 4)" },
+          { position: "QB", assignment: "Identify high/low safety structure and map capped/uncapped" },
+          { position: "QB", assignment: "Use motion to confirm man vs zone" },
           { position: "QB", assignment: "Check for blitz indicators — walked-up LB, shifted safety" },
         ],
         coachingPoints: [
-          "Pre-snap reads save you a full second in your progression",
-          "The safety structure tells you what half of the field to attack",
+          "Pre-snap R4 reads save you a full second in your progression",
+          "The safety structure tells you which half of the field to attack",
           "Motion reveals man vs zone — use it every play",
+          "Your pre-snap plan should be: 'I'm going HERE unless the coverage changes post-snap'",
         ],
         commonMistakes: [
           "Staring at the defensive line instead of reading the secondary",
           "Not using motion to get a pre-snap answer",
           "Ignoring the box count and forcing runs into loaded boxes",
+          "Not mapping capped/uncapped before the snap",
         ],
         executionKeys: {
-          timing: "Complete your pre-snap read in the first 3 seconds at the line",
+          timing: "Complete your R4 pre-snap read in the first 3 seconds at the line",
           communication: "Signal hot routes and adjustments before the snap",
           technique: "Scan from safety → linebacker → D-line in that order",
         },
         quiz: [
-          { question: "What does a loaded box (7+) tell the QB?", options: ["Run the ball", "It's a passing advantage", "Call timeout", "Punt"], correctIndex: 1 },
+          { question: "What does a loaded box (7+) tell the QB?", options: ["Run the ball", "It's a passing advantage", "Call timeout", "The defense is in Cover 2"], correctIndex: 1 },
           { question: "What does pre-snap motion reveal?", options: ["The play clock", "Man vs zone coverage", "The wind direction", "Nothing useful"], correctIndex: 1 },
+          { question: "In R4, what are the first two steps you do pre-snap?", options: ["React and Release", "Read and Recognize", "Run and Route", "Rest and Relax"], correctIndex: 1 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "pass-game",
+    number: 3,
+    title: "Pass Game & Progressions",
+    description: "Master route concepts, coverage reads, and the QB progression system — all through the R4 lens.",
+    icon: "Target",
+    lessons: [
+      {
+        id: "route-concepts",
+        title: "Core Route Concepts",
+        purpose: "Learn our primary passing concepts and how they attack capped vs uncapped sides.",
+        formation: "11 Personnel — 2x2 and 3x1",
+        downAndDistance: "All passing downs",
+        conceptBreakdown: [
+          "Every route concept in our offense is designed to attack either the capped or uncapped side. Knowing which concept beats which coverage is the difference between a completion and an interception.",
+          "Against a CAPPED side: Mesh (crossing routes), Curl-Flat, Smash (corner + hitch) — all attack underneath the safety's zone.",
+          "Against an UNCAPPED side: Four Verticals, Post-Wheel, Go-Out — all exploit the 1-on-1 matchup with no help over the top.",
+          "Your R4 pre-snap read tells you which concepts to favor on each play.",
+        ],
+        assignments: [
+          { position: "QB", assignment: "Pre-snap: Use R4 to identify which side the concept attacks" },
+          { position: "QB", assignment: "Deliver the ball on the WR's break — anticipation throws" },
+          { position: "QB", assignment: "Move to the check-down when primary reads are covered" },
+        ],
+        coachingPoints: [
+          "Mesh concept: Inside crossers beat man and zone underneath (CAPPED side weapon)",
+          "Smash concept: Corner + hitch attacks Cover 2 (attacks BETWEEN the caps)",
+          "Four Verticals: Seam reads against Cover 3 and Cover 1 (UNCAPPED side weapon)",
+        ],
+        commonMistakes: [
+          "Locking onto one receiver instead of progressing",
+          "Throwing a deep concept into a capped side",
+          "Ignoring the check-down when nothing is there deep",
+        ],
+        executionKeys: {
+          timing: "Throw on the WR's 2nd step out of his break",
+          communication: "Alert the hot route if you see blitz pre-snap",
+          technique: "Proper footwork — 3-step, 5-step, and quick game drops",
+        },
+        quiz: [
+          { question: "What coverage does the Smash concept attack?", options: ["Cover 0", "Cover 1", "Cover 2", "Cover 4"], correctIndex: 2 },
+          { question: "Which route concept is best against a CAPPED side?", options: ["Four Verticals", "Mesh/crossing routes underneath", "Go routes", "Fade routes"], correctIndex: 1 },
+          { question: "What is the last read in your progression?", options: ["Go route", "The check-down", "Scramble immediately", "Throw it away"], correctIndex: 1 },
+        ],
+      },
+      {
+        id: "coverage-reads",
+        title: "Coverage Recognition (R4 Applied)",
+        purpose: "Apply R4 to identify every coverage pre-snap and post-snap for faster decisions.",
+        formation: "All formations",
+        downAndDistance: "All passing situations",
+        images: [
+          { src: "/src/assets/field-capped.png", alt: "Capped side reference", caption: "CAPPED: Safety provides a ceiling. Attack underneath." },
+          { src: "/src/assets/field-uncapped.png", alt: "Uncapped side reference", caption: "UNCAPPED: No safety help. Attack deep or intermediate 1-on-1." },
+        ],
+        conceptBreakdown: [
+          "This lesson takes the R4 Foundation and applies it in real time. By now, you know what capped and uncapped means — here's how you use it against every coverage.",
+          "Cover 1 (1 high): Safety is in the middle. Both outside thirds are UNCAPPED — attack the wider side with verticals. Be careful throwing seams into the single-high safety.",
+          "Cover 2 (2 high): Both halves are CAPPED. Middle of the field is UNCAPPED — seam routes and posts are your money throws.",
+          "Cover 3 (1 high, 2 deep corners): Attack the SEAMS between zones. The holes between the three deep defenders are where you live.",
+          "Cover 4 (Quarters): Everything deep is CAPPED. Take what they give underneath. Move the chains with crossers and the run game.",
+          "Cover 0 (No deep safety): ENTIRE FIELD UNCAPPED. Be aggressive — hot routes and quick shots win.",
+        ],
+        assignments: [
+          { position: "QB", assignment: "Pre-snap: Read the safeties (1-high, 2-high, 0-high)" },
+          { position: "QB", assignment: "Map capped/uncapped immediately using R4" },
+          { position: "QB", assignment: "Post-snap: Confirm or adjust based on safety rotation" },
+          { position: "QB", assignment: "Attack the coverage's weakness with the right concept" },
+        ],
+        coachingPoints: [
+          "1-high safety = likely Cover 1 or Cover 3 — outside thirds are uncapped",
+          "2-high safeties = likely Cover 2 or Cover 4 — middle of field is your target",
+          "Rotation post-snap means the pre-snap look was a disguise — React (Step 3)",
+          "Every coverage has a weakness — R4 helps you find it in under 2 seconds",
+        ],
+        commonMistakes: [
+          "Only reading the pre-snap look and not confirming post-snap",
+          "Not adjusting when the defense disguises coverage",
+          "Trying to force a throw into a capped area",
+          "Confusing Cover 2 and Cover 4 — check safety depth",
+        ],
+        executionKeys: {
+          timing: "Identify coverage within the first 2 seconds post-snap",
+          communication: "Call out coverage to your receivers with hand signals",
+          technique: "Train your eyes: safety → corner → linebacker in that order",
+        },
+        quiz: [
+          { question: "What does 1-high safety typically indicate?", options: ["Cover 2", "Cover 1 or Cover 3", "Cover 4", "No coverage"], correctIndex: 1 },
+          { question: "In Cover 2, where is the UNCAPPED area?", options: ["Deep sidelines", "Middle of the field", "Behind the QB", "The flat"], correctIndex: 1 },
+          { question: "What should you do if coverage rotates post-snap?", options: ["Throw to your first read anyway", "Scramble immediately", "React — adjust and attack the new weakness", "Call timeout"], correctIndex: 2 },
+        ],
+      },
+      {
+        id: "qb-progressions",
+        title: "QB Progression System",
+        purpose: "Master the read progression for every passing concept using R4 to set your starting point.",
+        formation: "All formations",
+        downAndDistance: "All passing situations",
+        conceptBreakdown: [
+          "In our system, the R4 pre-snap read SETS your progression. You don't read the whole field — you read the UNCAPPED half first.",
+          "Your eyes are the most important weapon you have. They move the safety. Look off the uncapped side to freeze the safety, then come back to deliver.",
+          "Progression speed: 1st read at the top of your drop. 2nd read on the hitch. 3rd read (check-down) on the reset. This is NFL timing.",
+        ],
+        assignments: [
+          { position: "QB", assignment: "1st read: Primary concept side (uncapped side first per R4)" },
+          { position: "QB", assignment: "2nd read: Backside crosser or intermediate route" },
+          { position: "QB", assignment: "3rd read: Check-down or scramble drill" },
+        ],
+        coachingPoints: [
+          "R4 tells you WHERE to start — your progression tells you HOW to move through it",
+          "Never skip reads — trust the progression and the timing",
+          "If 1 and 2 aren't there, the check-down is ALWAYS right",
+          "Use your eyes to manipulate the safety away from your target",
+        ],
+        commonMistakes: [
+          "Staring down the primary receiver",
+          "Skipping to the check-down too early",
+          "Holding the ball too long waiting for something deep",
+          "Starting your progression on the capped side instead of the uncapped side",
+        ],
+        executionKeys: {
+          timing: "1st read at the top of your drop, 2nd read on the hitch, 3rd on the reset",
+          communication: "Use your eyes to manipulate the safety away from your target",
+          technique: "Hitch up in the pocket — don't drift backward",
+        },
+        quiz: [
+          { question: "When should you hit your first read?", options: ["Before the snap", "At the top of your drop", "After scrambling", "On 3rd down only"], correctIndex: 1 },
+          { question: "How does R4 affect your progression?", options: ["It doesn't", "It tells you to start on the UNCAPPED side", "It says always throw left", "It means skip reads"], correctIndex: 1 },
+          { question: "How do you manipulate the safety?", options: ["Yell at them", "Use your eyes to look them off", "Ignore them", "Motion a receiver"], correctIndex: 1 },
         ],
       },
     ],
   },
   {
     id: "run-game",
-    number: 3,
-    title: "Run Game",
-    description: "Learn inside runs, outside runs, and the QB's role in the run game.",
+    number: 4,
+    title: "Run Game & QB Execution",
+    description: "Master inside runs, outside runs, RPOs, and the QB's critical role in the ground game.",
     icon: "Zap",
     lessons: [
       {
@@ -234,6 +467,7 @@ export const qbCurriculum: CurriculumModule[] = [
           "The mesh point is everything — give the RB time to find the hole",
           "On zone read: if the DE squeezes, pull and get upfield",
           "Sell the fake on play-action — your eyes and body must commit",
+          "R4 helps here too — if the box is loaded (7+), check to a pass",
         ],
         commonMistakes: [
           "Pulling the ball too early on the mesh",
@@ -265,6 +499,7 @@ export const qbCurriculum: CurriculumModule[] = [
           "On outside zone, the RB aims for the outside hip of the tackle",
           "Bootleg is our bread-and-butter complement to outside runs",
           "Sell the run fake — the defense must respect the ground game",
+          "Bootleg + uncapped side = explosive plays",
         ],
         commonMistakes: [
           "Sloppy mesh that slows down the RB",
@@ -284,311 +519,10 @@ export const qbCurriculum: CurriculumModule[] = [
     ],
   },
   {
-    id: "pass-game",
-    number: 4,
-    title: "Pass Game",
-    description: "Master route concepts, coverage reads, and the QB progression system.",
-    icon: "Target",
-    lessons: [
-      {
-        id: "route-concepts",
-        title: "Core Route Concepts",
-        purpose: "Learn our primary passing concepts and how they attack different coverages.",
-        formation: "11 Personnel — 2x2 and 3x1",
-        downAndDistance: "All passing downs",
-        assignments: [
-          { position: "QB", assignment: "Identify the concept and know your progression pre-snap" },
-          { position: "QB", assignment: "Deliver the ball on the WR's break — anticipation throws" },
-          { position: "QB", assignment: "Move to the check-down when primary reads are covered" },
-        ],
-        coachingPoints: [
-          "Mesh concept: Inside crossers beat man and zone underneath",
-          "Smash concept: Corner + hitch attacks Cover 2",
-          "Four Verticals: Seam reads against Cover 3 and Cover 1",
-        ],
-        commonMistakes: [
-          "Locking onto one receiver instead of progressing",
-          "Throwing late — waiting until the WR is open instead of throwing on the break",
-          "Ignoring the check-down when nothing is there deep",
-        ],
-        executionKeys: {
-          timing: "Throw on the WR's 2nd step out of his break",
-          communication: "Alert the hot route if you see blitz pre-snap",
-          technique: "Proper footwork — 3-step, 5-step, and quick game drops",
-        },
-        quiz: [
-          { question: "What coverage does the Smash concept attack?", options: ["Cover 0", "Cover 1", "Cover 2", "Cover 4"], correctIndex: 2 },
-          { question: "When should you throw an anticipation pass?", options: ["After the WR is wide open", "On the WR's break", "Only on screen passes", "Never"], correctIndex: 1 },
-          { question: "What is the last read in your progression?", options: ["Go route", "The check-down", "Scramble immediately", "Throw it away"], correctIndex: 1 },
-        ],
-      },
-      {
-        id: "coverage-reads",
-        title: "Coverage Recognition",
-        purpose: "Learn to identify defensive coverages pre-snap and post-snap to make faster decisions.",
-        formation: "All formations",
-        downAndDistance: "All passing situations",
-        assignments: [
-          { position: "QB", assignment: "Pre-snap: read the safeties (1-high, 2-high, 0-high)" },
-          { position: "QB", assignment: "Post-snap: confirm or adjust based on movement" },
-          { position: "QB", assignment: "Attack the coverage's weakness with the right concept" },
-        ],
-        coachingPoints: [
-          "1-high safety = likely Cover 1 or Cover 3 — attack the seams",
-          "2-high safeties = likely Cover 2 or Cover 4 — attack the middle",
-          "Rotation post-snap means the pre-snap look was a disguise",
-        ],
-        commonMistakes: [
-          "Only reading the pre-snap look and not confirming post-snap",
-          "Not adjusting when the defense disguises coverage",
-          "Trying to force a throw into a coverage that takes it away",
-        ],
-        executionKeys: {
-          timing: "Identify coverage within the first 2 seconds post-snap",
-          communication: "Call out coverage to your receivers with hand signals",
-          technique: "Train your eyes: safety → corner → linebacker in that order",
-        },
-        quiz: [
-          { question: "What does 1-high safety typically indicate?", options: ["Cover 2", "Cover 1 or Cover 3", "Cover 4", "No coverage"], correctIndex: 1 },
-          { question: "What should you do if coverage rotates post-snap?", options: ["Throw to your first read anyway", "Scramble immediately", "Adjust and attack the new weakness", "Call timeout"], correctIndex: 2 },
-          { question: "What is the correct eye progression post-snap?", options: ["D-line → LB → Safety", "Safety → Corner → LB", "WR → Ball → End zone", "Coach → Sideline → Ball"], correctIndex: 1 },
-        ],
-      },
-      {
-        id: "qb-progressions",
-        title: "QB Progression System",
-        purpose: "Master the read progression for every passing concept in our offense.",
-        formation: "All formations",
-        downAndDistance: "All passing situations",
-        assignments: [
-          { position: "QB", assignment: "1st read: Primary concept side based on coverage" },
-          { position: "QB", assignment: "2nd read: Backside crosser or intermediate route" },
-          { position: "QB", assignment: "3rd read: Check-down or scramble drill" },
-        ],
-        coachingPoints: [
-          "Your eyes are your most important tool — they move the defense",
-          "Never skip reads — trust the progression and the timing",
-          "If 1 and 2 aren't there, the check-down is ALWAYS right",
-        ],
-        commonMistakes: [
-          "Staring down the primary receiver",
-          "Skipping to the check-down too early",
-          "Holding the ball too long waiting for something deep",
-        ],
-        executionKeys: {
-          timing: "1st read at the top of your drop, 2nd read on the hitch, 3rd on the reset",
-          communication: "Use your eyes to manipulate the safety away from your target",
-          technique: "Hitch up in the pocket — don't drift backward",
-        },
-        quiz: [
-          { question: "When should you hit your first read?", options: ["Before the snap", "At the top of your drop", "After scrambling", "On 3rd down only"], correctIndex: 1 },
-          { question: "What should you do if reads 1 and 2 are covered?", options: ["Force it deep", "Take the check-down", "Throw it away immediately", "Run backwards"], correctIndex: 1 },
-          { question: "How do you manipulate the safety?", options: ["Yell at them", "Use your eyes to look them off", "Ignore them", "Motion a receiver"], correctIndex: 1 },
-        ],
-      },
-    ],
-  },
-  {
-    id: "r4-system",
-    number: 5,
-    title: "R4 System — Capped & Uncapped",
-    description: "Master the R4 reading system: identify capped and uncapped sides of the field to make elite-level decisions.",
-    icon: "Eye",
-    lessons: [
-      {
-        id: "r4-philosophy",
-        title: "The R4 System Philosophy",
-        purpose: "Understand the foundation of the R4 quarterback reading system and why it creates elite decision-makers.",
-        formation: "All formations",
-        downAndDistance: "All situations",
-        conceptBreakdown: [
-          "The R4 System stands for: Read, Recognize, React, Release — four steps that happen in under 3 seconds.",
-          "At its core, the R4 System teaches quarterbacks to process the field through the lens of CAPPED vs UNCAPPED areas. This is the single most important concept in modern quarterback play.",
-          "A CAPPED side of the field has a safety providing over-the-top help. The defense has a 'cap' or ceiling protecting deep routes on that side. Throwing deep into a capped area is high-risk.",
-          "An UNCAPPED side of the field has NO safety help over the top. The defense has removed its ceiling on that side, leaving it vulnerable to deep throws and one-on-one matchups.",
-          "The R4 System trains your eyes to find the uncapped side FIRST, then work your progression on that side of the field. This is how you play faster — you eliminate half the field before the snap.",
-          "Every defensive coverage creates a capped side and an uncapped side. Your job is to find which side the defense left exposed and attack it."
-        ],
-        images: [
-          { src: "/src/assets/field-capped.png", alt: "Capped side of the field - safety providing over-the-top help", caption: "CAPPED SIDE: The safety (S) is positioned over the receivers, creating a ceiling. Deep throws to this side are contested." },
-          { src: "/src/assets/field-uncapped.png", alt: "Uncapped side of the field - no safety help over the top", caption: "UNCAPPED SIDE: No safety help over the top. This side is vulnerable to deep routes and one-on-one matchups." }
-        ],
-        assignments: [
-          { position: "QB", assignment: "Pre-snap: Identify the safety structure — 1 high, 2 high, or 0 high" },
-          { position: "QB", assignment: "Determine which side of the field is capped and which is uncapped" },
-          { position: "QB", assignment: "Set your progression to attack the uncapped side FIRST" },
-          { position: "QB", assignment: "Post-snap: Confirm or adjust if the safety rotates" },
-        ],
-        coachingPoints: [
-          "Read the safeties FIRST — they tell you where the cap is",
-          "In a 1-high shell, one side is always uncapped — find it",
-          "In a 2-high shell, neither deep half is uncapped, so attack the middle",
-          "The R4 System eliminates half the field before the snap — play faster",
-        ],
-        commonMistakes: [
-          "Ignoring the safeties and reading receivers instead",
-          "Throwing deep into a capped side and getting intercepted",
-          "Not confirming post-snap — the safety may rotate after the snap",
-          "Treating every play as a full-field read instead of half-field",
-        ],
-        executionKeys: {
-          timing: "Identify capped/uncapped within 2 seconds of approaching the line",
-          communication: "Signal to receivers which side you're working — they adjust routes accordingly",
-          technique: "Eyes: Safety → Hash → Corner → Receiver — in that exact order",
-        },
-        quiz: [
-          { question: "What does R4 stand for?", options: ["Run, Rush, Route, Release", "Read, Recognize, React, Release", "Read, Run, React, Return", "Route, Read, Release, Run"], correctIndex: 1 },
-          { question: "What does 'capped' mean?", options: ["The QB is wearing a cap", "A safety is providing over-the-top help on that side", "The receiver is covered by a linebacker", "The side with more defenders at the line"], correctIndex: 1 },
-          { question: "Which side should you attack first in the R4 System?", options: ["The capped side", "The uncapped side", "Always throw left", "Wherever the best receiver is"], correctIndex: 1 },
-          { question: "In a 1-high safety shell, how many sides are uncapped?", options: ["Both sides", "One side", "Neither side", "It depends on the formation"], correctIndex: 1 },
-        ],
-      },
-      {
-        id: "r4-capped-reads",
-        title: "Reading the Capped Side",
-        purpose: "Learn what routes and concepts work against a capped side, and when to attack underneath the safety.",
-        formation: "2x2 and 3x1 sets",
-        downAndDistance: "2nd & Medium, 3rd & Short",
-        images: [
-          { src: "/src/assets/field-capped.png", alt: "Capped side coverage diagram", caption: "The capped side has a safety ceiling. Attack UNDERNEATH with crossing routes, curls, and out-breaking routes." }
-        ],
-        conceptBreakdown: [
-          "Just because a side is capped does NOT mean you can't throw there — it means you attack differently.",
-          "Against a capped side, your best weapons are UNDERNEATH routes: slants, curls, digs, and crossing routes that stay below the safety's zone.",
-          "The safety caps deep throws but creates space underneath. Smart QBs exploit the void between the corner and the safety.",
-          "On 3rd and short, the capped side's underneath routes are often the highest-percentage throws in football.",
-          "Never throw a go route or post route into a capped side unless you have a clear coverage bust."
-        ],
-        assignments: [
-          { position: "QB", assignment: "Identify the cap — then look for the void underneath it" },
-          { position: "QB", assignment: "Work curl-flat or smash concepts that attack below the safety" },
-          { position: "QB", assignment: "Use crossing routes to exploit the space between LB and safety" },
-          { position: "QB", assignment: "Check-down to the RB if underneath routes are bracketed" },
-        ],
-        coachingPoints: [
-          "Capped side = short and intermediate throws only",
-          "Curls and comebacks sit in the void between corner and safety",
-          "Dig routes at 12-15 yards are money throws against a capped side",
-          "NEVER throw a 9 route (go route) into a capped side",
-        ],
-        commonMistakes: [
-          "Trying to throw deep into a capped area — INT waiting to happen",
-          "Not recognizing the void underneath the cap",
-          "Forcing the ball to a covered receiver instead of taking the check-down",
-          "Staring down the capped side receiver and alerting the safety",
-        ],
-        executionKeys: {
-          timing: "Deliver on the receiver's break — capped side throws must be on time",
-          communication: "Alert receivers to run underneath routes when you see a capped side",
-          technique: "Throw with touch — drop it over the linebacker, under the safety",
-        },
-        quiz: [
-          { question: "What type of routes work best against a capped side?", options: ["Go routes and posts", "Underneath routes — slants, curls, digs", "Only screen passes", "Trick plays"], correctIndex: 1 },
-          { question: "What should you NEVER throw into a capped side?", options: ["A curl route", "A crossing route", "A go/9 route", "A check-down"], correctIndex: 2 },
-          { question: "Where is the void on a capped side?", options: ["Behind the safety", "Between the corner and the safety", "At the line of scrimmage", "In the end zone"], correctIndex: 1 },
-        ],
-      },
-      {
-        id: "r4-uncapped-reads",
-        title: "Attacking the Uncapped Side",
-        purpose: "Master the art of exploiting the uncapped side for explosive plays and deep shots.",
-        formation: "3x1, 2x2, and Empty sets",
-        downAndDistance: "1st & 10, 2nd & Long, Play-Action",
-        images: [
-          { src: "/src/assets/field-uncapped.png", alt: "Uncapped side coverage diagram", caption: "The uncapped side has NO safety help. This is where you take your deep shots — the receiver is in a 1-on-1 matchup." }
-        ],
-        conceptBreakdown: [
-          "The uncapped side is where elite quarterbacks make their money. No safety help means every deep route is a 1-on-1 matchup.",
-          "When you identify an uncapped side, your FIRST thought should be: can I take a shot? If the matchup favors your receiver, pull the trigger.",
-          "Post routes, go routes, and corner routes are devastating against an uncapped side because there's no help over the top.",
-          "Play-action is the ultimate uncapped-side weapon — it freezes the linebackers and gives your receiver even more separation.",
-          "If the deep shot isn't there, work back to the intermediate and short routes on the uncapped side — they're still favorable because the corner is in single coverage."
-        ],
-        assignments: [
-          { position: "QB", assignment: "Pre-snap: Identify the uncapped side and evaluate the matchup" },
-          { position: "QB", assignment: "Take the deep shot if the WR wins at the line of scrimmage" },
-          { position: "QB", assignment: "Use play-action to create even bigger windows on the uncapped side" },
-          { position: "QB", assignment: "If the deep throw isn't there, work intermediate routes — still favorable" },
-        ],
-        coachingPoints: [
-          "Uncapped side = green light for deep shots when the matchup is right",
-          "Trust your receiver in 1-on-1 — that's what they train for",
-          "Play-action + uncapped side = the most explosive combination in football",
-          "Even if you don't throw deep, the uncapped side's intermediate routes are high percentage",
-        ],
-        commonMistakes: [
-          "Not being aggressive enough when the uncapped side is identified",
-          "Staring at the uncapped side and alerting the safety to rotate",
-          "Forcing a deep throw when the WR loses at the line — take the underneath option",
-          "Forgetting to look off the safety before attacking the uncapped side",
-        ],
-        executionKeys: {
-          timing: "Deep shots must be thrown within 3 seconds — don't hold the ball",
-          communication: "Signal to the WR that he's in a 1-on-1 situation — 'win your matchup'",
-          technique: "Look off the safety FIRST, then come back to the uncapped side to throw",
-        },
-        quiz: [
-          { question: "What makes the uncapped side dangerous for the defense?", options: ["More defenders are there", "No safety help — 1-on-1 matchups", "It's closer to the sideline", "The QB runs to that side"], correctIndex: 1 },
-          { question: "What is the best complement to attacking the uncapped side?", options: ["Screen passes", "QB draws", "Play-action", "Punt fakes"], correctIndex: 2 },
-          { question: "What should you do before throwing to the uncapped side?", options: ["Close your eyes", "Look off the safety first", "Audible to a run", "Pump fake three times"], correctIndex: 1 },
-          { question: "If the WR loses at the line on the uncapped side, what do you do?", options: ["Force the deep throw anyway", "Take the underneath option", "Spike the ball", "Call timeout"], correctIndex: 1 },
-        ],
-      },
-      {
-        id: "r4-coverage-application",
-        title: "R4 vs Every Coverage",
-        purpose: "Apply the R4 capped/uncapped system to every coverage you'll face — Cover 1, 2, 3, 4, and 0.",
-        formation: "All formations",
-        downAndDistance: "All situations",
-        images: [
-          { src: "/src/assets/field-capped.png", alt: "Capped side reference", caption: "Reference: A capped side has safety help over the top." },
-          { src: "/src/assets/field-uncapped.png", alt: "Uncapped side reference", caption: "Reference: An uncapped side has NO safety help — attack here for explosive plays." }
-        ],
-        conceptBreakdown: [
-          "COVER 1 (1 high safety): The safety is in the middle. Both sides are technically 'capped' deep middle, but the boundary and field sides have no deep-half help. Attack the wider side with vertical routes.",
-          "COVER 2 (2 high safeties): Both deep halves are capped by a safety. The MIDDLE of the field is uncapped — attack with seam routes, posts down the middle, and dig routes.",
-          "COVER 3 (1 high, 2 deep-third defenders): The deep middle is capped by the safety. The two deep outside thirds are covered by corners. Attack the seams between the zones — the 'hole shots' between Cover 3 defenders.",
-          "COVER 4 (Quarters — 4 deep defenders): All four deep zones are capped. Attack underneath with crossing routes, option routes, and the run game. The defense is giving you the short throws.",
-          "COVER 0 (No deep safety): THE ENTIRE FIELD IS UNCAPPED. Every receiver is in a 1-on-1 matchup. Take your best shot — hot routes, slants, and fades are all lethal."
-        ],
-        assignments: [
-          { position: "QB", assignment: "Identify the coverage shell and immediately map capped vs uncapped zones" },
-          { position: "QB", assignment: "vs Cover 0: Get the ball out fast — hot routes and slants win" },
-          { position: "QB", assignment: "vs Cover 2: Attack the middle seam — it's always uncapped" },
-          { position: "QB", assignment: "vs Cover 3/4: Find the holes between zone defenders" },
-        ],
-        coachingPoints: [
-          "Every coverage has a weakness — the R4 System helps you find it instantly",
-          "Cover 0 = most uncapped field you'll ever see — be aggressive",
-          "Cover 2 = the middle is always open, attack seams and posts",
-          "Cover 4 = take what they give you underneath and move the chains",
-        ],
-        commonMistakes: [
-          "Not adjusting your approach based on the coverage",
-          "Trying to throw deep against Cover 4 — they're giving you the short game",
-          "Not being aggressive enough against Cover 0 — it's man-to-man everywhere",
-          "Confusing Cover 2 and Cover 4 pre-snap — the safety depth is the key",
-        ],
-        executionKeys: {
-          timing: "Coverage ID must happen within 1-2 seconds pre-snap — then set your plan",
-          communication: "Tell your receivers what coverage you see so they adjust their routes",
-          technique: "Master the 'triangle read' — safety, corner, linebacker in one glance",
-        },
-        quiz: [
-          { question: "In Cover 2, which area of the field is UNCAPPED?", options: ["The deep sidelines", "The middle of the field", "Both deep halves", "The flat areas"], correctIndex: 1 },
-          { question: "In Cover 0, how much of the field is uncapped?", options: ["None", "One side", "Half the field", "The entire field — no deep safety"], correctIndex: 3 },
-          { question: "What should you attack against Cover 4?", options: ["Deep go routes", "Underneath crossing routes and short game", "Only the run game", "Trick plays"], correctIndex: 1 },
-          { question: "How do you tell the difference between Cover 2 and Cover 4 pre-snap?", options: ["You can't tell", "Safety depth — Cover 4 safeties are deeper", "The number of linebackers", "The defensive line alignment"], correctIndex: 1 },
-          { question: "Against Cover 3, where are the vulnerable zones?", options: ["Deep middle", "The seams between zone defenders", "The line of scrimmage", "Behind the QB"], correctIndex: 1 },
-        ],
-      },
-    ],
-  },
-  {
     id: "situational-offense",
-    number: 6,
+    number: 5,
     title: "Situational Offense",
-    description: "Master red zone, 3rd down, and 2-minute drill execution.",
+    description: "Master red zone, 3rd down, and 2-minute drill execution — where games are won.",
     icon: "Clock",
     lessons: [
       {
@@ -597,6 +531,9 @@ export const qbCurriculum: CurriculumModule[] = [
         purpose: "Score touchdowns, not field goals — learn our red zone attack plan.",
         formation: "12, 13, and Goal Line Personnel",
         downAndDistance: "Inside the 20-yard line",
+        conceptBreakdown: [
+          "In the red zone, the field compresses — which changes your R4 reads. With less space, the defense can cap both sides more easily. Your weapons shift to timing, ball placement, and the run game.",
+        ],
         assignments: [
           { position: "QB", assignment: "Compress your reads — the field is shrinking" },
           { position: "QB", assignment: "Use hard cadence to draw offsides in the red zone" },
@@ -606,6 +543,7 @@ export const qbCurriculum: CurriculumModule[] = [
           "In the red zone, turnovers are unacceptable — protect the ball",
           "Back shoulder and fade throws are your best friend at the goal line",
           "QB sneak is always available inside the 1-yard line",
+          "R4 still applies — but windows are smaller, so be precise",
         ],
         commonMistakes: [
           "Trying to force the ball into tight windows",
@@ -659,15 +597,19 @@ export const qbCurriculum: CurriculumModule[] = [
         purpose: "Execute our hurry-up offense to score with time running out.",
         formation: "11 and 10 Personnel — No Huddle",
         downAndDistance: "All — clock management critical",
+        conceptBreakdown: [
+          "The 2-minute drill is where R4 mastery separates the elite from the average. You don't have time to think — you must READ, RECOGNIZE, REACT, and RELEASE at maximum speed. If you've trained R4, this is where it pays off.",
+        ],
         assignments: [
           { position: "QB", assignment: "Manage the clock — know when to spike, when to run" },
           { position: "QB", assignment: "Get out of bounds or throw it away to stop the clock" },
-          { position: "QB", assignment: "Hit the sideline throws and middle-field completions" },
+          { position: "QB", assignment: "R4 at full speed — pre-snap reads must be instant" },
         ],
         coachingPoints: [
           "Tempo is controlled chaos — fast but not frantic",
           "Use your timeouts wisely — save them for inside the 30",
           "Sideline routes stop the clock; middle routes gain yards",
+          "R4 reads must be automatic — no time to hesitate",
         ],
         commonMistakes: [
           "Playing too fast and making mental errors",
@@ -682,16 +624,16 @@ export const qbCurriculum: CurriculumModule[] = [
         quiz: [
           { question: "When should you save your timeouts?", options: ["Use them immediately", "Save for inside the 30-yard line", "Never use them", "Only in overtime"], correctIndex: 1 },
           { question: "What should you NEVER do in the 2-minute drill?", options: ["Throw incomplete", "Take a sack", "Get out of bounds", "Spike the ball"], correctIndex: 1 },
-          { question: "What is the right tempo?", options: ["As fast as humanly possible", "Slow and methodical", "Controlled chaos — fast but not frantic", "Same as regular offense"], correctIndex: 2 },
+          { question: "Why is R4 mastery critical in the 2-minute drill?", options: ["It's not important", "You don't have time to think — reads must be automatic", "You should ignore coverage in hurry-up", "Only run the ball"], correctIndex: 1 },
         ],
       },
     ],
   },
   {
     id: "playbook-mastery",
-    number: 7,
-    title: "Playbook Mastery",
-    description: "Full play installs, adjustments, and audible mastery.",
+    number: 6,
+    title: "Playbook Mastery & Audibles",
+    description: "Full play installs, adjustments, and the ability to change the play at the line like a pro.",
     icon: "BookOpen",
     lessons: [
       {
@@ -709,6 +651,7 @@ export const qbCurriculum: CurriculumModule[] = [
           "A great QB knows what every player is doing on every play",
           "Understanding blocking schemes helps you feel pressure before it comes",
           "Film study of your own offense is as important as studying defense",
+          "Apply R4 to every install — ask yourself 'what coverage does this beat?'",
         ],
         commonMistakes: [
           "Only knowing your own assignment",
@@ -731,13 +674,18 @@ export const qbCurriculum: CurriculumModule[] = [
         purpose: "Master the ability to change plays at the line based on what the defense shows you.",
         formation: "All formations",
         downAndDistance: "All situations",
+        conceptBreakdown: [
+          "Audibles are the ultimate expression of R4 mastery. When you can read the defense (R4), recognize the play won't work, and change to a better option — you're playing like a college or NFL quarterback.",
+          "Every audible should put you in a BETTER play based on what R4 tells you. If the defense is showing a capped look and the play call attacks deep, audible to an underneath concept. If they show uncapped, check to a deep shot.",
+        ],
         assignments: [
           { position: "QB", assignment: "Read the defense and determine if the called play will work" },
-          { position: "QB", assignment: "Use check-with-me calls to get into the best play" },
+          { position: "QB", assignment: "Use R4 to identify if you should check to a run or pass" },
           { position: "QB", assignment: "Communicate audibles clearly so every player hears and adjusts" },
         ],
         coachingPoints: [
-          "An audible should put you in a BETTER play, not just a different one",
+          "An audible should put you in a BETTER play — not just a different one",
+          "R4 drives the audible: capped side = check underneath; uncapped = check to a shot",
           "Never audible just to audible — trust the play call if it's right",
           "Your receivers must know the audible system as well as you do",
         ],
@@ -745,6 +693,7 @@ export const qbCurriculum: CurriculumModule[] = [
           "Audibiling into a worse play because of panic",
           "Not communicating the audible loudly enough",
           "Changing the play too late — not giving teammates time to adjust",
+          "Ignoring R4 reads when choosing an audible",
         ],
         executionKeys: {
           timing: "Audible with at least 5 seconds on the play clock",
@@ -752,20 +701,22 @@ export const qbCurriculum: CurriculumModule[] = [
           technique: "Practice the audible system daily until it's instinct",
         },
         quiz: [
-          { question: "When should you audible?", options: ["Every play", "When the called play won't work against the look", "Never", "Only in the 4th quarter"], correctIndex: 1 },
+          { question: "When should you audible?", options: ["Every play", "When R4 tells you the called play won't work against the look", "Never", "Only in the 4th quarter"], correctIndex: 1 },
           { question: "How much time should remain on the play clock when you audible?", options: ["0 seconds", "2 seconds", "5+ seconds", "15 seconds"], correctIndex: 2 },
-          { question: "What is the biggest audible mistake?", options: ["Not audibiling enough", "Changing too late so teammates can't adjust", "Audibiling on 1st down", "Using hand signals"], correctIndex: 1 },
+          { question: "How does R4 influence audibles?", options: ["It doesn't", "Capped = check underneath, Uncapped = check to a shot", "Always audible to a run", "Only audible in the red zone"], correctIndex: 1 },
         ],
       },
     ],
   },
 ];
 
-// Test Your Knowledge mode — random plays for quick identification
+// Test Your Knowledge mode — random plays for quick R4 application
 export const testYourKnowledgePlays = [
-  { formation: "11 Personnel — 2x2 Spread", question: "What is the best concept vs Cover 2 from this formation?", answer: "Smash — corner route attacks the Cover 2 window" },
-  { formation: "12 Personnel — Under Center", question: "What is the QB's read key on inside zone?", answer: "Backside defensive end — give if he crashes, pull if he sits" },
-  { formation: "Empty — 3x2", question: "What coverage is the defense likely in?", answer: "Man coverage or Cover 1 — they can't have a box defender with empty" },
-  { formation: "11 Personnel — 3x1 Trips", question: "Where is the single receiver route going vs Cover 3?", answer: "Backside post or dig — attacking the weak side of Cover 3" },
-  { formation: "Goal Line — 13 Personnel", question: "What is the QB's first option?", answer: "QB sneak or play-action flat — short and decisive" },
+  { formation: "11 Personnel — 2x2 Spread", question: "The defense shows 2-high safeties. Where is the UNCAPPED area?", answer: "The middle of the field — attack with seams and posts (Cover 2 look)" },
+  { formation: "12 Personnel — Under Center", question: "1-high safety shading to the field. Which side is UNCAPPED?", answer: "The boundary side — the safety capped the field side. Attack boundary verticals." },
+  { formation: "Empty — 3x2", question: "Defense shows Cover 0 (no deep safeties). What does R4 tell you?", answer: "ENTIRE FIELD IS UNCAPPED — get the ball out fast to your best matchup. Hot routes and slants win." },
+  { formation: "11 Personnel — 3x1 Trips", question: "Safety rolls down into the box. Is the trips side capped or uncapped?", answer: "UNCAPPED — the safety left. Take a deep shot to the trips side if the matchup is right." },
+  { formation: "Goal Line — 13 Personnel", question: "Defense shows Cover 1. What's your R4 read in the red zone?", answer: "The single-high safety caps the middle. Work the fade or back-shoulder to the uncapped outside." },
+  { formation: "11 Personnel — 2x2", question: "Post-snap, the safety rotates from 2-high to 1-high. What happened?", answer: "Coverage disguise — React (Step 3). The rotation created an UNCAPPED side. Adjust your progression to attack it." },
+  { formation: "10 Personnel — Empty", question: "The defense is in Cover 4 (Quarters). Where do you attack?", answer: "Everything deep is CAPPED. Take what they give underneath — crossers, option routes, and check-downs." },
 ];
