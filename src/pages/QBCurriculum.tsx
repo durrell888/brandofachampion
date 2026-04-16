@@ -620,7 +620,7 @@ export default function QBCurriculum() {
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
               Built on the Rhythm Read Rush Release — the foundation of elite quarterback play. 
-              Read. Recognize. React. Release. This is how you prepare for college and the NFL.
+              Rhythm. Read. Rush. Release. This is how you prepare for college and the NFL.
             </p>
 
             {/* Progress Overview */}
