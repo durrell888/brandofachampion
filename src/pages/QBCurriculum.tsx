@@ -290,14 +290,7 @@ export default function QBCurriculum() {
             {activeLesson.images && activeLesson.images.length > 0 && (
               <div className={`grid gap-6 mb-8 ${activeLesson.images.length > 1 ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
                 {activeLesson.images.map((img, i) => (
-                  <Card key={i} className="border-border overflow-hidden">
-                    <div className="aspect-[4/3] bg-muted">
-                      <img src={imageMap[img.src] || img.src} alt={img.alt} loading="lazy" className="w-full h-full object-contain bg-[hsl(var(--muted))]" />
-                    </div>
-                    <CardContent className="pt-3 pb-4">
-                      <p className="text-sm font-medium text-foreground">{img.caption}</p>
-                    </CardContent>
-                  </Card>
+                  <ZoomableImage key={i} src={img.src} alt={img.alt} caption={img.caption} />
                 ))}
               </div>
             )}
@@ -732,14 +725,7 @@ export default function QBCurriculum() {
                             {sec.images && sec.images.length > 0 && (
                               <div className={`grid gap-6 ${sec.images.length > 1 ? 'md:grid-cols-2' : 'grid-cols-1 max-w-xl mx-auto'}`}>
                                 {sec.images.map((img, k) => (
-                                  <Card key={k} className="border-border overflow-hidden">
-                                    <div className="aspect-[4/3] bg-muted">
-                                      <img src={imageMap[img.src] || img.src} alt={img.alt} loading="lazy" className="w-full h-full object-contain bg-[hsl(var(--muted))]" />
-                                    </div>
-                                    <CardContent className="pt-3 pb-4">
-                                      <p className="text-sm font-medium text-foreground">{img.caption}</p>
-                                    </CardContent>
-                                  </Card>
+                                  <ZoomableImage key={k} src={img.src} alt={img.alt} caption={img.caption} />
                                 ))}
                               </div>
                             )}
