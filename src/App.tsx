@@ -33,6 +33,7 @@ import AcademyMissions from "./pages/AcademyMissions";
 import AcademyMissionDetail from "./pages/AcademyMissionDetail";
 import AcademyLeaderboard from "./pages/AcademyLeaderboard";
 import AcademyAdmin from "./pages/AcademyAdmin";
+import QBCurriculum from "./pages/QBCurriculum";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
