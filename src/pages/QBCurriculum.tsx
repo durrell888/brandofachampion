@@ -24,6 +24,62 @@ const imageMap: Record<string, string> = {
   "/src/assets/field-uncapped.png": fieldUncappedImg,
 };
 
+const ZoomableImage = ({ src, alt, caption }: { src: string; alt: string; caption?: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const resolvedSrc = imageMap[src] || src;
+
+  return (
+    <>
+      <Card className="border-border overflow-hidden cursor-pointer group" onClick={() => setIsOpen(true)}>
+        <div className="aspect-[4/3] bg-muted relative overflow-hidden">
+          <img
+            src={resolvedSrc}
+            alt={alt}
+            loading="lazy"
+            className="w-full h-full object-contain bg-[hsl(var(--muted))] transition-transform duration-300 group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+            <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity font-semibold text-sm bg-black/60 px-3 py-1.5 rounded-full">
+              Click to enlarge
+            </span>
+          </div>
+        </div>
+        {caption && (
+          <CardContent className="pt-3 pb-4">
+            <p className="text-sm font-medium text-foreground">{caption}</p>
+          </CardContent>
+        )}
+      </Card>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 cursor-pointer"
+            onClick={() => setIsOpen(false)}
+          >
+            <motion.img
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "spring", damping: 25 }}
+              src={resolvedSrc}
+              alt={alt}
+              className="max-w-full max-h-full object-contain"
+            />
+            {caption && (
+              <p className="absolute bottom-8 text-white text-lg font-semibold bg-black/50 px-4 py-2 rounded-lg">{caption}</p>
+            )}
+            <button className="absolute top-6 right-6 text-white text-3xl font-bold hover:text-accent transition-colors" onClick={() => setIsOpen(false)}>✕</button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
+
 const iconMap: Record<string, React.ElementType> = {
   Brain, LayoutGrid, Zap, Target, Clock, BookOpen, Eye,
 };
@@ -234,14 +290,7 @@ export default function QBCurriculum() {
             {activeLesson.images && activeLesson.images.length > 0 && (
               <div className={`grid gap-6 mb-8 ${activeLesson.images.length > 1 ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
                 {activeLesson.images.map((img, i) => (
-                  <Card key={i} className="border-border overflow-hidden">
-                    <div className="aspect-[4/3] bg-muted">
-                      <img src={imageMap[img.src] || img.src} alt={img.alt} loading="lazy" className="w-full h-full object-contain bg-[hsl(var(--muted))]" />
-                    </div>
-                    <CardContent className="pt-3 pb-4">
-                      <p className="text-sm font-medium text-foreground">{img.caption}</p>
-                    </CardContent>
-                  </Card>
+                  <ZoomableImage key={i} src={img.src} alt={img.alt} caption={img.caption} />
                 ))}
               </div>
             )}
@@ -676,14 +725,7 @@ export default function QBCurriculum() {
                             {sec.images && sec.images.length > 0 && (
                               <div className={`grid gap-6 ${sec.images.length > 1 ? 'md:grid-cols-2' : 'grid-cols-1 max-w-xl mx-auto'}`}>
                                 {sec.images.map((img, k) => (
-                                  <Card key={k} className="border-border overflow-hidden">
-                                    <div className="aspect-[4/3] bg-muted">
-                                      <img src={imageMap[img.src] || img.src} alt={img.alt} loading="lazy" className="w-full h-full object-contain bg-[hsl(var(--muted))]" />
-                                    </div>
-                                    <CardContent className="pt-3 pb-4">
-                                      <p className="text-sm font-medium text-foreground">{img.caption}</p>
-                                    </CardContent>
-                                  </Card>
+                                  <ZoomableImage key={k} src={img.src} alt={img.alt} caption={img.caption} />
                                 ))}
                               </div>
                             )}
