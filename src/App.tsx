@@ -33,6 +33,7 @@ import AcademyMissions from "./pages/AcademyMissions";
 import AcademyMissionDetail from "./pages/AcademyMissionDetail";
 import AcademyLeaderboard from "./pages/AcademyLeaderboard";
 import AcademyAdmin from "./pages/AcademyAdmin";
+import QBCurriculum from "./pages/QBCurriculum";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -77,6 +78,7 @@ const App = () => (
             <Route path="/healthcare-partnership" element={<HealthcarePartnership />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/account" element={<Account />} />
+            <Route path="/qb-curriculum" element={<QBCurriculum />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
