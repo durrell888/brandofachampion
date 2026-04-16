@@ -586,7 +586,7 @@ export const qbCurriculum: CurriculumModule[] = [
   },
   {
     id: "situational-offense",
-    number: 5,
+    number: 6,
     title: "Situational Offense",
     description: "Master red zone, 3rd down, and 2-minute drill execution.",
     icon: "Clock",
@@ -689,7 +689,7 @@ export const qbCurriculum: CurriculumModule[] = [
   },
   {
     id: "playbook-mastery",
-    number: 6,
+    number: 7,
     title: "Playbook Mastery",
     description: "Full play installs, adjustments, and audible mastery.",
     icon: "BookOpen",
