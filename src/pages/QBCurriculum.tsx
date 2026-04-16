@@ -217,7 +217,7 @@ export default function QBCurriculum() {
                   <Card key={i} className="border-border overflow-hidden">
                     <div className="aspect-[4/3] bg-muted">
                       <img
-                        src={img.src}
+                        src={imageMap[img.src] || img.src}
                         alt={img.alt}
                         loading="lazy"
                         className="w-full h-full object-contain bg-[hsl(var(--muted))]"
