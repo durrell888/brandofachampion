@@ -20,6 +20,11 @@ import fieldCappedImg from "@/assets/field-capped.png";
 import fieldUncappedImg from "@/assets/field-uncapped.png";
 import { qbCurriculum, testYourKnowledgePlays, type CurriculumModule, type Lesson, type QuizQuestion } from "@/data/qbCurriculum";
 
+const imageMap: Record<string, string> = {
+  "/src/assets/field-capped.png": fieldCappedImg,
+  "/src/assets/field-uncapped.png": fieldUncappedImg,
+};
+
 const iconMap: Record<string, React.ElementType> = {
   Brain, LayoutGrid, Zap, Target, Clock, BookOpen, Eye,
 };
