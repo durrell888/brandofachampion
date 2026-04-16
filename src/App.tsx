@@ -78,6 +78,7 @@ const App = () => (
             <Route path="/healthcare-partnership" element={<HealthcarePartnership />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/account" element={<Account />} />
+            <Route path="/qb-curriculum" element={<QBCurriculum />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
