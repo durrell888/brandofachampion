@@ -16,6 +16,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import fieldCappedImg from "@/assets/field-capped.png";
+import fieldUncappedImg from "@/assets/field-uncapped.png";
 import { qbCurriculum, testYourKnowledgePlays, type CurriculumModule, type Lesson, type QuizQuestion } from "@/data/qbCurriculum";
 
 const iconMap: Record<string, React.ElementType> = {
