@@ -19,7 +19,7 @@ import SEO from "@/components/SEO";
 import { qbCurriculum, testYourKnowledgePlays, type CurriculumModule, type Lesson, type QuizQuestion } from "@/data/qbCurriculum";
 
 const iconMap: Record<string, React.ElementType> = {
-  Brain, LayoutGrid, Zap, Target, Clock, BookOpen,
+  Brain, LayoutGrid, Zap, Target, Clock, BookOpen, Eye,
 };
 
 // Local storage helpers
