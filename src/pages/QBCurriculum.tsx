@@ -16,10 +16,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import fieldCappedImg from "@/assets/field-capped.png";
+import fieldUncappedImg from "@/assets/field-uncapped.png";
 import { qbCurriculum, testYourKnowledgePlays, type CurriculumModule, type Lesson, type QuizQuestion } from "@/data/qbCurriculum";
 
+const imageMap: Record<string, string> = {
+  "/src/assets/field-capped.png": fieldCappedImg,
+  "/src/assets/field-uncapped.png": fieldUncappedImg,
+};
+
 const iconMap: Record<string, React.ElementType> = {
-  Brain, LayoutGrid, Zap, Target, Clock, BookOpen,
+  Brain, LayoutGrid, Zap, Target, Clock, BookOpen, Eye,
 };
 
 // Local storage helpers
@@ -182,7 +189,47 @@ export default function QBCurriculum() {
               </div>
             </Card>
 
-            {/* Breakdown */}
+            {/* Concept Breakdown */}
+            {activeLesson.conceptBreakdown && activeLesson.conceptBreakdown.length > 0 && (
+              <Card className="mb-8 border-border">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-foreground">
+                    <Brain className="h-5 w-5 text-accent" />
+                    Concept Breakdown
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {activeLesson.conceptBreakdown.map((point, i) => (
+                      <p key={i} className="text-muted-foreground leading-relaxed">
+                        {point}
+                      </p>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Field Diagrams / Images */}
+            {activeLesson.images && activeLesson.images.length > 0 && (
+              <div className={`grid gap-6 mb-8 ${activeLesson.images.length > 1 ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
+                {activeLesson.images.map((img, i) => (
+                  <Card key={i} className="border-border overflow-hidden">
+                    <div className="aspect-[4/3] bg-muted">
+                      <img
+                        src={imageMap[img.src] || img.src}
+                        alt={img.alt}
+                        loading="lazy"
+                        className="w-full h-full object-contain bg-[hsl(var(--muted))]"
+                      />
+                    </div>
+                    <CardContent className="pt-3 pb-4">
+                      <p className="text-sm font-medium text-foreground">{img.caption}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
             <Card className="mb-6 border-border">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-foreground">

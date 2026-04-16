@@ -4,6 +4,12 @@ export interface QuizQuestion {
   correctIndex: number;
 }
 
+export interface LessonImage {
+  src: string;
+  alt: string;
+  caption: string;
+}
+
 export interface Lesson {
   id: string;
   title: string;
@@ -12,6 +18,8 @@ export interface Lesson {
   hudlUrl?: string;
   formation?: string;
   downAndDistance?: string;
+  images?: LessonImage[];
+  conceptBreakdown?: string[];
   assignments: { position: string; assignment: string }[];
   coachingPoints: string[];
   commonMistakes: string[];
@@ -381,8 +389,204 @@ export const qbCurriculum: CurriculumModule[] = [
     ],
   },
   {
-    id: "situational-offense",
+    id: "r4-system",
     number: 5,
+    title: "R4 System — Capped & Uncapped",
+    description: "Master the R4 reading system: identify capped and uncapped sides of the field to make elite-level decisions.",
+    icon: "Eye",
+    lessons: [
+      {
+        id: "r4-philosophy",
+        title: "The R4 System Philosophy",
+        purpose: "Understand the foundation of the R4 quarterback reading system and why it creates elite decision-makers.",
+        formation: "All formations",
+        downAndDistance: "All situations",
+        conceptBreakdown: [
+          "The R4 System stands for: Read, Recognize, React, Release — four steps that happen in under 3 seconds.",
+          "At its core, the R4 System teaches quarterbacks to process the field through the lens of CAPPED vs UNCAPPED areas. This is the single most important concept in modern quarterback play.",
+          "A CAPPED side of the field has a safety providing over-the-top help. The defense has a 'cap' or ceiling protecting deep routes on that side. Throwing deep into a capped area is high-risk.",
+          "An UNCAPPED side of the field has NO safety help over the top. The defense has removed its ceiling on that side, leaving it vulnerable to deep throws and one-on-one matchups.",
+          "The R4 System trains your eyes to find the uncapped side FIRST, then work your progression on that side of the field. This is how you play faster — you eliminate half the field before the snap.",
+          "Every defensive coverage creates a capped side and an uncapped side. Your job is to find which side the defense left exposed and attack it."
+        ],
+        images: [
+          { src: "/src/assets/field-capped.png", alt: "Capped side of the field - safety providing over-the-top help", caption: "CAPPED SIDE: The safety (S) is positioned over the receivers, creating a ceiling. Deep throws to this side are contested." },
+          { src: "/src/assets/field-uncapped.png", alt: "Uncapped side of the field - no safety help over the top", caption: "UNCAPPED SIDE: No safety help over the top. This side is vulnerable to deep routes and one-on-one matchups." }
+        ],
+        assignments: [
+          { position: "QB", assignment: "Pre-snap: Identify the safety structure — 1 high, 2 high, or 0 high" },
+          { position: "QB", assignment: "Determine which side of the field is capped and which is uncapped" },
+          { position: "QB", assignment: "Set your progression to attack the uncapped side FIRST" },
+          { position: "QB", assignment: "Post-snap: Confirm or adjust if the safety rotates" },
+        ],
+        coachingPoints: [
+          "Read the safeties FIRST — they tell you where the cap is",
+          "In a 1-high shell, one side is always uncapped — find it",
+          "In a 2-high shell, neither deep half is uncapped, so attack the middle",
+          "The R4 System eliminates half the field before the snap — play faster",
+        ],
+        commonMistakes: [
+          "Ignoring the safeties and reading receivers instead",
+          "Throwing deep into a capped side and getting intercepted",
+          "Not confirming post-snap — the safety may rotate after the snap",
+          "Treating every play as a full-field read instead of half-field",
+        ],
+        executionKeys: {
+          timing: "Identify capped/uncapped within 2 seconds of approaching the line",
+          communication: "Signal to receivers which side you're working — they adjust routes accordingly",
+          technique: "Eyes: Safety → Hash → Corner → Receiver — in that exact order",
+        },
+        quiz: [
+          { question: "What does R4 stand for?", options: ["Run, Rush, Route, Release", "Read, Recognize, React, Release", "Read, Run, React, Return", "Route, Read, Release, Run"], correctIndex: 1 },
+          { question: "What does 'capped' mean?", options: ["The QB is wearing a cap", "A safety is providing over-the-top help on that side", "The receiver is covered by a linebacker", "The side with more defenders at the line"], correctIndex: 1 },
+          { question: "Which side should you attack first in the R4 System?", options: ["The capped side", "The uncapped side", "Always throw left", "Wherever the best receiver is"], correctIndex: 1 },
+          { question: "In a 1-high safety shell, how many sides are uncapped?", options: ["Both sides", "One side", "Neither side", "It depends on the formation"], correctIndex: 1 },
+        ],
+      },
+      {
+        id: "r4-capped-reads",
+        title: "Reading the Capped Side",
+        purpose: "Learn what routes and concepts work against a capped side, and when to attack underneath the safety.",
+        formation: "2x2 and 3x1 sets",
+        downAndDistance: "2nd & Medium, 3rd & Short",
+        images: [
+          { src: "/src/assets/field-capped.png", alt: "Capped side coverage diagram", caption: "The capped side has a safety ceiling. Attack UNDERNEATH with crossing routes, curls, and out-breaking routes." }
+        ],
+        conceptBreakdown: [
+          "Just because a side is capped does NOT mean you can't throw there — it means you attack differently.",
+          "Against a capped side, your best weapons are UNDERNEATH routes: slants, curls, digs, and crossing routes that stay below the safety's zone.",
+          "The safety caps deep throws but creates space underneath. Smart QBs exploit the void between the corner and the safety.",
+          "On 3rd and short, the capped side's underneath routes are often the highest-percentage throws in football.",
+          "Never throw a go route or post route into a capped side unless you have a clear coverage bust."
+        ],
+        assignments: [
+          { position: "QB", assignment: "Identify the cap — then look for the void underneath it" },
+          { position: "QB", assignment: "Work curl-flat or smash concepts that attack below the safety" },
+          { position: "QB", assignment: "Use crossing routes to exploit the space between LB and safety" },
+          { position: "QB", assignment: "Check-down to the RB if underneath routes are bracketed" },
+        ],
+        coachingPoints: [
+          "Capped side = short and intermediate throws only",
+          "Curls and comebacks sit in the void between corner and safety",
+          "Dig routes at 12-15 yards are money throws against a capped side",
+          "NEVER throw a 9 route (go route) into a capped side",
+        ],
+        commonMistakes: [
+          "Trying to throw deep into a capped area — INT waiting to happen",
+          "Not recognizing the void underneath the cap",
+          "Forcing the ball to a covered receiver instead of taking the check-down",
+          "Staring down the capped side receiver and alerting the safety",
+        ],
+        executionKeys: {
+          timing: "Deliver on the receiver's break — capped side throws must be on time",
+          communication: "Alert receivers to run underneath routes when you see a capped side",
+          technique: "Throw with touch — drop it over the linebacker, under the safety",
+        },
+        quiz: [
+          { question: "What type of routes work best against a capped side?", options: ["Go routes and posts", "Underneath routes — slants, curls, digs", "Only screen passes", "Trick plays"], correctIndex: 1 },
+          { question: "What should you NEVER throw into a capped side?", options: ["A curl route", "A crossing route", "A go/9 route", "A check-down"], correctIndex: 2 },
+          { question: "Where is the void on a capped side?", options: ["Behind the safety", "Between the corner and the safety", "At the line of scrimmage", "In the end zone"], correctIndex: 1 },
+        ],
+      },
+      {
+        id: "r4-uncapped-reads",
+        title: "Attacking the Uncapped Side",
+        purpose: "Master the art of exploiting the uncapped side for explosive plays and deep shots.",
+        formation: "3x1, 2x2, and Empty sets",
+        downAndDistance: "1st & 10, 2nd & Long, Play-Action",
+        images: [
+          { src: "/src/assets/field-uncapped.png", alt: "Uncapped side coverage diagram", caption: "The uncapped side has NO safety help. This is where you take your deep shots — the receiver is in a 1-on-1 matchup." }
+        ],
+        conceptBreakdown: [
+          "The uncapped side is where elite quarterbacks make their money. No safety help means every deep route is a 1-on-1 matchup.",
+          "When you identify an uncapped side, your FIRST thought should be: can I take a shot? If the matchup favors your receiver, pull the trigger.",
+          "Post routes, go routes, and corner routes are devastating against an uncapped side because there's no help over the top.",
+          "Play-action is the ultimate uncapped-side weapon — it freezes the linebackers and gives your receiver even more separation.",
+          "If the deep shot isn't there, work back to the intermediate and short routes on the uncapped side — they're still favorable because the corner is in single coverage."
+        ],
+        assignments: [
+          { position: "QB", assignment: "Pre-snap: Identify the uncapped side and evaluate the matchup" },
+          { position: "QB", assignment: "Take the deep shot if the WR wins at the line of scrimmage" },
+          { position: "QB", assignment: "Use play-action to create even bigger windows on the uncapped side" },
+          { position: "QB", assignment: "If the deep throw isn't there, work intermediate routes — still favorable" },
+        ],
+        coachingPoints: [
+          "Uncapped side = green light for deep shots when the matchup is right",
+          "Trust your receiver in 1-on-1 — that's what they train for",
+          "Play-action + uncapped side = the most explosive combination in football",
+          "Even if you don't throw deep, the uncapped side's intermediate routes are high percentage",
+        ],
+        commonMistakes: [
+          "Not being aggressive enough when the uncapped side is identified",
+          "Staring at the uncapped side and alerting the safety to rotate",
+          "Forcing a deep throw when the WR loses at the line — take the underneath option",
+          "Forgetting to look off the safety before attacking the uncapped side",
+        ],
+        executionKeys: {
+          timing: "Deep shots must be thrown within 3 seconds — don't hold the ball",
+          communication: "Signal to the WR that he's in a 1-on-1 situation — 'win your matchup'",
+          technique: "Look off the safety FIRST, then come back to the uncapped side to throw",
+        },
+        quiz: [
+          { question: "What makes the uncapped side dangerous for the defense?", options: ["More defenders are there", "No safety help — 1-on-1 matchups", "It's closer to the sideline", "The QB runs to that side"], correctIndex: 1 },
+          { question: "What is the best complement to attacking the uncapped side?", options: ["Screen passes", "QB draws", "Play-action", "Punt fakes"], correctIndex: 2 },
+          { question: "What should you do before throwing to the uncapped side?", options: ["Close your eyes", "Look off the safety first", "Audible to a run", "Pump fake three times"], correctIndex: 1 },
+          { question: "If the WR loses at the line on the uncapped side, what do you do?", options: ["Force the deep throw anyway", "Take the underneath option", "Spike the ball", "Call timeout"], correctIndex: 1 },
+        ],
+      },
+      {
+        id: "r4-coverage-application",
+        title: "R4 vs Every Coverage",
+        purpose: "Apply the R4 capped/uncapped system to every coverage you'll face — Cover 1, 2, 3, 4, and 0.",
+        formation: "All formations",
+        downAndDistance: "All situations",
+        images: [
+          { src: "/src/assets/field-capped.png", alt: "Capped side reference", caption: "Reference: A capped side has safety help over the top." },
+          { src: "/src/assets/field-uncapped.png", alt: "Uncapped side reference", caption: "Reference: An uncapped side has NO safety help — attack here for explosive plays." }
+        ],
+        conceptBreakdown: [
+          "COVER 1 (1 high safety): The safety is in the middle. Both sides are technically 'capped' deep middle, but the boundary and field sides have no deep-half help. Attack the wider side with vertical routes.",
+          "COVER 2 (2 high safeties): Both deep halves are capped by a safety. The MIDDLE of the field is uncapped — attack with seam routes, posts down the middle, and dig routes.",
+          "COVER 3 (1 high, 2 deep-third defenders): The deep middle is capped by the safety. The two deep outside thirds are covered by corners. Attack the seams between the zones — the 'hole shots' between Cover 3 defenders.",
+          "COVER 4 (Quarters — 4 deep defenders): All four deep zones are capped. Attack underneath with crossing routes, option routes, and the run game. The defense is giving you the short throws.",
+          "COVER 0 (No deep safety): THE ENTIRE FIELD IS UNCAPPED. Every receiver is in a 1-on-1 matchup. Take your best shot — hot routes, slants, and fades are all lethal."
+        ],
+        assignments: [
+          { position: "QB", assignment: "Identify the coverage shell and immediately map capped vs uncapped zones" },
+          { position: "QB", assignment: "vs Cover 0: Get the ball out fast — hot routes and slants win" },
+          { position: "QB", assignment: "vs Cover 2: Attack the middle seam — it's always uncapped" },
+          { position: "QB", assignment: "vs Cover 3/4: Find the holes between zone defenders" },
+        ],
+        coachingPoints: [
+          "Every coverage has a weakness — the R4 System helps you find it instantly",
+          "Cover 0 = most uncapped field you'll ever see — be aggressive",
+          "Cover 2 = the middle is always open, attack seams and posts",
+          "Cover 4 = take what they give you underneath and move the chains",
+        ],
+        commonMistakes: [
+          "Not adjusting your approach based on the coverage",
+          "Trying to throw deep against Cover 4 — they're giving you the short game",
+          "Not being aggressive enough against Cover 0 — it's man-to-man everywhere",
+          "Confusing Cover 2 and Cover 4 pre-snap — the safety depth is the key",
+        ],
+        executionKeys: {
+          timing: "Coverage ID must happen within 1-2 seconds pre-snap — then set your plan",
+          communication: "Tell your receivers what coverage you see so they adjust their routes",
+          technique: "Master the 'triangle read' — safety, corner, linebacker in one glance",
+        },
+        quiz: [
+          { question: "In Cover 2, which area of the field is UNCAPPED?", options: ["The deep sidelines", "The middle of the field", "Both deep halves", "The flat areas"], correctIndex: 1 },
+          { question: "In Cover 0, how much of the field is uncapped?", options: ["None", "One side", "Half the field", "The entire field — no deep safety"], correctIndex: 3 },
+          { question: "What should you attack against Cover 4?", options: ["Deep go routes", "Underneath crossing routes and short game", "Only the run game", "Trick plays"], correctIndex: 1 },
+          { question: "How do you tell the difference between Cover 2 and Cover 4 pre-snap?", options: ["You can't tell", "Safety depth — Cover 4 safeties are deeper", "The number of linebackers", "The defensive line alignment"], correctIndex: 1 },
+          { question: "Against Cover 3, where are the vulnerable zones?", options: ["Deep middle", "The seams between zone defenders", "The line of scrimmage", "Behind the QB"], correctIndex: 1 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "situational-offense",
+    number: 6,
     title: "Situational Offense",
     description: "Master red zone, 3rd down, and 2-minute drill execution.",
     icon: "Clock",
@@ -485,7 +689,7 @@ export const qbCurriculum: CurriculumModule[] = [
   },
   {
     id: "playbook-mastery",
-    number: 6,
+    number: 7,
     title: "Playbook Mastery",
     description: "Full play installs, adjustments, and audible mastery.",
     icon: "BookOpen",
