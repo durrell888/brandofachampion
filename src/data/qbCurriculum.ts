@@ -51,7 +51,7 @@ export interface R4FoundationSection {
 
 export const r4Foundation = {
   title: "Rhythm Read Rush Release",
-  subtitle: "Read. Recognize. React. Release.",
+  subtitle: "Rhythm. Read. Rush. Release.",
   tagline: "This is not a module — it is the FOUNDATION of how you see the field. Every throw you make, every read you take, starts here.",
   overview: [
     "Rhythm Read Rush Release is the operating system for elite quarterback play. Before you learn a single play, you must understand HOW to process the field. Every NFL and college quarterback who plays at a high level uses this framework — whether they call it Rhythm or not.",
@@ -99,18 +99,18 @@ export const r4Foundation = {
     },
     {
       id: "r4-four-steps",
-      title: "The Four Steps: Read → Recognize → React → Release",
+      title: "The Four Steps: Rhythm → Read → Rush → Release",
       content: [
         "STEP 1 — READ: Before the snap, identify the safety structure. How many safeties are high? Where are they shading? This tells you the coverage shell and where the cap is.",
         "STEP 2 — RECOGNIZE: Based on the safety structure, identify which side is capped and which is uncapped. In 2-high shells, recognize the middle is open. In 1-high, find the uncapped half.",
         "STEP 3 — REACT: Post-snap, CONFIRM your read. Did the safety rotate? Did the coverage change? If it did, adjust your progression immediately. If it didn't, trust your pre-snap plan.",
         "STEP 4 — RELEASE: Deliver the ball. At the top of your drop, you should already know where you're going. Anticipation throws — release the ball BEFORE the receiver makes his break. This is what separates college QBs from high school QBs.",
-        "The entire Rhythm Read Rush Release process takes under 3 seconds. Pre-snap (2 seconds): Read + Recognize. Post-snap (1 second): React + Release. If you're holding the ball longer than 3 seconds, you haven't mastered Rhythm yet.",
+        "The entire Rhythm Read Rush Release process takes under 3 seconds. Pre-snap (2 seconds): Rhythm + Read. Post-snap (1 second): Rush + Release. If you're holding the ball longer than 3 seconds, you haven't mastered Rhythm yet.",
       ],
     },
   ] as R4FoundationSection[],
   quiz: [
-    { question: "What does Rhythm stand for?", options: ["Run, Rush, Route, Release", "Read, Recognize, React, Release", "Read, Run, React, Return", "Route, Read, Release, Run"], correctIndex: 1 },
+    { question: "What are the four phases of Rhythm Read Rush Release?", options: ["Run, Rush, Route, Release", "Rhythm, Read, Rush, Release", "Read, Run, React, Return", "Route, Read, Release, Run"], correctIndex: 1 },
     { question: "What does 'capped' mean in the Rhythm Read Rush Release system?", options: ["The QB is wearing a cap", "A safety is providing over-the-top help on that side", "The receiver is covered by a linebacker", "The side with more defenders at the line"], correctIndex: 1 },
     { question: "Which side should you attack first?", options: ["The capped side", "The uncapped side", "Always throw left", "Wherever the best receiver is"], correctIndex: 1 },
     { question: "In Cover 2, which area is UNCAPPED?", options: ["The deep sidelines", "The middle of the field", "Both deep halves", "The flat areas"], correctIndex: 1 },
