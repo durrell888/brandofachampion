@@ -116,7 +116,7 @@ export default function QBCurriculum() {
   const [timeSpent, setTimeSpent] = useState(getTimeSpent());
   const [r4Complete, setR4Complete] = useState(getR4Complete());
 
-  // R4 Foundation state
+  // Rhythm Foundation state
   const [r4Expanded, setR4Expanded] = useState(true);
   const [r4ActiveSection, setR4ActiveSection] = useState(0);
   const [r4QuizMode, setR4QuizMode] = useState(false);
@@ -138,7 +138,7 @@ export default function QBCurriculum() {
   const overallProgress = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
 
   const isModuleUnlocked = (moduleIndex: number) => {
-    if (!r4Complete) return false; // Must complete R4 Foundation first
+    if (!r4Complete) return false; // Must complete Rhythm Foundation first
     if (moduleIndex === 0) return true;
     const prevModule = qbCurriculum[moduleIndex - 1];
     return prevModule.lessons.every(l => progress[l.id]);
@@ -182,7 +182,7 @@ export default function QBCurriculum() {
     }, 1500);
   };
 
-  // R4 Foundation Quiz
+  // Rhythm Foundation Quiz
   const handleR4Answer = (index: number) => {
     setR4QuizAnswer(index);
     const quiz = r4Foundation.quiz;
@@ -216,7 +216,7 @@ export default function QBCurriculum() {
 
   const getBadges = () => {
     const badges: { name: string; icon: string; earned: boolean }[] = [];
-    if (r4Complete) badges.push({ name: "R4 Foundation Certified", icon: "🧠", earned: true });
+    if (r4Complete) badges.push({ name: "Rhythm Foundation Certified", icon: "🧠", earned: true });
     qbCurriculum.forEach(mod => {
       badges.push({ name: `${mod.title} Complete`, icon: "🏆", earned: isModuleComplete(mod) });
     });
@@ -462,7 +462,7 @@ export default function QBCurriculum() {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <SEO title="Test Your Knowledge | QB Curriculum" description="Random R4 application quiz" />
+        <SEO title="Test Your Knowledge | QB Curriculum" description="Random Rhythm application quiz" />
         <div className="container mx-auto px-4 pt-24 pb-16 max-w-3xl">
           <Button variant="ghost" onClick={() => setTestMode(false)} className="mb-6 text-muted-foreground">
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Curriculum
@@ -472,7 +472,7 @@ export default function QBCurriculum() {
               <CardHeader className="text-center">
                 <div className="inline-flex items-center gap-2 bg-accent/10 px-4 py-2 rounded-full mb-4 mx-auto">
                   <Shuffle className="h-5 w-5 text-accent" />
-                  <span className="text-accent font-semibold">Test Your R4 Knowledge</span>
+                  <span className="text-accent font-semibold">Test Your Rhythm Knowledge</span>
                 </div>
                 <Badge variant="secondary" className="text-base py-2 px-4 mx-auto">{play.formation}</Badge>
               </CardHeader>
@@ -543,7 +543,7 @@ export default function QBCurriculum() {
                 <Lock className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-xl font-bold text-foreground mb-2">Module Locked</h3>
                 <p className="text-muted-foreground">
-                  {!r4Complete ? "Complete the R4 Foundation first to unlock modules." : `Complete Module ${mod.number - 1} to unlock this module.`}
+                  {!r4Complete ? "Complete the Rhythm Foundation first to unlock modules." : `Complete Module ${mod.number - 1} to unlock this module.`}
                 </p>
               </Card>
             ) : (
@@ -597,7 +597,7 @@ export default function QBCurriculum() {
       <Navbar />
       <SEO
         title="QB Offensive Curriculum | Brand of a Champion"
-        description="Elite quarterback curriculum built on the R4 System. Master capped and uncapped reads, progressions, and the full offensive system."
+        description="Elite quarterback curriculum built on the Rhythm Read Rush Release. Master capped and uncapped reads, progressions, and the full offensive system."
         canonical="https://brandofachampion.com/qb-curriculum"
       />
 
@@ -619,7 +619,7 @@ export default function QBCurriculum() {
               <span className="text-gradient">OFFENSIVE SYSTEM</span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-              Built on the R4 System — the foundation of elite quarterback play. 
+              Built on the Rhythm Read Rush Release — the foundation of elite quarterback play. 
               Read. Recognize. React. Release. This is how you prepare for college and the NFL.
             </p>
 
@@ -629,7 +629,7 @@ export default function QBCurriculum() {
                 <CardContent className="pt-4 pb-4 text-center">
                   <Shield className="h-6 w-6 text-accent mx-auto mb-1" />
                   <p className="text-2xl font-bold text-foreground">{r4Complete ? "✅" : "🔓"}</p>
-                  <p className="text-xs text-muted-foreground">R4 Foundation</p>
+                  <p className="text-xs text-muted-foreground">Rhythm Foundation</p>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 border-border">
@@ -658,12 +658,12 @@ export default function QBCurriculum() {
         </div>
       </section>
 
-      {/* ========== R4 FOUNDATION SECTION ========== */}
+      {/* ========== Rhythm FOUNDATION SECTION ========== */}
       <section className="py-12 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-transparent pointer-events-none" />
         <div className="container max-w-5xl relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            {/* R4 Header */}
+            {/* Rhythm Header */}
             <div
               className={`rounded-2xl border-2 overflow-hidden transition-all ${r4Complete ? "border-green-500/50 bg-green-500/5" : "border-accent/50 bg-accent/5"}`}
             >
@@ -710,7 +710,7 @@ export default function QBCurriculum() {
                         <TabsList className="w-full grid grid-cols-2 md:grid-cols-4 h-auto">
                           {r4Foundation.sections.map((sec, i) => (
                             <TabsTrigger key={i} value={i.toString()} className="text-xs md:text-sm py-2 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground">
-                              {sec.title.replace("What Is a ", "").replace("What Is an ", "").replace("R4 vs Every ", "vs ").replace("The Four Steps: ", "")}
+                              {sec.title.replace("What Is a ", "").replace("What Is an ", "").replace("Rhythm vs Every ", "vs ").replace("The Four Steps: ", "")}
                             </TabsTrigger>
                           ))}
                         </TabsList>
@@ -735,12 +735,12 @@ export default function QBCurriculum() {
                         ))}
                       </Tabs>
 
-                      {/* R4 Foundation Quiz */}
+                      {/* Rhythm Foundation Quiz */}
                       {!r4Complete && !r4QuizMode && !r4QuizComplete && (
                         <div className="text-center pt-4 border-t border-border">
                           <p className="text-muted-foreground mb-4">Read all 4 sections above, then prove your understanding to unlock the curriculum modules.</p>
                           <Button variant="hero" size="lg" onClick={() => { setR4QuizMode(true); setR4QuizIndex(0); setR4QuizAnswer(null); setR4QuizScore(0); setR4QuizComplete(false); }}>
-                            <GraduationCap className="mr-2 h-5 w-5" /> Take the R4 Foundation Quiz ({r4Foundation.quiz.length} Questions)
+                            <GraduationCap className="mr-2 h-5 w-5" /> Take the Rhythm Foundation Quiz ({r4Foundation.quiz.length} Questions)
                           </Button>
                         </div>
                       )}
@@ -749,7 +749,7 @@ export default function QBCurriculum() {
                         <Card className="border-2 border-accent/30">
                           <CardHeader>
                             <div className="flex justify-between items-center">
-                              <CardTitle className="text-foreground">R4 Foundation — Question {r4QuizIndex + 1} of {r4Foundation.quiz.length}</CardTitle>
+                              <CardTitle className="text-foreground">Rhythm Foundation — Question {r4QuizIndex + 1} of {r4Foundation.quiz.length}</CardTitle>
                               <Badge variant="outline">Score: {r4QuizScore}/{r4QuizIndex + (r4QuizAnswer !== null ? 1 : 0)}</Badge>
                             </div>
                             <Progress value={((r4QuizIndex + 1) / r4Foundation.quiz.length) * 100} className="h-2 mt-2" />
@@ -790,13 +790,13 @@ export default function QBCurriculum() {
                             {r4Complete ? (
                               <>
                                 <Trophy className="h-16 w-16 text-yellow-500 mx-auto mb-4" />
-                                <h3 className="text-2xl font-bold text-foreground mb-2">🧠 R4 Foundation Certified!</h3>
+                                <h3 className="text-2xl font-bold text-foreground mb-2">🧠 Rhythm Foundation Certified!</h3>
                                 <p className="text-muted-foreground">You scored {r4QuizScore}/{r4Foundation.quiz.length} — You've unlocked the curriculum modules. Time to dominate.</p>
                               </>
                             ) : (
                               <>
                                 <XCircle className="h-16 w-16 text-destructive mx-auto mb-4" />
-                                <h3 className="text-2xl font-bold text-foreground mb-2">Review the R4 Foundation</h3>
+                                <h3 className="text-2xl font-bold text-foreground mb-2">Review the Rhythm Foundation</h3>
                                 <p className="text-muted-foreground mb-4">You scored {r4QuizScore}/{r4Foundation.quiz.length} — Need {Math.ceil(r4Foundation.quiz.length * 0.7)} to pass. Re-read the sections and try again.</p>
                                 <Button variant="hero" onClick={() => { setR4QuizMode(false); setR4QuizComplete(false); }}>Study Again</Button>
                               </>
@@ -809,7 +809,7 @@ export default function QBCurriculum() {
                         <div className="text-center pt-4 border-t border-border">
                           <div className="inline-flex items-center gap-2 bg-green-500/10 px-6 py-3 rounded-full">
                             <CheckCircle className="h-5 w-5 text-green-500" />
-                            <span className="font-bold text-green-600">R4 Foundation Complete — Modules Unlocked 🔓</span>
+                            <span className="font-bold text-green-600">Rhythm Foundation Complete — Modules Unlocked 🔓</span>
                           </div>
                         </div>
                       )}
@@ -831,7 +831,7 @@ export default function QBCurriculum() {
                 Curriculum <span className="text-accent">Modules</span>
               </h2>
               {!r4Complete && (
-                <p className="text-sm text-muted-foreground mt-1">Complete the R4 Foundation above to unlock modules</p>
+                <p className="text-sm text-muted-foreground mt-1">Complete the Rhythm Foundation above to unlock modules</p>
               )}
             </div>
             <Button variant="outline" onClick={startTestMode} className="gap-2" disabled={!r4Complete}>
@@ -917,7 +917,7 @@ export default function QBCurriculum() {
             </h2>
             <p className="text-lg text-muted-foreground mb-6">
               The best quarterbacks don't just have talent — they have preparation. 
-              The R4 System is your edge. Master it, and you'll play faster, smarter, and more confident than anyone on the field.
+              The Rhythm Read Rush Release is your edge. Master it, and you'll play faster, smarter, and more confident than anyone on the field.
             </p>
             <p className="text-sm text-muted-foreground">
               Powered by <span className="font-bold text-accent">Brand of a Champion</span> · Discipline · IQ · Execution
