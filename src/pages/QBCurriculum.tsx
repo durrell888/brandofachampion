@@ -15,13 +15,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
-import fieldCappedImg from "@/assets/field-capped.png";
-import fieldUncappedImg from "@/assets/field-uncapped.png";
+import r4CapSystemImg from "@/assets/r4-cap-system.jpg";
 import { qbCurriculum, r4Foundation, testYourKnowledgePlays, type CurriculumModule, type Lesson, type QuizQuestion } from "@/data/qbCurriculum";
 
 const imageMap: Record<string, string> = {
-  "/src/assets/field-capped.png": fieldCappedImg,
-  "/src/assets/field-uncapped.png": fieldUncappedImg,
+  "/src/assets/field-capped.png": r4CapSystemImg,
+  "/src/assets/field-uncapped.png": r4CapSystemImg,
+  "/src/assets/r4-cap-system.jpg": r4CapSystemImg,
 };
 
 const ZoomableImage = ({ src, alt, caption }: { src: string; alt: string; caption?: string }) => {
