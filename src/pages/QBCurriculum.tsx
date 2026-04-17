@@ -33,12 +33,12 @@ const ZoomableImage = ({ src, alt, caption }: { src: string; alt: string; captio
   return (
     <>
       <Card className="border-border overflow-hidden cursor-pointer group" onClick={() => setIsOpen(true)}>
-        <div className="aspect-[4/3] bg-muted relative overflow-hidden">
+        <div className="bg-muted relative overflow-hidden flex items-center justify-center max-h-[80vh]">
           <img
             src={resolvedSrc}
             alt={alt}
             loading="lazy"
-            className="w-full h-full object-contain bg-[hsl(var(--muted))] transition-transform duration-300 group-hover:scale-110"
+            className="w-full h-auto max-h-[80vh] object-contain bg-[hsl(var(--muted))] transition-opacity duration-300 group-hover:opacity-90"
           />
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
             <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity font-semibold text-sm bg-black/60 px-3 py-1.5 rounded-full">
