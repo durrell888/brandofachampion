@@ -60,7 +60,7 @@ const Navbar = () => {
               onMouseLeave={() => setProgramDropdownOpen(false)}
             >
               <button
-                className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent flex items-center gap-1 ${isActive("/our-program") || isActive("/athlete-partnerships") || isActive("/healthcare-partnership") ? "text-accent" : ""}`}
+                className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent flex items-center gap-1 ${isActive("/our-program") || isActive("/athlete-partnerships") ? "text-accent" : ""}`}
                 style={{ animationDelay: "0s" }}
               >
                 Our Program
@@ -80,12 +80,6 @@ const Navbar = () => {
                       className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/athlete-partnerships") ? "text-accent" : "text-foreground"}`}
                     >
                       Athlete Partnerships
-                    </Link>
-                    <Link
-                      to="/healthcare-partnership"
-                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/healthcare-partnership") ? "text-accent" : "text-foreground"}`}
-                    >
-                      Health Partner
                     </Link>
                   </div>
                 </div>
