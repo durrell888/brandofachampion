@@ -60,7 +60,7 @@ const Navbar = () => {
               onMouseLeave={() => setProgramDropdownOpen(false)}
             >
               <button
-                className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent flex items-center gap-1 ${isActive("/our-program") || isActive("/athlete-partnerships") || isActive("/healthcare-partnership") ? "text-accent" : ""}`}
+                className={`nav-link nav-chase-glow px-3 py-2 text-sm font-semibold transition-colors text-foreground hover:text-accent flex items-center gap-1 ${isActive("/our-program") || isActive("/athlete-partnerships") ? "text-accent" : ""}`}
                 style={{ animationDelay: "0s" }}
               >
                 Our Program
@@ -80,12 +80,6 @@ const Navbar = () => {
                       className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/athlete-partnerships") ? "text-accent" : "text-foreground"}`}
                     >
                       Athlete Partnerships
-                    </Link>
-                    <Link
-                      to="/healthcare-partnership"
-                      className={`block px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary ${isActive("/healthcare-partnership") ? "text-accent" : "text-foreground"}`}
-                    >
-                      Health Partner
                     </Link>
                   </div>
                 </div>
@@ -243,7 +237,7 @@ const Navbar = () => {
               {/* Mobile Program Accordion */}
               <div>
                 <button 
-                  className={`flex items-center justify-between w-full text-foreground hover:text-accent transition-colors font-semibold py-2 ${isActive("/our-program") || isActive("/athlete-partnerships") || isActive("/healthcare-partnership") ? "text-accent" : ""}`}
+                  className={`flex items-center justify-between w-full text-foreground hover:text-accent transition-colors font-semibold py-2 ${isActive("/our-program") || isActive("/athlete-partnerships") ? "text-accent" : ""}`}
                   onClick={() => setMobileProgramOpen(!mobileProgramOpen)}
                 >
                   Our Program
@@ -256,9 +250,6 @@ const Navbar = () => {
                     </Link>
                     <Link to="/athlete-partnerships" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
                       Athlete Partnerships
-                    </Link>
-                    <Link to="/healthcare-partnership" className="block text-muted-foreground hover:text-accent transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
-                      Health Partner
                     </Link>
                   </div>
                 )}
