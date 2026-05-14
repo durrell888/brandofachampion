@@ -8,16 +8,14 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [registrationModalOpen, setRegistrationModalOpen] = useState(false);
+  const [programDropdownOpen, setProgramDropdownOpen] = useState(false);
   const [recruitingDropdownOpen, setRecruitingDropdownOpen] = useState(false);
   const [donateDropdownOpen, setDonateDropdownOpen] = useState(false);
-  const [athletesDropdownOpen, setAthletesDropdownOpen] = useState(false);
   const [storiesDropdownOpen, setStoriesDropdownOpen] = useState(false);
-  const [volunteerDropdownOpen, setVolunteerDropdownOpen] = useState(false);
+  const [mobileProgramOpen, setMobileProgramOpen] = useState(false);
   const [mobileRecruitingOpen, setMobileRecruitingOpen] = useState(false);
   const [mobileDonateOpen, setMobileDonateOpen] = useState(false);
-  const [mobileAthletesOpen, setMobileAthletesOpen] = useState(false);
   const [mobileStoriesOpen, setMobileStoriesOpen] = useState(false);
-  const [mobileVolunteerOpen, setMobileVolunteerOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
